@@ -84,9 +84,9 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenSe
         )}
         {filtered.map((c) => (
           <button key={c.id} data-testid={`sidebar-chat-item-${c.id}`} onClick={() => onSelect(c)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors text-left ${activeId === c.id ? "bg-accent" : "hover:bg-muted"}`}>
+            className={`w-full flex items-center gap-3 px-3 py-3.5 transition-colors text-left ${activeId === c.id ? "bg-accent" : "hover:bg-muted"}`}>
             <div className="relative">
-              <Avatar className="w-11 h-11">
+              <Avatar className="w-13 h-13" style={{ width: "3.25rem", height: "3.25rem" }}>
                 <AvatarImage src={c.display_avatar} />
                 <AvatarFallback>{initials(c.display_name)}</AvatarFallback>
               </Avatar>
@@ -94,12 +94,12 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenSe
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-medium truncate">{c.display_name}</span>
-                {c.last_message && <span className="text-[11px] text-muted-foreground shrink-0">{formatDistanceToNowStrict(new Date(c.last_message.created_at))}</span>}
+                <span className="text-base font-semibold truncate">{c.display_name}</span>
+                {c.last_message && <span className="text-xs text-muted-foreground shrink-0">{formatDistanceToNowStrict(new Date(c.last_message.created_at))}</span>}
               </div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-xs text-muted-foreground truncate">{c.last_message ? (c.last_message.deleted_for_all ? "🚫 Message deleted" : (c.last_message.display_text?.trim() ? c.last_message.display_text : "📎 Attachment")) : "Say hello 👋"}</span>
-                {c.unread > 0 && <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold flex items-center justify-center">{c.unread}</span>}
+              <div className="flex items-center justify-between gap-2 mt-0.5">
+                <span className="text-sm text-muted-foreground truncate">{c.last_message ? (c.last_message.deleted_for_all ? "🚫 Message deleted" : (c.last_message.display_text?.trim() ? c.last_message.display_text : "📎 Attachment")) : "Say hello 👋"}</span>
+                {c.unread > 0 && <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center">{c.unread}</span>}
               </div>
             </div>
           </button>

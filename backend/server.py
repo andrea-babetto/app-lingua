@@ -12,7 +12,7 @@ from typing import List, Optional
 
 import bcrypt
 import jwt
-from fastapi import FastAPI, APIRouter, Request, HTTPException, Depends, WebSocket, WebSocketDisconnect, UploadFile, File
+from fastapi import FastAPI, APIRouter, Request, HTTPException, Depends, WebSocket, WebSocketDisconnect, UploadFile, File, Form
 from fastapi.responses import Response
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -92,7 +92,7 @@ def create_token(user_id: str) -> str:
 def public_user(u: dict) -> dict:
     if not u:
         return u
-    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "settings", "role", "created_at", "online", "last_seen"]}
+    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "settings", "role", "created_at", "online", "last_seen", "blocked"]}
 
 
 async def user_from_token(token: str) -> Optional[dict]:
@@ -335,8 +335,39 @@ async def enrich_chat(chat, me_id):
         out["other_user"] = other
     else:
         out["display_name"] = chat.get("name", "Group")
-        out["display_avatar"] = ""
+        out["display_avatar"] = chat.get("avatar", "")
+        out["description"] = chat.get("description", "")
     return out
+
+
+# ---------------- Block & report ----------------
+class ReportIn(BaseModel):
+    reason: str = ""
+
+
+@api.post("/users/{uid}/block")
+async def block_user(uid: str, user=Depends(get_current_user)):
+    await db.users.update_one({"id": user["id"]}, {"$addToSet": {"blocked": uid}})
+    return {"ok": True}
+
+
+@api.post("/users/{uid}/unblock")
+async def unblock_user(uid: str, user=Depends(get_current_user)):
+    await db.users.update_one({"id": user["id"]}, {"$pull": {"blocked": uid}})
+    return {"ok": True}
+
+
+@api.get("/users/blocked")
+async def blocked_list(user=Depends(get_current_user)):
+    u = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+    return u.get("blocked", [])
+
+
+@api.post("/users/{uid}/report")
+async def report_user(uid: str, body: ReportIn, user=Depends(get_current_user)):
+    await db.reports.insert_one({"id": str(uuid.uuid4()), "reporter": user["id"], "reported": uid,
+                                 "reason": body.reason, "created_at": datetime.now(timezone.utc).isoformat()})
+    return {"ok": True}
 
 
 async def get_or_create_direct(a, b):
@@ -435,6 +466,28 @@ async def promote_admin(chat_id: str, uid: str, user=Depends(get_current_user)):
     return {"ok": True}
 
 
+class GroupInfoIn(BaseModel):
+    name: Optional[str] = None
+    avatar: Optional[str] = None
+    description: Optional[str] = None
+
+
+@api.put("/chats/{chat_id}/info")
+async def update_group_info(chat_id: str, body: GroupInfoIn, user=Depends(get_current_user)):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or chat["type"] != "group":
+        raise HTTPException(status_code=404, detail="Group not found")
+    if user["id"] not in chat.get("admins", []):
+        raise HTTPException(status_code=403, detail="Only admins can edit group")
+    updates = {k: v for k, v in body.model_dump().items() if v is not None}
+    if updates:
+        await db.chats.update_one({"id": chat_id}, {"$set": updates})
+        chat.update(updates)
+    for mid in chat["members"]:
+        await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
+    return await enrich_chat(chat, user["id"])
+
+
 # ---------------- Messages ----------------
 def message_view(msg, user_lang):
     """Return the message with the text the given user should see."""
@@ -479,6 +532,13 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
     chat = await db.chats.find_one({"id": body.chat_id}, {"_id": 0})
     if not chat or user["id"] not in chat["members"]:
         raise HTTPException(status_code=403, detail="Not a member")
+    if chat["type"] == "direct":
+        other_id = next((m for m in chat["members"] if m != user["id"]), None)
+        if other_id:
+            other = await db.users.find_one({"id": other_id}, {"_id": 0})
+            me_full = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+            if other and (user["id"] in other.get("blocked", []) or other_id in me_full.get("blocked", [])):
+                raise HTTPException(status_code=403, detail="You cannot message this user")
     sender_lang = user.get("language") or "en"
     msg = {
         "id": str(uuid.uuid4()), "chat_id": body.chat_id, "sender_id": user["id"],
@@ -501,6 +561,52 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
     return message_view(msg, sender_lang)
 
 
+@api.post("/voice")
+async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), user=Depends(get_current_user)):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or user["id"] not in chat["members"]:
+        raise HTTPException(status_code=403, detail="Not a member")
+    data = await file.read()
+    ext = (file.filename.split(".")[-1] if file.filename and "." in file.filename else "webm").lower()
+    path = f"{APP_NAME}/voice/{user['id']}/{uuid.uuid4()}.{ext}"
+    result = put_object(path, data, file.content_type or "audio/webm")
+    fid = str(uuid.uuid4())
+    await db.files.insert_one({"id": fid, "storage_path": result["path"], "original_filename": file.filename or "voice",
+                               "content_type": file.content_type or "audio/webm", "size": result.get("size", len(data)),
+                               "is_deleted": False, "created_at": datetime.now(timezone.utc).isoformat()})
+    sender_lang = user.get("language") or "en"
+    transcript = ""
+    try:
+        import io
+        from emergentintegrations.llm.openai import OpenAISpeechToText
+        stt = OpenAISpeechToText(api_key=os.environ.get("EMERGENT_LLM_KEY"))
+        bio = io.BytesIO(data)
+        bio.name = f"audio.{ext if ext in ['mp3','mp4','mpeg','mpga','m4a','wav','webm'] else 'webm'}"
+        resp = await stt.transcribe(file=bio, model="whisper-1", response_format="text")
+        transcript = (resp if isinstance(resp, str) else getattr(resp, "text", "")).strip()
+    except Exception as e:
+        logger.warning(f"voice transcription failed: {e}")
+    attachment = {"id": fid, "url": f"/api/files/{fid}", "filename": file.filename or "voice message",
+                  "content_type": file.content_type or "audio/webm", "is_image": False, "is_voice": True}
+    msg = {
+        "id": str(uuid.uuid4()), "chat_id": chat_id, "sender_id": user["id"],
+        "sender_name": user["name"], "sender_avatar": user.get("avatar", ""),
+        "original_text": transcript, "original_language": sender_lang, "translations": {},
+        "attachment": attachment, "reply_to": None,
+        "status": "translating" if transcript else "sent", "read_by": [user["id"]],
+        "deleted_for": [], "deleted_for_all": False,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.messages.insert_one(dict(msg))
+    for mid in chat["members"]:
+        u = await db.users.find_one({"id": mid}, {"_id": 0})
+        await ws_manager.send(mid, {"type": "new_message", "message": message_view(msg, u.get("language", "en") if u else "en"), "chat_id": chat_id})
+    if transcript:
+        import asyncio
+        asyncio.create_task(translate_message_async(msg["id"], chat_id, sender_lang, transcript, chat.get("tone", "neutral")))
+    return message_view(msg, sender_lang)
+
+
 @api.get("/messages/{chat_id}")
 async def get_messages(chat_id: str, before: Optional[str] = None, limit: int = 50, user=Depends(get_current_user)):
     chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
@@ -513,6 +619,23 @@ async def get_messages(chat_id: str, before: Optional[str] = None, limit: int = 
     msgs = await cur.to_list(limit)
     msgs.reverse()
     lang = user.get("language", "en")
+    return [message_view(m, lang) for m in msgs]
+
+
+@api.get("/messages/{chat_id}/search")
+async def search_messages(chat_id: str, q: str, user=Depends(get_current_user)):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or user["id"] not in chat["members"]:
+        raise HTTPException(status_code=403, detail="Not a member")
+    q = q.strip()
+    if not q:
+        return []
+    lang = user.get("language", "en")
+    rx = {"$regex": q, "$options": "i"}
+    query = {"chat_id": chat_id, "deleted_for": {"$ne": user["id"]}, "deleted_for_all": {"$ne": True},
+             "$or": [{"original_text": rx}, {f"translations.{lang}.text": rx}]}
+    cur = db.messages.find(query, {"_id": 0}).sort("created_at", -1).limit(50)
+    msgs = await cur.to_list(50)
     return [message_view(m, lang) for m in msgs]
 
 

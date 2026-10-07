@@ -1,21 +1,33 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield } from "lucide-react";
+import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
-export default function InfoPanel({ chat, onClose, onChanged, onLeft }) {
-  const { user } = useAuth();
+export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked }) {
+  const { user, reload } = useAuth();
   const isGroup = chat.type === "group";
   const meAdmin = (chat.admins || []).includes(user.id);
   const [adding, setAdding] = useState(false);
   const [q, setQ] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [gName, setGName] = useState(chat.display_name);
+  const [gDesc, setGDesc] = useState(chat.description || "");
+  const [gAvatar, setGAvatar] = useState(chat.display_avatar || "");
+  const [reportOpen, setReportOpen] = useState(false);
+  const [reason, setReason] = useState("");
+
+  const other = chat.other_user;
+  const blocked = (user.blocked || []).includes(other?.id);
+  const members = chat.members_info || [];
 
   const search = async (val) => {
     setQ(val);
@@ -39,25 +51,82 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft }) {
   const promote = async (uid) => { await api.put(`/chats/${chat.id}/admin/${uid}`); toast.success("Promoted to admin"); onChanged(); };
   const leave = async () => { await api.post(`/chats/${chat.id}/leave`); toast.success("You left the group"); onLeft(); };
 
-  const members = chat.members_info || [];
-  const other = chat.other_user;
+  const uploadGroupAvatar = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    try {
+      const fd = new FormData();
+      fd.append("file", f);
+      const { data } = await api.post("/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
+      setGAvatar(`${api.defaults.baseURL}/files/${data.id}`);
+      toast.success("Photo ready — save to apply");
+    } catch { toast.error("Upload failed"); }
+    finally { e.target.value = ""; }
+  };
+
+  const saveGroup = async () => {
+    try {
+      await api.put(`/chats/${chat.id}/info`, { name: gName, description: gDesc, avatar: gAvatar });
+      toast.success("Group updated");
+      setEditing(false);
+      onChanged();
+    } catch (e) { toast.error(errText(e.response?.data?.detail)); }
+  };
+
+  const block = async () => {
+    if (blocked) { await api.post(`/users/${other.id}/unblock`); toast.success("Unblocked"); await reload(); }
+    else { await api.post(`/users/${other.id}/block`); toast.success(`${other.name} blocked`); await reload(); onBlocked(); }
+  };
+
+  const submitReport = async () => {
+    await api.post(`/users/${other.id}/report`, { reason });
+    toast.success("Report submitted. Thank you.");
+    setReportOpen(false); setReason("");
+  };
 
   return (
     <div className="fixed inset-0 z-30 md:static md:z-auto md:w-80 lg:w-80 shrink-0 bg-card md:border-l border-border flex flex-col" data-testid="info-panel">
       <div className="h-16 px-4 flex items-center justify-between border-b border-border">
-        <span className="text-sm font-semibold">{isGroup ? "Group info" : "Contact info"}</span>
-        <Button variant="ghost" size="icon" onClick={onClose} data-testid="info-panel-close"><X className="w-5 h-5" /></Button>
+        <span className="text-base font-semibold">{isGroup ? "Group info" : "Contact info"}</span>
+        <div className="flex items-center gap-1">
+          {isGroup && meAdmin && !editing && (
+            <Button variant="ghost" size="icon" onClick={() => setEditing(true)} data-testid="edit-group-button"><Pencil className="w-4 h-4" /></Button>
+          )}
+          <Button variant="ghost" size="icon" onClick={onClose} data-testid="info-panel-close"><X className="w-5 h-5" /></Button>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto chat-scroll p-5 space-y-6">
         <div className="flex flex-col items-center text-center gap-2">
-          <Avatar className="w-20 h-20"><AvatarImage src={chat.display_avatar} /><AvatarFallback className="text-xl">{chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
-          <div className="text-lg font-bold">{chat.display_name}</div>
-          {!isGroup && other && <div className="text-sm text-muted-foreground">{langByCode(other.language).flag} reads & writes in {langByCode(other.language).name}</div>}
-          {isGroup && <div className="text-sm text-muted-foreground">{members.length} members · tone {chat.tone}</div>}
+          <div className="relative">
+            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className="text-2xl">{chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+            {isGroup && editing && (
+              <label className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer" data-testid="group-avatar-upload">
+                <Camera className="w-4 h-4" />
+                <input type="file" accept="image/*" hidden onChange={uploadGroupAvatar} />
+              </label>
+            )}
+          </div>
+          {editing ? (
+            <div className="w-full space-y-2 mt-2">
+              <Input data-testid="edit-group-name" value={gName} onChange={(e) => setGName(e.target.value)} placeholder="Group name" />
+              <Textarea data-testid="edit-group-desc" value={gDesc} onChange={(e) => setGDesc(e.target.value)} placeholder="Group description" rows={2} />
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1" onClick={() => { setEditing(false); setGName(chat.display_name); setGDesc(chat.description || ""); setGAvatar(chat.display_avatar || ""); }}>Cancel</Button>
+                <Button className="flex-1" onClick={saveGroup} data-testid="save-group-button"><Check className="w-4 h-4 mr-1" /> Save</Button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="text-xl font-bold">{chat.display_name}</div>
+              {!isGroup && other && <div className="text-sm text-muted-foreground">@{other.username} · {langByCode(other.language).flag} reads & writes in {langByCode(other.language).name}</div>}
+              {isGroup && <div className="text-sm text-muted-foreground">{members.length} members · tone {chat.tone}</div>}
+              {isGroup && chat.description && <p className="text-sm text-muted-foreground mt-1">{chat.description}</p>}
+            </>
+          )}
         </div>
 
-        {isGroup && (
+        {isGroup && !editing && (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Members</span>
@@ -67,7 +136,6 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft }) {
                 </Button>
               )}
             </div>
-
             {adding && (
               <div className="space-y-1">
                 <div className="relative">
@@ -85,7 +153,6 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft }) {
                 ))}
               </div>
             )}
-
             <div className="space-y-1">
               {members.map((m) => (
                 <div key={m.id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted" data-testid={`group-member-${m.id}`}>
@@ -105,15 +172,37 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft }) {
             </div>
           </div>
         )}
+
+        {!isGroup && other && (
+          <div className="space-y-2">
+            <Button variant="outline" className="w-full justify-start text-destructive" onClick={block} data-testid="block-user-button">
+              <Ban className="w-4 h-4 mr-2" /> {blocked ? "Unblock user" : "Block user"}
+            </Button>
+            <Button variant="outline" className="w-full justify-start text-destructive" onClick={() => setReportOpen(true)} data-testid="report-user-button">
+              <Flag className="w-4 h-4 mr-2" /> Report user
+            </Button>
+          </div>
+        )}
       </div>
 
-      {isGroup && (
+      {isGroup && !editing && (
         <div className="p-4 border-t border-border">
           <Button variant="outline" className="w-full text-destructive" onClick={leave} data-testid="group-leave-button">
             <LogOut className="w-4 h-4 mr-2" /> Leave group
           </Button>
         </div>
       )}
+
+      <Dialog open={reportOpen} onOpenChange={setReportOpen}>
+        <DialogContent data-testid="report-dialog">
+          <DialogHeader><DialogTitle>Report {other?.name}</DialogTitle></DialogHeader>
+          <Textarea data-testid="report-reason-input" placeholder="What's the issue? (optional)" value={reason} onChange={(e) => setReason(e.target.value)} rows={3} />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setReportOpen(false)}>Cancel</Button>
+            <Button className="text-destructive-foreground bg-destructive hover:bg-destructive/90" onClick={submitReport} data-testid="submit-report-button">Submit report</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

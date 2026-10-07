@@ -165,7 +165,8 @@ export default function Chat() {
           const fresh = await loadChats();
           const f = fresh.find((x) => x.id === active.id);
           if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins }));
-        }} onLeft={() => { setActive(null); setInfoOpen(false); setMobileView("list"); loadChats(); }} />
+        }} onLeft={() => { setActive(null); setInfoOpen(false); setMobileView("list"); loadChats(); }}
+        onBlocked={() => { setActive(null); setInfoOpen(false); setMobileView("list"); loadChats(); }} />
       )}
 
       <NewChatDialog open={newChatOpen} onOpenChange={setNewChatOpen} onStartChat={(c) => { loadChats(); openChat(c); }} />
