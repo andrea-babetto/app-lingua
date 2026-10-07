@@ -480,6 +480,8 @@ async def update_group_info(chat_id: str, body: GroupInfoIn, user=Depends(get_cu
     if user["id"] not in chat.get("admins", []):
         raise HTTPException(status_code=403, detail="Only admins can edit group")
     updates = {k: v for k, v in body.model_dump().items() if v is not None}
+    if updates.get("avatar") and "/api/files/" not in updates["avatar"]:
+        raise HTTPException(status_code=400, detail="Avatar must be an uploaded file")
     if updates:
         await db.chats.update_one({"id": chat_id}, {"$set": updates})
         chat.update(updates)
@@ -567,6 +569,8 @@ async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), use
     if not chat or user["id"] not in chat["members"]:
         raise HTTPException(status_code=403, detail="Not a member")
     data = await file.read()
+    if len(data) > 25 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Voice message too large (max 25MB)")
     ext = (file.filename.split(".")[-1] if file.filename and "." in file.filename else "webm").lower()
     path = f"{APP_NAME}/voice/{user['id']}/{uuid.uuid4()}.{ext}"
     result = put_object(path, data, file.content_type or "audio/webm")
@@ -593,7 +597,7 @@ async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), use
         "sender_name": user["name"], "sender_avatar": user.get("avatar", ""),
         "original_text": transcript, "original_language": sender_lang, "translations": {},
         "attachment": attachment, "reply_to": None,
-        "status": "translating" if transcript else "sent", "read_by": [user["id"]],
+        "status": "translating" if transcript else "transcription_failed", "read_by": [user["id"]],
         "deleted_for": [], "deleted_for_all": False,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -630,8 +634,9 @@ async def search_messages(chat_id: str, q: str, user=Depends(get_current_user)):
     q = q.strip()
     if not q:
         return []
+    import re
     lang = user.get("language", "en")
-    rx = {"$regex": q, "$options": "i"}
+    rx = {"$regex": re.escape(q), "$options": "i"}
     query = {"chat_id": chat_id, "deleted_for": {"$ne": user["id"]}, "deleted_for_all": {"$ne": True},
              "$or": [{"original_text": rx}, {f"translations.{lang}.text": rx}]}
     cur = db.messages.find(query, {"_id": 0}).sort("created_at", -1).limit(50)

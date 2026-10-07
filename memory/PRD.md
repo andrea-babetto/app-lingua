@@ -47,3 +47,9 @@ A WhatsApp/Telegram-style real-time messenger where every user writes and reads 
 - Bug fixes: (1) sidebar preview shows translated last-message text, "Attachment" only for files; (2) delete-for-everyone now removes for both users persistently; (3) desktop conversation panel fills full width; (4) demo users gated behind SEED_DEMO env, admin password moved to env (rotated).
 - Features: group chat (create, per-language translation, admin roles, add member, promote admin, leave, optional info panel), per-chat tone selector (formal/neutral/casual, injected into translation prompt), real Emergent-managed Google login (POST /api/auth/google/session).
 - Translation prompt tuned for idiomatic (non-literal) output. Verified live via testing agent: 15/15 backend tests pass; Hindi↔Italian, URL/paragraph/emoji preservation all good.
+
+## Iteration 3 (2026-06)
+- Features: (1) Voice messages — record via MediaRecorder, upload to /api/voice, transcribe with OpenAI Whisper (whisper-1 via Emergent key), translate transcript per recipient language, play audio + show translated transcript; transcription_failed state. (2) In-conversation message search (/api/messages/{id}/search over original + viewer-language translation, regex-escaped). (3) Group avatar + name + description editing by admins (/api/chats/{id}/info, avatar restricted to uploaded files). (4) Block & report users (/api/users/{id}/block|unblock|report; blocked direct messages return 403).
+- UI: WhatsApp-style larger text (bubbles text-[15px]) and spacing across sidebar, bubbles, header, input. Voice mic button shows when input empty.
+- Verified by testing agent: 27/27 backend tests (12 new + 15 regression); frontend OK at 1280 and 390px, no overflow. Hardening applied: search regex escape, 25MB voice cap, group-avatar URL validation.
+- Remaining backlog: split server.py into routers; optional E2E encryption; UI localization (IT/EN); privacy/terms pages.

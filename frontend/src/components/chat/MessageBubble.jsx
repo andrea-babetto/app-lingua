@@ -81,7 +81,9 @@ export default function MessageBubble({ msg, mine, onReply }) {
                 {isVoice && <span className="text-xs italic opacity-70 me-1">🗣</span>}{bodyText}
               </motion.p>
             </AnimatePresence>
-          ) : null)}
+          ) : (isVoice && msg.status === "transcription_failed" ? (
+            <span className="text-sm italic opacity-70">Couldn't transcribe this voice message</span>
+          ) : null))}
 
           <div className={`flex items-center gap-1.5 justify-end mt-1 ${mine ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
             <span className="text-[11px]">{time}</span>

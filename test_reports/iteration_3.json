@@ -1,0 +1,41 @@
+{
+  "summary": "Iteration 3 full-stack testing of 4 new features + sizing + regression. Backend: 12/12 iter3 feature tests PASS and 15/15 iter2 regression tests PASS (27/27 total). Frontend: all iter3 UI selectors render & behave correctly at 1280x800 and 390x844; no horizontal overflow at either breakpoint.",
+  "tested_scope": ["backend-voice","backend-search","backend-group-info","backend-block-report","frontend-ui","sizing-regression","regression"],
+  "backend_feature_results": {
+    "voice": "POST /api/voice accepts multipart wav upload; message created with attachment.is_voice=true; status transitions out of 'translating' (sent or translation_failed when transcript empty); recipient GET /api/messages/{chat_id} returns the voice message with is_voice=true and (when transcript non-empty) is_translated=true in English. Non-member upload -> 403.",
+    "search": "GET /api/messages/{chat_id}/search?q=... matches BOTH original_text and viewer-language translation. Verified: giulia(it) finds a nonsense IT marker in original; james(en) finds 'banana' only present in the English translation. Empty q -> []. Non-member -> 403.",
+    "group_info": "PUT /api/chats/{chat_id}/info updates name/description/avatar for admin; response includes display_avatar + description. Sidebar GET /api/chats reflects the change for other members. Non-admin member -> 403. Non-member -> 403.",
+    "block_report": "James blocks Giulia -> Giulia POST /api/messages to direct chat returns 403. After unblock -> 200. POST /api/users/{id}/report returns {ok:true}. GET /api/users/blocked reflects blocked ids."
+  },
+  "frontend_results": {
+    "record_voice_button": "visible when message-input is empty; replaced by send-message-button when text present (data-testid toggle works).",
+    "voice_player": "MessageBubble renders <audio data-testid=voice-player-{id}> when attachment.is_voice=true (code verified; browser mic not available for live recording in automation).",
+    "search_panel": "search-messages-button opens message-search-panel; message-search-input live-searches; search-match-{id} items render (2 matches for 'handsome' on James's en side — matches translation of Giulia's Italian preview message, proving translation-column search works end-to-end).",
+    "info_panel_block_report": "On direct chat, block-user-button + report-user-button present; report-user-button opens report-dialog with report-reason-input + submit-report-button.",
+    "group_info_display": "Group header + sidebar reflect updated name ('TEST_ITER3_RENAMED') and description ('A test group for iter3'); non-admin (James) does NOT see edit-group-button (correct per spec).",
+    "sizing": "At 1280x800 documentElement scrollWidth==clientWidth (no overflow). At 390x844 scrollWidth==clientWidth, mobile-back-button present. No clipping observed in sidebar items, bubbles, or input."
+  },
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "critical_code_review_comments": [
+    "server.py grew to 857 lines (>700 soft limit) — split into routers (auth, chats, messages, voice, moderation).",
+    "send_voice: transcription errors are swallowed with only a logger.warning; the resulting message has empty original_text and status 'sent' with no translation. Consider surfacing a 'transcription_failed' status so UI can show a retry affordance (currently only translation_failed is a user-visible state).",
+    "send_voice: no file-size cap enforced server-side (OpenAI Whisper limit is 25MB). A huge upload would be read fully into memory before the 413. Add Content-Length / UploadFile size guard.",
+    "search_messages: query uses case-insensitive regex but does not escape regex metacharacters in q (e.g. a user searching '.*' would match everything, '[' would raise regex error). Should re.escape(q).",
+    "update_group_info allows setting 'avatar' to any arbitrary URL string without validation — users could set a hostile external URL. Consider restricting to /api/files/{id} internal URLs.",
+    "block_user does not prevent sending in direction A->B when B blocked A? Actually it checks BOTH sides (correct), good.",
+    "WebSocket occasionally closes before established right after login (console warning). Not blocking features (REST fallback works) but worth checking the WS lifecycle on first mount."
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_iter3_features.py",
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/iter3_results.xml"
+  ],
+  "updated_files": ["/app/backend/tests/test_iter3_features.py"],
+  "success_rate": {"backend": "100% (27/27 — iter3 12/12 + iter2 15/15)", "frontend": "100% on 1280x800 + 390x844 smoke"},
+  "test_credentials": "giulia@lingua.app/demo1234, james@lingua.app/demo1234, admin@lingua.app/Ling2026!AdminX9q",
+  "seed_data_creation": "Created TEST_ITER3 group (renamed to TEST_ITER3_RENAMED) with Giulia(admin)+James; plus a few throwaway strangers via /api/auth/register (prefixed) for 403 tests.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend iter3 tests live at /app/backend/tests/test_iter3_features.py. Run: `python -m pytest backend/tests/ -q`. For voice, automation generates a synthetic WAV (Whisper usually produces empty transcript on tone — expected). Translation is live via EMERGENT_LLM_KEY; expect ~3-6s latency, use _wait_msg helper. The James<->Giulia direct chat is resolved canonically via POST /api/chats/direct/{other_id}."
+}
