@@ -14,6 +14,14 @@ import MessageBubble from "@/components/chat/MessageBubble";
 const EMOJIS = ["😀","😂","😍","🥰","😎","🤔","😢","😡","👍","👎","🙏","👏","🔥","❤️","🎉","✅","💯","😅","🤝","👋","💪","🌍","☕","🚀"];
 const TONES = { formal: "Formal", neutral: "Neutral", casual: "Casual" };
 
+const dayLabel = (iso) => {
+  const d = new Date(iso), now = new Date();
+  if (d.toDateString() === now.toDateString()) return "Today";
+  const y = new Date(now); y.setDate(now.getDate() - 1);
+  if (d.toDateString() === y.toDateString()) return "Yesterday";
+  return d.toLocaleDateString(undefined, { day: "numeric", month: "long", ...(d.getFullYear() !== now.getFullYear() ? { year: "numeric" } : {}) });
+};
+
 export default function ChatWindow({ chat, messages, onSend, onBack, typingUser, onToggleInfo, onToneChange, bottomRef }) {
   const { user } = useAuth();
   const [text, setText] = useState("");
@@ -157,10 +165,21 @@ export default function ChatWindow({ chat, messages, onSend, onBack, typingUser,
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto chat-scroll py-4 space-y-2.5">
-        {messages.map((m) => (
-          <MessageBubble key={m.id} msg={{ ...m, chat_is_group: isGroup }} mine={m.sender_id === user.id} onReply={setReply} />
-        ))}
+      <div className="flex-1 overflow-y-auto chat-scroll chat-wallpaper py-4 space-y-2.5">
+        {messages.map((m, i) => {
+          const prev = messages[i - 1];
+          const showDay = !prev || new Date(prev.created_at).toDateString() !== new Date(m.created_at).toDateString();
+          return (
+            <div key={m.id}>
+              {showDay && (
+                <div className="flex justify-center my-3">
+                  <span className="text-xs font-medium text-muted-foreground bg-card/90 border border-border rounded-full px-3 py-1 shadow-sm">{dayLabel(m.created_at)}</span>
+                </div>
+              )}
+              <MessageBubble msg={{ ...m, chat_is_group: isGroup }} mine={m.sender_id === user.id} onReply={setReply} />
+            </div>
+          );
+        })}
         {typingUser && (
           <div data-testid="typing-indicator" className="flex items-center gap-2 px-3">
             <Avatar className="w-6 h-6"><AvatarImage src={typingUser.avatar} /><AvatarFallback className="text-[9px]">{typingUser.name?.slice(0,2)}</AvatarFallback></Avatar>

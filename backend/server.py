@@ -92,7 +92,7 @@ def create_token(user_id: str) -> str:
 def public_user(u: dict) -> dict:
     if not u:
         return u
-    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "settings", "role", "created_at", "online", "last_seen", "blocked"]}
+    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "phone", "settings", "role", "created_at", "online", "last_seen", "blocked"]}
 
 
 async def user_from_token(token: str) -> Optional[dict]:
@@ -131,6 +131,7 @@ class ProfileIn(BaseModel):
     username: Optional[str] = None
     avatar: Optional[str] = None
     language: Optional[str] = None
+    phone: Optional[str] = None
     settings: Optional[dict] = None
 
 
@@ -265,6 +266,7 @@ async def search_users(q: str, user=Depends(get_current_user)):
     cur = db.users.find({"id": {"$ne": user["id"]},
                          "$or": [{"username": {"$regex": q, "$options": "i"}},
                                  {"email": {"$regex": q, "$options": "i"}},
+                                 {"phone": {"$regex": q, "$options": "i"}},
                                  {"name": {"$regex": q, "$options": "i"}}]}, {"_id": 0}).limit(20)
     return [public_user(u) for u in await cur.to_list(20)]
 

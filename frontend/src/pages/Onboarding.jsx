@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,21 @@ export default function Onboarding() {
   const [language, setLanguage] = useState(user?.language || "");
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef();
+
+  const uploadAvatar = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", f);
+      const { data } = await api.post("/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
+      setAvatar(`${api.defaults.baseURL}/files/${data.id}`);
+    } catch { toast.error("Upload failed"); }
+    finally { setUploading(false); e.target.value = ""; }
+  };
 
   const save = async () => {
     if (!language) return toast.error("Please choose your language");
@@ -46,13 +61,24 @@ export default function Onboarding() {
           <p className="text-sm text-muted-foreground mt-1">This is how others will see you. Pick the language you want to read & write in.</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {AVATARS.map((a) => (
             <button key={a} onClick={() => setAvatar(a)}
               className={`w-14 h-14 rounded-full overflow-hidden ring-2 transition-all ${avatar === a ? "ring-primary scale-105" : "ring-transparent opacity-70"}`}>
               <img src={a} alt="avatar" className="w-full h-full object-cover" />
             </button>
           ))}
+          {avatar && !AVATARS.includes(avatar) && (
+            <button onClick={() => fileRef.current?.click()}
+              className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary scale-105">
+              <img src={avatar} alt="custom avatar" className="w-full h-full object-cover" />
+            </button>
+          )}
+          <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="onboarding-avatar-upload"
+            className="w-14 h-14 rounded-full border-2 border-dashed border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition">
+            {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
+          </button>
+          <input type="file" accept="image/*" ref={fileRef} hidden onChange={uploadAvatar} />
         </div>
 
         <div className="space-y-2">
