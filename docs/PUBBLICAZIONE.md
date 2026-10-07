@@ -11,8 +11,8 @@ Prepara un file di appunti (fuori da questo repository) dove segnare, man mano, 
 ## 1. Il database: MongoDB Atlas (gratis per il test)
 
 1. Crea un account su **mongodb.com/atlas**.
-2. Crea un cluster gratuito (**M0**). Scegli una zona in Europa.
-3. *Database Access* → crea un utente con una password lunga. Segnati nome e password.
+2. Crea un cluster gratuito (**M0**), provider AWS, zona **Frankfurt (eu-central-1)**, nome `lingua`. **Togli la spunta** a "Preload sample dataset" (occupa quasi tutti i 512 MB gratuiti) e a "Automate security setup" (autorizzerebbe solo il tuo indirizzo di casa).
+3. Nella finestra "Connetti" (o in *Database Access*) crea l'utente `lingua_app` con una password **solo lettere e numeri** (simboli come `@ : / ? #` rompono l'indirizzo). Un modo per generarla senza che passi da nessuna parte: nel Terminale `openssl rand -hex 16`.
 4. *Network Access* → aggiungi l'indirizzo `0.0.0.0/0` ("da qualsiasi posto"). Serve perché gli indirizzi di Render cambiano; il database resta protetto da utente e password.
 5. *Connect* → *Drivers* → copia l'indirizzo che inizia con `mongodb+srv://`. Sostituisci `<password>` con la tua password.
    👉 Questo è **MONGO_URL**.
@@ -23,14 +23,18 @@ Prepara un file di appunti (fuori da questo repository) dove segnare, man mano, 
 
 1. Crea un account su **cloudflare.com** e apri **R2** (può chiedere una carta; il piano gratuito include 10 GB).
 2. Crea un *bucket* chiamato `lingua-files`. 👉 **S3_BUCKET** = `lingua-files`
-3. In R2 cerca *API Tokens* → crea un token con permesso **Object Read & Write** solo su quel bucket.
+3. In R2 cerca *API Tokens* → crea un token **"Lettura e scrittura di oggetti"** (non "Amministratore") limitato al solo bucket `lingua-files`. TTL "Per sempre"; filtro IP vuoto.
 4. Ti vengono mostrati: *Access Key ID* (👉 **S3_ACCESS_KEY_ID**), *Secret Access Key* (👉 **S3_SECRET_ACCESS_KEY**) e un indirizzo come `https://XXXX.r2.cloudflarestorage.com` (👉 **S3_ENDPOINT_URL**). Il segreto si vede una volta sola: salvalo subito.
 
 ## 3. L'interprete: Anthropic (Claude)
 
 1. Crea un account su **console.anthropic.com**.
 2. Aggiungi un credito piccolo (5-10 $ bastano per mesi di test) e, se la console lo permette, imposta un **limite di spesa mensile**.
-3. *API keys* → crea una chiave. 👉 **ANTHROPIC_API_KEY**
+3. *API keys* → crea una chiave **legata a uno spazio di lavoro** (Default). Una chiave "personale" dà l'errore *"This API key is not scoped to a workspace"*. 👉 **ANTHROPIC_API_KEY**
+4. Prova dal Terminale (la chiave non compare nella cronologia):
+   `read -rs ANTHROPIC_API_KEY; export ANTHROPIC_API_KEY`, poi
+   `curl -s https://api.anthropic.com/v1/messages -H "x-api-key: $ANTHROPIC_API_KEY" -H "anthropic-version: 2023-06-01" -H "content-type: application/json" -d '{"model":"claude-haiku-4-5","max_tokens":60,"messages":[{"role":"user","content":"Translate to Italian, reply with only the translation: How are you today?"}]}'`
+   Deve rispondere con `"text":"Come stai oggi?"`. Alla fine: `unset ANTHROPIC_API_KEY`.
 
 ## 4. Il server: Render
 

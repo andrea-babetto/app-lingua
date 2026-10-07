@@ -5,6 +5,7 @@ services:
     name: lingua-api
     runtime: python
     plan: starter                 # always on. The free plan falls asleep, which breaks real-time chat.
+    region: frankfurt             # same area as the Atlas cluster (eu-central-1): fewer milliseconds per query
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
