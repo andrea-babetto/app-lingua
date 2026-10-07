@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// Empty REACT_APP_BACKEND_URL = the API lives on the same origin as the page.
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || window.location.origin).replace(/\/$/, "");
 export const API = `${BACKEND_URL}/api`;
 export const WS_URL = BACKEND_URL.replace(/^http/, "ws") + "/api/ws";
 

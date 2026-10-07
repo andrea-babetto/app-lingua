@@ -1,0 +1,68 @@
+# Render Blueprint: one API (Python) + one website (static). Create it with: New + > Blueprint > pick this repo.
+# Values marked "sync: false" are asked in the dashboard on first deploy (secrets never live in git).
+services:
+  - type: web
+    name: lingua-api
+    runtime: python
+    plan: starter                 # always on. The free plan falls asleep, which breaks real-time chat.
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: APP_ENV
+        value: production
+      - key: DB_NAME
+        value: lingua
+      - key: JWT_SECRET
+        generateValue: true       # Render creates a long random value for you
+      - key: MONGO_URL
+        sync: false
+      - key: CORS_ORIGINS         # the website address, e.g. https://lingua-web.onrender.com
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_ENDPOINT_URL
+        sync: false
+      - key: S3_ACCESS_KEY_ID
+        sync: false
+      - key: S3_SECRET_ACCESS_KEY
+        sync: false
+      - key: S3_REGION
+        value: auto
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # Optional: add these later from the dashboard when you want the feature
+      #   OPENAI_API_KEY (voice transcription), GOOGLE_CLIENT_ID (Google sign-in)
+
+  - type: web
+    name: lingua-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: yarn install --frozen-lockfile && yarn build
+    staticPublishPath: build
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: REACT_APP_BACKEND_URL   # the API address, e.g. https://lingua-api.onrender.com
+        sync: false
+    routes:
+      - type: rewrite               # lets /chat, /admin... open directly
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

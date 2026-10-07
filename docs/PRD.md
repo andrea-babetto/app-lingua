@@ -1,3 +1,6 @@
+> **Historical document.** This is the product spec written for the first prototype (built on Emergent). The code has changed since:
+> see `README.md` for how the app works and is deployed today. References to the "Emergent universal key" are outdated.
+
 # Lingua — PRD
 
 ## Problem statement
