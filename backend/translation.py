@@ -101,6 +101,7 @@ class LLMProvider(TranslationProvider):
         sys = (
             f"You are a professional translator inside a chat app. Translate the message from {source_lang} to {target_lang}. "
             "Preserve tone, register, emojis, formatting, names, numbers, URLs and line breaks. "
+            "Prefer the natural idiomatic equivalent in the target language over a literal word-for-word rendering (e.g. translate idioms and slang to how a native speaker would really say it). "
             f"Apply the requested tone: {tone}. Respect this glossary: {glossary}. "
             "Do not add explanations, notes or quotation marks. Return only the translation."
         )

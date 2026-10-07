@@ -429,6 +429,8 @@ async def promote_admin(chat_id: str, uid: str, user=Depends(get_current_user)):
     chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
     if not chat or user["id"] not in chat.get("admins", []):
         raise HTTPException(status_code=403, detail="Only admins can promote")
+    if uid not in chat.get("members", []):
+        raise HTTPException(status_code=400, detail="User is not a member")
     await db.chats.update_one({"id": chat_id}, {"$addToSet": {"admins": uid}})
     return {"ok": True}
 

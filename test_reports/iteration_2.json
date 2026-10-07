@@ -1,0 +1,46 @@
+{
+  "summary": "Full backend + frontend regression for Lingua iteration 2. All 15 pytest backend tests PASS (auth/seeding/google/BUG1/BUG2/group chat/tone/translation quality incl. Hindi<->Italian). Frontend verified at 1280x800: sidebar fills left column, conversation panel spans full remaining width (BUG3 fixed); sidebar previews show translated last-message text, never 'Attachment' for text messages (BUG1 fixed). Live Claude Haiku (claude-haiku-4-5-20251001) is working end-to-end — real translations observed in both directions and for all 4 translation-quality cases. One minor idiom-translation nit (see below).",
+  "tested_scope": ["backend", "frontend", "auth", "integration", "translation", "groups"],
+  "passed": [
+    "giulia@lingua.app / james@lingua.app login (demo1234) OK; admin@lingua.app / Ling2026!AdminX9q OK",
+    "BUG4: old admin password 'admin1234' returns 401 (seed_admin rotates hash)",
+    "POST /api/auth/google/session returns 401 for an invalid session_id and 400 when missing",
+    "BUG1: /api/chats last_message.display_text contains translated message text (James sees 'Preview test bye handsome' for Giulia's 'Preview test ciao bello'); no 'Attachment' label for text messages",
+    "BUG2: delete-for-everyone persists through GET /api/messages/{chat_id} for BOTH sender and recipient (deleted_for_all=true, original_text cleared); delete-for-me only hides for actor",
+    "BUG3: at 1280x800 the conversation panel spans the full remaining width (sidebar ~384px, chat ~896px to right edge); verified visually",
+    "GROUP CHAT: POST /api/chats/group creates group with creator as admin; POST /api/chats/{id}/members adds member (admin-only, 403 for non-admin); PUT /api/chats/{id}/admin/{uid} promotes; POST /api/chats/{id}/leave removes caller. Each member reads messages in own language ('Ciao a tutti, benvenuti!' -> James(en) 'Hi everyone, welcome!' / Third(es) '¡Hola a todos, bienvenidos!')",
+    "TONE: PUT /api/chats/{id}/tone?tone=formal|neutral|casual all return 200 with echoed tone",
+    "TRANSLATION QUALITY CASES - exact outputs captured below"
+  ],
+  "translation_quality_outputs": {
+    "idiom_mi_sono_cadute_le_braccia_it_to_en": "my arms fell off",
+    "idiom_in_bocca_al_lupo_it_to_en": "break a leg",
+    "long_url_paragraphs_it_to_en": "First paragraph with important information.\n\nSecond paragraph: you can read the article here: https://example.com/articolo\n\nThird closing paragraph, thank you!",
+    "emoji_it_to_en": "Good morning 🌞☕ today is a beautiful day 🎉🚀",
+    "hindi_to_italian": "'नमस्ते, आप कैसे हैं? आज मौसम बहुत अच्छा है।' -> 'Ciao, come stai? Oggi il tempo è molto bello.'",
+    "italian_to_hindi": "'Ciao! Sto bene, grazie. Oggi è una bellissima giornata.' -> 'नमस्ते! मैं ठीक हूं, धन्यवाद। आज बहुत ही सुंदर दिन है।'",
+    "provider_used": "llm (anthropic/claude-haiku-4-5-20251001) — no mock fallback this run"
+  },
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "translation_quality_notes": [
+    "'mi sono cadute le braccia' was rendered literally as 'my arms fell off'. The idiomatic English equivalent is closer to 'I was so disheartened' / 'I gave up' / 'my heart sank'. Haiku produced a literal rendering — not a code bug, but worth noting for the user. 'in bocca al lupo' -> 'break a leg' is correctly idiomatic.",
+    "URL preservation, paragraph breaks (double newlines), and emoji preservation all work correctly.",
+    "Hindi (Devanagari) round-trip is high quality in both directions."
+  ],
+  "critical_code_review_comments": [
+    "server.py line 713 await get_or_create_direct(a, b) — fine, but seed_demo re-runs on every boot and will re-insert accepted contacts after a DB wipe only; idempotent via find_one checks (OK).",
+    "DELETE /api/messages/{msg_id}: delete-for-everyone has no time window / 'only sender' extra guard beyond sender_id check; product may want a 1h window. Not a bug for this iteration.",
+    "promote_admin (/api/chats/{id}/admin/{uid}) does not verify that uid is actually a member of the chat — a non-member id could be added to admins list. Minor hardening suggestion.",
+    "translate_message_async does not pass a timeout/circuit-breaker — if the LLM proxy stalls, the task hangs. The 3-attempt retry inside LLMProvider.translate helps, but outer timeout would be safer.",
+    "server.py is 733 lines — approaching the 700-line soft limit; consider splitting into auth/chats/messages routers."
+  ],
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "updated_files": ["/app/backend/tests/backend_test.py"],
+  "success_rate": {"backend": "100% (15/15)", "frontend": "100% (smoke + layout + sidebar preview + tone selector + group chat visible)"},
+  "test_credentials": "Demo giulia@lingua.app/demo1234, james@lingua.app/demo1234, admin@lingua.app/Ling2026!AdminX9q (file /app/memory/test_credentials.md is accurate)",
+  "seed_data_creation": "Created TEST_GROUP group chat (Giulia+James) and a transient Hindi user + Spanish group member via /api/auth/register for translation tests. These test users remain in the DB but are prefixed and harmless.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "backend_test.py is pytest-based and reusable; run with `python -m pytest backend/tests/backend_test.py -n 0 -s`. Translation is live via EMERGENT_LLM_KEY; expect ~3-5s per message. All 4 reported bugs (BUG1-BUG4), group chat, tone selector, Google session endpoint, and all translation-quality cases verified passing in this iteration."
+}

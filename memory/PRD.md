@@ -42,3 +42,8 @@ A WhatsApp/Telegram-style real-time messenger where every user writes and reads 
 
 ## Next tasks
 - Add Google sign-in; build group-chat UI; add tone selector to chat header.
+
+## Iteration 2 (2026-06)
+- Bug fixes: (1) sidebar preview shows translated last-message text, "Attachment" only for files; (2) delete-for-everyone now removes for both users persistently; (3) desktop conversation panel fills full width; (4) demo users gated behind SEED_DEMO env, admin password moved to env (rotated).
+- Features: group chat (create, per-language translation, admin roles, add member, promote admin, leave, optional info panel), per-chat tone selector (formal/neutral/casual, injected into translation prompt), real Emergent-managed Google login (POST /api/auth/google/session).
+- Translation prompt tuned for idiomatic (non-literal) output. Verified live via testing agent: 15/15 backend tests pass; Hindi↔Italian, URL/paragraph/emoji preservation all good.
