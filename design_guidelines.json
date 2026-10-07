@@ -1,0 +1,175 @@
+{
+  "app_identity": {
+    "name": "Lingua",
+    "description": "Real-time AI auto-translating messaging web application where every participant reads and writes in their native language effortlessly.",
+    "archetype": "Swiss & High-Contrast meets Tactile Modern Messaging",
+    "target_audience": "Global teams, multilingual families, cross-border creators, and language learners",
+    "key_differentiators": [
+      "Zero-friction auto-translation between 40+ languages",
+      "Native RTL layout direction switching (Arabic, Hebrew, Urdu, Persian)",
+      "Tap-to-toggle original vs translated text with subtle animations",
+      "Translating indicator with shimmer effect and zero layout jumps",
+      "WhatsApp Web / Telegram Web desktop layout and adaptive mobile single-column view"
+    ]
+  },
+  "tech_stack": {
+    "framework": "React.js (Vite setup with .js / .jsx files)",
+    "styling": "Tailwind CSS v3 + CSS custom properties for light/dark themes",
+    "components": "shadcn/ui primitives heavily customized (Dialog, Sheet, Command, Popover, Avatar, Badge, DropdownMenu, Tabs, ScrollArea, Tooltip, Sonner)",
+    "icons": "lucide-react",
+    "animation": "framer-motion (for smooth height transitions, bubble slide-ins, drawer transitions)"
+  },
+  "theme_and_colors": {
+    "mode_switch": "System preference auto-detection with manual light/dark toggle persisted in localStorage",
+    "light": {
+      "bg_app": "bg-slate-100",
+      "bg_sidebar": "bg-white",
+      "bg_chat_panel": "bg-[#f4f5f7]",
+      "bg_info_panel": "bg-white",
+      "bg_header": "bg-white/90 backdrop-blur-md",
+      "border": "border-slate-200/80",
+      "text_primary": "text-slate-900",
+      "text_secondary": "text-slate-500",
+      "text_muted": "text-slate-400",
+      "bubble_sent": "bg-indigo-600 text-white shadow-sm shadow-indigo-200",
+      "bubble_received": "bg-white text-slate-900 border border-slate-200/60 shadow-xs",
+      "bubble_translated_badge": "bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200/50",
+      "input_bg": "bg-slate-100 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500",
+      "accent_primary": "bg-indigo-600 text-white hover:bg-indigo-700",
+      "accent_emerald": "bg-emerald-500 text-white",
+      "typing_dot": "bg-indigo-400"
+    },
+    "dark": {
+      "bg_app": "bg-zinc-950",
+      "bg_sidebar": "bg-zinc-900",
+      "bg_chat_panel": "bg-zinc-950",
+      "bg_info_panel": "bg-zinc-900",
+      "bg_header": "bg-zinc-900/90 backdrop-blur-md",
+      "border": "border-zinc-800/80",
+      "text_primary": "text-zinc-100",
+      "text_secondary": "text-zinc-400",
+      "text_muted": "text-zinc-500",
+      "bubble_sent": "bg-indigo-600 text-white shadow-sm shadow-indigo-950/50",
+      "bubble_received": "bg-zinc-800/90 text-zinc-100 border border-zinc-700/50 shadow-xs",
+      "bubble_translated_badge": "bg-indigo-950/60 text-indigo-300 hover:bg-indigo-900/60 border border-indigo-800/50",
+      "input_bg": "bg-zinc-800/80 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:bg-zinc-800 focus:border-indigo-500",
+      "accent_primary": "bg-indigo-600 text-white hover:bg-indigo-500",
+      "accent_emerald": "bg-emerald-500 text-white",
+      "typing_dot": "bg-indigo-400"
+    }
+  },
+  "typography": {
+    "font_family_latin": "Outfit, Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "font_family_rtl": "Tajawal, Cairo, 'Noto Sans Arabic', 'Segoe UI', sans-serif",
+    "font_family_mono": "JetBrains Mono, Source Code Pro, monospace",
+    "heading_h1": "text-2xl font-bold tracking-tight",
+    "heading_h2": "text-xl font-semibold tracking-tight",
+    "heading_h3": "text-lg font-medium",
+    "body_main": "text-sm sm:text-base leading-normal",
+    "body_small": "text-xs sm:text-sm text-muted-foreground",
+    "badge_text": "text-[11px] font-medium tracking-wide uppercase"
+  },
+  "layout_architecture": {
+    "desktop": {
+      "structure": "Three-pane split desktop view (Left sidebar, Center chat, Right details pane)",
+      "sidebar_width": "w-80 lg:w-96 flex-shrink-0 border-r",
+      "chat_panel_width": "flex-1 flex flex-col min-w-0 h-full",
+      "info_panel_width": "w-72 lg:w-80 border-l flex-shrink-0 transition-all duration-300"
+    },
+    "mobile": {
+      "structure": "Single-column screen stack view with slide animations and full back button header",
+      "active_view": "Conditional rendering between 'chats_list', 'conversation', and 'contact_info'",
+      "header_back": "Visible on mobile view with user avatar and name"
+    },
+    "rtl_support": {
+      "detection": "Auto-detect layout direction based on target language code (e.g. ar, he, ur, fa set dir='rtl')",
+      "flex_logic": "Use logical Tailwind classes like ms-auto, me-auto, ps-4, pe-4, rounded-s-2xl, rounded-e-2xl instead of absolute left/right"
+    }
+  },
+  "key_components": {
+    "message_bubble": {
+      "design": "Asymmetric rounded corners (Sent: rounded-2xl rounded-tr-xs; Received: rounded-2xl rounded-tl-xs). Contains timestamp, read ticks, translation indicator badge, and toggle text button.",
+      "states": [
+        "translated_default (shows target user's native text + pill badge 'Translated from [Language]')",
+        "original_revealed (shows original text with 'Original text' pill badge)",
+        "translating_shimmer (shows pulse skeleton bubble with animated globe icon)",
+        "failed_retry (shows error pill with 'Retry translation' button)"
+      ],
+      "actions": [
+        "Tap badge or text to toggle between original and translated",
+        "Hover / Long press action bar: Copy original, Copy translated, Speak TTS, React emoji"
+      ]
+    },
+    "language_picker": {
+      "onboarding_modal": "Searchable 40+ languages modal with flag emojis, native language names, and search filter",
+      "quick_switcher": "Header dropdown for instant active target language switching"
+    },
+    "contact_requests": {
+      "banner": "Top notification bar for incoming contact requests with Accept / Decline / Block actions",
+      "badge": "Unread request count badge on sidebar tab"
+    },
+    "chat_input": {
+      "position": "Sticky bottom bar with auto-resizing textarea, emoji picker trigger, audio message toggle, source language selector badge, and send button",
+      "typing_indicator": "Shows 'User is typing [in Spanish]...' with triple animated bouncing dots"
+    }
+  },
+  "media_assets": {
+    "avatars": [
+      {
+        "id": "avatar_1",
+        "url": "https://images.unsplash.com/photo-1605596507299-0fe2cbf21ed0?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "User profile avatar - Tech leader"
+      },
+      {
+        "id": "avatar_2",
+        "url": "https://images.unsplash.com/flagged/photo-1565751242292-352286c13b42?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "User profile avatar - Product manager"
+      },
+      {
+        "id": "avatar_3",
+        "url": "https://images.unsplash.com/photo-1673757519094-6063fec0549c?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "User profile avatar - Designer"
+      }
+    ],
+    "background_pattern": "https://images.unsplash.com/photo-1550537687-c91072c4792d?crop=entropy&cs=srgb&fm=jpg&q=85"
+  },
+  "test_ids": {
+    "navigation": {
+      "sidebar_search_input": "data-testid=\"sidebar-search-input\"",
+      "sidebar_chat_item": "data-testid=\"sidebar-chat-item-{id}\"",
+      "theme_toggle_button": "data-testid=\"theme-toggle-button\"",
+      "language_selector_trigger": "data-testid=\"language-selector-trigger\"",
+      "mobile_back_button": "data-testid=\"mobile-back-button\""
+    },
+    "messaging": {
+      "message_input": "data-testid=\"message-input\"",
+      "send_message_button": "data-testid=\"send-message-button\"",
+      "message_bubble": "data-testid=\"message-bubble-{id}\"",
+      "translation_toggle_badge": "data-testid=\"translation-toggle-badge-{id}\"",
+      "translating_indicator": "data-testid=\"translating-indicator\"",
+      "typing_indicator": "data-testid=\"typing-indicator\"",
+      "emoji_picker_button": "data-testid=\"emoji-picker-button\""
+    },
+    "onboarding": {
+      "language_modal": "data-testid=\"language-onboarding-modal\"",
+      "language_search_input": "data-testid=\"language-search-input\"",
+      "language_option": "data-testid=\"language-option-{code}\"",
+      "confirm_language_button": "data-testid=\"confirm-language-button\""
+    },
+    "contacts": {
+      "contact_request_accept": "data-testid=\"contact-request-accept-{id}\"",
+      "contact_request_decline": "data-testid=\"contact-request-decline-{id}\"",
+      "toggle_info_panel_button": "data-testid=\"toggle-info-panel-button\""
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow React JS syntax (.js / .jsx). Do NOT write TypeScript type annotations in React component files.",
+    "Implement light and dark mode smoothly with Tailwind classes and CSS variables. Default to dark mode or auto system preference.",
+    "Add 'dir' attribute handling dynamically: if target language is RTL (Arabic, Hebrew, Urdu, Persian), apply 'dir=\"rtl\"' on chat containers or message bubbles.",
+    "Ensure ALL interactive elements carry explicit data-testid attributes according to the test_ids schema.",
+    "Use framer-motion for smooth height expansions when revealing original text to guarantee ZERO layout jumps.",
+    "Pre-populate realistic multilingual chat conversations (English, Spanish, Japanese, Arabic, French, German) with real translation states.",
+    "Provide a simulated translation server delay (300-600ms) with typing indicators and shimmer skeleton bubbles to demonstrate the 'translating...' state.",
+    "Use sonner for toast notifications (e.g., 'Language updated', 'Contact request accepted', 'Text copied to clipboard')."
+  ]
+}
