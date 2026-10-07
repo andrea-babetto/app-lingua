@@ -32,6 +32,12 @@ export default function Login() {
 
   const fillDemo = (email) => setForm({ ...form, email, password: "demo1234" });
 
+  const googleLogin = () => {
+    // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+    const redirectUrl = window.location.origin + "/";
+    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
+  };
+
   return (
     <div className="min-h-screen flex bg-background">
       <div className="hidden lg:flex flex-col justify-between w-1/2 bg-primary p-12 text-primary-foreground relative overflow-hidden">
@@ -71,10 +77,10 @@ export default function Login() {
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === "login" ? "Sign in" : "Create account"}
             </Button>
           </form>
-          <button data-testid="google-signin-button" disabled
-            className="w-full flex items-center justify-center gap-2 h-10 rounded-lg border border-border text-sm text-muted-foreground opacity-60 cursor-not-allowed">
+          <button data-testid="google-signin-button" onClick={googleLogin}
+            className="w-full flex items-center justify-center gap-2 h-10 rounded-lg border border-border text-sm font-medium hover:bg-muted transition">
             <img alt="g" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" />
-            Continue with Google (soon)
+            Continue with Google
           </button>
           <p className="text-sm text-center text-muted-foreground">
             {mode === "login" ? "No account? " : "Have an account? "}

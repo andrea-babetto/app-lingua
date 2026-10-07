@@ -8,6 +8,7 @@ import Sidebar from "@/components/chat/Sidebar";
 import ChatWindow from "@/components/chat/ChatWindow";
 import NewChatDialog from "@/components/chat/NewChatDialog";
 import SettingsDialog from "@/components/chat/SettingsDialog";
+import InfoPanel from "@/components/chat/InfoPanel";
 
 export default function Chat() {
   const { user, token } = useAuth();
@@ -19,6 +20,7 @@ export default function Chat() {
   const [typing, setTyping] = useState(null);
   const [newChatOpen, setNewChatOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
   const [mobileView, setMobileView] = useState("list"); // list | chat
   const wsRef = useRef(null);
   const bottomRef = useRef(null);
@@ -45,7 +47,7 @@ export default function Chat() {
     if (!token) return;
     const ws = new WebSocket(`${WS_URL}?token=${token}`);
     wsRef.current = ws;
-    ws.onmessage = (ev) => {
+    ws.onmessage = async (ev) => {
       const d = JSON.parse(ev.data);
       const cur = activeRef.current;
       if (d.type === "new_message" || d.type === "message_update") {
@@ -80,6 +82,13 @@ export default function Chat() {
         loadChats();
       } else if (d.type === "presence") {
         loadChats();
+      } else if (d.type === "chat_updated") {
+        const fresh = await loadChats();
+        const c = activeRef.current;
+        if (c) {
+          const f = fresh.find((x) => x.id === c.id);
+          if (f) setActive((a) => ({ ...a, tone: f.tone, members: f.members, members_info: f.members_info, admins: f.admins }));
+        }
       }
     };
     return () => ws.close();
@@ -121,6 +130,13 @@ export default function Chat() {
   };
   const decline = async (id) => { await api.post(`/contacts/decline/${id}`); loadRequests(); };
 
+  const changeTone = async (tone) => {
+    await api.put(`/chats/${active.id}/tone?tone=${tone}`);
+    setActive((a) => ({ ...a, tone }));
+    setChats((cs) => cs.map((c) => (c.id === active.id ? { ...c, tone } : c)));
+    toast.success(`Translation tone: ${tone}`);
+  };
+
   return (
     <div className="h-screen w-screen flex overflow-hidden bg-background">
       <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-80 lg:w-96 shrink-0 border-r border-border flex-col`}>
@@ -131,8 +147,8 @@ export default function Chat() {
 
       <div className={`${mobileView === "chat" ? "flex" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping}>
         {active ? (
-          <ChatWindow chat={active} messages={messages} onSend={send} onBack={() => { setMobileView("list"); setActive(null); }}
-            typingUser={typing} onToggleInfo={() => toast(active.display_name)} bottomRef={bottomRef} />
+          <ChatWindow chat={active} messages={messages} onSend={send} onBack={() => { setMobileView("list"); setActive(null); setInfoOpen(false); }}
+            typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} onToneChange={changeTone} bottomRef={bottomRef} />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-muted/20">
             <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
@@ -143,6 +159,14 @@ export default function Chat() {
           </div>
         )}
       </div>
+
+      {infoOpen && active && (
+        <InfoPanel chat={active} onClose={() => setInfoOpen(false)} onChanged={async () => {
+          const fresh = await loadChats();
+          const f = fresh.find((x) => x.id === active.id);
+          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins }));
+        }} onLeft={() => { setActive(null); setInfoOpen(false); setMobileView("list"); loadChats(); }} />
+      )}
 
       <NewChatDialog open={newChatOpen} onOpenChange={setNewChatOpen} onStartChat={(c) => { loadChats(); openChat(c); }} />
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />

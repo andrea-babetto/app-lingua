@@ -203,6 +203,36 @@ async def login(body: LoginIn):
     return {"token": create_token(u["id"]), "user": public_user(u)}
 
 
+@api.post("/auth/google/session")
+async def google_session(request: Request):
+    body = await request.json()
+    session_id = body.get("session_id")
+    if not session_id:
+        raise HTTPException(status_code=400, detail="Missing session_id")
+    import requests as _rq
+    r = _rq.get("https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
+                headers={"X-Session-ID": session_id}, timeout=20)
+    if r.status_code != 200:
+        raise HTTPException(status_code=401, detail="Invalid Google session")
+    data = r.json()
+    email = (data.get("email") or "").lower()
+    existing = await db.users.find_one({"email": email}, {"_id": 0})
+    if existing:
+        uid = existing["id"]
+        if not existing.get("avatar") and data.get("picture"):
+            await db.users.update_one({"id": uid}, {"$set": {"avatar": data["picture"]}})
+        u = await db.users.find_one({"id": uid}, {"_id": 0})
+    else:
+        uid = str(uuid.uuid4())
+        u = {"id": uid, "email": email, "password_hash": "", "name": data.get("name") or email.split("@")[0],
+             "username": email.split("@")[0] + uuid.uuid4().hex[:4], "avatar": data.get("picture", ""),
+             "language": "", "settings": {"show_original": True, "last_seen_enabled": True}, "glossary": [],
+             "role": "user", "online": False, "last_seen": None, "auth_provider": "google",
+             "created_at": datetime.now(timezone.utc).isoformat()}
+        await db.users.insert_one(dict(u))
+    return {"token": create_token(uid), "user": public_user(u)}
+
+
 @api.get("/auth/me")
 async def me(user=Depends(get_current_user)):
     return public_user(user)
@@ -287,8 +317,12 @@ async def enrich_chat(chat, me_id):
         if u:
             mu = public_user(u)
             mu["online"] = ws_manager.is_online(mid)
+            mu["is_admin"] = mid in chat.get("admins", [])
             members.append(mu)
+    me_lang = next((m["language"] for m in members if m["id"] == me_id), "en") or "en"
     last = await db.messages.find_one({"chat_id": chat["id"]}, {"_id": 0}, sort=[("created_at", -1)])
+    if last:
+        last = message_view(last, me_lang)
     unread = await db.messages.count_documents({"chat_id": chat["id"], "sender_id": {"$ne": me_id}, "read_by": {"$ne": me_id}})
     out = dict(chat)
     out["members_info"] = members
@@ -351,7 +385,52 @@ async def create_group(body: GroupIn, user=Depends(get_current_user)):
 @api.put("/chats/{chat_id}/tone")
 async def set_tone(chat_id: str, tone: str, user=Depends(get_current_user)):
     await db.chats.update_one({"id": chat_id}, {"$set": {"tone": tone}})
+    members = await chat_member_ids(chat_id)
+    for mid in members:
+        await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
     return {"tone": tone}
+
+
+class AddMembersIn(BaseModel):
+    member_ids: List[str]
+
+
+@api.post("/chats/{chat_id}/members")
+async def add_members(chat_id: str, body: AddMembersIn, user=Depends(get_current_user)):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or chat["type"] != "group":
+        raise HTTPException(status_code=404, detail="Group not found")
+    if user["id"] not in chat.get("admins", []):
+        raise HTTPException(status_code=403, detail="Only admins can add members")
+    new_members = list(dict.fromkeys(chat["members"] + body.member_ids))[:50]
+    await db.chats.update_one({"id": chat_id}, {"$set": {"members": new_members}})
+    chat["members"] = new_members
+    for mid in new_members:
+        await ws_manager.send(mid, {"type": "new_chat", "chat": await enrich_chat(chat, mid)})
+    return await enrich_chat(chat, user["id"])
+
+
+@api.post("/chats/{chat_id}/leave")
+async def leave_group(chat_id: str, user=Depends(get_current_user)):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or chat["type"] != "group":
+        raise HTTPException(status_code=404, detail="Group not found")
+    await db.chats.update_one({"id": chat_id}, {"$pull": {"members": user["id"], "admins": user["id"]}})
+    remaining = [m for m in chat["members"] if m != user["id"]]
+    if remaining and not [a for a in chat.get("admins", []) if a in remaining]:
+        await db.chats.update_one({"id": chat_id}, {"$addToSet": {"admins": remaining[0]}})
+    for mid in remaining:
+        await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
+    return {"ok": True}
+
+
+@api.put("/chats/{chat_id}/admin/{uid}")
+async def promote_admin(chat_id: str, uid: str, user=Depends(get_current_user)):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or user["id"] not in chat.get("admins", []):
+        raise HTTPException(status_code=403, detail="Only admins can promote")
+    await db.chats.update_one({"id": chat_id}, {"$addToSet": {"admins": uid}})
+    return {"ok": True}
 
 
 # ---------------- Messages ----------------
@@ -584,7 +663,27 @@ app.add_middleware(CORSMiddleware, allow_credentials=True,
 
 # ---------------- Startup ----------------
 async def seed_demo():
-    demo_pw = os.environ.get("DEMO_PASSWORD", "demo1234")
+    # Admin always seeded (credentials from env only).
+    admin_email = os.environ.get("ADMIN_EMAIL", "admin@lingua.app")
+    admin_pw = os.environ.get("ADMIN_PASSWORD")
+    if admin_pw:
+        existing_admin = await db.users.find_one({"email": admin_email})
+        if not existing_admin:
+            await db.users.insert_one({"id": str(uuid.uuid4()), "email": admin_email,
+                                       "password_hash": hash_password(admin_pw),
+                                       "name": "Admin", "username": "admin", "avatar": "", "language": "en",
+                                       "settings": {"show_original": True, "last_seen_enabled": True}, "glossary": [],
+                                       "role": "admin", "online": False, "last_seen": None,
+                                       "created_at": datetime.now(timezone.utc).isoformat()})
+        elif not verify_password(admin_pw, existing_admin["password_hash"]):
+            await db.users.update_one({"email": admin_email}, {"$set": {"password_hash": hash_password(admin_pw)}})
+
+    # Demo users only when explicitly enabled (never in production by default).
+    if os.environ.get("SEED_DEMO", "").lower() != "true":
+        return
+    demo_pw = os.environ.get("DEMO_PASSWORD")
+    if not demo_pw:
+        return
     demos = [
         {"email": "giulia@lingua.app", "name": "Giulia Rossi", "username": "giulia", "language": "it",
          "avatar": "https://images.unsplash.com/flagged/photo-1565751242292-352286c13b42?crop=entropy&cs=srgb&fm=jpg&q=85&w=200"},
@@ -604,7 +703,6 @@ async def seed_demo():
                                    "language": d["language"], "settings": {"show_original": True, "last_seen_enabled": True},
                                    "glossary": [], "role": "user", "online": False, "last_seen": None,
                                    "created_at": datetime.now(timezone.utc).isoformat()})
-    # make them contacts + direct chat
     a, b = ids
     if not await db.contacts.find_one({"user_id": a, "contact_id": b}):
         now = datetime.now(timezone.utc).isoformat()
@@ -613,15 +711,6 @@ async def seed_demo():
             {"id": str(uuid.uuid4()), "user_id": b, "contact_id": a, "status": "accepted", "created_at": now},
         ])
     await get_or_create_direct(a, b)
-    # admin
-    admin_email = os.environ.get("ADMIN_EMAIL", "admin@lingua.app")
-    if not await db.users.find_one({"email": admin_email}):
-        await db.users.insert_one({"id": str(uuid.uuid4()), "email": admin_email,
-                                   "password_hash": hash_password(os.environ.get("ADMIN_PASSWORD", "admin1234")),
-                                   "name": "Admin", "username": "admin", "avatar": "", "language": "en",
-                                   "settings": {"show_original": True, "last_seen_enabled": True}, "glossary": [],
-                                   "role": "admin", "online": False, "last_seen": None,
-                                   "created_at": datetime.now(timezone.utc).isoformat()})
 
 
 @app.on_event("startup")

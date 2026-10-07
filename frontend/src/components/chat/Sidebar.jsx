@@ -98,7 +98,7 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenSe
                 {c.last_message && <span className="text-[11px] text-muted-foreground shrink-0">{formatDistanceToNowStrict(new Date(c.last_message.created_at))}</span>}
               </div>
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs text-muted-foreground truncate">{c.last_message ? (c.last_message.display_text || "📎 Attachment") : "Say hello 👋"}</span>
+                <span className="text-xs text-muted-foreground truncate">{c.last_message ? (c.last_message.deleted_for_all ? "🚫 Message deleted" : (c.last_message.display_text?.trim() ? c.last_message.display_text : "📎 Attachment")) : "Say hello 👋"}</span>
                 {c.unread > 0 && <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold flex items-center justify-center">{c.unread}</span>}
               </div>
             </div>

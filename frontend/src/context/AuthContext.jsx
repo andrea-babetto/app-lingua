@@ -9,6 +9,21 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("lingua_token"));
 
   const loadMe = useCallback(async () => {
+    const hash = window.location.hash || "";
+    if (hash.includes("session_id=")) {
+      const sid = new URLSearchParams(hash.replace(/^#/, "")).get("session_id");
+      try {
+        const { data } = await api.post("/auth/google/session", { session_id: sid });
+        localStorage.setItem("lingua_token", data.token);
+        setToken(data.token);
+        setUser(data.user);
+      } catch {
+        setUser(false);
+      } finally {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+      return;
+    }
     if (!localStorage.getItem("lingua_token")) {
       setUser(false);
       return;
