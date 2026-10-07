@@ -53,3 +53,8 @@ A WhatsApp/Telegram-style real-time messenger where every user writes and reads 
 - UI: WhatsApp-style larger text (bubbles text-[15px]) and spacing across sidebar, bubbles, header, input. Voice mic button shows when input empty.
 - Verified by testing agent: 27/27 backend tests (12 new + 15 regression); frontend OK at 1280 and 390px, no overflow. Hardening applied: search regex escape, 25MB voice cap, group-avatar URL validation.
 - Remaining backlog: split server.py into routers; optional E2E encryption; UI localization (IT/EN); privacy/terms pages.
+
+## Iteration 4 (2026-06)
+- Features: (1) Change own profile picture — avatar upload in Settings (camera button) and Onboarding (custom photo). (2) Phone number field on profile; users findable by username, email OR phone (/api/users/search). (3) Editable name/username/phone in Settings with Save button. 
+- UI polish: date separators (Today/Yesterday/date) between messages, dotted chat wallpaper, larger WhatsApp-style text/spacing.
+- Hardening: search_users regex-escaped (handles '+39'), phone length cap (32), avatar must be an uploaded /api/files URL (or unsplash demo). Verified: 7/7 new tests + regression; obsolete iter3 avatar test updated.

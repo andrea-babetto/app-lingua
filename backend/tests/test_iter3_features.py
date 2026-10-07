@@ -193,22 +193,23 @@ class TestGroupInfo:
         return r.json()["id"]
 
     def test_admin_updates_name_desc_avatar(self, giulia, james, group_chat):
+        avatar_url = f"{API}/files/fake-id-123"
         payload = {"name": "TEST_ITER3_RENAMED",
                    "description": "A test group for iter3",
-                   "avatar": "https://example.com/avatar.png"}
+                   "avatar": avatar_url}
         r = requests.put(f"{API}/chats/{group_chat}/info", headers=_h(giulia["token"]), json=payload)
         assert r.status_code == 200, r.text
         body = r.json()
         assert body.get("name") == "TEST_ITER3_RENAMED"
         assert body.get("description") == "A test group for iter3"
-        assert body.get("display_avatar") == "https://example.com/avatar.png"
+        assert body.get("display_avatar") == avatar_url
         # Sidebar reflects — james sees the updated name/desc too
         chats_j = requests.get(f"{API}/chats", headers=_h(james["token"])).json()
         grp = next((c for c in chats_j if c["id"] == group_chat), None)
         assert grp is not None
         assert grp["name"] == "TEST_ITER3_RENAMED"
         assert grp.get("description") == "A test group for iter3"
-        assert grp.get("display_avatar") == "https://example.com/avatar.png"
+        assert grp.get("display_avatar") == avatar_url
 
     def test_non_admin_403(self, james, group_chat):
         r = requests.put(f"{API}/chats/{group_chat}/info", headers=_h(james["token"]),

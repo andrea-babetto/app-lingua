@@ -242,6 +242,10 @@ async def me(user=Depends(get_current_user)):
 @api.put("/auth/profile")
 async def update_profile(body: ProfileIn, user=Depends(get_current_user)):
     updates = {k: v for k, v in body.model_dump().items() if v is not None}
+    if updates.get("phone") and len(updates["phone"]) > 32:
+        raise HTTPException(status_code=400, detail="Phone number too long")
+    if updates.get("avatar") and "/api/files/" not in updates["avatar"] and not updates["avatar"].startswith("https://images.unsplash.com"):
+        raise HTTPException(status_code=400, detail="Avatar must be an uploaded photo")
     if "username" in updates:
         existing = await db.users.find_one({"username": updates["username"], "id": {"$ne": user["id"]}})
         if existing:
@@ -260,7 +264,8 @@ async def languages():
 # ---------------- Contacts / users ----------------
 @api.get("/users/search")
 async def search_users(q: str, user=Depends(get_current_user)):
-    q = q.strip().lower()
+    import re
+    q = re.escape(q.strip().lower())
     if not q:
         return []
     cur = db.users.find({"id": {"$ne": user["id"]},
