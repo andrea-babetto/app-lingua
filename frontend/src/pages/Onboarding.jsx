@@ -9,16 +9,10 @@ import { Input } from "@/components/ui/input";
 import LanguagePicker from "@/components/LanguagePicker";
 import { langByCode } from "@/data/languages";
 
-const AVATARS = [
-  "https://images.unsplash.com/photo-1605596507299-0fe2cbf21ed0?crop=entropy&cs=srgb&fm=jpg&q=85&w=200",
-  "https://images.unsplash.com/flagged/photo-1565751242292-352286c13b42?crop=entropy&cs=srgb&fm=jpg&q=85&w=200",
-  "https://images.unsplash.com/photo-1673757519094-6063fec0549c?crop=entropy&cs=srgb&fm=jpg&q=85&w=200",
-];
-
 export default function Onboarding() {
   const { user, updateUser } = useAuth();
   const [name, setName] = useState(user?.name || "");
-  const [avatar, setAvatar] = useState(user?.avatar || AVATARS[0]);
+  const [avatar, setAvatar] = useState(user?.avatar || "");
   const [language, setLanguage] = useState(user?.language || "");
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
@@ -42,7 +36,7 @@ export default function Onboarding() {
     if (!language) return toast.error("Please choose your language");
     setLoading(true);
     try {
-      const { data } = await api.put("/auth/profile", { name, avatar, language });
+      const { data } = await api.put("/auth/profile", avatar !== (user?.avatar || "") ? { name, avatar, language } : { name, language });
       updateUser(data);
       toast.success("All set! Welcome to Lingua");
       nav("/");
@@ -58,21 +52,19 @@ export default function Onboarding() {
       <div className="w-full max-w-md bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Set up your profile</h1>
-          <p className="text-sm text-muted-foreground mt-1">This is how others will see you. Pick the language you want to read & write in.</p>
+          <p className="text-sm text-muted-foreground mt-1">This is how others will see you. Add a photo if you like, and pick the language you want to read & write in.</p>
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
-          {AVATARS.map((a) => (
-            <button key={a} onClick={() => setAvatar(a)}
-              className={`w-14 h-14 rounded-full overflow-hidden ring-2 transition-all ${avatar === a ? "ring-primary scale-105" : "ring-transparent opacity-70"}`}>
-              <img src={a} alt="avatar" className="w-full h-full object-cover" />
-            </button>
-          ))}
-          {avatar && !AVATARS.includes(avatar) && (
+          {avatar ? (
             <button onClick={() => fileRef.current?.click()}
-              className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary scale-105">
-              <img src={avatar} alt="custom avatar" className="w-full h-full object-cover" />
+              className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary">
+              <img src={avatar} alt="avatar" className="w-full h-full object-cover" />
             </button>
+          ) : (
+            <div className="w-14 h-14 rounded-full bg-primary/15 text-primary flex items-center justify-center text-lg font-semibold">
+              {(name || "?").trim().slice(0, 2).toUpperCase()}
+            </div>
           )}
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="onboarding-avatar-upload"
             className="w-14 h-14 rounded-full border-2 border-dashed border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition">
