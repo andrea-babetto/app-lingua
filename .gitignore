@@ -89,3 +89,9 @@ android-sdk/
 credentials.json
 *.key
 .credentials
+
+# Lingua
+!.env.example
+!frontend/.env.example
+!backend/.env.example
+backend/data/

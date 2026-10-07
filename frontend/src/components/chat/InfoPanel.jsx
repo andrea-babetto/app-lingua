@@ -140,7 +140,7 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked 
               <div className="space-y-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input className="pl-9 h-9" placeholder="Search users" value={q} onChange={(e) => search(e.target.value)} data-testid="group-add-search" autoFocus />
+                  <Input className="pl-9 h-9" placeholder="Username or exact email" value={q} onChange={(e) => search(e.target.value)} data-testid="group-add-search" autoFocus />
                 </div>
                 {loading && <div className="flex justify-center py-2"><Loader2 className="w-4 h-4 animate-spin" /></div>}
                 {results.map((u) => (

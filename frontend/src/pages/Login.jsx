@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Languages, Loader2 } from "lucide-react";
@@ -6,11 +6,13 @@ import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import GoogleSignIn from "@/components/GoogleSignIn";
 
 export default function Login() {
   const [mode, setMode] = useState("login");
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [googleClientId, setGoogleClientId] = useState("");
   const { auth } = useAuth();
   const nav = useNavigate();
 
@@ -30,12 +32,21 @@ export default function Login() {
     }
   };
 
-  const fillDemo = (email) => setForm({ ...form, email, password: "demo1234" });
+  useEffect(() => {
+    api.get("/config").then(({ data }) => setGoogleClientId(data.google_client_id || "")).catch(() => {});
+  }, []);
 
-  const googleLogin = () => {
-    // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
-    const redirectUrl = window.location.origin + "/";
-    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
+  const googleCredential = async (credential) => {
+    setLoading(true);
+    try {
+      const { data } = await api.post("/auth/google", { credential });
+      auth(data);
+      nav(data.user.language ? "/" : "/onboarding");
+    } catch (err) {
+      toast.error(errText(err.response?.data?.detail) || "Google sign-in failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,28 +82,26 @@ export default function Login() {
             )}
             <Input data-testid="email-input" type="email" placeholder="Email" value={form.email} required
               onChange={(e) => setForm({ ...form, email: e.target.value })} />
-            <Input data-testid="password-input" type="password" placeholder="Password" value={form.password} required minLength={6}
+            <Input data-testid="password-input" type="password" placeholder="Password" value={form.password} required minLength={8} maxLength={72}
               onChange={(e) => setForm({ ...form, password: e.target.value })} />
             <Button data-testid="submit-auth-button" type="submit" className="w-full" disabled={loading}>
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === "login" ? "Sign in" : "Create account"}
             </Button>
           </form>
-          <button data-testid="google-signin-button" onClick={googleLogin}
-            className="w-full flex items-center justify-center gap-2 h-10 rounded-lg border border-border text-sm font-medium hover:bg-muted transition">
-            <img alt="g" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" />
-            Continue with Google
-          </button>
+          {googleClientId && (
+            <>
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <div className="h-px flex-1 bg-border" /> or <div className="h-px flex-1 bg-border" />
+              </div>
+              <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />
+            </>
+          )}
           <p className="text-sm text-center text-muted-foreground">
             {mode === "login" ? "No account? " : "Have an account? "}
             <button data-testid="toggle-auth-mode" className="text-primary font-medium" onClick={() => setMode(mode === "login" ? "register" : "login")}>
               {mode === "login" ? "Sign up" : "Sign in"}
             </button>
           </p>
-          <div className="rounded-lg bg-muted p-3 text-xs text-muted-foreground space-y-1.5">
-            <p className="font-medium text-foreground">Demo accounts (password: demo1234)</p>
-            <button className="block hover:text-primary" onClick={() => fillDemo("giulia@lingua.app")}>🇮🇹 giulia@lingua.app — Italian</button>
-            <button className="block hover:text-primary" onClick={() => fillDemo("james@lingua.app")}>🇬🇧 james@lingua.app — English</button>
-          </div>
         </div>
       </div>
     </div>

@@ -9,10 +9,12 @@ export default function Admin() {
   const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [err, setErr] = useState("");
+  const [net, setNet] = useState(null);
   const nav = useNavigate();
 
   useEffect(() => {
     api.get("/admin/stats").then(({ data }) => setStats(data)).catch(() => setErr("Admin access required"));
+    api.get("/admin/client-ip").then(({ data }) => setNet(data)).catch(() => {});
   }, []);
 
   if (err) {
@@ -50,6 +52,22 @@ export default function Admin() {
               <div className="text-sm text-muted-foreground">{c.label}</div>
             </div>
           ))}
+        </div>
+
+        <div className="bg-card border border-border rounded-xl p-5" data-testid="client-ip-check">
+          <h2 className="text-lg font-semibold mb-1">Address check</h2>
+          <p className="text-sm text-muted-foreground mb-3">
+            The server sees your address as <span className="font-mono font-semibold text-foreground">{net?.resolved ?? "…"}</span>.
+            Compare it with the address a "what is my IP" website shows: they must be the same. If not, set <code>CLIENT_IP_HEADER</code> or <code>TRUST_PROXY_HOPS</code> on the server (see docs/PUBBLICAZIONE.md).
+          </p>
+          {net && (
+            <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs font-mono text-muted-foreground">
+              <dt>connection</dt><dd>{net.peer || "—"}</dd>
+              <dt>x-forwarded-for</dt><dd className="break-all">{net.x_forwarded_for || "—"}</dd>
+              <dt>cf-connecting-ip</dt><dd>{net.cf_connecting_ip || "—"}</dd>
+              <dt>hops / header</dt><dd>{net.trust_proxy_hops} / {net.client_ip_header || "—"}</dd>
+            </dl>
+          )}
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
