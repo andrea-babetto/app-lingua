@@ -194,10 +194,10 @@ class LLMProvider(TranslationProvider):
 
     async def _call(self, system, user_text, max_tokens):
         kwargs = {}
-        # Deterministic output by default. Some newer models reject non-default sampling values:
-        # set TRANSLATION_TEMPERATURE to an empty string to omit the parameter.
-        temp = os.environ.get("TRANSLATION_TEMPERATURE", "0")
-        if temp != "":
+        # Sampling is left at the model default: some SDK/model combinations reject the parameter.
+        # Set TRANSLATION_TEMPERATURE (e.g. "0") to send it explicitly.
+        temp = os.environ.get("TRANSLATION_TEMPERATURE", "").strip()
+        if temp:
             kwargs["temperature"] = float(temp)
         resp = await _client().messages.create(
             model=self.model,
