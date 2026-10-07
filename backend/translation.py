@@ -94,6 +94,7 @@ class LLMProvider(TranslationProvider):
         return (resp or "en").strip().lower()[:2]
 
     async def translate(self, text, source_lang, target_lang, options):
+        import asyncio
         from emergentintegrations.llm.chat import UserMessage
         tone = options.get("tone", "neutral")
         glossary = options.get("glossary", "") or "none"
@@ -103,9 +104,19 @@ class LLMProvider(TranslationProvider):
             f"Apply the requested tone: {tone}. Respect this glossary: {glossary}. "
             "Do not add explanations, notes or quotation marks. Return only the translation."
         )
-        chat = self._chat(sys)
-        resp = await chat.send_message(UserMessage(text=text))
-        return (resp or text).strip()
+        last_err = None
+        for attempt in range(3):
+            try:
+                chat = self._chat(sys)
+                resp = await chat.send_message(UserMessage(text=text))
+                return (resp or text).strip()
+            except Exception as e:
+                last_err = e
+                if "429" in str(e) or "rate" in str(e).lower():
+                    await asyncio.sleep(1.5 * (attempt + 1))
+                    continue
+                raise
+        raise last_err
 
     def supported_languages(self):
         return []
@@ -113,7 +124,8 @@ class LLMProvider(TranslationProvider):
 
 _PROVIDERS = {"llm": LLMProvider, "selfhosted": SelfHostedProvider, "mock": MockProvider}
 # fallback chain per primary
-_FALLBACK = {"llm": ["mock"], "selfhosted": ["llm", "mock"], "mock": []}
+# mock is never a silent fallback for a real provider — a real failure must surface as retryable.
+_FALLBACK = {"llm": ["selfhosted"], "selfhosted": ["llm"], "mock": []}
 
 
 class TranslationEngine:
@@ -153,9 +165,10 @@ class TranslationEngine:
                 est_cost = round(chars / 1000 * 0.0008, 6)  # rough
                 from datetime import datetime, timezone
                 now = datetime.now(timezone.utc).isoformat()
-                await self.db.translation_cache.insert_one(
-                    {"key": key, "text": out, "provider": name, "created_at": now}
-                )
+                if name != "mock":
+                    await self.db.translation_cache.insert_one(
+                        {"key": key, "text": out, "provider": name, "created_at": now}
+                    )
                 await self.db.translation_logs.insert_one(
                     {"provider": name, "chars": chars, "latency_ms": latency,
                      "est_cost": est_cost, "source": source_lang, "target": target_lang, "created_at": now}

@@ -1,0 +1,44 @@
+# Lingua — PRD
+
+## Problem statement
+A WhatsApp/Telegram-style real-time messenger where every user writes and reads in their OWN language and AI (Claude Haiku) auto-translates every message between participants. Removes language barriers for friendships, dating, work, travel, family, business. Each message stores original + per-language translations so the original is always recoverable.
+
+## Architecture
+- Backend: FastAPI + MongoDB (motor). JWT Bearer auth (localStorage). WebSocket at /api/ws for real-time delivery, typing, presence, receipts.
+- Pluggable translation engine (`backend/translation.py`): `TranslationProvider` interface with `detect_language`, `translate`, `supported_languages`. Providers: LLMProvider (default, Claude Haiku 4.5 via Emergent universal key), SelfHostedProvider (LibreTranslate/NLLB stub, env URL), MockProvider (tests). Selected by TRANSLATION_PROVIDER env. Fallback chain (mock NOT in production chain). Per-translation cache (sha256 of text+source+target+tone) + translation_logs (provider, chars, latency, est_cost). Retry/backoff on 429.
+- Files/avatars: Emergent Object Storage.
+- Frontend: React 19 + Vite + Tailwind v4 + shadcn/ui + framer-motion. Light/dark with system detection. RTL support (ar/he/ur/fa). Outfit font.
+
+## User personas
+- Multilingual friends/family, cross-border couples, global teams, travelers.
+
+## Core requirements (static)
+- Own-language read/write with auto-translation; original recoverable; translate once per distinct target lang + cache; skip when langs match.
+- Translated-by-default with "translated from X" toggle; sender sees original instantly; translating state; failed→retry, never lose a message.
+- Email/password + Google (Google deferred). Onboarding: name, avatar, searchable 40+ language picker. Settings: show-original, last-seen, language, personal glossary, tone per chat.
+- 1:1 chat, groups endpoint; sent/read ticks, typing, presence, unread counts, infinite scroll (before cursor), files/images, emoji, reply, delete me/everyone, push notifications.
+- Pluggable engine + admin cost dashboard, rate concerns, 4000-char limit.
+
+## Implemented (2026-06, pass 1)
+- [x] Email/password JWT auth, /me, profile update, seeded demo users (giulia IT, james EN) + admin.
+- [x] Language onboarding with 40+ searchable languages.
+- [x] Pluggable translation engine with LLM/selfhosted/mock providers, caching, logging, fallback, retry.
+- [x] 1:1 real-time chat over WebSocket with LIVE Claude Haiku translation (verified: Italian↔English incl. idioms).
+- [x] Translation badge toggle (original/translated), translating + failed/retry states.
+- [x] Contact search + request/accept/decline; new chat dialog + invite link.
+- [x] Settings: show-original, last-seen, language change, personal glossary (injected into prompt).
+- [x] File/image upload (object storage), emoji picker, reply, delete me/everyone, read ticks, typing, presence.
+- [x] Admin cost dashboard (/admin) with daily counts + estimated cost.
+- [x] Light/dark + system detection, RTL support, responsive desktop 3-pane / mobile single-column.
+- [x] Browser push notifications for background messages.
+
+## Backlog (P1/P2)
+- P1: Google sign-in (Emergent-managed) — button present but disabled.
+- P1: Full group chat UI (create group dialog, admin roles, member management). Backend endpoint exists.
+- P1: Per-chat tone selector in UI (backend endpoint exists).
+- P2: Voice messages (record → transcribe → translate). Structure ready.
+- P2: Block & report user; privacy/terms pages; UI localization (IT/EN).
+- P2: Infinite scroll UI wiring (backend `before` cursor ready); message search.
+
+## Next tasks
+- Add Google sign-in; build group-chat UI; add tone selector to chat header.

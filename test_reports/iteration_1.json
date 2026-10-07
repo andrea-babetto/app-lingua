@@ -1,0 +1,33 @@
+{
+  "summary": "Backend + frontend smoke completed. All 12 reviewed endpoints work (auth, chats, messages, delete, glossary, admin stats + 403, length limit, user search, register). Frontend login+send message flow verified. CRITICAL: live Claude Haiku translation is NOT working - LiteLLM proxy returns 429 Too Many Requests, so translation falls back to MockProvider and James sees '[en] <original Italian>' instead of a real English translation. The translation pipeline, caching, status flow, and WebSocket plumbing are all otherwise correct.",
+  "tested_scope": ["frontend", "backend", "auth", "integration"],
+  "passed": [
+    "POST /api/auth/login works for giulia@lingua.app and james@lingua.app (demo1234)",
+    "POST /api/auth/register returns 200 for new user",
+    "GET /api/chats returns pre-seeded direct chat between Giulia and James",
+    "POST /api/messages creates message with status 'translating' and broadcasts original to sender",
+    "GET /api/messages/{chat_id} returns is_translated=True / translated_from='it' for James; is_translated=False for Giulia (sender sees original)",
+    "Translation cache works: 2nd identical send returns provider ending with '(cache)'",
+    "Message length limit >4000 chars returns HTTP 400",
+    "GET /api/admin/stats returns 403 for giulia (non-admin) and 200 with total_translations / total_cost for admin@lingua.app",
+    "GET /api/users/search?q=james returns James",
+    "POST + DELETE /api/glossary adds and removes personal glossary term and persists",
+    "DELETE /api/messages/{id} (for_me) and DELETE ?for_all=true both return 200; UI shows 'This message was deleted'",
+    "Frontend: login as giulia routes to chat screen; sidebar chat item renders; message-input + send-message-button flow works; message bubble count increases after send"
+  ],
+  "failed": [
+    {
+      "area": "Translation / LLM integration",
+      "issue": "Claude Haiku (claude-haiku-4-5-20251001) via Emergent universal key returns 429 Too Many Requests from LiteLLM proxy. TranslationEngine correctly falls back to MockProvider, but the delivered translation is the mock placeholder format '[en] <original text>' instead of a real English translation. The problem statement explicitly requires live Claude Haiku translation.",
+      "evidence": "backend log: 'translate via llm failed: Failed to generate chat completion: litellm.RateLimitError: RateLimitError: OpenAIException - 429 Too Many Requests'. James's view of Italian message 'Ciao, come stai oggi?...' is 'display_text: [en] Ciao, come stai oggi?...' with translations.en.provider = 'mock' (and 'mock(cache)' on retry).",
+      "priority": "HIGH"
+    }
+  ],
+  "action_items": [
+    "Investigate 429 on Emergent LLM proxy for anthropic/claude-haiku-4-5-20251001: confirm EMERGENT_LLM_KEY quota, model name string, and whether the key is rate-limited at the project level. Consider removing MockProvider from the production fallback chain so a real failure is surfaced to the user (status='translation_failed' + retry button) instead of silently serving '[en] ...' placeholders.",
+    "After the LLM path is restored, flush translation_cache (or at least entries where provider='mock') so cached mock results don't keep being served."
+  ],
+  "success_rate": {"backend": "92% (11/12 - translation provider degraded to mock)", "frontend": "100% (smoke)"},
+  "retest_needed": true,
+  "full_testing_deferred": true
+}
