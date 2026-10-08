@@ -397,6 +397,56 @@ async def change_password(body: ChangePasswordIn, user=Depends(get_current_user)
     return {"token": create_token(user["id"]), "user": public_user(fresh)}
 
 
+class DeleteAccountIn(BaseModel):
+    password: str = Field(default="", max_length=72)
+
+
+@api.post("/auth/delete-account")
+async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
+    """Erase the account and what it wrote: profile, messages, files, push subscriptions, contacts.
+    Direct chats disappear for both people; groups lose the member (and the group if nobody is left)."""
+    limiter.check(f"delacc:{user['id']}", 5, 3600, "Too many attempts. Try again later.")
+    uid = user["id"]
+    if user.get("role") == "admin":
+        raise HTTPException(status_code=400, detail="The admin account cannot be deleted here")
+    if user.get("password_hash") and not await verify_password_async(body.password, user["password_hash"]):
+        raise HTTPException(status_code=400, detail="Password is wrong")
+    notify = set()
+    chat_ids = []
+    for chat in await db.chats.find({"members": uid}, {"_id": 0}).to_list(5000):
+        remaining = [m for m in chat["members"] if m != uid]
+        notify.update(remaining)
+        if chat["type"] == "direct" or not remaining:
+            await db.messages.delete_many({"chat_id": chat["id"]})
+            await db.chats.delete_one({"id": chat["id"]})
+            continue
+        chat_ids.append(chat["id"])
+        await db.chats.update_one({"id": chat["id"]}, {"$pull": {"members": uid, "admins": uid}})
+        if not [a for a in chat.get("admins", []) if a in remaining]:
+            await db.chats.update_one({"id": chat["id"]}, {"$addToSet": {"admins": remaining[0]}})
+    await db.messages.delete_many({"sender_id": uid})
+    if chat_ids:
+        await db.messages.update_many({"chat_id": {"$in": chat_ids}}, {"$pull": {"read_by": uid}})
+        for m in await db.messages.find({"chat_id": {"$in": chat_ids}, "reactions": {"$ne": {}}}, {"_id": 0, "id": 1, "reactions": 1}).to_list(100000):
+            cleaned = {e: [x for x in users if x != uid] for e, users in (m.get("reactions") or {}).items()}
+            cleaned = {e: users for e, users in cleaned.items() if users}
+            if cleaned != m["reactions"]:
+                await db.messages.update_one({"id": m["id"]}, {"$set": {"reactions": cleaned}})
+    for f in await db.files.find({"owner_id": uid}, {"_id": 0}).to_list(100000):
+        try:
+            await storage.delete_object(f["storage_path"])
+        except Exception:
+            logger.warning("could not delete stored file %s", f.get("id"))
+    await db.files.delete_many({"owner_id": uid})
+    await db.push_subs.delete_many({"user_id": uid})
+    await db.contacts.delete_many({"$or": [{"user_id": uid}, {"contact_id": uid}]})
+    await db.users.update_many({"blocked": uid}, {"$pull": {"blocked": uid}})
+    await db.users.delete_one({"id": uid})
+    for mid in notify:
+        await ws_manager.send(mid, {"type": "chat_updated", "chat_id": ""})
+    return {"ok": True}
+
+
 @api.get("/auth/me")
 async def me(user=Depends(get_current_user)):
     return public_user(user)

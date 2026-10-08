@@ -42,6 +42,12 @@ class LocalStorage:
         return p.read_bytes()
 
 
+    def delete(self, key: str):
+        p = self._path(key)
+        if p.is_file():
+            p.unlink()
+
+
 class S3Storage:
     name = "s3"
 
@@ -70,6 +76,13 @@ class S3Storage:
         return obj["Body"].read()
 
 
+    def delete(self, key: str):
+        try:
+            self.client.delete_object(Bucket=self.bucket, Key=key)
+        except Exception as e:
+            raise StorageError(str(e)) from e
+
+
 _storage = None
 
 
@@ -96,3 +109,7 @@ async def put_object(key: str, data: bytes, content_type: str) -> dict:
 
 async def get_object(key: str) -> bytes:
     return await asyncio.to_thread(get_storage().get, key)
+
+
+async def delete_object(key: str):
+    await asyncio.to_thread(get_storage().delete, key)

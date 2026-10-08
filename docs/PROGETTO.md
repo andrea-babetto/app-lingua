@@ -56,7 +56,7 @@ Su `lingua-api` (Render → Environment). Elenco commentato in `backend/.env.exa
 
 ## 5. Funzioni oggi
 
-Chat 1:1 e gruppi; traduzione automatica per ognuno (originale sempre recuperabile); glossario personale (termini da non tradurre); un solo tono (neutro); foto e file; risposte, **modifica entro 30 minuti** (ritraduce), **reazioni** (una per persona), eliminazione per me/per tutti, **eliminare una chat solo per sé** (tasto premuto a lungo / clic destro); bozze per chat; anteprima foto; tasto "vai all'ultimo messaggio"; ricerca nei messaggi; presenza e "sta scrivendo"; blocco e segnalazione utenti; ricerca persone **solo per username, email esatta o telefono esatto**; **notifiche push** con l'app chiusa; cambio password; reset password da `/admin`; dashboard costi; installazione PWA (iPhone: Condividi → Aggiungi a Home; Android: Installa app).
+Chat 1:1 e gruppi; traduzione automatica per ognuno (originale sempre recuperabile); glossario personale (termini da non tradurre); un solo tono (neutro); foto e file; risposte, **modifica entro 30 minuti** (ritraduce), **reazioni** (una per persona), eliminazione per me/per tutti, **eliminare una chat solo per sé** (tasto premuto a lungo / clic destro); bozze per chat; anteprima foto; tasto "vai all'ultimo messaggio"; ricerca nei messaggi; presenza e "sta scrivendo"; blocco e segnalazione utenti; ricerca persone **solo per username, email esatta o telefono esatto**; **notifiche push** con l'app chiusa; cambio password; **elimina account** (Profilo → Elimina account, chiede la password; `POST /api/auth/delete-account` cancella profilo, messaggi, file, iscrizioni push, contatti; le chat uno-a-uno spariscono per entrambi; dai gruppi esce); **pagine `/privacy` e `/terms`** (bozze in italiano e inglese in `frontend/src/pages/Legal.jsx`, da far rivedere a un legale; nome del titolare e email di contatto vengono dalle variabili di build `VITE_LEGAL_NAME` e `VITE_LEGAL_EMAIL` su `lingua-web`); casella di consenso alla registrazione; **testi dell'app nella lingua del profilo** (41 lingue + inglese, arabo/ebraico/urdu/persiano da destra a sinistra; vedi sotto); reset password da `/admin`; dashboard costi; installazione PWA (iPhone: Condividi → Aggiungi a Home; Android: Installa app).
 
 **Spente:** vocali (`VOICE_MESSAGES`), accesso Google (nessun `GOOGLE_CLIENT_ID`).
 
@@ -74,7 +74,9 @@ Chat 1:1 e gruppi; traduzione automatica per ognuno (originale sempre recuperabi
 
 Fatto: password bcrypt (fuori dal ciclo degli eventi), blocco dopo tentativi falliti, limiti per indirizzo e per utente, token JWT che muoiono al cambio password, ricerca utenti senza elenco pubblico, controlli di appartenenza su ogni chat/messaggio, upload con tipi consentiti + controllo del contenuto + `nosniff` + CSP `sandbox` (niente SVG/HTML), allegati ricostruiti dai record del server, WebSocket con controllo di origine, CORS esplicito.
 
-Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze serve Redis); file raggiungibili da chi ha il link (identificativo casuale); si può aprire una chat con chiunque si trovi per username/email esatta; **nessuna verifica email né recupero password autonomo**; token in `localStorage`; nessuna Content-Security-Policy sul sito; **nessun backup** del database; **nessuna pagina privacy/termini** (i messaggi passano da Anthropic: dirlo prima di aprire a persone esterne).
+Lingue dell'interfaccia: in `frontend/src/i18n/` — la frase inglese nel codice, `t("...")`, è la chiave; ogni lingua ha `locales/<codice>.json` (chiave inglese → traduzione); cosa manca resta in inglese. Dopo aver aggiunto o cambiato frasi: `python tools/extract_i18n.py` (scrive `source.json`) e `python tools/extract_i18n.py --check` (quali lingue mancano di frasi). Non tradotti: pannello `/admin`, messaggi d'errore che arrivano dal server (restano in inglese), pagine legali (solo italiano e inglese).
+
+Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze serve Redis); file raggiungibili da chi ha il link (identificativo casuale); si può aprire una chat con chiunque si trovi per username/email esatta; **nessuna verifica email né recupero password autonomo**; token in `localStorage`; nessuna Content-Security-Policy sul sito; **nessun backup** del database; pagine privacy/termini **solo bozza**, nessun pulsante "scarica i miei dati" (l'esportazione si fa su richiesta via email), nessun accordo scritto (DPA) con i fornitori verificato.
 
 ## 8. Strategia (sintesi, ottobre 2026)
 
@@ -86,8 +88,8 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 9. Da fare (in ordine)
 
-1. Interfaccia nella lingua di ciascuno (oggi tutta in inglese).
-2. Backup del database (piano Atlas con backup) + pagina privacy e termini.
+1. (Fatto sul ramo) Interfaccia nella lingua di ciascuno.
+2. Backup del database (piano Atlas con backup); revisione legale di privacy e termini; "scarica i miei dati".
 3. Ricerca ufficiale sul marchio e scelta del nome definitivo; dominio proprio (`.app`/`.chat`/`.com`).
 4. Ingresso da link senza account; recupero password autonomo (serve un servizio email).
 5. Vocali: chiave OpenAI + `VOICE_MESSAGES=true` + rimettere il pulsante del microfono (è stato tolto dal sito).

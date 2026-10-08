@@ -9,8 +9,10 @@ import { Input } from "@/components/ui/input";
 import LanguagePicker from "@/components/LanguagePicker";
 import Logo from "@/components/Logo";
 import { langByCode } from "@/data/languages";
+import { useI18n } from "@/i18n";
 
 export default function Onboarding() {
+  const { t, langName } = useI18n();
   const { user, updateUser } = useAuth();
   const [name, setName] = useState(user?.name || "");
   const [avatar, setAvatar] = useState(user?.avatar || "");
@@ -29,17 +31,17 @@ export default function Onboarding() {
       fd.append("file", f);
       const { data } = await api.post("/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
       setAvatar(`${api.defaults.baseURL}/files/${data.id}`);
-    } catch { toast.error("Upload failed"); }
+    } catch { toast.error(t("Upload failed")); }
     finally { setUploading(false); e.target.value = ""; }
   };
 
   const save = async () => {
-    if (!language) return toast.error("Please choose your language");
+    if (!language) return toast.error(t("Please choose your language"));
     setLoading(true);
     try {
       const { data } = await api.put("/auth/profile", avatar !== (user?.avatar || "") ? { name, avatar, language } : { name, language });
       updateUser(data);
-      toast.success("All set! Welcome to glott");
+      toast.success(t("All set! Welcome to glott"));
       nav("/");
     } catch (err) {
       toast.error(errText(err.response?.data?.detail));
@@ -53,8 +55,8 @@ export default function Onboarding() {
       <div className="w-full max-w-md bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
         <div>
           <Logo className="text-3xl text-primary mb-4" />
-          <h1 className="text-2xl font-extrabold tracking-tight">Set up your profile</h1>
-          <p className="text-sm text-muted-foreground mt-1">This is how others will see you. Add a photo if you like, and pick the language you want to read & write in.</p>
+          <h1 className="text-2xl font-extrabold tracking-tight">{t("Set up your profile")}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t("This is how others will see you. Add a photo if you like, and pick the language you want to read & write in.")}</p>
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
@@ -76,17 +78,17 @@ export default function Onboarding() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Display name</label>
-          <Input data-testid="onboarding-name-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+          <label className="text-sm font-medium">{t("Display name")}</label>
+          <Input data-testid="onboarding-name-input" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("Your name")} />
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">My language {language && <span className="text-muted-foreground">· {langByCode(language).flag} {langByCode(language).name}</span>}</label>
+          <label className="text-sm font-medium">{t("My language")} {language && <span className="text-muted-foreground">· {langByCode(language).flag} {langName(language)}</span>}</label>
           <LanguagePicker value={language} onChange={setLanguage} />
         </div>
 
         <Button data-testid="confirm-language-button" className="w-full" onClick={save} disabled={loading}>
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Start chatting"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Start chatting")}
         </Button>
       </div>
     </div>

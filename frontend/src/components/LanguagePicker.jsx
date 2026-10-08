@@ -2,8 +2,10 @@ import { useState, useMemo } from "react";
 import { Search, Check } from "lucide-react";
 import { LANGUAGES } from "@/data/languages";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/i18n";
 
 export default function LanguagePicker({ value, onChange, testId = "language" }) {
+  const { t } = useI18n();
   const [q, setQ] = useState("");
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -14,16 +16,16 @@ export default function LanguagePicker({ value, onChange, testId = "language" })
   return (
     <div data-testid={`${testId}-onboarding-modal`} className="space-y-3">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input data-testid="language-search-input" className="pl-9" placeholder="Search 40+ languages..." value={q} onChange={(e) => setQ(e.target.value)} />
+        <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Input data-testid="language-search-input" className="ps-9" placeholder={t("Search 40+ languages...")} value={q} onChange={(e) => setQ(e.target.value)} />
       </div>
-      <div className="max-h-72 overflow-y-auto chat-scroll space-y-1 pr-1">
+      <div className="max-h-72 overflow-y-auto chat-scroll space-y-1 pe-1">
         {filtered.map((l) => (
           <button
             key={l.code}
             data-testid={`language-option-${l.code}`}
             onClick={() => onChange(l.code)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-start transition-colors ${
               value === l.code ? "bg-accent text-accent-foreground" : "hover:bg-muted"
             }`}
           >
