@@ -795,8 +795,6 @@ def push_preview(view):
     if t:
         return t[:140]
     att = view.get("attachment")
-    if view.get("call"):
-        return "📹 Video call"
     if att:
         return "📷 Photo" if att.get("is_image") else "📎 Attachment"
     return "New message"
@@ -878,31 +876,6 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
         spawn(translate_message_async(msg["id"], body.chat_id, sender_lang, text, DEFAULT_TONE, notify=True))
     else:
         spawn(notify_offline(msg, chat))
-    return message_view(msg, sender_lang, user["id"])
-
-
-CALL_BASE = (os.environ.get("CALL_BASE_URL", "").strip() or "https://meet.jit.si").rstrip("/")
-
-
-@api.post("/chats/{chat_id}/call")
-async def start_call(chat_id: str, user=Depends(get_current_user)):
-    """Post a video-call link in the chat. The room name is made here (random, unguessable): the client never supplies a URL."""
-    limiter.check(f"call:{user['id']}", 10, 60, "You are starting calls too fast.")
-    chat = await get_chat_for(chat_id, user)
-    if chat["type"] == "direct":
-        other_id = next((m for m in chat["members"] if m != user["id"]), None)
-        if other_id:
-            other = await db.users.find_one({"id": other_id}, {"_id": 0, "blocked": 1})
-            me_full = await db.users.find_one({"id": user["id"]}, {"_id": 0, "blocked": 1})
-            if other and (user["id"] in other.get("blocked", []) or other_id in (me_full or {}).get("blocked", [])):
-                raise HTTPException(status_code=403, detail="You cannot call this user")
-    url = f"{CALL_BASE}/Glott-{secrets.token_urlsafe(12).replace('_', 'x').replace('-', 'y')}"
-    sender_lang = user.get("language") or "en"
-    msg = new_message_doc(chat_id, user, "📹 Video call", sender_lang, None, None, "sent")
-    msg["call"] = {"url": url}
-    await db.messages.insert_one(dict(msg))
-    await deliver(msg, chat)
-    spawn(notify_offline(msg, chat))
     return message_view(msg, sender_lang, user["id"])
 
 
