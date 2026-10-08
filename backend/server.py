@@ -6,6 +6,8 @@ load_dotenv(ROOT_DIR / ".env")
 import os
 import re
 import hmac
+import time
+import secrets
 import uuid
 import json
 import asyncio
@@ -22,6 +24,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 import stt
+import push
 import storage
 from translation import TranslationEngine
 from languages import LANGUAGES, RTL_CODES
@@ -132,7 +135,11 @@ def public_profile(u: dict) -> dict:
 async def user_from_token(token: str) -> Optional[dict]:
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
-        return await db.users.find_one({"id": payload["sub"]}, {"_id": 0})
+        u = await db.users.find_one({"id": payload["sub"]}, {"_id": 0})
+        changed = (u or {}).get("password_changed_at")
+        if u and changed and int(payload.get("iat", 0)) < int(datetime.fromisoformat(changed).timestamp()):
+            return None  # signed in before the password was changed
+        return u
     except Exception:
         return None
 
@@ -201,10 +208,19 @@ class MessageIn(BaseModel):
 class WSManager:
     def __init__(self):
         self.conns = {}  # user_id -> set[WebSocket]
+        self.last_frame = {}  # user_id -> time.monotonic() of the last frame received
+
+    def touch(self, user_id):
+        self.last_frame[user_id] = time.monotonic()
+
+    def is_active(self, user_id, window=60):
+        """Connected AND heard from recently: a phone that went to sleep leaves a half-open socket behind."""
+        return user_id in self.conns and time.monotonic() - self.last_frame.get(user_id, 0) < window
 
     async def connect(self, user_id, ws):
         await ws.accept()
         self.conns.setdefault(user_id, set()).add(ws)
+        self.touch(user_id)
         await db.users.update_one({"id": user_id}, {"$set": {"online": True}})
 
     def disconnect(self, user_id, ws):
@@ -355,6 +371,30 @@ async def google_login(body: GoogleIn, request: Request):
         u = new_user_doc(email, (info.get("name") or email.split("@")[0])[:60], "", info.get("picture", ""), provider="google")
         await db.users.insert_one(dict(u))
     return {"token": create_token(u["id"]), "user": public_user(u)}
+
+
+class ChangePasswordIn(BaseModel):
+    current_password: str = Field(default="", max_length=72)
+    new_password: str = Field(min_length=8, max_length=72)
+
+    @field_validator("new_password")
+    @classmethod
+    def _bytes(cls, v):
+        if len(v.encode("utf-8")) > 72:
+            raise ValueError("Password too long (max 72 bytes)")
+        return v
+
+
+@api.post("/auth/change-password")
+async def change_password(body: ChangePasswordIn, user=Depends(get_current_user)):
+    limiter.check(f"chpw:{user['id']}", 10, 3600, "Too many attempts. Try again later.")
+    if user.get("password_hash"):  # accounts created with Google have no password yet: they may set one
+        if not await verify_password_async(body.current_password, user["password_hash"]):
+            raise HTTPException(status_code=400, detail="Current password is wrong")
+    await db.users.update_one({"id": user["id"]}, {"$set": {
+        "password_hash": await hash_password_async(body.new_password), "password_changed_at": now_iso()}})
+    fresh = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+    return {"token": create_token(user["id"]), "user": public_user(fresh)}
 
 
 @api.get("/auth/me")
@@ -698,7 +738,7 @@ async def update_group_info(chat_id: str, body: GroupInfoIn, user=Depends(get_cu
 
 
 # ---------------- Messages ----------------
-async def translate_message_async(msg_id, chat_id, sender_lang, text, tone):
+async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, notify=False):
     """Translate one message for every recipient language, then push the update. Never leaves a
     message stuck in 'translating'."""
     status, translations, by_user = "translation_failed", {}, {}
@@ -743,6 +783,41 @@ async def translate_message_async(msg_id, chat_id, sender_lang, text, tone):
             for mid in members:
                 u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
                 await ws_manager.send(mid, {"type": "message_update", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat_id})
+            if notify:
+                await notify_offline(msg, await db.chats.find_one({"id": chat_id}, {"_id": 0}))
+
+
+PUSH_CONTACT = "mailto:" + (os.environ.get("ADMIN_EMAIL", "").strip() or "admin@example.com")
+
+
+def push_preview(view):
+    t = (view.get("display_text") or "").strip()
+    if t:
+        return t[:140]
+    att = view.get("attachment")
+    if att:
+        return "📷 Photo" if att.get("is_image") else "📎 Attachment"
+    return "New message"
+
+
+async def notify_offline(msg, chat):
+    """Web Push to the members who are not using the app right now (never to the sender)."""
+    if not chat:
+        return
+    try:
+        for mid in chat["members"]:
+            if mid == msg["sender_id"] or ws_manager.is_active(mid):
+                continue
+            u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1, "blocked": 1})
+            if not u or msg["sender_id"] in (u.get("blocked") or []):
+                continue
+            if not await db.push_subs.find_one({"user_id": mid}, {"_id": 0, "endpoint": 1}):
+                continue
+            view = message_view(msg, u.get("language") or "en", mid)
+            title = msg["sender_name"] if chat["type"] == "direct" else f"{msg['sender_name']} · {chat.get('name') or 'Group'}"
+            await push.send_to_user(db, mid, {"title": title, "body": push_preview(view), "chat_id": chat["id"]}, PUSH_CONTACT)
+    except Exception:
+        logger.exception("push notification failed")
 
 
 async def resolve_attachment(att, user):
@@ -772,7 +847,7 @@ def new_message_doc(chat_id, user, text, lang, attachment, reply_to, status):
         "sender_name": user["name"], "sender_avatar": user.get("avatar", ""),
         "original_text": text, "original_language": lang, "translations": {}, "translations_by_user": {},
         "attachment": attachment, "reply_to": reply_to, "status": status, "read_by": [user["id"]],
-        "deleted_for": [], "deleted_for_all": False, "created_at": now_iso(),
+        "deleted_for": [], "deleted_for_all": False, "reactions": {}, "created_at": now_iso(),
     }
 
 
@@ -798,12 +873,16 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)  # instant broadcast of the original
     if text:
-        spawn(translate_message_async(msg["id"], body.chat_id, sender_lang, text, DEFAULT_TONE))
+        spawn(translate_message_async(msg["id"], body.chat_id, sender_lang, text, DEFAULT_TONE, notify=True))
+    else:
+        spawn(notify_offline(msg, chat))
     return message_view(msg, sender_lang, user["id"])
 
 
 @api.post("/voice")
 async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), user=Depends(get_current_user)):
+    if os.environ.get("VOICE_MESSAGES", "").strip().lower() != "true":
+        raise HTTPException(status_code=404, detail="Voice messages are not available")
     limiter.check(f"voice:{user['id']}", 20, 60)
     chat = await get_chat_for(chat_id, user)
     ct = normalize_content_type(file.content_type)
@@ -902,6 +981,111 @@ async def delete_message(msg_id: str, for_all: bool = False, user=Depends(get_cu
     return {"ok": True}
 
 
+EDIT_WINDOW = timedelta(minutes=30)
+REACTIONS = ["👍", "❤️", "😂", "😮", "😢", "🙏"]
+
+
+class EditIn(BaseModel):
+    text: str = Field(min_length=1, max_length=4000)
+
+
+@api.put("/messages/{msg_id}")
+async def edit_message(msg_id: str, body: EditIn, user=Depends(get_current_user)):
+    limiter.check(f"edit:{user['id']}", 30, 60)
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    if not msg:
+        raise HTTPException(status_code=404, detail="Not found")
+    chat = await get_chat_for(msg["chat_id"], user)
+    if msg["sender_id"] != user["id"] or msg.get("deleted_for_all"):
+        raise HTTPException(status_code=403, detail="You can only edit your own messages")
+    if (msg.get("attachment") or {}).get("is_voice"):
+        raise HTTPException(status_code=400, detail="Voice messages cannot be edited")
+    if datetime.now(timezone.utc) - datetime.fromisoformat(msg["created_at"]) > EDIT_WINDOW:
+        raise HTTPException(status_code=400, detail="Messages can only be edited for 30 minutes")
+    text = body.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Message is empty")
+    lang = user.get("language") or "en"
+    if text != msg["original_text"]:
+        await db.messages.update_one({"id": msg_id}, {"$set": {
+            "original_text": text, "original_language": lang, "translations": {}, "translations_by_user": {},
+            "status": "translating", "edited": True, "edited_at": now_iso()}})
+        msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+        for mid in chat["members"]:
+            u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
+            await ws_manager.send(mid, {"type": "message_update", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat["id"]})
+        spawn(translate_message_async(msg_id, chat["id"], lang, text, DEFAULT_TONE))
+    return message_view(msg, lang, user["id"])
+
+
+class ReactIn(BaseModel):
+    emoji: str = Field(max_length=8)
+
+
+@api.post("/messages/{msg_id}/react")
+async def react_to_message(msg_id: str, body: ReactIn, user=Depends(get_current_user)):
+    """One reaction per person per message; sending the same emoji again takes it back."""
+    limiter.check(f"react:{user['id']}", 60, 60)
+    if body.emoji not in REACTIONS:
+        raise HTTPException(status_code=400, detail="Unsupported reaction")
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    if not msg:
+        raise HTTPException(status_code=404, detail="Not found")
+    chat = await get_chat_for(msg["chat_id"], user)
+    if msg.get("deleted_for_all"):
+        raise HTTPException(status_code=400, detail="Message was deleted")
+    reactions = {e: [u for u in users if u != user["id"]] for e, users in (msg.get("reactions") or {}).items()}
+    had = user["id"] in (msg.get("reactions") or {}).get(body.emoji, [])
+    if not had:
+        reactions.setdefault(body.emoji, []).append(user["id"])
+    reactions = {e: users for e, users in reactions.items() if users}
+    await db.messages.update_one({"id": msg_id}, {"$set": {"reactions": reactions}})
+    msg["reactions"] = reactions
+    for mid in chat["members"]:
+        u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
+        await ws_manager.send(mid, {"type": "message_update", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat["id"]})
+    return {"reactions": reactions}
+
+
+# ---------------- Notifications (Web Push) ----------------
+class PushKeys(BaseModel):
+    p256dh: str = Field(min_length=10, max_length=200)
+    auth: str = Field(min_length=8, max_length=100)
+
+
+class PushSubscribeIn(BaseModel):
+    endpoint: str = Field(max_length=600)
+    keys: PushKeys
+
+
+@api.get("/push/key")
+async def push_key(user=Depends(get_current_user)):
+    _, public = await push.get_vapid(db)
+    return {"public_key": public}
+
+
+@api.post("/push/subscribe")
+async def push_subscribe(body: PushSubscribeIn, user=Depends(get_current_user)):
+    limiter.check(f"push-sub:{user['id']}", 20, 3600)
+    if not push.endpoint_allowed(body.endpoint):
+        raise HTTPException(status_code=400, detail="Unsupported push service")
+    await db.push_subs.update_one(
+        {"endpoint": body.endpoint},
+        {"$set": {"user_id": user["id"], "keys": body.keys.model_dump(), "created_at": now_iso()}}, upsert=True)
+    mine = await db.push_subs.find({"user_id": user["id"]}, {"_id": 0}).sort("created_at", -1).to_list(100)
+    for old in mine[push.MAX_SUBSCRIPTIONS_PER_USER:]:
+        await db.push_subs.delete_one({"endpoint": old["endpoint"]})
+    return {"ok": True}
+
+
+@api.post("/push/unsubscribe")
+async def push_unsubscribe(body: dict, user=Depends(get_current_user)):
+    endpoint = body.get("endpoint") if isinstance(body, dict) else None
+    if isinstance(endpoint, str):
+        await db.push_subs.delete_one({"endpoint": endpoint, "user_id": user["id"]})
+    return {"ok": True}
+
+
 # ---------------- Glossary ----------------
 class GlossaryIn(BaseModel):
     term: str = Field(min_length=1, max_length=60)
@@ -996,6 +1180,31 @@ async def admin_stats(user=Depends(get_current_user)):
             "daily": [{"date": d["_id"], "count": d["count"], "cost": round(d["cost"], 4), "chars": d["chars"]} for d in daily]}
 
 
+@api.get("/admin/users")
+async def admin_users(user=Depends(get_current_user)):
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin only")
+    cur = db.users.find({}, {"_id": 0}).sort("created_at", -1).limit(500)
+    return [{"id": u["id"], "name": u.get("name"), "email": u.get("email"), "username": u.get("username"), "role": u.get("role", "user"),
+             "language": u.get("language", ""), "created_at": u.get("created_at"), "online": ws_manager.is_online(u["id"]),
+             "has_password": bool(u.get("password_hash"))} for u in await cur.to_list(500)]
+
+
+@api.post("/admin/users/{uid}/reset-password")
+async def admin_reset_password(uid: str, user=Depends(get_current_user)):
+    """Give someone who lost their password a temporary one (shown once). Their old sessions stop working."""
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin only")
+    limiter.check(f"admin-reset:{user['id']}", 20, 3600)
+    target = await db.users.find_one({"id": uid}, {"_id": 0})
+    if not target or target["id"] == user["id"]:
+        raise HTTPException(status_code=404, detail="User not found")
+    temp = secrets.token_urlsafe(9)
+    await db.users.update_one({"id": uid}, {"$set": {"password_hash": await hash_password_async(temp), "password_changed_at": now_iso()}})
+    limiter.reset(f"login-fail:{(target.get('email') or '').lower()}")
+    return {"temporary_password": temp, "email": target.get("email")}
+
+
 @api.get("/admin/client-ip")
 async def admin_client_ip(request: Request, user=Depends(get_current_user)):
     """Deployment check: does the server see YOUR real address? (compare 'resolved' with what a
@@ -1026,6 +1235,7 @@ async def websocket_endpoint(ws: WebSocket, token: str):
     try:
         while True:
             raw = await ws.receive_text()
+            ws_manager.touch(uid)
             if len(raw) > 2000:
                 continue
             try:

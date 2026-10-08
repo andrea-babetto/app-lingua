@@ -9,6 +9,8 @@ import {
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import ProfilePanel from "@/components/chat/ProfilePanel";
+import PushPrompt from "@/components/chat/PushPrompt";
+import Logo from "@/components/Logo";
 
 function initials(name) {
   return (name || "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
@@ -78,7 +80,7 @@ const TABS = [
   { id: "profile", label: "Profile", Icon: User },
 ];
 
-export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, requests, onAccept, onDecline }) {
+export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, requests, onAccept, onDecline }) {
   const { user } = useAuth();
   const [tab, setTab] = useState("chats");
   const [q, setQ] = useState("");
@@ -98,7 +100,7 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenAd
   return (
     <div className="h-full flex flex-col bg-card relative">
       <header className="h-14 px-4 flex items-center shrink-0 bg-primary text-primary-foreground">
-        <span className="text-xl font-bold tracking-tight">Glott</span>
+        <Logo className="text-[28px]" />
       </header>
 
       {tab === "profile" ? (
@@ -112,6 +114,8 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenAd
                 className="w-full h-10 pl-9 pr-3 rounded-full bg-muted text-[15px] outline-none focus:ring-2 focus:ring-primary/40" />
             </div>
           </div>
+
+          {tab === "chats" && <PushPrompt />}
 
           {tab === "chats" && requests.length > 0 && (
             <div className="px-3 py-2 space-y-2 shrink-0">
@@ -130,7 +134,17 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenAd
           )}
 
           <div className="flex-1 min-h-0 overflow-y-auto chat-scroll pb-24">
-            {list.length === 0 && (
+            {loading && (
+              <div className="animate-pulse" aria-hidden="true">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex items-center gap-3.5 px-4 py-3">
+                    <div className="w-14 h-14 rounded-full bg-muted shrink-0" />
+                    <div className="flex-1 space-y-2.5"><div className="h-4 w-2/5 rounded bg-muted" /><div className="h-3.5 w-4/5 rounded bg-muted" /></div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {!loading && list.length === 0 && (
               <div className="p-8 text-center text-sm text-muted-foreground">
                 <Languages className="w-8 h-8 mx-auto mb-2 opacity-40" />
                 {tab === "groups" ? "No groups yet. Tap the button to create one." : "No chats yet. Tap the button to find someone."}
@@ -139,7 +153,7 @@ export default function Sidebar({ chats, activeId, onSelect, onNewChat, onOpenAd
             {list.map((c) => (
               <ChatRow key={c.id} chat={c} active={activeId === c.id} myId={user.id} onSelect={onSelect} onAskDelete={setToDelete} />
             ))}
-            {list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">Press and hold a chat to delete it.</p>}
+            {list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? "Press and hold a chat to delete it." : "Right-click a chat to delete it."}</p>}
           </div>
 
           <button data-testid="new-chat-button" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}

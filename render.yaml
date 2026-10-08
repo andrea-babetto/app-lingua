@@ -75,3 +75,6 @@ services:
       - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
+      - path: /sw.js                # the notifications script: browsers must always fetch the latest one
+        name: Cache-Control
+        value: no-cache

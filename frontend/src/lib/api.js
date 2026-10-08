@@ -13,6 +13,16 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// A token that no longer works (for example after the password was changed elsewhere): back to the sign-in page.
+api.interceptors.response.use((r) => r, (error) => {
+  const url = error.config?.url || "";
+  if (error.response?.status === 401 && localStorage.getItem("lingua_token") && !url.includes("/auth/login") && !url.includes("/auth/register") && !url.includes("/auth/google")) {
+    localStorage.removeItem("lingua_token");
+    window.location.assign("/");
+  }
+  return Promise.reject(error);
+});
+
 export function errText(detail) {
   if (detail == null) return "Something went wrong.";
   if (typeof detail === "string") return detail;
