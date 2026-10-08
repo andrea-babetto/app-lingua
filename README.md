@@ -1,8 +1,8 @@
-# Lingua
+# Glott
 
 Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: un modello AI (Claude Haiku) traduce ogni messaggio per ogni destinatario. Funziona su desktop e su telefono (web app responsive).
 
-> Il nome "Lingua" è provvisorio.
+> Il nome "Glott" è provvisorio (il codice e i servizi su Render si chiamano ancora `lingua-*`).
 
 ## Com'è fatta
 
@@ -45,7 +45,7 @@ Serve un MongoDB raggiungibile (`MONGO_URL`). Per provare senza AI a pagamento: 
 ## Test
 
 ```bash
-cd backend && pytest        # 67 test, senza rete e senza database reale (MongoDB simulato)
+cd backend && pytest        # 69 test, senza rete e senza database reale (MongoDB simulato)
 cd frontend && yarn build   # controlla che il sito compili
 ```
 
@@ -64,6 +64,7 @@ Limiti noti (da decidere più avanti):
 - I file si aprono con il loro link (identificativo casuale, come i link dei media nelle chat più diffuse). Le foto profilo devono poter essere caricate dal sito.
 - Si può iniziare una chat con chiunque si trovi per username/email esatta (la richiesta di contatto è parallela, non bloccante). Se arriva spam, si rende obbligatoria l'accettazione.
 - Nessuna verifica email né recupero password.
+- La registrazione è aperta finché non imposti `INVITE_CODE` (vedi docs/PUBBLICAZIONE.md, punto 4b).
 - Il token di accesso sta in `localStorage`; manca una Content-Security-Policy sul sito.
 - Il token del WebSocket passa nell'indirizzo (finisce nei log del server).
 - Il database gratuito di Atlas non ha backup.

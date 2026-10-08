@@ -487,3 +487,31 @@ def test_typing_only_reaches_chats_you_belong_to(client, make_person):
             ev = _next_of_type(wb, "typing")
             assert ev["user"]["id"] == a.id and "email" not in ev["user"]
         assert ev["chat_id"] == chat["id"]
+
+
+def test_invite_code_gates_new_accounts(client, monkeypatch):
+    ok = {"email": "inv@x.com", "password": "correct-horse-1", "name": "Inv"}
+    assert client.get("/api/config").json()["invite_required"] is False
+    assert client.post("/api/auth/register", json=ok).status_code == 200  # open when no code is configured
+
+    monkeypatch.setenv("INVITE_CODE", "s3cret-code")
+    assert client.get("/api/config").json()["invite_required"] is True
+    new = {**ok, "email": "inv2@x.com"}
+    assert client.post("/api/auth/register", json=new).status_code == 403
+    assert client.post("/api/auth/register", json={**new, "invite_code": "wrong"}).status_code == 403
+    assert client.post("/api/auth/register", json={**new, "invite_code": " s3cret-code "}).status_code == 200
+
+    # existing accounts can still sign in without any code
+    r = client.post("/api/auth/login", json={"email": "inv@x.com", "password": "correct-horse-1"})
+    assert r.status_code == 200
+
+
+def test_invite_code_gates_google_signup(client, monkeypatch):
+    monkeypatch.setattr(server, "GOOGLE_CLIENT_ID", "cid")
+    info = {"email": "newg@example.com", "email_verified": True, "name": "New G"}
+    monkeypatch.setattr(server, "_verify_google", lambda cred: info)
+    monkeypatch.setenv("INVITE_CODE", "s3cret-code")
+    assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 403
+    assert client.post("/api/auth/google", json={"credential": "x" * 20, "invite_code": "s3cret-code"}).status_code == 200
+    # once the account exists, Google sign-in needs no code
+    assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 200

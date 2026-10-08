@@ -5,6 +5,7 @@ load_dotenv(ROOT_DIR / ".env")
 
 import os
 import re
+import hmac
 import uuid
 import json
 import asyncio
@@ -51,7 +52,7 @@ LANG_CODES = {l["code"] for l in LANGUAGES}
 
 engine = TranslationEngine(db)
 
-app = FastAPI(title="Lingua API")
+app = FastAPI(title="Glott API")
 api = APIRouter(prefix="/api")
 
 _bg_tasks = set()
@@ -149,6 +150,7 @@ class RegisterIn(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=72)
     name: str = Field(min_length=1, max_length=60)
+    invite_code: str = Field(default="", max_length=100)
 
     @field_validator("password")
     @classmethod
@@ -173,6 +175,7 @@ class LoginIn(BaseModel):
 
 class GoogleIn(BaseModel):
     credential: str = Field(min_length=10, max_length=4096)
+    invite_code: str = Field(default="", max_length=100)
 
 
 class ProfileIn(BaseModel):
@@ -254,10 +257,21 @@ async def health():
     return {"ok": True}
 
 
+def invite_code_required() -> bool:
+    return bool(os.environ.get("INVITE_CODE", "").strip())
+
+
+def check_invite_code(given: str):
+    """When INVITE_CODE is set, creating a new account needs that code (existing accounts are unaffected)."""
+    expected = os.environ.get("INVITE_CODE", "").strip()
+    if expected and not hmac.compare_digest((given or "").strip().encode(), expected.encode()):
+        raise HTTPException(status_code=403, detail="Invalid invite code")
+
+
 @api.get("/config")
 async def public_config():
     return {"google_client_id": GOOGLE_CLIENT_ID, "voice_transcription": stt.enabled(),
-            "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024)}
+            "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required()}
 
 
 @api.get("/languages")
@@ -286,6 +300,7 @@ def new_user_doc(email, name, password_hash="", avatar="", provider=None):
 @api.post("/auth/register")
 async def register(body: RegisterIn, request: Request):
     limiter.check(f"register-ip:{client_ip(request)}", 10, 3600, "Too many sign-ups from this address. Try again later.")
+    check_invite_code(body.invite_code)
     email = body.email.lower()
     if await db.users.find_one({"email": email}):
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -333,6 +348,7 @@ async def google_login(body: GoogleIn, request: Request):
     if existing:
         u = existing
     else:
+        check_invite_code(body.invite_code)
         u = new_user_doc(email, (info.get("name") or email.split("@")[0])[:60], "", info.get("picture", ""), provider="google")
         await db.users.insert_one(dict(u))
     return {"token": create_token(u["id"]), "user": public_user(u)}
@@ -1119,7 +1135,9 @@ async def startup():
     await db.translation_cache.create_index("created_at_dt", expireAfterSeconds=30 * 24 * 3600)
     storage.get_storage()  # fail early (and log) if storage is misconfigured
     await seed_demo()
-    logger.info("Lingua backend ready")
+    if not invite_code_required():
+        logger.warning("INVITE_CODE is not set: anyone with the link can create an account")
+    logger.info("Glott backend ready")
 
 
 @app.on_event("shutdown")

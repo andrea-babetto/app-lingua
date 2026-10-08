@@ -39,6 +39,14 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
+      # Closed beta: with a code set, only people who know it can create an account.
+      # Choose a code of at least 12 characters and give it only to the people you invite.
+      - key: INVITE_CODE
+        sync: false
+      # Render serves the API through Cloudflare: the real client address is in this header
+      # (verified on /admin, "Address check").
+      - key: CLIENT_IP_HEADER
+        value: cf-connecting-ip
       # Optional: add these later from the dashboard when you want the feature
       #   OPENAI_API_KEY (voice transcription), GOOGLE_CLIENT_ID (Google sign-in)
 
