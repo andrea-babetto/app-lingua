@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Send, Smile, Paperclip, ArrowLeft, Info, X, Loader2, Languages, Settings2, Check, Mic, Trash, Search } from "lucide-react";
+import { Send, Smile, Paperclip, ArrowLeft, Info, X, Loader2, Languages, Mic, Trash, Search } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -8,11 +8,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import MessageBubble from "@/components/chat/MessageBubble";
 
 const EMOJIS = ["😀","😂","😍","🥰","😎","🤔","😢","😡","👍","👎","🙏","👏","🔥","❤️","🎉","✅","💯","😅","🤝","👋","💪","🌍","☕","🚀"];
-const TONES = { formal: "Formal", neutral: "Neutral", casual: "Casual" };
 
 const dayLabel = (iso) => {
   const d = new Date(iso), now = new Date();
@@ -22,7 +20,7 @@ const dayLabel = (iso) => {
   return d.toLocaleDateString(undefined, { day: "numeric", month: "long", ...(d.getFullYear() !== now.getFullYear() ? { year: "numeric" } : {}) });
 };
 
-export default function ChatWindow({ chat, messages, onSend, onBack, typingUser, onToggleInfo, onToneChange, bottomRef }) {
+export default function ChatWindow({ chat, messages, onSend, onBack, typingUser, onToggleInfo, bottomRef }) {
   const { user } = useAuth();
   const [text, setText] = useState("");
   const [reply, setReply] = useState(null);
@@ -126,22 +124,6 @@ export default function ChatWindow({ chat, messages, onSend, onBack, typingUser,
           </div>
         </button>
         <Button data-testid="search-messages-button" variant="ghost" size="icon" onClick={() => { setSearchOpen((v) => !v); setSq(""); setSres([]); }}><Search className="w-5 h-5" /></Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button data-testid="tone-selector-trigger" variant="ghost" size="sm" className="gap-1.5 text-xs">
-              <Settings2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{TONES[chat.tone] || "Neutral"}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Translation tone</DropdownMenuLabel>
-            {Object.entries(TONES).map(([k, label]) => (
-              <DropdownMenuItem key={k} data-testid={`tone-option-${k}`} onClick={() => onToneChange(k)}>
-                {chat.tone === k && <Check className="w-4 h-4 mr-2" />}
-                <span className={chat.tone === k ? "font-medium" : "ms-6"}>{label}</span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
         <Button data-testid="toggle-info-panel-button" variant="ghost" size="icon" onClick={onToggleInfo}><Info className="w-5 h-5" /></Button>
       </div>
 

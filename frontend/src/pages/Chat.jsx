@@ -89,7 +89,7 @@ export default function Chat() {
         const c = activeRef.current;
         if (c) {
           const f = fresh.find((x) => x.id === c.id);
-          if (f) setActive((a) => ({ ...a, tone: f.tone, members: f.members, members_info: f.members_info, admins: f.admins }));
+          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins }));
         }
       }
     };
@@ -143,13 +143,6 @@ export default function Chat() {
     } catch { toast.error("Could not delete the chat"); }
   };
 
-  const changeTone = async (tone) => {
-    await api.put(`/chats/${active.id}/tone?tone=${tone}`);
-    setActive((a) => ({ ...a, tone }));
-    setChats((cs) => cs.map((c) => (c.id === active.id ? { ...c, tone } : c)));
-    toast.success(`Translation tone: ${tone}`);
-  };
-
   return (
     <div className="h-dvh w-screen flex overflow-hidden bg-background">
       <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-80 lg:w-96 shrink-0 border-r border-border flex-col`}>
@@ -161,7 +154,7 @@ export default function Chat() {
       <div className={`${mobileView === "chat" ? "flex" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping}>
         {active ? (
           <ChatWindow chat={active} messages={messages} onSend={send} onBack={() => { setMobileView("list"); setActive(null); setInfoOpen(false); }}
-            typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} onToneChange={changeTone} bottomRef={bottomRef} />
+            typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">
             <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">

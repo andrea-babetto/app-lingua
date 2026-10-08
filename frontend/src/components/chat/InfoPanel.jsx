@@ -121,7 +121,7 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked,
             <>
               <div className="text-xl font-bold">{chat.display_name}</div>
               {!isGroup && other && <div className="text-sm text-muted-foreground">@{other.username} · {langByCode(other.language).flag} reads & writes in {langByCode(other.language).name}</div>}
-              {isGroup && <div className="text-sm text-muted-foreground">{members.length} members · tone {chat.tone}</div>}
+              {isGroup && <div className="text-sm text-muted-foreground">{members.length} members</div>}
               {isGroup && chat.description && <p className="text-sm text-muted-foreground mt-1">{chat.description}</p>}
             </>
           )}

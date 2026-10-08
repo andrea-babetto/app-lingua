@@ -18,11 +18,10 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
   const [loading, setLoading] = useState(false);
   // group
   const [groupName, setGroupName] = useState("");
-  const [groupTone, setGroupTone] = useState("neutral");
   const [selected, setSelected] = useState([]);
   const [creating, setCreating] = useState(false);
 
-  const reset = () => { setQ(""); setResults([]); setGroupName(""); setSelected([]); setGroupTone("neutral"); };
+  const reset = () => { setQ(""); setResults([]); setGroupName(""); setSelected([]); };
 
   const search = async (val) => {
     setQ(val);
@@ -53,7 +52,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
     if (selected.length === 0) return toast.error("Add at least one member");
     setCreating(true);
     try {
-      const { data } = await api.post("/chats/group", { name: groupName, member_ids: selected.map((u) => u.id), tone: groupTone });
+      const { data } = await api.post("/chats/group", { name: groupName, member_ids: selected.map((u) => u.id) });
       toast.success("Group created");
       onStartChat(data);
       onOpenChange(false); reset();
@@ -109,12 +108,6 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
         ) : (
           <div className="space-y-3">
             <Input data-testid="group-name-input" placeholder="Group name" value={groupName} onChange={(e) => setGroupName(e.target.value)} />
-            <div className="flex gap-1 p-1 bg-muted rounded-lg">
-              {["formal", "neutral", "casual"].map((t) => (
-                <button key={t} data-testid={`group-tone-${t}`} onClick={() => setGroupTone(t)}
-                  className={`flex-1 py-1.5 rounded-md text-xs font-medium capitalize transition ${groupTone === t ? "bg-card shadow-sm" : "text-muted-foreground"}`}>{t}</button>
-              ))}
-            </div>
             {selected.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {selected.map((u) => (
