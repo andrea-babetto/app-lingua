@@ -94,6 +94,27 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 6. Accesso con Google (`GOOGLE_CLIENT_ID`). Regolazione (sposta/ingrandisci) della foto profilo.
 7. App negli store (Capacitor): serve il nome definitivo, Apple Developer 99 $/anno, Google Play 25 $ una tantum; le notifiche push native vanno aggiunte.
 
+## 9bis. Idee per il futuro e priorità (riflessione di ottobre 2026)
+
+Sono ragionamenti, non ricerche di mercato: nessun numero verificato.
+
+**Le tre da fare per prime** (sono quelle che servono ai team come il nostro ogni giorno, e ci distinguono da WhatsApp e Telegram):
+1. **Ingresso da link senza account**: è il motore di crescita senza ads (ogni conversazione porta un'altra persona).
+2. **Interfaccia nella lingua di ciascuno** (oggi tutta in inglese).
+3. **Glossario condiviso di team** (termini fissi di brand e prodotto, non solo personali).
+
+**Poi, a livelli:**
+- *Team:* vocali con trascrizione e traduzione; traduzione di allegati, PDF e screenshot; riassunto di una conversazione lunga nella propria lingua.
+- *Chiarezza:* scelta del tono per messaggio (formale/amichevole: il motore lo sa già fare); avviso quando una frase è ambigua; originale e traduzione affiancati.
+- *Altri pubblici:* link pubblico "scrivimi nella tua lingua" per freelance e piccoli negozi; widget per siti web; modalità "famiglia" semplice.
+- *Ambiziose:* sottotitoli tradotti in chiamata; tutor che propone le parole nuove incontrate.
+
+**Da evitare per ora:** temi sanitari e legali per migranti (un errore di traduzione costa troppo e non abbiamo le tutele); videochiamate (costose e già presidiate); voler servire tutti insieme.
+
+**Limite da dire sempre agli utenti:** la traduzione automatica può sbagliare (battute, slang, dialetti), quindi l'originale deve restare visibile.
+
+**Proteggere il progetto:** l'idea non è registrabile né brevettabile. Si proteggono nome/logo (marchio, dopo la ricerca ufficiale), dominio, codice (resta privato; contratti con chi collabora) e con NDA verso chi vede i dettagli tecnici. Per decisioni importanti serve un consulente di proprietà intellettuale.
+
 ## 10. Come lavorare sul progetto
 
 - **Flusso:** lavoro su un ramo → pull request → **si unisce a `main` solo quando Andrea lo dice** ("unisci"). Mai segreti in chat o nel codice. Non aprire PR se non richieste.
