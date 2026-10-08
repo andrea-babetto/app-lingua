@@ -5,6 +5,7 @@ import { api, WS_URL } from "@/lib/api";
 import { syncPush } from "@/lib/push";
 import useAppViewport from "@/hooks/useAppViewport";
 import { useAuth } from "@/context/AuthContext";
+import { useI18n } from "@/i18n";
 import Logo, { LogoMark } from "@/components/Logo";
 import Sidebar from "@/components/chat/Sidebar";
 import ChatWindow from "@/components/chat/ChatWindow";
@@ -17,6 +18,11 @@ const PING_MS = 20000;
 
 export default function Chat() {
   const { user, token } = useAuth();
+  // long-lived socket handlers read the current language through a ref, never a stale copy
+  const { t: tNow } = useI18n();
+  const tRef = useRef(tNow);
+  tRef.current = tNow;
+  const t = useCallback((...a) => tRef.current(...a), []);
   const nav = useNavigate();
   useAppViewport();
   const [chats, setChats] = useState([]);
@@ -92,7 +98,7 @@ export default function Chat() {
     } else if (d.type === "message_deleted") {
       if (cur && d.chat_id === cur.id) setMessages((prev) => prev.map((m) => (m.id === d.message_id ? { ...m, deleted_for_all: true } : m)));
     } else if (d.type === "contact_request") {
-      toast(`${d.from.name} wants to connect`);
+      toast(t("{name} wants to connect", { name: d.from.name }));
       loadRequests();
     } else if (d.type === "contact_accepted" || d.type === "new_chat" || d.type === "presence") {
       loadChats();
@@ -165,7 +171,7 @@ export default function Chat() {
       api.post(`/messages/${chat.id}/read`).catch(() => {});
       loadChats();
     } catch {
-      if (req === openReq.current) toast.error("Could not load the messages");
+      if (req === openReq.current) toast.error(t("Could not load the messages"));
     } finally {
       if (req === openReq.current) setMessagesLoading(false);
     }
@@ -201,7 +207,7 @@ export default function Chat() {
       setMessages((prev) => (prev.some((m) => m.id === data.id) ? prev : [...prev, data]));
       loadChats();
     } catch (e) {
-      toast.error(e.response?.data?.detail || "Message not sent");
+      toast.error(e.response?.data?.detail || t("Message not sent"));
     }
   };
 
@@ -215,7 +221,7 @@ export default function Chat() {
     try {
       const { data } = await api.post(`/messages/${msg.id}/react`, { emoji });
       setMessages((prev) => prev.map((m) => (m.id === msg.id ? { ...m, reactions: data.reactions } : m)));
-    } catch { toast.error("Could not react"); }
+    } catch { toast.error(t("Could not react")); }
   };
 
   // typing emit
@@ -227,7 +233,7 @@ export default function Chat() {
 
   const accept = async (id) => {
     const { data } = await api.post(`/contacts/accept/${id}`);
-    toast.success("Request accepted");
+    toast.success(t("Request accepted"));
     loadRequests();
     await loadChats();
     if (data.chat) openChat(data.chat);
@@ -241,8 +247,8 @@ export default function Chat() {
       await api.post(`/chats/${chat.id}/delete`);
       if (activeRef.current?.id === chat.id) closeActive();
       await loadChats();
-      toast.success("Chat deleted");
-    } catch { toast.error("Could not delete the chat"); }
+      toast.success(t("Chat deleted"));
+    } catch { toast.error(t("Could not delete the chat")); }
   };
 
   return (
@@ -261,7 +267,7 @@ export default function Chat() {
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">
             <LogoMark className="w-20 h-20 text-primary mb-5 drop-shadow-lg" />
             <Logo className="text-3xl" />
-            <p className="text-sm text-muted-foreground max-w-xs mt-3">Select a chat or start a new one. Everyone writes in their own language — we translate the rest.</p>
+            <p className="text-sm text-muted-foreground max-w-xs mt-3">{t("Select a chat or start a new one. Everyone writes in their own language — we translate the rest.")}</p>
           </div>
         )}
       </div>

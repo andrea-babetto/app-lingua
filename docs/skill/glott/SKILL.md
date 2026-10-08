@@ -35,7 +35,7 @@ In produzione e funzionante: chat 1:1 e gruppi, traduzione automatica, glossario
 - Strategia: partire da agenzie e e-commerce con collaboratori all'estero; crescita via link d'invito; Fiverr/Upwork limitano i contatti fuori piattaforma (non usarli come canale). Per ora uso interno Andrea–Hamad.
 
 ## Da fare (in ordine)
-Interfaccia nella lingua di ciascuno → backup del database + pagina privacy/termini → marchio e nome definitivo + dominio → ingresso da link senza account e recupero password → vocali (chiave OpenAI + `VOICE_MESSAGES=true` + pulsante microfono) → accesso Google → app negli store (Capacitor).
+Backup del database + revisione legale delle pagine privacy/termini (bozze già online) + "scarica i miei dati" → marchio e nome definitivo + dominio → ingresso da link senza account e recupero password → vocali (chiave OpenAI + `VOICE_MESSAGES=true` + pulsante microfono) → accesso Google → app negli store (Capacitor).
 
 ## Lezioni imparate
 - Chiave Anthropic: serve **legata a un workspace**; il parametro `temperature` va omesso.

@@ -667,3 +667,30 @@ def test_admin_can_list_users_and_reset_a_password(client, make_person):
     assert len(temp) >= 10
     assert client.get("/api/auth/me", headers=u.h).status_code == 401
     assert client.post("/api/auth/login", json={"email": "user@x.com", "password": temp}).status_code == 200
+
+
+def test_delete_account_erases_the_person_and_what_they_wrote(client, make_person):
+    a, b, c = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="it"), make_person("c@x.com", lang="en")
+    chat = direct(client, a, b)
+    f = upload(client, a).json()
+    client.post("/api/messages", json={"chat_id": chat["id"], "text": "hello"}, headers=a.h)
+    client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao"}, headers=b.h)
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id]}, headers=a.h).json()
+    mine = client.post("/api/messages", json={"chat_id": g["id"], "text": "from a"}, headers=a.h).json()
+    theirs = client.post("/api/messages", json={"chat_id": g["id"], "text": "from b"}, headers=b.h).json()
+    client.post(f"/api/messages/{theirs['id']}/react", json={"emoji": "👍"}, headers=a.h)
+    client.post(f"/api/users/{a.id}/block", headers=b.h)
+    assert client.post("/api/auth/delete-account", json={"password": "wrong-pass-1"}, headers=a.h).status_code == 400
+    assert client.get("/api/auth/me", headers=a.h).status_code == 200  # a wrong password changes nothing
+    assert client.post("/api/auth/delete-account", json={"password": "correct-horse-1"}, headers=a.h).status_code == 200
+    assert client.get("/api/auth/me", headers=a.h).status_code == 401
+    assert client.post("/api/auth/login", json={"email": "a@x.com", "password": "correct-horse-1"}).status_code == 401
+    ids = [x["id"] for x in client.get("/api/chats", headers=b.h).json()]
+    assert chat["id"] not in ids and g["id"] in ids  # direct chat gone, group stays for the others
+    msgs = client.get(f"/api/messages/{g['id']}", headers=b.h).json()
+    assert [m["original_text"] for m in msgs] == ["from b"] and not msgs[0]["reactions"]
+    grp = next(x for x in client.get("/api/chats", headers=b.h).json() if x["id"] == g["id"])
+    assert a.id not in grp["members"] and grp["admins"]  # someone is left in charge
+    assert client.get(f"/api/files/{f['id']}", headers=b.h).status_code == 404
+    assert client.get("/api/auth/me", headers=b.h).json()["blocked"] == []
+    assert client.post("/api/auth/delete-account", json={}, headers=b.h).status_code == 400  # password required

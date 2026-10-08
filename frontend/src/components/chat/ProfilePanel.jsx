@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Plus, Trash2, BookMarked, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, BarChart3, LogOut, ChevronRight, Bell, KeyRound } from "lucide-react";
 import { api, errText } from "@/lib/api";
@@ -9,8 +10,10 @@ import { langByCode } from "@/data/languages";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import LanguagePicker from "@/components/LanguagePicker";
+import { useI18n } from "@/i18n";
 
 function Section({ title, children }) {
   return (
@@ -22,6 +25,7 @@ function Section({ title, children }) {
 }
 
 function NotificationsRow() {
+  const { t } = useI18n();
   const [state, setState] = useState(null);
   const [busy, setBusy] = useState(false);
   useEffect(() => { pushState().then(setState); }, []);
@@ -29,16 +33,16 @@ function NotificationsRow() {
   const toggle = async (on) => {
     setBusy(true);
     try {
-      if (on) { await enablePush(); setState("on"); toast.success("Notifications are on"); }
+      if (on) { await enablePush(); setState("on"); toast.success(t("Notifications are on")); }
       else { await disablePush(); setState("off"); }
-    } catch { toast.error("Notifications were not allowed on this device"); setState(await pushState()); }
+    } catch { toast.error(t("Notifications were not allowed on this device")); setState(await pushState()); }
     finally { setBusy(false); }
   };
 
   const note = {
-    "needs-install": "On iPhone: tap Share, then Add to Home Screen, and open glott from there.",
-    blocked: "Blocked for this site. Allow notifications in your browser or phone settings.",
-    unsupported: "This browser cannot show notifications.",
+    "needs-install": t("On iPhone: tap Share, then Add to Home Screen, and open glott from there."),
+    blocked: t("Blocked for this site. Allow notifications in your browser or phone settings."),
+    unsupported: t("This browser cannot show notifications."),
   }[state];
 
   return (
@@ -46,8 +50,8 @@ function NotificationsRow() {
       <div className="flex items-start gap-2">
         <Bell className="w-4 h-4 mt-0.5 text-muted-foreground" />
         <div>
-          <div className="text-sm font-medium">Notifications</div>
-          <div className="text-xs text-muted-foreground">{note || "Get notified when someone writes to you"}</div>
+          <div className="text-sm font-medium">{t("Notifications")}</div>
+          <div className="text-xs text-muted-foreground">{note || t("Get notified when someone writes to you")}</div>
         </div>
       </div>
       {(state === "on" || state === "off") && <Switch data-testid="push-switch" checked={state === "on"} disabled={busy} onCheckedChange={toggle} />}
@@ -57,6 +61,7 @@ function NotificationsRow() {
 
 function PasswordSection() {
   const { auth } = useAuth();
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [cur, setCur] = useState("");
   const [next, setNext] = useState("");
@@ -68,7 +73,7 @@ function PasswordSection() {
     try {
       const { data } = await api.post("/auth/change-password", { current_password: cur, new_password: next });
       auth(data); // the old sign-in stops working, this is the new one
-      toast.success("Password changed");
+      toast.success(t("Password changed"));
       setOpen(false); setCur(""); setNext("");
     } catch (err) { toast.error(errText(err.response?.data?.detail)); }
     finally { setBusy(false); }
@@ -77,22 +82,60 @@ function PasswordSection() {
   return (
     <div>
       <button data-testid="change-password-toggle" onClick={() => setOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
-        <KeyRound className="w-4 h-4 text-muted-foreground" /> Change password <ChevronRight className={`w-4 h-4 ms-auto text-muted-foreground transition ${open ? "rotate-90" : ""}`} />
+        <KeyRound className="w-4 h-4 text-muted-foreground" /> {t("Change password")} <ChevronRight className={`w-4 h-4 ms-auto text-muted-foreground transition ${open ? "rotate-90" : ""}`} />
       </button>
       {open && (
         <form onSubmit={submit} className="mt-3 space-y-2.5">
-          <Input data-testid="current-password-input" type="password" autoComplete="current-password" placeholder="Current password" value={cur} onChange={(e) => setCur(e.target.value)} />
-          <Input data-testid="new-password-input" type="password" autoComplete="new-password" placeholder="New password (8+ characters)" minLength={8} maxLength={72} required value={next} onChange={(e) => setNext(e.target.value)} />
-          <Button type="submit" className="w-full" disabled={busy || next.length < 8} data-testid="change-password-save">{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save new password"}</Button>
+          <Input data-testid="current-password-input" type="password" autoComplete="current-password" placeholder={t("Current password")} value={cur} onChange={(e) => setCur(e.target.value)} />
+          <Input data-testid="new-password-input" type="password" autoComplete="new-password" placeholder={t("New password (8+ characters)")} minLength={8} maxLength={72} required value={next} onChange={(e) => setNext(e.target.value)} />
+          <Button type="submit" className="w-full" disabled={busy || next.length < 8} data-testid="change-password-save">{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Save new password")}</Button>
         </form>
       )}
     </div>
   );
 }
 
+function DeleteAccount() {
+  const { logout } = useAuth();
+  const { t } = useI18n();
+  const [open, setOpen] = useState(false);
+  const [pw, setPw] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      await api.post("/auth/delete-account", { password: pw });
+      toast.success(t("Your account has been deleted"));
+      logout();
+    } catch (err) { toast.error(errText(err.response?.data?.detail)); setBusy(false); }
+  };
+
+  return (
+    <>
+      <button data-testid="delete-account-open" onClick={() => setOpen(true)} className="w-full text-center text-sm font-medium text-destructive py-2">{t("Delete account")}</button>
+      <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) setPw(""); }}>
+        <DialogContent data-testid="delete-account-dialog">
+          <DialogHeader><DialogTitle>{t("Delete your account?")}</DialogTitle></DialogHeader>
+          <form onSubmit={submit} className="space-y-3">
+            <p className="text-sm text-muted-foreground">{t("This permanently deletes your profile, the messages and files you sent, and your chats with one other person (they disappear for both of you). You will be removed from groups. This cannot be undone.")}</p>
+            <Input data-testid="delete-account-password" type="password" autoComplete="current-password" placeholder={t("Enter your password to confirm")} value={pw} onChange={(e) => setPw(e.target.value)} required />
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>{t("Cancel")}</Button>
+              <Button type="submit" data-testid="delete-account-confirm" disabled={busy || !pw} className="text-destructive-foreground bg-destructive hover:bg-destructive/90">{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Delete my account")}</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
 export default function ProfilePanel({ onOpenAdmin }) {
   const { user, updateUser, logout } = useAuth();
   const { theme, toggle } = useTheme();
+  const { t, langName } = useI18n();
   const [glossary, setGlossary] = useState([]);
   const [term, setTerm] = useState("");
   const [rule, setRule] = useState("");
@@ -109,7 +152,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
   const save = async (patch, silent) => {
     const { data } = await api.put("/auth/profile", patch);
     updateUser(data);
-    if (!silent) toast.success("Saved");
+    if (!silent) toast.success(t("Saved"));
     return data;
   };
 
@@ -126,7 +169,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
       fd.append("file", f);
       const { data } = await api.post("/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
       await save({ avatar: `${api.defaults.baseURL}/files/${data.id}` });
-    } catch { toast.error("Upload failed"); }
+    } catch { toast.error(t("Upload failed")); }
     finally { setUploading(false); e.target.value = ""; }
   };
 
@@ -153,61 +196,61 @@ export default function ProfilePanel({ onOpenAdmin }) {
         <div className="relative">
           <Avatar className="w-24 h-24"><AvatarImage src={user.avatar} /><AvatarFallback className="text-2xl bg-primary/10 text-primary">{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button"
-            className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
+            className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
           </button>
           <input type="file" accept="image/*" ref={fileRef} hidden onChange={uploadAvatar} />
         </div>
         <div className="text-xl font-semibold mt-1">{user.name}</div>
-        <div className="text-sm text-muted-foreground">@{user.username} · {lang.flag} {lang.name}</div>
+        <div className="text-sm text-muted-foreground">@{user.username} · {lang.flag} {langName(user.language)}</div>
       </div>
 
-      <Section title="Account">
+      <Section title={t("Account")}>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><User2 className="w-3.5 h-3.5" /> Display name</label>
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><User2 className="w-3.5 h-3.5" /> {t("Display name")}</label>
           <Input data-testid="settings-name-input" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><AtSign className="w-3.5 h-3.5" /> Username <span className="opacity-70">(people can find you with this)</span></label>
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><AtSign className="w-3.5 h-3.5" /> {t("Username")} <span className="opacity-70">{t("(people can find you with this)")}</span></label>
           <Input data-testid="settings-username-input" value={username} onChange={(e) => setUsername(e.target.value.replace(/\s/g, ""))} />
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Phone number <span className="opacity-70">(optional, searchable)</span></label>
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> {t("Phone number")} <span className="opacity-70">{t("(optional, searchable)")}</span></label>
           <Input data-testid="settings-phone-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+39 333 1234567" />
         </div>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Mail className="w-3.5 h-3.5" /> {user.email}</div>
-        {dirty && <Button data-testid="save-profile-button" className="w-full" onClick={saveProfile} disabled={savingProfile}>{savingProfile ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save profile"}</Button>}
+        {dirty && <Button data-testid="save-profile-button" className="w-full" onClick={saveProfile} disabled={savingProfile}>{savingProfile ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Save profile")}</Button>}
       </Section>
 
-      <Section title="My language">
+      <Section title={t("My language")}>
         <button data-testid="language-toggle" onClick={() => setLangOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
-          <span className="text-xl leading-none">{lang.flag}</span> {lang.name}
-          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? "Close" : "Change"}</span>
+          <span className="text-xl leading-none">{lang.flag}</span> {langName(user.language)}
+          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? t("Close") : t("Change")}</span>
         </button>
         {langOpen && <LanguagePicker value={user.language} onChange={(c) => { changeLang(c); setLangOpen(false); }} testId="settings-language" />}
       </Section>
 
-      <Section title="Preferences">
+      <Section title={t("Preferences")}>
         <NotificationsRow />
         <div className="flex items-center justify-between gap-3">
-          <div><div className="text-sm font-medium">Show original under translation</div><div className="text-xs text-muted-foreground">Reveal source text by default</div></div>
+          <div><div className="text-sm font-medium">{t("Show original under translation")}</div><div className="text-xs text-muted-foreground">{t("Reveal source text by default")}</div></div>
           <Switch data-testid="show-original-switch" checked={!!user.settings?.show_original} onCheckedChange={toggleOriginal} />
         </div>
         <div className="flex items-center justify-between gap-3">
-          <div><div className="text-sm font-medium">Share last seen & online</div><div className="text-xs text-muted-foreground">Let others see your status</div></div>
+          <div><div className="text-sm font-medium">{t("Share last seen & online")}</div><div className="text-xs text-muted-foreground">{t("Let others see your status")}</div></div>
           <Switch data-testid="last-seen-switch" checked={!!user.settings?.last_seen_enabled} onCheckedChange={toggleLastSeen} />
         </div>
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2"><Moon className="w-4 h-4 text-muted-foreground" /><div className="text-sm font-medium">Dark mode</div></div>
+          <div className="flex items-center gap-2"><Moon className="w-4 h-4 text-muted-foreground" /><div className="text-sm font-medium">{t("Dark mode")}</div></div>
           <Switch data-testid="theme-toggle-button" checked={theme === "dark"} onCheckedChange={toggle} />
         </div>
       </Section>
 
-      <Section title="Personal glossary">
-        <p className="text-xs text-muted-foreground flex items-start gap-1.5"><BookMarked className="w-4 h-4 shrink-0" /> Terms that must be kept or translated a specific way (names, brands, jargon).</p>
+      <Section title={t("Personal glossary")}>
+        <p className="text-xs text-muted-foreground flex items-start gap-1.5"><BookMarked className="w-4 h-4 shrink-0" /> {t("Terms that must be kept or translated a specific way (names, brands, jargon).")}</p>
         <div className="flex gap-2">
-          <Input data-testid="glossary-term-input" placeholder="Term" value={term} onChange={(e) => setTerm(e.target.value)} />
-          <Input data-testid="glossary-rule-input" placeholder="Rule (e.g. keep)" value={rule} onChange={(e) => setRule(e.target.value)} />
+          <Input data-testid="glossary-term-input" placeholder={t("Term")} value={term} onChange={(e) => setTerm(e.target.value)} />
+          <Input data-testid="glossary-rule-input" placeholder={t("Rule (e.g. keep)")} value={rule} onChange={(e) => setRule(e.target.value)} />
           <Button data-testid="glossary-add-button" size="icon" className="shrink-0" onClick={addTerm}><Plus className="w-4 h-4" /></Button>
         </div>
         <div className="space-y-1">
@@ -225,13 +268,21 @@ export default function ProfilePanel({ onOpenAdmin }) {
       {user.role === "admin" && (
         <Section>
           <button data-testid="open-admin-item" onClick={onOpenAdmin} className="w-full flex items-center gap-3 text-sm font-medium">
-            <BarChart3 className="w-4 h-4 text-muted-foreground" /> Admin dashboard <ChevronRight className="w-4 h-4 ms-auto text-muted-foreground" />
+            <BarChart3 className="w-4 h-4 text-muted-foreground" /> {t("Admin dashboard")} <ChevronRight className="w-4 h-4 ms-auto text-muted-foreground" />
           </button>
         </Section>
       )}
 
       <div className="mx-3 mt-3">
-        <Button data-testid="logout-item" variant="outline" className="w-full text-destructive" onClick={logout}><LogOut className="w-4 h-4 mr-2" /> Log out</Button>
+        <Button data-testid="logout-item" variant="outline" className="w-full text-destructive" onClick={logout}><LogOut className="w-4 h-4 me-2" /> {t("Log out")}</Button>
+      </div>
+
+      <div className="mx-3 mt-4 flex flex-col items-center gap-1 text-xs text-muted-foreground">
+        <div className="space-x-3 rtl:space-x-reverse">
+          <Link to="/terms" className="hover:underline">{t("Terms of Service")}</Link>
+          <Link to="/privacy" className="hover:underline">{t("Privacy Policy")}</Link>
+        </div>
+        <DeleteAccount />
       </div>
     </div>
   );

@@ -61,6 +61,10 @@ services:
         value: 22
       - key: REACT_APP_BACKEND_URL   # the API address, e.g. https://lingua-api.onrender.com
         sync: false
+      - key: VITE_LEGAL_NAME         # who runs the service: shown in the Privacy Policy and Terms
+        sync: false
+      - key: VITE_LEGAL_EMAIL        # contact address shown in the Privacy Policy and Terms
+        sync: false
     routes:
       - type: rewrite               # lets /chat, /admin... open directly
         source: /*

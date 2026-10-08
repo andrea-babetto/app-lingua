@@ -4,7 +4,8 @@ import { Check, CheckCheck, Globe, RotateCw, X } from "lucide-react";
 import { toast } from "sonner";
 import { api, API } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import { langByCode, isRTL } from "@/data/languages";
+import { isRTL } from "@/data/languages";
+import { useI18n } from "@/i18n";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 function Lightbox({ src, alt, onClose }) {
@@ -15,7 +16,7 @@ function Lightbox({ src, alt, onClose }) {
   }, [onClose]);
   return createPortal(
     <div data-testid="lightbox" onClick={onClose} className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 animate-in fade-in">
-      <button aria-label="Close" className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center"><X className="w-5 h-5" /></button>
+      <button aria-label="Close" className="absolute top-4 end-4 w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center"><X className="w-5 h-5" /></button>
       <img src={src} alt={alt} className="max-w-full max-h-full object-contain rounded-lg" />
     </div>,
     document.body,
@@ -24,6 +25,7 @@ function Lightbox({ src, alt, onClose }) {
 
 export default function MessageBubble({ msg, mine, isGroup, first, last, onOpenActions, onReact }) {
   const { user } = useAuth();
+  const { t, langName } = useI18n();
   const [showOriginal, setShowOriginal] = useState(false);
   const [zoom, setZoom] = useState(false);
   const translating = msg.status === "translating" && !msg.is_translated && !mine;
@@ -33,12 +35,12 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, onOpenA
   const time = new Date(msg.created_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
   const reactions = Object.entries(msg.reactions || {});
 
-  const retry = async (e) => { e.stopPropagation(); await api.post(`/messages/${msg.id}/retry`); toast("Retrying translation..."); };
+  const retry = async (e) => { e.stopPropagation(); await api.post(`/messages/${msg.id}/retry`); toast(t("Retrying translation...")); };
 
   if (msg.deleted_for_all) {
     return (
       <div className={`flex ${mine ? "justify-end" : "justify-start"} px-3 ${last ? "mb-1.5" : "mb-0.5"}`} data-testid={`message-bubble-${msg.id}`}>
-        <div className="max-w-[75%] px-3.5 py-2 rounded-2xl bg-muted/80 text-muted-foreground text-sm italic">🚫 This message was deleted</div>
+        <div className="max-w-[75%] px-3.5 py-2 rounded-2xl bg-muted/80 text-muted-foreground text-sm italic">{t("🚫 This message was deleted")}</div>
       </div>
     );
   }
@@ -98,7 +100,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, onOpenA
           ) : null)}
 
           <div className={`flex items-center gap-1 justify-end mt-0.5 text-[11px] ${mine ? "text-bubble-out-foreground/60" : "text-muted-foreground"}`}>
-            {msg.edited && <span>edited</span>}
+            {msg.edited && <span>{t("edited")}</span>}
             <span>{time}</span>
             {mine && (msg.read ? <CheckCheck className="w-4 h-4 text-primary" /> : <Check className="w-4 h-4" />)}
           </div>
@@ -119,12 +121,12 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, onOpenA
           <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={() => setShowOriginal((s) => !s)}
             className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-accent text-accent-foreground hover:opacity-80 transition">
             <Globe className="w-3 h-3" />
-            {showOriginal ? "Show translation" : `Translated from ${langByCode(msg.translated_from).name}`}
+            {showOriginal ? t("Show translation") : t("Translated from {language}", { language: langName(msg.translated_from) })}
           </button>
         )}
         {failed && (
           <button onClick={retry} className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-destructive/15 text-destructive hover:bg-destructive/25 transition">
-            <RotateCw className="w-3 h-3" /> Translation unavailable · Retry
+            <RotateCw className="w-3 h-3" /> {t("Translation unavailable · Retry")}
           </button>
         )}
       </div>
