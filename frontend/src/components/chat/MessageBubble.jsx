@@ -88,7 +88,13 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, onOpenA
               className="flex items-center gap-2 mb-1.5 underline text-sm break-all">📎 {msg.attachment.filename}</a>
           )}
 
-          {translating ? (
+          {msg.call ? (
+            <div className="flex flex-col gap-2 py-0.5" dir="ltr">
+              <span className="font-semibold">📹 Video call</span>
+              <a data-testid={`join-call-${msg.id}`} href={msg.call.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-bold shadow-sm hover:opacity-90">Join</a>
+            </div>
+          ) : translating ? (
             <div data-testid="translating-indicator" className="flex items-center gap-2 py-0.5 opacity-80">
               <Globe className="w-4 h-4 animate-spin shrink-0" />
               <span className="text-sm italic">{msg.original_text}</span>

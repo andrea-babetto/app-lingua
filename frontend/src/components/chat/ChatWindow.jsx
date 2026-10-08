@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react";
-import { Send, Smile, Paperclip, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil } from "lucide-react";
+import { Send, Smile, Paperclip, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil, Video } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { api } from "@/lib/api";
@@ -48,6 +48,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const [editing, setEditing] = useState(null);
   const [actionMsg, setActionMsg] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [calling, setCalling] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [sq, setSq] = useState("");
   const [sres, setSres] = useState([]);
@@ -125,6 +126,15 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     if (!isTouchDevice()) taRef.current?.focus();
   };
 
+  const startCall = async () => {
+    if (calling) return;
+    setCalling(true);
+    try {
+      await api.post(`/chats/${chat.id}/call`);  // the message with the Join button arrives like any other
+    } catch (e) { toast.error(e.response?.data?.detail || "Could not start the call"); }
+    setCalling(false);
+  };
+
   const startEdit = (msg) => { setReply(null); setEditing(msg); setText(msg.original_text); setTimeout(() => taRef.current?.focus(), 50); };
   const cancelEdit = () => { setEditing(null); setText(readDraft(chat.id)); };
 
@@ -171,6 +181,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
             <div className="text-xs text-primary-foreground/80 truncate">{subtitle}</div>
           </div>
         </button>
+        <button data-testid="start-call-button" aria-label="Video call" className={headerBtn} onClick={startCall} disabled={calling}><Video className="w-5 h-5" /></button>
         <button data-testid="search-messages-button" aria-label="Search" className={headerBtn} onClick={() => { setSearchOpen((v) => !v); setSq(""); setSres([]); }}><Search className="w-5 h-5" /></button>
         <button data-testid="toggle-info-panel-button" aria-label="Chat info" className={headerBtn} onClick={onToggleInfo}><Info className="w-5 h-5" /></button>
       </header>

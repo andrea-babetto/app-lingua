@@ -92,7 +92,11 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 4. Ingresso da link senza account; recupero password autonomo (serve un servizio email).
 5. Vocali: chiave OpenAI + `VOICE_MESSAGES=true` + rimettere il pulsante del microfono (è stato tolto dal sito).
 6. Accesso con Google (`GOOGLE_CLIENT_ID`). Regolazione (sposta/ingrandisci) della foto profilo.
-7. App negli store (Capacitor): serve il nome definitivo, Apple Developer 99 $/anno, Google Play 25 $ una tantum; le notifiche push native vanno aggiunte.
+7. **Videochiamate (decise da Andrea: tutti e 3 i livelli, in ordine):**
+   1. Fatto sul ramo: pulsante "Videochiamata" in chat → `POST /api/chats/{id}/call` crea una stanza Jitsi (`https://meet.jit.si/Glott-<casuale>`, base cambiabile con `CALL_BASE_URL`) e manda un messaggio con il bottone "Join" (non tradotto). Si apre in una nuova scheda; niente video dentro l'app.
+   2. Videochiamata nostra dentro l'app (LiveKit o Daily, a minuti): serve un account del servizio e le sue chiavi su `lingua-api`.
+   3. Sottotitoli tradotti in tempo reale (riconoscimento vocale + Claude), poi voce tradotta (voce → voce). Costi e qualità sull'hindi da verificare con Hamad.
+8. App negli store (Capacitor): serve il nome definitivo, Apple Developer 99 $/anno, Google Play 25 $ una tantum; le notifiche push native vanno aggiunte.
 
 ## 10. Come lavorare sul progetto
 

@@ -667,3 +667,19 @@ def test_admin_can_list_users_and_reset_a_password(client, make_person):
     assert len(temp) >= 10
     assert client.get("/api/auth/me", headers=u.h).status_code == 401
     assert client.post("/api/auth/login", json={"email": "user@x.com", "password": temp}).status_code == 200
+
+
+def test_video_call_link_is_made_by_the_server(client, make_person):
+    a, b, c = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="it"), make_person("c@x.com")
+    chat = direct(client, a, b)
+    m = client.post(f"/api/chats/{chat['id']}/call", headers=a.h)
+    assert m.status_code == 200
+    url = m.json()["call"]["url"]
+    assert url.startswith("https://meet.jit.si/Glott-") and len(url.split("Glott-")[1]) >= 16
+    msgs = client.get(f"/api/messages/{chat['id']}", headers=b.h).json()
+    assert msgs[-1]["call"]["url"] == url and msgs[-1]["status"] == "sent"
+    other = client.post(f"/api/chats/{chat['id']}/call", headers=a.h).json()["call"]["url"]
+    assert other != url  # a new room every time
+    assert client.post(f"/api/chats/{chat['id']}/call", headers=c.h).status_code in (403, 404)  # not a member
+    client.post(f"/api/users/{b.id}/block", headers=a.h)
+    assert client.post(f"/api/chats/{chat['id']}/call", headers=b.h).status_code == 403
