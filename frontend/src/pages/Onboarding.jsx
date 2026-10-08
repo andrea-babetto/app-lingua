@@ -38,7 +38,7 @@ export default function Onboarding() {
     try {
       const { data } = await api.put("/auth/profile", avatar !== (user?.avatar || "") ? { name, avatar, language } : { name, language });
       updateUser(data);
-      toast.success("All set! Welcome to Lingua");
+      toast.success("All set! Welcome to Glott");
       nav("/");
     } catch (err) {
       toast.error(errText(err.response?.data?.detail));

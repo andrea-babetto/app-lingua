@@ -54,6 +54,17 @@ Prepara un file di appunti (fuori da questo repository) dove segnare, man mano, 
    `JWT_SECRET` lo crea Render da solo.
 4. Premi **Apply** e attendi che entrambi i servizi risultino pubblicati.
 
+## 4b. Registrazione su invito (consigliata)
+
+Il sito è pubblico: chi ha il link potrebbe creare un account e usare, senza saperlo, la tua chiave di traduzione. Per tenerlo chiuso:
+
+1. In **lingua-api** → *Environment* → aggiungi `INVITE_CODE` con un codice che scegli tu (almeno 12 caratteri, lettere e numeri).
+2. Salva: il server si riavvia.
+3. Da quel momento chi si registra vede il campo **Invite code**. Chi ha già un account entra come prima, senza codice.
+4. Dai il codice solo alle persone che inviti. Per cambiarlo basta modificare la variabile (gli account esistenti restano).
+
+Senza `INVITE_CODE` la registrazione è aperta a tutti (il server lo scrive nei log all'avvio).
+
 ## 5. Collegare sito e server
 
 Servono gli indirizzi che Render ha assegnato (tipo `https://lingua-api-xxxx.onrender.com` e `https://lingua-web-xxxx.onrender.com`).

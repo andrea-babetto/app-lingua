@@ -157,7 +157,7 @@ export default function Chat() {
             <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
               <Languages className="w-10 h-10 text-primary" />
             </div>
-            <h2 className="text-xl font-bold">Welcome to Lingua</h2>
+            <h2 className="text-xl font-bold">Welcome to Glott</h2>
             <p className="text-sm text-muted-foreground max-w-xs mt-2">Select a chat or start a new one. Everyone writes in their own language — we translate the rest.</p>
           </div>
         )}

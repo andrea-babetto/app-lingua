@@ -10,9 +10,10 @@ import GoogleSignIn from "@/components/GoogleSignIn";
 
 export default function Login() {
   const [mode, setMode] = useState("login");
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", invite_code: "" });
   const [loading, setLoading] = useState(false);
   const [googleClientId, setGoogleClientId] = useState("");
+  const [inviteRequired, setInviteRequired] = useState(false);
   const { auth } = useAuth();
   const nav = useNavigate();
 
@@ -33,13 +34,16 @@ export default function Login() {
   };
 
   useEffect(() => {
-    api.get("/config").then(({ data }) => setGoogleClientId(data.google_client_id || "")).catch(() => {});
+    api.get("/config").then(({ data }) => {
+      setGoogleClientId(data.google_client_id || "");
+      setInviteRequired(!!data.invite_required);
+    }).catch(() => {});
   }, []);
 
   const googleCredential = async (credential) => {
     setLoading(true);
     try {
-      const { data } = await api.post("/auth/google", { credential });
+      const { data } = await api.post("/auth/google", { credential, invite_code: form.invite_code });
       auth(data);
       nav(data.user.language ? "/" : "/onboarding");
     } catch (err) {
@@ -53,7 +57,7 @@ export default function Login() {
     <div className="min-h-screen flex bg-background">
       <div className="hidden lg:flex flex-col justify-between w-1/2 bg-primary p-12 text-primary-foreground relative overflow-hidden">
         <div className="flex items-center gap-2 text-2xl font-bold tracking-tight z-10">
-          <Languages className="w-8 h-8" /> Lingua
+          <Languages className="w-8 h-8" /> Glott
         </div>
         <div className="z-10 space-y-6 max-w-md">
           <h1 className="text-5xl font-extrabold leading-tight">Everyone speaks their own language.</h1>
@@ -69,7 +73,7 @@ export default function Login() {
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-sm space-y-6">
           <div className="lg:hidden flex items-center gap-2 text-2xl font-bold text-primary justify-center">
-            <Languages className="w-7 h-7" /> Lingua
+            <Languages className="w-7 h-7" /> Glott
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight">{mode === "login" ? "Welcome back" : "Create your account"}</h2>
@@ -79,6 +83,10 @@ export default function Login() {
             {mode === "register" && (
               <Input data-testid="name-input" placeholder="Display name" value={form.name} required
                 onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            )}
+            {mode === "register" && inviteRequired && (
+              <Input data-testid="invite-input" placeholder="Invite code" value={form.invite_code} required autoComplete="off"
+                onChange={(e) => setForm({ ...form, invite_code: e.target.value })} />
             )}
             <Input data-testid="email-input" type="email" placeholder="Email" value={form.email} required
               onChange={(e) => setForm({ ...form, email: e.target.value })} />
