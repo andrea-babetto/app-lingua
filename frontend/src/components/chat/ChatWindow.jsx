@@ -57,6 +57,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const taRef = useRef();
   const scrollRef = useRef();
   const lastCount = useRef(0);
+  const atBottomRef = useRef(true);
   const isGroup = chat.type === "group";
 
   // each conversation keeps its own unsent text (this component is re-created for every chat)
@@ -81,16 +82,28 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     const n = messages.length, last = messages[n - 1];
     if (lastCount.current === 0) { scrollToBottom(false); }
     else if (n > lastCount.current) {
-      if (atBottom || last?.sender_id === user.id) scrollToBottom(true);
-      else setNewBelow((c) => c + (n - lastCount.current));
+      if (atBottomRef.current || last?.sender_id === user.id) {
+        // following the conversation: jump (a slow animated scroll would make a burst of messages look like "scrolled up")
+        atBottomRef.current = true; setAtBottom(true); setNewBelow(0);
+        scrollToBottom(false);
+      } else setNewBelow((c) => c + (n - lastCount.current));
     }
     lastCount.current = n;
   }, [messages, loading]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { if (typingUser && atBottom) scrollToBottom(true); }, [typingUser]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (typingUser && atBottomRef.current) scrollToBottom(false); }, [typingUser]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return undefined;
+    const keepBottom = () => { if (atBottomRef.current) scrollToBottom(false); };
+    vv.addEventListener("resize", keepBottom);
+    return () => vv.removeEventListener("resize", keepBottom);
+  }, [scrollToBottom]);
 
   const onScroll = (e) => {
     const el = e.currentTarget;
     const near = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
+    atBottomRef.current = near;
     setAtBottom(near);
     if (near) setNewBelow(0);
   };
