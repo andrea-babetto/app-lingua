@@ -77,7 +77,7 @@ async def main():
         await page.wait_for_timeout(1500)
         bubble = page.get_by_test_id(f"message-bubble-{mine['id']}")
         txt = await bubble.inner_text()
-        check("edited text and label shown", "grazie mille" in txt and "edited" in txt)
+        check("edited text and label shown", "grazie mille" in txt and "modificato" in txt)  # Giulia reads the app in Italian
 
         # 3. draft survives leaving and coming back
         await ta.fill("unsent draft")
@@ -127,7 +127,7 @@ async def main():
         await page.get_by_test_id("mobile-back-button").click()
         await page.get_by_test_id("tab-profile").click()
         await page.wait_for_timeout(600)
-        check("profile shows the notifications row", "Notifications" in await page.inner_text("body"))
+        check("profile shows the notifications row", "Notifiche" in await page.inner_text("body"))
         await page.get_by_test_id("change-password-toggle").click()
         await page.get_by_test_id("current-password-input").fill(PW)
         await page.get_by_test_id("new-password-input").fill("a-brand-new-pass-9")
@@ -138,7 +138,7 @@ async def main():
         check("password changed from the profile", r.status == 200)
         r = await api.get(f"{API}/auth/me", headers=H(gt))
         check("the old session is closed", r.status == 401)
-        check("this device stays signed in", "Profile" in await page.inner_text("body") and "Sign in" not in await page.inner_text("body"))
+        check("this device stays signed in", "Profilo" in await page.inner_text("body") and "Accedi" not in await page.inner_text("body"))
         await ctx.close()
 
         # 8. admin: list people and reset a password

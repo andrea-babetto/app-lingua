@@ -15,8 +15,12 @@ Script usati per controllare l'app in un browser simulato da telefono, **senza**
    `python tools/e2e/spa_server.py frontend/build 3000`
 3. Controlli (le immagini finiscono in `$SHOTS_DIR`, di default `/tmp/glott-shots`):
    - `python tools/e2e/features_check.py` — 17 controlli: menu del messaggio, reazioni, modifica, bozze, anteprima foto, tasto "vai in fondo", riconnessione, cambio password, reset da admin. **Cambia dati nel server di prova: riavviarlo prima di ripetere.**
+   - `python tools/e2e/i18n_check.py` — 9 controlli: lingua dell'interfaccia (browser, menu, profilo), arabo da destra a sinistra, pagine `/privacy` e `/terms` senza account, consenso alla registrazione, elimina account. **Cambia dati nel server di prova: riavviarlo prima di ripetere.**
    - `python tools/e2e/keyboard_check.py` — simula la tastiera (schermo ridotto) e controlla che l'intestazione resti ferma.
    - `python tools/e2e/palettes.py` — schermate con più palette, in un'unica immagine di confronto.
+
+## Lingue dell'interfaccia
+`python tools/extract_i18n.py` rilegge tutte le frasi `t("...")` del sito e scrive `frontend/src/i18n/source.json`; con `--check` dice quali lingue (`frontend/src/i18n/locales/*.json`) non hanno ancora una frase.
 
 ## Icone
 `python tools/e2e/make_icons.py H S L` (per esempio `205 85 44`) riscrive `frontend/public/icon-*.png`, `apple-touch-icon.png` e `favicon.svg` con il nome "glott" e il colore indicato.
