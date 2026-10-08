@@ -1,4 +1,5 @@
 """API tests: auth, privacy, permissions, uploads, translation flow, websocket."""
+import asyncio
 import time
 
 import pytest
@@ -437,7 +438,15 @@ def test_attachment_must_be_your_own_upload(client, make_person):
 
 
 # ---------------------------------------------------------------- voice
-def test_voice_message_without_transcription_service(client, make_person):
+def test_voice_messages_are_off_by_default(client, make_person):
+    a, b = make_person("a@x.com"), make_person("b@x.com")
+    chat = direct(client, a, b)
+    r = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=a.h)
+    assert r.status_code == 404
+
+
+def test_voice_message_without_transcription_service(client, make_person, monkeypatch):
+    monkeypatch.setenv("VOICE_MESSAGES", "true")
     a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
     chat = direct(client, a, b)
     r = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.webm", b"\x1a\x45\xdf\xa3" * 500, "audio/webm;codecs=opus")}, headers=a.h)
@@ -448,6 +457,7 @@ def test_voice_message_without_transcription_service(client, make_person):
 
 
 def test_voice_message_is_transcribed_and_translated(client, make_person, monkeypatch):
+    monkeypatch.setenv("VOICE_MESSAGES", "true")
     async def fake_transcribe(data, filename, content_type, language=""):
         assert language == "it"
         return "Come stai oggi?"
@@ -460,7 +470,8 @@ def test_voice_message_is_transcribed_and_translated(client, make_person, monkey
     assert got["display_text"] == "[en] Come stai oggi?" and got["attachment"]["is_voice"]
 
 
-def test_voice_rejects_wrong_type_and_outsiders(client, make_person):
+def test_voice_rejects_wrong_type_and_outsiders(client, make_person, monkeypatch):
+    monkeypatch.setenv("VOICE_MESSAGES", "true")
     a, b, evil = make_person("a@x.com"), make_person("b@x.com"), make_person("e@x.com")
     chat = direct(client, a, b)
     bad = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.html", b"<script>", "text/html")}, headers=a.h)
@@ -544,3 +555,115 @@ def test_invite_code_gates_google_signup(client, monkeypatch):
     assert client.post("/api/auth/google", json={"credential": "x" * 20, "invite_code": "s3cret-code"}).status_code == 200
     # once the account exists, Google sign-in needs no code
     assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 200
+
+
+# ---------------------------------------------------------------- edit, reactions
+def test_edit_message_retranslates_and_is_limited_to_the_sender(client, make_person):
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao a tutti"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    assert client.put(f"/api/messages/{m['id']}", json={"text": "hack"}, headers=b.h).status_code == 403
+    assert client.put(f"/api/messages/{m['id']}", json={"text": "   "}, headers=a.h).status_code == 400
+    r = client.put(f"/api/messages/{m['id']}", json={"text": "buongiorno a tutti"}, headers=a.h)
+    assert r.status_code == 200 and r.json()["edited"] is True
+    got = wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent" and x["display_text"] == "[en] buongiorno a tutti")
+    assert got["edited"] is True and got["original_text"] == "buongiorno a tutti"
+
+
+def test_edit_window_and_deleted_messages(client, make_person):
+    a, b = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "old"}, headers=a.h).json()
+    old = (server.datetime.now(server.timezone.utc) - server.timedelta(minutes=45)).isoformat()
+    asyncio.run(server.db.messages.update_one({"id": m["id"]}, {"$set": {"created_at": old}}))
+    assert client.put(f"/api/messages/{m['id']}", json={"text": "too late"}, headers=a.h).status_code == 400
+    fresh = client.post("/api/messages", json={"chat_id": chat["id"], "text": "new"}, headers=a.h).json()
+    client.delete(f"/api/messages/{fresh['id']}?for_all=true", headers=a.h)
+    assert client.put(f"/api/messages/{fresh['id']}", json={"text": "back"}, headers=a.h).status_code == 403
+
+
+def test_reactions_toggle_and_only_members_can_react(client, make_person):
+    a, b, evil = make_person("a@x.com"), make_person("b@x.com"), make_person("e@x.com")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "hi"}, headers=a.h).json()
+    react = lambda who, e: client.post(f"/api/messages/{m['id']}/react", json={"emoji": e}, headers=who.h)
+    assert react(evil, "👍").status_code == 403
+    assert react(b, "🦄").status_code == 400                      # only the allowed set
+    assert react(b, "👍").json()["reactions"] == {"👍": [b.id]}
+    assert react(a, "👍").json()["reactions"] == {"👍": [b.id, a.id]}
+    assert react(b, "❤️").json()["reactions"] == {"👍": [a.id], "❤️": [b.id]}  # one reaction per person
+    assert react(b, "❤️").json()["reactions"] == {"👍": [a.id]}              # same emoji again removes it
+    got = client.get(f"/api/messages/{chat['id']}", headers=a.h).json()[0]
+    assert got["reactions"] == {"👍": [a.id]}
+
+
+# ---------------------------------------------------------------- notifications
+def test_push_subscription_rules(client, make_person):
+    a = make_person("a@x.com")
+    key = client.get("/api/push/key", headers=a.h).json()["public_key"]
+    assert len(key) > 80 and client.get("/api/push/key", headers=a.h).json()["public_key"] == key  # stable
+    sub = {"endpoint": "https://fcm.googleapis.com/fcm/send/abc", "keys": {"p256dh": "p" * 40, "auth": "a" * 20}}
+    assert client.post("/api/push/subscribe", json=sub, headers=a.h).status_code == 200
+    for bad in ("http://fcm.googleapis.com/x", "https://evil.example/hook", "https://169.254.169.254/latest", "https://fcm.googleapis.com.evil.com/x"):
+        assert client.post("/api/push/subscribe", json={**sub, "endpoint": bad}, headers=a.h).status_code == 400, bad
+    assert client.post("/api/push/subscribe", json=sub).status_code == 401
+    assert client.post("/api/push/unsubscribe", json={"endpoint": sub["endpoint"]}, headers=a.h).status_code == 200
+
+
+def test_offline_members_get_a_notification_in_their_language(client, make_person, monkeypatch):
+    sent = []
+
+    async def fake_send(db, user_id, payload, contact=""):
+        sent.append((user_id, payload))
+        return 1
+    monkeypatch.setattr(server.push, "send_to_user", fake_send)
+    a, b = make_person("a@x.com", "Anna", lang="it"), make_person("b@x.com", "Bob", lang="en")
+    chat = direct(client, a, b)
+    sub = {"endpoint": "https://fcm.googleapis.com/fcm/send/b", "keys": {"p256dh": "p" * 40, "auth": "a" * 20}}
+    client.post("/api/push/subscribe", json=sub, headers=b.h)
+
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao Bob"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    time.sleep(0.2)
+    assert sent == [(b.id, {"title": "Anna", "body": "[en] ciao Bob", "chat_id": chat["id"]})]
+
+    # someone using the app right now is not notified, and the sender never is
+    sent.clear()
+    server.ws_manager.conns[b.id] = {object()}
+    server.ws_manager.touch(b.id)
+    m2 = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ancora"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m2["id"], lambda x: x["status"] == "sent")
+    time.sleep(0.2)
+    assert sent == []
+    server.ws_manager.conns.pop(b.id, None)
+
+
+# ---------------------------------------------------------------- passwords
+def test_change_password_and_old_sessions_stop_working(client, make_person):
+    a = make_person("a@x.com")
+    r = client.post("/api/auth/change-password", json={"current_password": "wrong-one", "new_password": "brand-new-pass-1"}, headers=a.h)
+    assert r.status_code == 400
+    assert client.post("/api/auth/change-password", json={"current_password": "correct-horse-1", "new_password": "short"}, headers=a.h).status_code == 422
+    time.sleep(1.1)  # tokens carry whole seconds
+    r = client.post("/api/auth/change-password", json={"current_password": "correct-horse-1", "new_password": "brand-new-pass-1"}, headers=a.h)
+    assert r.status_code == 200
+    assert client.get("/api/auth/me", headers=a.h).status_code == 401           # the old token is dead
+    assert client.get("/api/auth/me", headers={"Authorization": f"Bearer {r.json()['token']}"}).status_code == 200
+    assert client.post("/api/auth/login", json={"email": "a@x.com", "password": "correct-horse-1"}).status_code == 401
+    assert client.post("/api/auth/login", json={"email": "a@x.com", "password": "brand-new-pass-1"}).status_code == 200
+
+
+def test_admin_can_list_users_and_reset_a_password(client, make_person):
+    admin, u = make_person("admin@x.com"), make_person("user@x.com")
+    assert client.get("/api/admin/users", headers=u.h).status_code == 403
+    assert client.post(f"/api/admin/users/{u.id}/reset-password", headers=u.h).status_code == 403
+    asyncio.run(server.db.users.update_one({"id": admin.id}, {"$set": {"role": "admin"}}))
+    rows = client.get("/api/admin/users", headers=admin.h).json()
+    assert {r["email"] for r in rows} == {"admin@x.com", "user@x.com"} and all("password_hash" not in r for r in rows)
+    assert client.post(f"/api/admin/users/{admin.id}/reset-password", headers=admin.h).status_code == 404  # not yourself
+    time.sleep(1.1)
+    temp = client.post(f"/api/admin/users/{u.id}/reset-password", headers=admin.h).json()["temporary_password"]
+    assert len(temp) >= 10
+    assert client.get("/api/auth/me", headers=u.h).status_code == 401
+    assert client.post("/api/auth/login", json={"email": "user@x.com", "password": temp}).status_code == 200

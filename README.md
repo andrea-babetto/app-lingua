@@ -45,7 +45,7 @@ Serve un MongoDB raggiungibile (`MONGO_URL`). Per provare senza AI a pagamento: 
 ## Test
 
 ```bash
-cd backend && pytest        # 71 test, senza rete e senza database reale (MongoDB simulato)
+cd backend && pytest        # 79 test, senza rete e senza database reale (MongoDB simulato)
 cd frontend && yarn build   # controlla che il sito compili
 ```
 

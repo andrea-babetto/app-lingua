@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2, BookMarked, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, BarChart3, LogOut, ChevronRight } from "lucide-react";
+import { Plus, Trash2, BookMarked, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, BarChart3, LogOut, ChevronRight, Bell, KeyRound } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
+import { disablePush, enablePush, pushState } from "@/lib/push";
 import { langByCode } from "@/data/languages";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,75 @@ function Section({ title, children }) {
   );
 }
 
+function NotificationsRow() {
+  const [state, setState] = useState(null);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { pushState().then(setState); }, []);
+
+  const toggle = async (on) => {
+    setBusy(true);
+    try {
+      if (on) { await enablePush(); setState("on"); toast.success("Notifications are on"); }
+      else { await disablePush(); setState("off"); }
+    } catch { toast.error("Notifications were not allowed on this device"); setState(await pushState()); }
+    finally { setBusy(false); }
+  };
+
+  const note = {
+    "needs-install": "On iPhone: tap Share, then Add to Home Screen, and open glott from there.",
+    blocked: "Blocked for this site. Allow notifications in your browser or phone settings.",
+    unsupported: "This browser cannot show notifications.",
+  }[state];
+
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <div className="flex items-start gap-2">
+        <Bell className="w-4 h-4 mt-0.5 text-muted-foreground" />
+        <div>
+          <div className="text-sm font-medium">Notifications</div>
+          <div className="text-xs text-muted-foreground">{note || "Get notified when someone writes to you"}</div>
+        </div>
+      </div>
+      {(state === "on" || state === "off") && <Switch data-testid="push-switch" checked={state === "on"} disabled={busy} onCheckedChange={toggle} />}
+    </div>
+  );
+}
+
+function PasswordSection() {
+  const { auth } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [cur, setCur] = useState("");
+  const [next, setNext] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      const { data } = await api.post("/auth/change-password", { current_password: cur, new_password: next });
+      auth(data); // the old sign-in stops working, this is the new one
+      toast.success("Password changed");
+      setOpen(false); setCur(""); setNext("");
+    } catch (err) { toast.error(errText(err.response?.data?.detail)); }
+    finally { setBusy(false); }
+  };
+
+  return (
+    <div>
+      <button data-testid="change-password-toggle" onClick={() => setOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
+        <KeyRound className="w-4 h-4 text-muted-foreground" /> Change password <ChevronRight className={`w-4 h-4 ms-auto text-muted-foreground transition ${open ? "rotate-90" : ""}`} />
+      </button>
+      {open && (
+        <form onSubmit={submit} className="mt-3 space-y-2.5">
+          <Input data-testid="current-password-input" type="password" autoComplete="current-password" placeholder="Current password" value={cur} onChange={(e) => setCur(e.target.value)} />
+          <Input data-testid="new-password-input" type="password" autoComplete="new-password" placeholder="New password (8+ characters)" minLength={8} maxLength={72} required value={next} onChange={(e) => setNext(e.target.value)} />
+          <Button type="submit" className="w-full" disabled={busy || next.length < 8} data-testid="change-password-save">{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save new password"}</Button>
+        </form>
+      )}
+    </div>
+  );
+}
+
 export default function ProfilePanel({ onOpenAdmin }) {
   const { user, updateUser, logout } = useAuth();
   const { theme, toggle } = useTheme();
@@ -31,6 +101,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
   const [phone, setPhone] = useState(user.phone || "");
   const [uploading, setUploading] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const fileRef = useRef();
 
   useEffect(() => { api.get("/glossary").then(({ data }) => setGlossary(data)).catch(() => {}); }, []);
@@ -109,11 +180,15 @@ export default function ProfilePanel({ onOpenAdmin }) {
       </Section>
 
       <Section title="My language">
-        <div className="text-sm font-medium">{lang.flag} {lang.name}</div>
-        <LanguagePicker value={user.language} onChange={changeLang} testId="settings-language" />
+        <button data-testid="language-toggle" onClick={() => setLangOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
+          <span className="text-xl leading-none">{lang.flag}</span> {lang.name}
+          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? "Close" : "Change"}</span>
+        </button>
+        {langOpen && <LanguagePicker value={user.language} onChange={(c) => { changeLang(c); setLangOpen(false); }} testId="settings-language" />}
       </Section>
 
       <Section title="Preferences">
+        <NotificationsRow />
         <div className="flex items-center justify-between gap-3">
           <div><div className="text-sm font-medium">Show original under translation</div><div className="text-xs text-muted-foreground">Reveal source text by default</div></div>
           <Switch data-testid="show-original-switch" checked={!!user.settings?.show_original} onCheckedChange={toggleOriginal} />
@@ -144,6 +219,8 @@ export default function ProfilePanel({ onOpenAdmin }) {
           ))}
         </div>
       </Section>
+
+      <Section><PasswordSection /></Section>
 
       {user.role === "admin" && (
         <Section>

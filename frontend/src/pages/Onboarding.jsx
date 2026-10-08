@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import LanguagePicker from "@/components/LanguagePicker";
+import Logo from "@/components/Logo";
 import { langByCode } from "@/data/languages";
 
 export default function Onboarding() {
@@ -38,7 +39,7 @@ export default function Onboarding() {
     try {
       const { data } = await api.put("/auth/profile", avatar !== (user?.avatar || "") ? { name, avatar, language } : { name, language });
       updateUser(data);
-      toast.success("All set! Welcome to Glott");
+      toast.success("All set! Welcome to glott");
       nav("/");
     } catch (err) {
       toast.error(errText(err.response?.data?.detail));
@@ -51,7 +52,8 @@ export default function Onboarding() {
     <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <div className="w-full max-w-md bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Set up your profile</h1>
+          <Logo className="text-3xl text-primary mb-4" />
+          <h1 className="text-2xl font-extrabold tracking-tight">Set up your profile</h1>
           <p className="text-sm text-muted-foreground mt-1">This is how others will see you. Add a photo if you like, and pick the language you want to read & write in.</p>
         </div>
 

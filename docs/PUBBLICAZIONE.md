@@ -65,6 +65,12 @@ Il sito è pubblico: chi ha il link potrebbe creare un account e usare, senza sa
 
 Senza `INVITE_CODE` la registrazione è aperta a tutti (il server lo scrive nei log all'avvio).
 
+## 4c. Notifiche, vocali e password dimenticate
+
+- **Notifiche con l'app chiusa:** non c'è niente da configurare (il server crea da solo le chiavi). Ogni persona le attiva dal proprio telefono: *Profilo → Notifications*, oppure dal riquadro che compare sopra l'elenco chat. Su **iPhone** funzionano solo se l'app è stata aggiunta alla Home (Condividi → Aggiungi a Home) e si apre da lì (iOS 16.4 o successivo).
+- **Vocali:** per ora spenti (solo testo). Per riattivarli: variabile `VOICE_MESSAGES` = `true` su lingua-api, e (per trascriverli e tradurli) `OPENAI_API_KEY`. Nel sito va anche rimesso il pulsante del microfono: oggi non c'è.
+- **Password dimenticata:** nel sito apri `/admin` → elenco *People* → **Reset password**: ti dà una password temporanea da mandare alla persona (la vecchia smette di funzionare). La persona può cambiarla da *Profilo → Change password*.
+
 ## 5. Collegare sito e server
 
 Servono gli indirizzi che Render ha assegnato (tipo `https://lingua-api-xxxx.onrender.com` e `https://lingua-web-xxxx.onrender.com`).
