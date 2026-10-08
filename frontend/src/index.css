@@ -59,7 +59,7 @@
 @layer base {
   :root {
     /* The brand colour is defined once (hue / saturation / lightness); everything else follows it. */
-    --h: 243; --s: 75%; --l: 59%;
+    --h: 205; --s: 85%; --l: 44%;
     --background: 220 20% 97%;
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
