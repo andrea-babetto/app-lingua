@@ -163,7 +163,7 @@ export default function Chat() {
           <ChatWindow chat={active} messages={messages} onSend={send} onBack={() => { setMobileView("list"); setActive(null); setInfoOpen(false); }}
             typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} onToneChange={changeTone} bottomRef={bottomRef} />
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-muted/20">
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">
             <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
               <Languages className="w-10 h-10 text-primary" />
             </div>

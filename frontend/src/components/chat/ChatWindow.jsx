@@ -129,7 +129,7 @@ export default function ChatWindow({ chat, messages, onSend, onBack, typingUser,
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button data-testid="tone-selector-trigger" variant="ghost" size="sm" className="gap-1.5 text-xs">
-              <Settings2 className="w-3.5 h-3.5" /> {TONES[chat.tone] || "Neutral"}
+              <Settings2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{TONES[chat.tone] || "Neutral"}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
