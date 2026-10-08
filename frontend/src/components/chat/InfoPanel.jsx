@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check } from "lucide-react";
+import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check, Trash2 } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked }) {
+export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked, onDelete }) {
   const { user, reload } = useAuth();
   const isGroup = chat.type === "group";
   const meAdmin = (chat.admins || []).includes(user.id);
@@ -23,6 +23,7 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked 
   const [gDesc, setGDesc] = useState(chat.description || "");
   const [gAvatar, setGAvatar] = useState(chat.display_avatar || "");
   const [reportOpen, setReportOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [reason, setReason] = useState("");
 
   const other = chat.other_user;
@@ -120,7 +121,7 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked 
             <>
               <div className="text-xl font-bold">{chat.display_name}</div>
               {!isGroup && other && <div className="text-sm text-muted-foreground">@{other.username} · {langByCode(other.language).flag} reads & writes in {langByCode(other.language).name}</div>}
-              {isGroup && <div className="text-sm text-muted-foreground">{members.length} members · tone {chat.tone}</div>}
+              {isGroup && <div className="text-sm text-muted-foreground">{members.length} members</div>}
               {isGroup && chat.description && <p className="text-sm text-muted-foreground mt-1">{chat.description}</p>}
             </>
           )}
@@ -181,17 +182,34 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked 
             <Button variant="outline" className="w-full justify-start text-destructive" onClick={() => setReportOpen(true)} data-testid="report-user-button">
               <Flag className="w-4 h-4 mr-2" /> Report user
             </Button>
+            <Button variant="outline" className="w-full justify-start text-destructive" onClick={() => setDeleteOpen(true)} data-testid="delete-chat-button">
+              <Trash2 className="w-4 h-4 mr-2" /> Delete chat
+            </Button>
           </div>
         )}
       </div>
 
       {isGroup && !editing && (
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-2">
           <Button variant="outline" className="w-full text-destructive" onClick={leave} data-testid="group-leave-button">
             <LogOut className="w-4 h-4 mr-2" /> Leave group
           </Button>
+          <Button variant="outline" className="w-full text-destructive" onClick={() => setDeleteOpen(true)} data-testid="delete-chat-button">
+            <Trash2 className="w-4 h-4 mr-2" /> Delete chat
+          </Button>
         </div>
       )}
+
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent data-testid="delete-chat-info-dialog">
+          <DialogHeader><DialogTitle>Delete chat with {chat.display_name}?</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">The conversation is removed from your list and your history is cleared. It does not change anything for the other people.</p>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
+            <Button className="text-destructive-foreground bg-destructive hover:bg-destructive/90" onClick={() => { setDeleteOpen(false); onDelete(); }} data-testid="confirm-delete-chat-info">Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={reportOpen} onOpenChange={setReportOpen}>
         <DialogContent data-testid="report-dialog">

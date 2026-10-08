@@ -274,6 +274,39 @@ def test_chat_list_preview_shows_text_not_attachment(client, make_person):
     assert last["display_text"] == "[en] ciao a tutti" and last["attachment"] is None
 
 
+def test_delete_chat_only_affects_me_and_it_comes_back_empty(client, make_person):
+    a, b, evil = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en"), make_person("e@x.com", lang="en")
+    chat = direct(client, a, b)
+    cid = chat["id"]
+    client.post("/api/messages", json={"chat_id": cid, "text": "old one"}, headers=a.h)
+    assert client.get("/api/chats", headers=b.h).json()[0]["unread"] == 1
+
+    assert client.post(f"/api/chats/{cid}/delete", headers=evil.h).status_code == 403  # members only
+    assert client.post(f"/api/chats/{cid}/delete", headers=b.h).status_code == 200
+    assert client.get("/api/chats", headers=b.h).json() == []                      # gone from my list
+    assert [c["id"] for c in client.get("/api/chats", headers=a.h).json()] == [cid]  # the other person keeps it
+    assert len(client.get(f"/api/messages/{cid}", headers=a.h).json()) == 1
+    assert "hidden_for" not in client.get("/api/chats", headers=a.h).json()[0]       # nobody learns who deleted it
+
+    # a new message brings it back, with only the new message and no stale unread count
+    client.post("/api/messages", json={"chat_id": cid, "text": "new one"}, headers=a.h)
+    back = client.get("/api/chats", headers=b.h).json()
+    assert [c["id"] for c in back] == [cid] and back[0]["unread"] == 1
+    assert [m["original_text"] for m in client.get(f"/api/messages/{cid}", headers=b.h).json()] == ["new one"]
+
+
+def test_starting_a_deleted_chat_again_shows_it_again(client, make_person):
+    a, b = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    client.post("/api/messages", json={"chat_id": chat["id"], "text": "hello"}, headers=a.h)
+    client.post(f"/api/chats/{chat['id']}/delete", headers=a.h)
+    assert client.get("/api/chats", headers=a.h).json() == []
+    again = client.post(f"/api/chats/direct/{b.id}", headers=a.h).json()
+    assert again["id"] == chat["id"]
+    assert [c["id"] for c in client.get("/api/chats", headers=a.h).json()] == [chat["id"]]
+    assert client.get(f"/api/messages/{chat['id']}", headers=a.h).json() == []  # history stays cleared
+
+
 # ---------------------------------------------------------------- permissions
 def test_outsiders_cannot_touch_a_chat(client, make_person):
     a, b, evil = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en"), make_person("e@x.com", lang="en")
@@ -287,9 +320,8 @@ def test_outsiders_cannot_touch_a_chat(client, make_person):
         client.post(f"/api/messages/{cid}/read", headers=evil.h),
         client.post(f"/api/messages/{mid}/retry", headers=evil.h),
         client.delete(f"/api/messages/{mid}", headers=evil.h),
-        client.put(f"/api/chats/{cid}/tone", params={"tone": "formal"}, headers=evil.h),
     ]
-    assert [r.status_code for r in attempts] == [403] * 7
+    assert [r.status_code for r in attempts] == [403] * 6
     assert [c["id"] for c in client.get("/api/chats", headers=evil.h).json()] == []
 
 
@@ -302,14 +334,11 @@ def test_accepting_requires_a_real_request(client, make_person):
     assert client.post(f"/api/contacts/request/{a.id}", headers=a.h).status_code == 400  # not yourself
 
 
-def test_tone_and_group_rules(client, make_person):
+def test_group_rules(client, make_person):
     a, b = make_person("a@x.com"), make_person("b@x.com")
-    chat = direct(client, a, b)
-    assert client.put(f"/api/chats/{chat['id']}/tone", params={"tone": "shouting"}, headers=a.h).status_code == 400
-    assert client.put(f"/api/chats/{chat['id']}/tone", params={"tone": "formal"}, headers=b.h).status_code == 200
     g = client.post("/api/chats/group", json={"name": "G", "member_ids": [b.id], "tone": "weird"}, headers=a.h).json()
-    assert g["tone"] == "neutral"
-    assert client.put(f"/api/chats/{g['id']}/tone", params={"tone": "casual"}, headers=b.h).status_code == 403  # admins only in groups
+    assert g["tone"] == "neutral"  # there is one tone for everybody; a client cannot pick another
+    assert client.put(f"/api/chats/{g['id']}/tone", params={"tone": "casual"}, headers=a.h).status_code in (404, 405)
     assert client.post(f"/api/chats/{g['id']}/members", json={"member_ids": []}, headers=b.h).status_code == 403
     assert client.put(f"/api/chats/{g['id']}/admin/{b.id}", headers=b.h).status_code == 403
     assert client.post("/api/chats/group", json={"name": "", "member_ids": []}, headers=a.h).status_code == 422

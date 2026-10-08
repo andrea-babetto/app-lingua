@@ -15,7 +15,7 @@ export default function MessageBubble({ msg, mine, onReply }) {
   const failed = msg.status === "translation_failed" && !mine;
   const bodyText = showOriginal ? msg.original_text : msg.display_text;
   const rtl = showOriginal ? isRTL(msg.original_language) : (msg.is_translated ? isRTL(user.language) : isRTL(msg.original_language));
-  const time = new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const time = new Date(msg.created_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
   const isVoice = msg.attachment?.is_voice;
 
   const copy = (t) => { navigator.clipboard.writeText(t); toast.success("Copied"); };

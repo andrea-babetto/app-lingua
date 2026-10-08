@@ -23,7 +23,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 import stt
 import storage
-from translation import TranslationEngine, TONES
+from translation import TranslationEngine
 from languages import LANGUAGES, RTL_CODES
 from security import (
     limiter, client_ip, ALLOWED_UPLOADS, IMAGE_TYPES, AUDIO_TYPES, normalize_content_type, sniff_ok,
@@ -49,6 +49,9 @@ MAX_UPLOAD_BYTES = int(float(os.environ.get("MAX_UPLOAD_MB", "15")) * 1024 * 102
 MAX_VOICE_BYTES = 25 * 1024 * 1024
 ALLOWED_ORIGINS = [o.strip().rstrip("/") for o in os.environ.get("CORS_ORIGINS", "http://localhost:3000").split(",") if o.strip()]
 LANG_CODES = {l["code"] for l in LANGUAGES}
+
+# One translation register for everybody (the engine can do formal/casual, the app does not expose it).
+DEFAULT_TONE = "neutral"
 
 engine = TranslationEngine(db)
 
@@ -499,8 +502,10 @@ async def enrich_chat(chat, me_id):
     last = await db.messages.find_one({"chat_id": chat["id"], "deleted_for": {"$ne": me_id}}, {"_id": 0}, sort=[("created_at", -1)])
     if last:
         last = message_view(last, me_lang, me_id)
-    unread = await db.messages.count_documents({"chat_id": chat["id"], "sender_id": {"$ne": me_id}, "read_by": {"$ne": me_id}})
+    unread = await db.messages.count_documents({"chat_id": chat["id"], "sender_id": {"$ne": me_id}, "read_by": {"$ne": me_id},
+                                                "deleted_for": {"$ne": me_id}})
     out = dict(chat)
+    out.pop("hidden_for", None)  # who deleted the chat is private to each person
     out["members_info"] = members
     out["last_message"] = last
     out["unread"] = unread
@@ -560,14 +565,16 @@ async def get_or_create_direct(a, b):
     chat = await db.chats.find_one({"type": "direct", "members": {"$all": [a, b], "$size": 2}}, {"_id": 0})
     if not chat:
         chat = {"id": str(uuid.uuid4()), "type": "direct", "name": "", "members": [a, b],
-                "admins": [], "tone": "neutral", "created_at": now_iso()}
+                "admins": [], "tone": DEFAULT_TONE, "created_at": now_iso()}
         await db.chats.insert_one(dict(chat))
+    elif a in chat.get("hidden_for", []):
+        await db.chats.update_one({"id": chat["id"]}, {"$pull": {"hidden_for": a}})
     return await enrich_chat(chat, a)
 
 
 @api.get("/chats")
 async def list_chats(user=Depends(get_current_user)):
-    cur = db.chats.find({"members": user["id"]}, {"_id": 0})
+    cur = db.chats.find({"members": user["id"], "hidden_for": {"$ne": user["id"]}}, {"_id": 0})
     chats = [await enrich_chat(c, user["id"]) for c in await cur.to_list(200)]
     chats.sort(key=lambda c: (c["last_message"]["created_at"] if c["last_message"] else c["created_at"]), reverse=True)
     return chats
@@ -588,7 +595,6 @@ async def create_direct(other_id: str, user=Depends(get_current_user)):
 class GroupIn(BaseModel):
     name: str = Field(min_length=1, max_length=60)
     member_ids: List[str] = Field(max_length=49)
-    tone: Optional[str] = "neutral"
 
 
 async def _valid_member_ids(ids, adder_id):
@@ -603,9 +609,8 @@ async def create_group(body: GroupIn, user=Depends(get_current_user)):
     limiter.check(f"group:{user['id']}", 10, 3600)
     valid = await _valid_member_ids(body.member_ids, user["id"])
     members = ([user["id"]] + [m for m in valid if m != user["id"]])[:50]
-    tone = body.tone if body.tone in TONES else "neutral"
     chat = {"id": str(uuid.uuid4()), "type": "group", "name": body.name.strip(), "members": members,
-            "admins": [user["id"]], "tone": tone, "created_at": now_iso()}
+            "admins": [user["id"]], "tone": DEFAULT_TONE, "created_at": now_iso()}
     await db.chats.insert_one(dict(chat))
     enriched = await enrich_chat(chat, user["id"])
     for m in members:
@@ -613,17 +618,14 @@ async def create_group(body: GroupIn, user=Depends(get_current_user)):
     return enriched
 
 
-@api.put("/chats/{chat_id}/tone")
-async def set_tone(chat_id: str, tone: str, user=Depends(get_current_user)):
-    chat = await get_chat_for(chat_id, user)
-    if tone not in TONES:
-        raise HTTPException(status_code=400, detail="Tone must be formal, neutral or casual")
-    if chat["type"] == "group" and user["id"] not in chat.get("admins", []):
-        raise HTTPException(status_code=403, detail="Only admins can change the tone")
-    await db.chats.update_one({"id": chat_id}, {"$set": {"tone": tone}})
-    for mid in chat["members"]:
-        await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
-    return {"tone": tone}
+@api.post("/chats/{chat_id}/delete")
+async def delete_chat_for_me(chat_id: str, user=Depends(get_current_user)):
+    """Remove the conversation from my list and clear my copy of its history. Other members are not affected;
+    the chat comes back (empty) if someone writes again or if I start it again."""
+    await get_chat_for(chat_id, user)
+    await db.messages.update_many({"chat_id": chat_id}, {"$addToSet": {"deleted_for": user["id"]}})
+    await db.chats.update_one({"id": chat_id}, {"$addToSet": {"hidden_for": user["id"]}})
+    return {"ok": True}
 
 
 class AddMembersIn(BaseModel):
@@ -757,6 +759,8 @@ async def resolve_attachment(att, user):
 
 
 async def deliver(msg, chat):
+    if chat.get("hidden_for"):
+        await db.chats.update_one({"id": chat["id"]}, {"$set": {"hidden_for": []}})
     for mid in chat["members"]:
         u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
         await ws_manager.send(mid, {"type": "new_message", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat["id"]})
@@ -794,7 +798,7 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)  # instant broadcast of the original
     if text:
-        spawn(translate_message_async(msg["id"], body.chat_id, sender_lang, text, chat.get("tone", "neutral")))
+        spawn(translate_message_async(msg["id"], body.chat_id, sender_lang, text, DEFAULT_TONE))
     return message_view(msg, sender_lang, user["id"])
 
 
@@ -823,7 +827,7 @@ async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), use
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)
     if transcript:
-        spawn(translate_message_async(msg["id"], chat_id, sender_lang, transcript, chat.get("tone", "neutral")))
+        spawn(translate_message_async(msg["id"], chat_id, sender_lang, transcript, DEFAULT_TONE))
     return message_view(msg, sender_lang, user["id"])
 
 
@@ -877,7 +881,7 @@ async def retry_translation(msg_id: str, user=Depends(get_current_user)):
     chat = await get_chat_for(msg["chat_id"], user)
     if msg.get("deleted_for_all") or not msg.get("original_text"):
         raise HTTPException(status_code=400, detail="Nothing to translate")
-    spawn(translate_message_async(msg_id, msg["chat_id"], msg["original_language"], msg["original_text"], chat.get("tone", "neutral")))
+    spawn(translate_message_async(msg_id, msg["chat_id"], msg["original_language"], msg["original_text"], DEFAULT_TONE))
     return {"ok": True}
 
 

@@ -6,16 +6,16 @@ export const useTheme = () => useContext(ThemeContext);
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     let saved = null;
-    try { saved = localStorage.getItem("lingua_theme"); } catch { /* storage blocked */ }
+    try { saved = localStorage.getItem("glott_theme"); } catch { /* storage blocked */ }
     if (saved) return saved;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    return "light"; // white theme by default; dark mode is a switch in Profile
   });
 
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "dark") root.classList.add("dark");
     else root.classList.remove("dark");
-    try { localStorage.setItem("lingua_theme", theme); } catch { /* storage blocked */ }
+    try { localStorage.setItem("glott_theme", theme); } catch { /* storage blocked */ }
   }, [theme]);
 
   const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"));

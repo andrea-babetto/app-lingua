@@ -7,7 +7,6 @@ import { useAuth } from "@/context/AuthContext";
 import Sidebar from "@/components/chat/Sidebar";
 import ChatWindow from "@/components/chat/ChatWindow";
 import NewChatDialog from "@/components/chat/NewChatDialog";
-import SettingsDialog from "@/components/chat/SettingsDialog";
 import InfoPanel from "@/components/chat/InfoPanel";
 
 // iOS Safari (outside an installed web app) has no Notification object at all.
@@ -22,7 +21,7 @@ export default function Chat() {
   const [requests, setRequests] = useState([]);
   const [typing, setTyping] = useState(null);
   const [newChatOpen, setNewChatOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [newChatTab, setNewChatTab] = useState("person");
   const [infoOpen, setInfoOpen] = useState(false);
   const [mobileView, setMobileView] = useState("list"); // list | chat
   const wsRef = useRef(null);
@@ -90,7 +89,7 @@ export default function Chat() {
         const c = activeRef.current;
         if (c) {
           const f = fresh.find((x) => x.id === c.id);
-          if (f) setActive((a) => ({ ...a, tone: f.tone, members: f.members, members_info: f.members_info, admins: f.admins }));
+          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins }));
         }
       }
     };
@@ -133,27 +132,31 @@ export default function Chat() {
   };
   const decline = async (id) => { await api.post(`/contacts/decline/${id}`); loadRequests(); };
 
-  const changeTone = async (tone) => {
-    await api.put(`/chats/${active.id}/tone?tone=${tone}`);
-    setActive((a) => ({ ...a, tone }));
-    setChats((cs) => cs.map((c) => (c.id === active.id ? { ...c, tone } : c)));
-    toast.success(`Translation tone: ${tone}`);
+  const closeActive = () => { setActive(null); setInfoOpen(false); setMobileView("list"); };
+
+  const deleteChat = async (chat) => {
+    try {
+      await api.post(`/chats/${chat.id}/delete`);
+      if (activeRef.current?.id === chat.id) closeActive();
+      await loadChats();
+      toast.success("Chat deleted");
+    } catch { toast.error("Could not delete the chat"); }
   };
 
   return (
-    <div className="h-screen w-screen flex overflow-hidden bg-background">
+    <div className="h-dvh w-screen flex overflow-hidden bg-background">
       <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-80 lg:w-96 shrink-0 border-r border-border flex-col`}>
-        <Sidebar chats={chats} activeId={active?.id} onSelect={openChat} onNewChat={() => setNewChatOpen(true)}
-          onOpenSettings={() => setSettingsOpen(true)} onOpenAdmin={() => nav("/admin")}
+        <Sidebar chats={chats} activeId={active?.id} onSelect={openChat} onNewChat={(kind) => { setNewChatTab(kind); setNewChatOpen(true); }}
+          onOpenAdmin={() => nav("/admin")} onDeleteChat={deleteChat}
           requests={requests} onAccept={accept} onDecline={decline} />
       </div>
 
       <div className={`${mobileView === "chat" ? "flex" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping}>
         {active ? (
           <ChatWindow chat={active} messages={messages} onSend={send} onBack={() => { setMobileView("list"); setActive(null); setInfoOpen(false); }}
-            typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} onToneChange={changeTone} bottomRef={bottomRef} />
+            typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-muted/20">
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">
             <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
               <Languages className="w-10 h-10 text-primary" />
             </div>
@@ -168,12 +171,12 @@ export default function Chat() {
           const fresh = await loadChats();
           const f = fresh.find((x) => x.id === active.id);
           if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins }));
-        }} onLeft={() => { setActive(null); setInfoOpen(false); setMobileView("list"); loadChats(); }}
-        onBlocked={() => { setActive(null); setInfoOpen(false); setMobileView("list"); loadChats(); }} />
+        }} onLeft={() => { closeActive(); loadChats(); }}
+        onBlocked={() => { closeActive(); loadChats(); }}
+        onDelete={() => deleteChat(active)} />
       )}
 
-      <NewChatDialog open={newChatOpen} onOpenChange={setNewChatOpen} onStartChat={(c) => { loadChats(); openChat(c); }} />
-      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <NewChatDialog open={newChatOpen} onOpenChange={setNewChatOpen} initialTab={newChatTab} onStartChat={(c) => { loadChats(); openChat(c); }} />
     </div>
   );
 }
