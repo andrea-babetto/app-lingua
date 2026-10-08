@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api, WS_URL } from "@/lib/api";
 import { syncPush } from "@/lib/push";
+import useAppViewport from "@/hooks/useAppViewport";
 import { useAuth } from "@/context/AuthContext";
 import Logo, { LogoMark } from "@/components/Logo";
 import Sidebar from "@/components/chat/Sidebar";
@@ -17,6 +18,7 @@ const PING_MS = 20000;
 export default function Chat() {
   const { user, token } = useAuth();
   const nav = useNavigate();
+  useAppViewport();
   const [chats, setChats] = useState([]);
   const [chatsLoaded, setChatsLoaded] = useState(false);
   const [active, setActive] = useState(null);
@@ -244,7 +246,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="h-dvh w-screen flex overflow-hidden bg-background">
+    <div className="app-shell flex overflow-hidden bg-background">
       <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-80 lg:w-96 shrink-0 border-r border-border flex-col`}>
         <Sidebar chats={chats} loading={!chatsLoaded} activeId={active?.id} onSelect={openChat} onNewChat={(kind) => { setNewChatTab(kind); setNewChatOpen(true); }}
           onOpenAdmin={() => nav("/admin")} onDeleteChat={deleteChat}
