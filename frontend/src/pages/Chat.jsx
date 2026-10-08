@@ -10,6 +10,9 @@ import NewChatDialog from "@/components/chat/NewChatDialog";
 import SettingsDialog from "@/components/chat/SettingsDialog";
 import InfoPanel from "@/components/chat/InfoPanel";
 
+// iOS Safari (outside an installed web app) has no Notification object at all.
+const canNotify = () => typeof Notification !== "undefined";
+
 export default function Chat() {
   const { user, token } = useAuth();
   const nav = useNavigate();
@@ -61,7 +64,7 @@ export default function Chat() {
         }
         loadChats();
         if (d.type === "new_message" && d.message.sender_id !== user.id && (!cur || cur.id !== d.chat_id)) {
-          if (Notification?.permission === "granted") new Notification(d.message.sender_name, { body: d.message.display_text });
+          if (canNotify() && Notification.permission === "granted") try { new Notification(d.message.sender_name, { body: d.message.display_text }); } catch { /* some mobile browsers refuse the constructor */ }
         }
       } else if (d.type === "typing") {
         if (cur && d.chat_id === cur.id) {
@@ -94,7 +97,7 @@ export default function Chat() {
     return () => ws.close();
   }, [token, user.id, loadChats, loadRequests]);
 
-  useEffect(() => { if (Notification?.permission === "default") Notification.requestPermission(); }, []);
+  useEffect(() => { try { if (canNotify() && Notification.permission === "default") Notification.requestPermission(); } catch { /* ignore */ } }, []);
 
   const openChat = async (chat) => {
     setActive(chat);
