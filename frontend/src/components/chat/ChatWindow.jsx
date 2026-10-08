@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Send, Smile, Paperclip, ArrowLeft, Info, X, Loader2, Languages, Mic, Trash, Search } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
@@ -138,7 +139,7 @@ export default function ChatWindow({ chat, messages, onSend, onBack, typingUser,
               {sres.length === 0 && <p className="text-sm text-muted-foreground py-2 text-center">No matches</p>}
               {sres.map((m) => (
                 <div key={m.id} data-testid={`search-match-${m.id}`} className="p-2 rounded-lg hover:bg-muted text-sm">
-                  <div className="text-xs text-muted-foreground">{m.sender_name} · {new Date(m.created_at).toLocaleDateString()}</div>
+                  <div className="text-xs text-muted-foreground">{m.sender_name} · {format(new Date(m.created_at), "dd/MM/yy")}</div>
                   <div className="truncate">{m.display_text}</div>
                 </div>
               ))}
