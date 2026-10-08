@@ -499,8 +499,10 @@ async def enrich_chat(chat, me_id):
     last = await db.messages.find_one({"chat_id": chat["id"], "deleted_for": {"$ne": me_id}}, {"_id": 0}, sort=[("created_at", -1)])
     if last:
         last = message_view(last, me_lang, me_id)
-    unread = await db.messages.count_documents({"chat_id": chat["id"], "sender_id": {"$ne": me_id}, "read_by": {"$ne": me_id}})
+    unread = await db.messages.count_documents({"chat_id": chat["id"], "sender_id": {"$ne": me_id}, "read_by": {"$ne": me_id},
+                                                "deleted_for": {"$ne": me_id}})
     out = dict(chat)
+    out.pop("hidden_for", None)  # who deleted the chat is private to each person
     out["members_info"] = members
     out["last_message"] = last
     out["unread"] = unread
@@ -562,12 +564,14 @@ async def get_or_create_direct(a, b):
         chat = {"id": str(uuid.uuid4()), "type": "direct", "name": "", "members": [a, b],
                 "admins": [], "tone": "neutral", "created_at": now_iso()}
         await db.chats.insert_one(dict(chat))
+    elif a in chat.get("hidden_for", []):
+        await db.chats.update_one({"id": chat["id"]}, {"$pull": {"hidden_for": a}})
     return await enrich_chat(chat, a)
 
 
 @api.get("/chats")
 async def list_chats(user=Depends(get_current_user)):
-    cur = db.chats.find({"members": user["id"]}, {"_id": 0})
+    cur = db.chats.find({"members": user["id"], "hidden_for": {"$ne": user["id"]}}, {"_id": 0})
     chats = [await enrich_chat(c, user["id"]) for c in await cur.to_list(200)]
     chats.sort(key=lambda c: (c["last_message"]["created_at"] if c["last_message"] else c["created_at"]), reverse=True)
     return chats
@@ -611,6 +615,16 @@ async def create_group(body: GroupIn, user=Depends(get_current_user)):
     for m in members:
         await ws_manager.send(m, {"type": "new_chat", "chat": await enrich_chat(chat, m)})
     return enriched
+
+
+@api.post("/chats/{chat_id}/delete")
+async def delete_chat_for_me(chat_id: str, user=Depends(get_current_user)):
+    """Remove the conversation from my list and clear my copy of its history. Other members are not affected;
+    the chat comes back (empty) if someone writes again or if I start it again."""
+    await get_chat_for(chat_id, user)
+    await db.messages.update_many({"chat_id": chat_id}, {"$addToSet": {"deleted_for": user["id"]}})
+    await db.chats.update_one({"id": chat_id}, {"$addToSet": {"hidden_for": user["id"]}})
+    return {"ok": True}
 
 
 @api.put("/chats/{chat_id}/tone")
@@ -757,6 +771,8 @@ async def resolve_attachment(att, user):
 
 
 async def deliver(msg, chat):
+    if chat.get("hidden_for"):
+        await db.chats.update_one({"id": chat["id"]}, {"$set": {"hidden_for": []}})
     for mid in chat["members"]:
         u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
         await ws_manager.send(mid, {"type": "new_message", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat["id"]})

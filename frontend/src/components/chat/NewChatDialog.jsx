@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, UserPlus, Loader2, Link2, Users, User, Check } from "lucide-react";
 import { toast } from "sonner";
 import { api, errText } from "@/lib/api";
@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
-export default function NewChatDialog({ open, onOpenChange, onStartChat }) {
+export default function NewChatDialog({ open, onOpenChange, onStartChat, initialTab = "person" }) {
   const { user } = useAuth();
-  const [tab, setTab] = useState("person");
+  const [tab, setTab] = useState(initialTab);
+  useEffect(() => { if (open) setTab(initialTab); }, [open, initialTab]);
   const [q, setQ] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);

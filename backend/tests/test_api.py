@@ -274,6 +274,39 @@ def test_chat_list_preview_shows_text_not_attachment(client, make_person):
     assert last["display_text"] == "[en] ciao a tutti" and last["attachment"] is None
 
 
+def test_delete_chat_only_affects_me_and_it_comes_back_empty(client, make_person):
+    a, b, evil = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en"), make_person("e@x.com", lang="en")
+    chat = direct(client, a, b)
+    cid = chat["id"]
+    client.post("/api/messages", json={"chat_id": cid, "text": "old one"}, headers=a.h)
+    assert client.get("/api/chats", headers=b.h).json()[0]["unread"] == 1
+
+    assert client.post(f"/api/chats/{cid}/delete", headers=evil.h).status_code == 403  # members only
+    assert client.post(f"/api/chats/{cid}/delete", headers=b.h).status_code == 200
+    assert client.get("/api/chats", headers=b.h).json() == []                      # gone from my list
+    assert [c["id"] for c in client.get("/api/chats", headers=a.h).json()] == [cid]  # the other person keeps it
+    assert len(client.get(f"/api/messages/{cid}", headers=a.h).json()) == 1
+    assert "hidden_for" not in client.get("/api/chats", headers=a.h).json()[0]       # nobody learns who deleted it
+
+    # a new message brings it back, with only the new message and no stale unread count
+    client.post("/api/messages", json={"chat_id": cid, "text": "new one"}, headers=a.h)
+    back = client.get("/api/chats", headers=b.h).json()
+    assert [c["id"] for c in back] == [cid] and back[0]["unread"] == 1
+    assert [m["original_text"] for m in client.get(f"/api/messages/{cid}", headers=b.h).json()] == ["new one"]
+
+
+def test_starting_a_deleted_chat_again_shows_it_again(client, make_person):
+    a, b = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    client.post("/api/messages", json={"chat_id": chat["id"], "text": "hello"}, headers=a.h)
+    client.post(f"/api/chats/{chat['id']}/delete", headers=a.h)
+    assert client.get("/api/chats", headers=a.h).json() == []
+    again = client.post(f"/api/chats/direct/{b.id}", headers=a.h).json()
+    assert again["id"] == chat["id"]
+    assert [c["id"] for c in client.get("/api/chats", headers=a.h).json()] == [chat["id"]]
+    assert client.get(f"/api/messages/{chat['id']}", headers=a.h).json() == []  # history stays cleared
+
+
 # ---------------------------------------------------------------- permissions
 def test_outsiders_cannot_touch_a_chat(client, make_person):
     a, b, evil = make_person("a@x.com", lang="en"), make_person("b@x.com", lang="en"), make_person("e@x.com", lang="en")
