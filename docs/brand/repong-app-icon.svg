@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Repong app icon (draft): white outgoing arrow + light sand return arrow on terracotta -->
+  <rect width="1024" height="1024" rx="228" fill="#c2410c"/>
+  <g transform="translate(512 512) scale(15.5) translate(-20 -20.5)">
+    <path d="M6 14 H33 M26 7 L33 14 L26 21" fill="none" stroke="#ffffff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M34 27 H7 M14 20 L7 27 L14 34" fill="none" stroke="#fde3a7" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
