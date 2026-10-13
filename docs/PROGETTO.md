@@ -9,7 +9,7 @@ Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: un mo
 
 - **Proprietario:** Andrea Babetto (Shampissima, agenzia di Amazon PPC). Primo utente di prova: **Hamad** (agenzia, India). Parla italiano, preferisce istruzioni brevi, passo per passo, con screenshot.
 - **Stato:** in produzione, **beta chiusa su invito** (registrazione con codice `INVITE_CODE`). Usata da Andrea e Hamad.
-- **Nome:** "Glott" è **provvisorio**. Esiste TalkGlot (app di conversazioni bilingui, suono identico) e "Glot" è già usato nelle traduzioni: prima di spendere in marchio/store serve una ricerca ufficiale (EUIPO, USPTO, UIBM) e il controllo di `.app`/`.chat`. I servizi e il codice si chiamano ancora `lingua-*`.
+- **Nome:** "Glott" è **provvisorio**; nome scelto da Andrea il 13/10/2026: **Repong** ("re" di *reply* + "pong" del ping-pong: il botta e risposta). Nessuna app trovata con questo nome in una ricerca web (non è una verifica legale). Domini al 13/10: repong.com è in vendita (parcheggiato, prezzo da chiedere), liberi .it .net .org .biz .eu .me .tel .tv, getrepong.com e repongapp.com; .app e .chat da controllare. Da fare prima di cambiare nome nell'app: ricerca ufficiale sul marchio (EUIPO, WIPO; attenzione al videogioco Pong). Fino ad allora l'app resta "glott". Su "Glott": Esiste TalkGlot (app di conversazioni bilingui, suono identico) e "Glot" è già usato nelle traduzioni: prima di spendere in marchio/store serve una ricerca ufficiale (EUIPO, USPTO, UIBM) e il controllo di `.app`/`.chat`. I servizi e il codice si chiamano ancora `lingua-*`.
 
 ## 2. Dove sta tutto
 
