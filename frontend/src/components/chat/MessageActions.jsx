@@ -26,7 +26,7 @@ export default function MessageActions({ msg, mine, userId, onClose, onReply, on
   const { t } = useI18n();
   const open = !!msg;
   const done = (fn) => () => { onClose(); fn?.(); };
-  const copy = (t) => { navigator.clipboard?.writeText(t).then(() => toast.success(t("Copied"))).catch(() => {}); };
+  const copy = (text) => { navigator.clipboard?.writeText(text).then(() => toast.success(t("Copied"))).catch(() => {}); };
   const del = async (forAll) => {
     try { await api.delete(`/messages/${msg.id}?for_all=${forAll}`); } catch { toast.error(t("Could not delete")); }
   };

@@ -17,7 +17,7 @@ import { useI18n } from "@/i18n";
 
 function Section({ title, children }) {
   return (
-    <section className="bg-card rounded-xl border border-border mx-3 mt-3 p-4 space-y-3">
+    <section className="bg-card rounded-[18px] border border-border mx-3 mt-3 p-4 space-y-3">
       {title && <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{title}</h3>}
       {children}
     </section>
@@ -40,7 +40,7 @@ function NotificationsRow() {
   };
 
   const note = {
-    "needs-install": t("On iPhone: tap Share, then Add to Home Screen, and open glott from there."),
+    "needs-install": t("On iPhone: tap Share, then Add to Home Screen, and open Repong from there."),
     blocked: t("Blocked for this site. Allow notifications in your browser or phone settings."),
     unsupported: t("This browser cannot show notifications."),
   }[state];
@@ -191,10 +191,10 @@ export default function ProfilePanel({ onOpenAdmin }) {
   const lang = langByCode(user.language);
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-muted/40 pb-6" data-testid="profile-panel">
+    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-panel">
       <div className="bg-card px-4 py-6 flex flex-col items-center gap-1.5">
         <div className="relative">
-          <Avatar className="w-24 h-24"><AvatarImage src={user.avatar} /><AvatarFallback className="text-2xl bg-primary/10 text-primary">{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+          <Avatar className="w-24 h-24"><AvatarImage src={user.avatar} /><AvatarFallback className="text-2xl bg-label text-label-foreground font-bold">{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button"
             className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
@@ -204,6 +204,14 @@ export default function ProfilePanel({ onOpenAdmin }) {
         <div className="text-xl font-semibold mt-1">{user.name}</div>
         <div className="text-sm text-muted-foreground">@{user.username} · {lang.flag} {langName(user.language)}</div>
       </div>
+
+      <Section title={t("My language")}>
+        <button data-testid="language-toggle" onClick={() => setLangOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
+          <span className="text-xl leading-none">{lang.flag}</span> {langName(user.language)}
+          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? t("Close") : t("Change")}</span>
+        </button>
+        {langOpen && <LanguagePicker value={user.language} onChange={(c) => { changeLang(c); setLangOpen(false); }} testId="settings-language" />}
+      </Section>
 
       <Section title={t("Account")}>
         <div className="space-y-1.5">
@@ -220,14 +228,6 @@ export default function ProfilePanel({ onOpenAdmin }) {
         </div>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Mail className="w-3.5 h-3.5" /> {user.email}</div>
         {dirty && <Button data-testid="save-profile-button" className="w-full" onClick={saveProfile} disabled={savingProfile}>{savingProfile ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Save profile")}</Button>}
-      </Section>
-
-      <Section title={t("My language")}>
-        <button data-testid="language-toggle" onClick={() => setLangOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
-          <span className="text-xl leading-none">{lang.flag}</span> {langName(user.language)}
-          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? t("Close") : t("Change")}</span>
-        </button>
-        {langOpen && <LanguagePicker value={user.language} onChange={(c) => { changeLang(c); setLangOpen(false); }} testId="settings-language" />}
       </Section>
 
       <Section title={t("Preferences")}>

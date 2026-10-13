@@ -46,7 +46,15 @@ export function I18nProvider({ children }) {
   }, [lang]);
 
   const t = useCallback((text, vars) => format(dict[text] ?? text, vars), [dict]);
-  const langName = useCallback((code) => (lang === "en" ? langByCode(code).name : langByCode(code).native), [lang]);
+  // A language's name in the interface language ("inglese" in Italian), from the browser; otherwise the native name.
+  const langName = useCallback((code) => {
+    if (!code) return "";
+    try {
+      const n = new Intl.DisplayNames([lang], { type: "language" }).of(code);
+      if (n && n !== code) return n;
+    } catch { /* old browser */ }
+    return lang === "en" ? langByCode(code).name : langByCode(code).native;
+  }, [lang]);
   const setUiLang = useCallback((c) => {
     try { localStorage.setItem(KEY, c); } catch { /* storage blocked */ }
     setOverride(c);

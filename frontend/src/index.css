@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: 'Plus Jakarta Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Onest Variable', 'Onest', 'Noto Sans Arabic Variable', 'Noto Sans Devanagari', 'Noto Sans SC', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', source-code-pro, Menlo, monospace;
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -29,6 +29,12 @@
   --color-bubble-out: hsl(var(--bubble-out));
   --color-bubble-out-foreground: hsl(var(--bubble-out-foreground));
   --color-bubble-in: hsl(var(--bubble-in));
+  --color-sand: hsl(var(--sand));
+  --color-label: hsl(var(--label));
+  --color-label-foreground: hsl(var(--label-foreground));
+  --color-surface: hsl(var(--surface));
+  --color-subtle: hsl(var(--subtle));
+  --color-online: hsl(var(--online));
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -53,60 +59,73 @@
   }
   code { font-family: var(--font-mono); }
   button:not(:disabled), [role='button']:not(:disabled) { cursor: pointer; }
-  [dir='rtl'] { font-family: 'Tajawal', 'Plus Jakarta Sans Variable', sans-serif; }
+  [dir='rtl'] { font-family: 'Noto Sans Arabic Variable', 'Onest Variable', sans-serif; line-height: 1.6; }
 }
 
 @layer base {
+  /* Repong colours (docs/brand/design_handoff_repong/tokens.css), as HSL triplets for hsl(var(--x)). */
   :root {
-    /* The brand colour is defined once (hue / saturation / lightness); everything else follows it. */
-    --h: 205; --s: 85%; --l: 44%;
-    --background: 220 20% 97%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 100%;
+    --foreground: 213 29% 6%;            /* ink #0b0f14 */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 213 29% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: var(--h) var(--s) var(--l);
+    --popover-foreground: 213 29% 6%;
+    --primary: 17 88% 40%;               /* terracotta #c2410c */
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 42%;
-    --accent: var(--h) 90% 95%;
-    --accent-foreground: var(--h) 70% 32%;
-    --destructive: 0 72% 51%;
+    --secondary: 36 24% 96%;             /* surface #f7f5f2 */
+    --secondary-foreground: 213 29% 6%;
+    --muted: 36 24% 96%;
+    --muted-foreground: 33 5% 35%;       /* text-2 #5e5a55 */
+    --subtle: 37 5% 52%;                 /* text-3 #8c877f */
+    --surface: 36 24% 96%;
+    --accent: 24 83% 95%;                /* selected row #fdf1e9 */
+    --accent-foreground: 17 88% 32%;
+    --destructive: 4 76% 40%;            /* #b42318 */
     --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: var(--h) var(--s) var(--l);
-    --bubble-out: var(--h) 85% 92%;
-    --bubble-out-foreground: 222 47% 11%;
+    --border: 36 20% 90%;                /* #ebe7e1 */
+    --input: 36 20% 90%;
+    --ring: 17 88% 40%;
+    --bubble-out: 17 88% 40%;
+    --bubble-out-foreground: 0 0% 100%;
     --bubble-in: 0 0% 100%;
-    --radius: 0.75rem;
+    --sand: 39 87% 61%;                  /* #f2b544: arrows and details, never text on white */
+    --label: 42 96% 82%;                 /* #fde3a7 */
+    --label-foreground: 41 82% 13%;      /* #3b2a06 */
+    --online: 144 54% 40%;
+    --chat-bg: 34 28% 95%;               /* #f6f3ef */
+    --chat-dots: 35 25% 87%;             /* #e6dfd5 */
+    --radius: 0.875rem;
   }
   .dark {
-    --background: 225 14% 7%;
-    --foreground: 220 14% 96%;
-    --card: 225 12% 11%;
-    --card-foreground: 220 14% 96%;
-    --popover: 225 12% 11%;
-    --popover-foreground: 220 14% 96%;
-    --primary: var(--h) var(--s) calc(var(--l) + 4%);
-    --primary-foreground: 0 0% 100%;
-    --secondary: 225 10% 17%;
-    --secondary-foreground: 220 14% 96%;
-    --muted: 225 10% 17%;
-    --muted-foreground: 220 8% 66%;
-    --accent: var(--h) 40% 22%;
-    --accent-foreground: var(--h) 80% 88%;
-    --destructive: 0 62% 50%;
+    --background: 216 16% 6%;            /* #0d0f12 */
+    --foreground: 40 20% 94%;            /* #f3f1ed */
+    --card: 214 16% 9%;
+    --card-foreground: 40 20% 94%;
+    --popover: 214 16% 9%;
+    --popover-foreground: 40 20% 94%;
+    --primary: 18 86% 58%;               /* terracotta light #f0703a */
+    --primary-foreground: 216 16% 6%;
+    --secondary: 214 16% 9%;
+    --secondary-foreground: 40 20% 94%;
+    --muted: 214 16% 9%;
+    --muted-foreground: 38 6% 64%;
+    --subtle: 38 5% 47%;
+    --surface: 214 16% 9%;
+    --accent: 18 40% 14%;
+    --accent-foreground: 18 86% 72%;
+    --destructive: 4 70% 52%;
     --destructive-foreground: 0 0% 100%;
-    --border: 225 10% 19%;
-    --input: 225 10% 19%;
-    --ring: var(--h) var(--s) calc(var(--l) + 4%);
-    --bubble-out: var(--h) 45% 30%;
-    --bubble-out-foreground: 0 0% 98%;
-    --bubble-in: 225 11% 16%;
+    --border: 218 12% 19%;
+    --input: 218 12% 19%;
+    --ring: 18 86% 58%;
+    --bubble-out: 17 88% 40%;            /* sent bubbles stay terracotta */
+    --bubble-out-foreground: 0 0% 100%;
+    --bubble-in: 216 14% 14%;
+    --label: 39 87% 61% / 0.16;
+    --label-foreground: 42 96% 82%;
+    --chat-bg: 210 17% 7%;
+    --chat-dots: 216 14% 13%;
   }
 }
 
@@ -127,13 +146,25 @@
 .chat-scroll::-webkit-scrollbar { width: 6px; }
 .chat-scroll::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground) / 0.3); border-radius: 3px; }
 
+/* conversation background: warm paper with a dot every 18px */
 .chat-wallpaper {
-  background-color: hsl(var(--muted) / 0.45);
-  background-image: url("/wallpaper-light.svg");
-  background-size: 320px 320px;
+  background-color: hsl(var(--chat-bg));
+  background-image: radial-gradient(hsl(var(--chat-dots)) 1px, transparent 1.2px);
+  background-size: 18px 18px;
 }
-.dark .chat-wallpaper {
-  background-image: url("/wallpaper-dark.svg");
+
+/* the two arrows of the logo swap places while a message is being translated */
+@keyframes rp-swap-top { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(13px); } }
+@keyframes rp-swap-bottom { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-13px); } }
+.rp-swap .rp-top { animation: rp-swap-top 1.6s ease-in-out infinite; }
+.rp-swap .rp-bottom { animation: rp-swap-bottom 1.6s ease-in-out infinite; }
+
+/* new messages slide up and fade in */
+@keyframes rp-msg-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+.rp-msg-in { animation: rp-msg-in 250ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-swap .rp-top, .rp-swap .rp-bottom, .rp-msg-in, .typing-dot, .animate-slide-in { animation: none; }
 }
 
 
@@ -145,3 +176,6 @@
 /* the chat screen: fixed to the visible area (see hooks/useAppViewport.js) */
 .chat-lock, .chat-lock body { overflow: hidden; overscroll-behavior: none; }
 .app-shell { position: fixed; left: 0; right: 0; top: var(--app-top, 0px); height: var(--app-height, 100dvh); }
+
+/* logo arrow that "goes": terracotta, lighter on dark backgrounds */
+.dark { --rp-arrow-top: #f0703a; }

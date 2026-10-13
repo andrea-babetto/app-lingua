@@ -1,0 +1,12 @@
+:root{
+  --rp-terracotta:#c2410c; --rp-terracotta-light:#f0703a; --rp-sand:#f2b544; --rp-sand-light:#fde3a7; --rp-ink:#0b0f14;
+  --rp-bg:#ffffff; --rp-surface:#f7f5f2; --rp-chat-bg:#f6f3ef; --rp-line:#f0ece6; --rp-border:#ebe7e1;
+  --rp-text:#0b0f14; --rp-text-2:#5e5a55; --rp-text-3:#8c877f; --rp-danger:#b42318; --rp-danger-bg:#fdecea; --rp-online:#2f9e5b;
+  --rp-bubble-out:#c2410c; --rp-bubble-out-fg:#ffffff; --rp-bubble-in:#ffffff; --rp-label-bg:#fde3a7; --rp-label-fg:#3b2a06;
+  --rp-font:'Onest','Noto Sans Arabic','Noto Sans Devanagari','Noto Sans SC',system-ui,sans-serif;
+  --rp-r-bubble:18px; --rp-r-bubble-tail:6px; --rp-r-card:18px; --rp-r-input:14px; --rp-r-btn:16px;
+}
+[data-theme="dark"]{
+  --rp-bg:#0d0f12; --rp-surface:#13161a; --rp-chat-bg:#0f1215; --rp-line:#20242a; --rp-border:#2a2e35;
+  --rp-text:#f3f1ed; --rp-text-2:#a9a59e; --rp-text-3:#7d7972; --rp-bubble-in:#1f2329; --rp-label-bg:rgba(242,181,68,.16); --rp-label-fg:#fde3a7;
+}

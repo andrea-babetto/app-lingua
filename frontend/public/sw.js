@@ -6,9 +6,9 @@ self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));
 self.addEventListener("push", (event) => {
   let d = {};
   try { d = event.data ? event.data.json() : {}; } catch { /* ignore */ }
-  event.waitUntil(self.registration.showNotification(d.title || "glott", {
+  event.waitUntil(self.registration.showNotification(d.title || "Repong", {
     body: d.body || "New message",
-    tag: d.chat_id || "glott",
+    tag: d.chat_id || "repong",
     renotify: true,
     icon: "/icon-192.png",
     badge: "/icon-192.png",

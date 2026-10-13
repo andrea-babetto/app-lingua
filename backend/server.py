@@ -58,7 +58,7 @@ DEFAULT_TONE = "neutral"
 
 engine = TranslationEngine(db)
 
-app = FastAPI(title="Glott API")
+app = FastAPI(title="Repong API")
 api = APIRouter(prefix="/api")
 
 _bg_tasks = set()
@@ -1401,7 +1401,7 @@ async def startup():
     await seed_demo()
     if not invite_code_required():
         logger.warning("INVITE_CODE is not set: anyone with the link can create an account")
-    logger.info("Glott backend ready")
+    logger.info("Repong backend ready")
 
 
 @app.on_event("shutdown")

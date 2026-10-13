@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Bell, X } from "lucide-react";
+import { X } from "lucide-react";
 import { toast } from "sonner";
 import { enablePush, pushState } from "@/lib/push";
 import { Button } from "@/components/ui/button";
@@ -27,14 +27,16 @@ export default function PushPrompt() {
   };
 
   return (
-    <div data-testid="push-prompt" className="mx-3 mt-2 mb-1 p-3 rounded-2xl bg-accent text-accent-foreground flex items-center gap-3">
-      <Bell className="w-5 h-5 shrink-0" />
-      <div className="flex-1 min-w-0 text-sm leading-snug">
-        {state === "needs-install"
-          ? t("Add glott to your Home Screen (Share → Add to Home Screen) to get notified.")
-          : t("Get a notification when someone writes to you.")}
+    <div data-testid="push-prompt" className="mx-4 mt-1 mb-2 p-3.5 rounded-2xl bg-label text-label-foreground flex items-center gap-3">
+      <div className="flex-1 min-w-0 leading-snug">
+        <div className="text-[15px] font-bold">{t("Notifications")}</div>
+        <div className="text-[13px]">
+          {state === "needs-install"
+            ? t("Add Repong to your Home Screen (Share → Add to Home Screen) to get notified.")
+            : t("Get a notification when someone writes to you.")}
+        </div>
       </div>
-      {state === "off" && <Button size="sm" className="rounded-full h-8" onClick={enable} disabled={busy} data-testid="push-enable">{t("Turn on")}</Button>}
+      {state === "off" && <Button size="sm" className="rounded-full h-9 px-4 bg-foreground text-background hover:bg-foreground/90 font-semibold" onClick={enable} disabled={busy} data-testid="push-enable">{t("Turn on")}</Button>}
       <button aria-label={t("Dismiss")} onClick={hide} className="w-7 h-7 rounded-full hover:bg-black/10 flex items-center justify-center shrink-0"><X className="w-4 h-4" /></button>
     </div>
   );
