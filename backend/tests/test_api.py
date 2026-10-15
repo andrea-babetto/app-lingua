@@ -694,3 +694,26 @@ def test_delete_account_erases_the_person_and_what_they_wrote(client, make_perso
     assert client.get(f"/api/files/{f['id']}", headers=b.h).status_code == 404
     assert client.get("/api/auth/me", headers=b.h).json()["blocked"] == []
     assert client.post("/api/auth/delete-account", json={}, headers=b.h).status_code == 400  # password required
+
+
+def test_group_members_get_a_notification_with_the_group_name(client, make_person, monkeypatch):
+    sent = []
+
+    async def fake_send(db, user_id, payload, contact=""):
+        sent.append((user_id, payload))
+        return 1
+    monkeypatch.setattr(server.push, "send_to_user", fake_send)
+    a = make_person("a@x.com", "Anna", lang="it")
+    b, c, d = make_person("b@x.com", "Bob", lang="en"), make_person("c@x.com", "Carla", lang="es"), make_person("d@x.com", "Dan", lang="en")
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id, d.id]}, headers=a.h).json()
+    for p in (a, b, c):  # Dan never turned notifications on
+        sub = {"endpoint": f"https://fcm.googleapis.com/fcm/send/{p.id}", "keys": {"p256dh": "p" * 40, "auth": "a" * 20}}
+        client.post("/api/push/subscribe", json=sub, headers=p.h)
+
+    m = client.post("/api/messages", json={"chat_id": g["id"], "text": "ciao a tutti"}, headers=a.h).json()
+    wait_for(client, b, g["id"], m["id"], lambda x: x["status"] == "sent")
+    time.sleep(0.2)
+    assert sorted(sent, key=lambda s: s[0]) == sorted([
+        (b.id, {"title": "Anna · Team", "body": "[en] ciao a tutti", "chat_id": g["id"]}),
+        (c.id, {"title": "Anna · Team", "body": "[es] ciao a tutti", "chat_id": g["id"]}),
+    ], key=lambda s: s[0])
