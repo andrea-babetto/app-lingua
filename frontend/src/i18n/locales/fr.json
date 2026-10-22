@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "Vous êtes hors ligne. Vérifiez votre connexion.",
  "You write and read in this language. Others read you in theirs.": "Vous écrivez et lisez dans cette langue. Les autres vous lisent dans la leur.",
  "What's your language?": "Quelle est votre langue ?",
- "Next": "Suivant"
+ "Next": "Suivant",
+ "Contacts": "Contacts",
+ "Search contacts": "Rechercher des contacts",
+ "No contacts yet.": "Aucun contact pour l'instant."
 }

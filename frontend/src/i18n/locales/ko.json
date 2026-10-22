@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "오프라인 상태입니다. 연결을 확인하세요.",
  "You write and read in this language. Others read you in theirs.": "이 언어로 쓰고 읽어요. 다른 사람들은 자기 언어로 읽어요.",
  "What's your language?": "어떤 언어를 쓰세요?",
- "Next": "다음"
+ "Next": "다음",
+ "Contacts": "연락처",
+ "Search contacts": "연락처 검색",
+ "No contacts yet.": "아직 연락처가 없습니다."
 }

@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "คุณออฟไลน์อยู่ ตรวจสอบการเชื่อมต่อ",
  "You write and read in this language. Others read you in theirs.": "คุณเขียนและอ่านด้วยภาษานี้ คนอื่นอ่านคุณเป็นภาษาของเขา",
  "What's your language?": "ภาษาของคุณคืออะไร",
- "Next": "ถัดไป"
+ "Next": "ถัดไป",
+ "Contacts": "รายชื่อติดต่อ",
+ "Search contacts": "ค้นหารายชื่อติดต่อ",
+ "No contacts yet.": "ยังไม่มีรายชื่อติดต่อ"
 }

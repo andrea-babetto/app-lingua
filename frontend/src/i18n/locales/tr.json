@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "Çevrimdışısınız. Bağlantınızı kontrol edin.",
  "You write and read in this language. Others read you in theirs.": "Bu dilde yazar ve okursunuz. Diğerleri sizi kendi dillerinde okur.",
  "What's your language?": "Diliniz hangisi?",
- "Next": "İleri"
+ "Next": "İleri",
+ "Contacts": "Kişiler",
+ "Search contacts": "Kişilerde ara",
+ "No contacts yet.": "Henüz kişi yok."
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, MessageCircle, Users, User, Plus, UserPlus, Check, X, WifiOff } from "lucide-react";
+import { Search, MessageCircle, Users, User, Contact, Plus, UserPlus, Check, X, WifiOff } from "lucide-react";
 import { format, isToday, isYesterday } from "date-fns";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -92,8 +92,30 @@ function useOnline() {
 const TABS = [
   { id: "chats", label: "Chats", Icon: MessageCircle },
   { id: "groups", label: "Groups", Icon: Users },
+  { id: "contacts", label: "Contacts", Icon: Contact },
   { id: "profile", label: "Profile", Icon: User },
 ];
+
+// The people you already have a one-to-one chat with, one row each. Tapping a row opens that chat.
+function ContactRow({ chat, onSelect }) {
+  const other = chat.other_user || {};
+  return (
+    <button data-testid={`contact-item-${other.id}`} onClick={() => onSelect(chat)}
+      className="w-full flex items-center gap-3.5 px-5 py-3 text-start hover:bg-muted/60 active:bg-muted transition-colors">
+      <div className="relative shrink-0">
+        <Avatar style={{ width: "2.75rem", height: "2.75rem" }}>
+          <AvatarImage src={chat.display_avatar} />
+          <AvatarFallback className="bg-label text-label-foreground font-semibold">{initials(chat.display_name)}</AvatarFallback>
+        </Avatar>
+        {other.online && <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-online border-2 border-card" />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-base font-semibold truncate">{chat.display_name}</div>
+        {other.language && <div className="text-xs text-subtle">{other.language.toUpperCase()}</div>}
+      </div>
+    </button>
+  );
+}
 
 export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, requests, onAccept, onDecline }) {
   const { user } = useAuth();
@@ -106,6 +128,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
   const direct = chats.filter((c) => c.type !== "group");
   const groups = chats.filter((c) => c.type === "group");
   const list = (tab === "groups" ? groups : direct).filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
+  const contactsList = direct.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
   const unread = { chats: direct.reduce((n, c) => n + (c.unread || 0), 0), groups: groups.reduce((n, c) => n + (c.unread || 0), 0) };
 
   const confirmDelete = async () => {
@@ -139,7 +162,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
           <div className="px-4 pt-1 pb-2 shrink-0">
             <div className="relative">
               <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-subtle" />
-              <input data-testid="sidebar-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={tab === "groups" ? t("Search groups") : t("Search chats")}
+              <input data-testid="sidebar-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={tab === "groups" ? t("Search groups") : tab === "contacts" ? t("Search contacts") : t("Search chats")}
                 className="w-full h-10 ps-10 pe-3 rounded-xl bg-surface text-[15px] placeholder:text-subtle outline-none focus:ring-2 focus:ring-primary/30" />
             </div>
           </div>
@@ -173,7 +196,11 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                 ))}
               </div>
             )}
-            {!loading && list.length === 0 && (
+            {tab === "contacts" && !loading && contactsList.length === 0 && (
+              <div className="px-8 pt-14 text-center text-[15px] text-muted-foreground" data-testid="empty-contacts">{t("No contacts yet.")}</div>
+            )}
+            {tab === "contacts" && contactsList.map((c) => <ContactRow key={c.id} chat={c} onSelect={onSelect} />)}
+            {tab !== "contacts" && !loading && list.length === 0 && (
               <div className="px-8 pt-14 text-center" data-testid="empty-list">
                 <div className="w-[104px] h-[104px] rounded-full bg-surface mx-auto mb-5 flex items-center justify-center">
                   <LogoArrows className="w-12 h-12" />
@@ -186,10 +213,10 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                 </Button>
               </div>
             )}
-            {list.map((c) => (
+            {tab !== "contacts" && list.map((c) => (
               <ChatRow key={c.id} chat={c} active={activeId === c.id} myId={user.id} onSelect={onSelect} onAskDelete={setToDelete} />
             ))}
-            {list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat to delete it.") : t("Right-click a chat to delete it.")}</p>}
+            {tab !== "contacts" && list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat to delete it.") : t("Right-click a chat to delete it.")}</p>}
           </div>
 
           <button data-testid="new-chat-button" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}
@@ -200,7 +227,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
         </>
       )}
 
-      <nav className="grid grid-cols-3 shrink-0 border-t border-border bg-card" data-testid="bottom-tabs">
+      <nav className="grid grid-cols-4 shrink-0 border-t border-border bg-card" data-testid="bottom-tabs">
         {TABS.map(({ id, label, Icon }) => {
           const on = tab === id;
           return (

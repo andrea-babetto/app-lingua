@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "आप ऑफ़लाइन हैं। अपना कनेक्शन जाँचें।",
  "You write and read in this language. Others read you in theirs.": "आप इस भाषा में लिखते और पढ़ते हैं। दूसरे आपको अपनी भाषा में पढ़ते हैं।",
  "What's your language?": "आपकी भाषा कौन-सी है?",
- "Next": "आगे"
+ "Next": "आगे",
+ "Contacts": "संपर्क",
+ "Search contacts": "संपर्कों में खोजें",
+ "No contacts yet.": "अभी तक कोई संपर्क नहीं।"
 }

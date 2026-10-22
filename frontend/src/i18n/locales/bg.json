@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "Няма връзка. Проверете интернета.",
  "You write and read in this language. Others read you in theirs.": "Пишете и четете на този език. Другите ви четат на своя.",
  "What's your language?": "Кой е вашият език?",
- "Next": "Напред"
+ "Next": "Напред",
+ "Contacts": "Контакти",
+ "Search contacts": "Търсене в контактите",
+ "No contacts yet.": "Още няма контакти."
 }

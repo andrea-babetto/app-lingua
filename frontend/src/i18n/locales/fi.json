@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "Olet offline-tilassa. Tarkista yhteys.",
  "You write and read in this language. Others read you in theirs.": "Kirjoitat ja luet tällä kielellä. Muut lukevat sinua omallaan.",
  "What's your language?": "Mikä on kielesi?",
- "Next": "Seuraava"
+ "Next": "Seuraava",
+ "Contacts": "Yhteystiedot",
+ "Search contacts": "Hae yhteystiedoista",
+ "No contacts yet.": "Ei vielä yhteystietoja."
 }

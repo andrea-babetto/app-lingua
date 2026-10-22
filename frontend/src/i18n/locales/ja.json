@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "オフラインです。接続を確認してください。",
  "You write and read in this language. Others read you in theirs.": "この言語で書いて読みます。相手は自分の言語で読みます。",
  "What's your language?": "あなたの言語は？",
- "Next": "次へ"
+ "Next": "次へ",
+ "Contacts": "連絡先",
+ "Search contacts": "連絡先を検索",
+ "No contacts yet.": "まだ連絡先がありません。"
 }

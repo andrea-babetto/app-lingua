@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "آفلاین هستید. اتصال را بررسی کنید.",
  "You write and read in this language. Others read you in theirs.": "شما به این زبان می‌نویسید و می‌خوانید. دیگران شما را به زبان خودشان می‌خوانند.",
  "What's your language?": "زبان شما چیست؟",
- "Next": "بعدی"
+ "Next": "بعدی",
+ "Contacts": "مخاطبین",
+ "Search contacts": "جستجوی مخاطبین",
+ "No contacts yet.": "هنوز مخاطبی نیست."
 }

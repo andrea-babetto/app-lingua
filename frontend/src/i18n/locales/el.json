@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "Είστε εκτός σύνδεσης. Ελέγξτε τη σύνδεση.",
  "You write and read in this language. Others read you in theirs.": "Γράφετε και διαβάζετε σε αυτή τη γλώσσα. Οι άλλοι σας διαβάζουν στη δική τους.",
  "What's your language?": "Ποια είναι η γλώσσα σας;",
- "Next": "Επόμενο"
+ "Next": "Επόμενο",
+ "Contacts": "Επαφές",
+ "Search contacts": "Αναζήτηση επαφών",
+ "No contacts yet.": "Δεν υπάρχουν επαφές ακόμα."
 }

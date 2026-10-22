@@ -184,5 +184,8 @@
  "You're offline. Check your connection.": "أنت غير متصل. تحقق من الاتصال.",
  "You write and read in this language. Others read you in theirs.": "تكتب وتقرأ بهذه اللغة. والآخرون يقرؤونك بلغتهم.",
  "What's your language?": "ما لغتك؟",
- "Next": "التالي"
+ "Next": "التالي",
+ "Contacts": "جهات الاتصال",
+ "Search contacts": "ابحث في جهات الاتصال",
+ "No contacts yet.": "لا توجد جهات اتصال بعد."
 }
