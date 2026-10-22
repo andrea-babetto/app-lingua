@@ -6,7 +6,7 @@ from pathlib import Path
 
 SRC = Path(__file__).resolve().parent.parent / "frontend" / "src"
 pat = re.compile(r'\bt\(\s*"((?:[^"\\]|\\.)*)"')
-extra = ["Chats", "Groups", "Profile"]  # used as t(label) in the bottom tabs
+extra = ["Chats", "Groups", "Contacts", "Profile"]  # used as t(label) in the bottom tabs
 found = set(extra)
 for f in list(SRC.rglob("*.jsx")) + list(SRC.rglob("*.js")):
     if "/i18n/" in str(f):

@@ -265,8 +265,8 @@ export default function Chat() {
             onBack={closeActive} typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">
-            <LogoMark className="w-20 h-20 text-primary mb-5 drop-shadow-lg" />
-            <Logo className="text-3xl" />
+            <LogoMark className="w-20 h-20 rounded-[22%] mb-5 shadow-lg" />
+            <Logo height={36} className="mt-3" />
             <p className="text-sm text-muted-foreground max-w-xs mt-3">{t("Select a chat or start a new one. Everyone writes in their own language — we translate the rest.")}</p>
           </div>
         )}

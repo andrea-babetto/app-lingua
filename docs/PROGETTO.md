@@ -9,7 +9,7 @@ Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: un mo
 
 - **Proprietario:** Andrea Babetto (Shampissima, agenzia di Amazon PPC). Primo utente di prova: **Hamad** (agenzia, India). Parla italiano, preferisce istruzioni brevi, passo per passo, con screenshot.
 - **Stato:** in produzione, **beta chiusa su invito** (registrazione con codice `INVITE_CODE`). Usata da Andrea e Hamad.
-- **Nome:** "Glott" è **provvisorio**. Esiste TalkGlot (app di conversazioni bilingui, suono identico) e "Glot" è già usato nelle traduzioni: prima di spendere in marchio/store serve una ricerca ufficiale (EUIPO, USPTO, UIBM) e il controllo di `.app`/`.chat`. I servizi e il codice si chiamano ancora `lingua-*`.
+- **Nome:** **Glotter** (scelto da Andrea il 22/10/2026): "glot" dal greco *glotta* (lingua) + "-ter" (chi fa qualcosa). Interfaccia già aggiornata (logo, colori nero e giallo, carattere Onest, 41 lingue) con il design in `docs/brand/design_handoff_glotter/`. Marchio NON ancora verificato: TMview trova "GLOTTER" registrato in Messico (classe 25) e "PolyGlotterz" in Francia (classe 38, telecomunicazioni); serve un parere di un consulente in marchi (EUIPO, WIPO, UIBM). Domini: glotter.com occupato; alla verifica del 22/10 risultavano liberi .it .net .biz .eu .me .tel .tv (da confermare dal registrar prima di comprarli). Repong è stato il nome precedente: resta solo nei documenti di storia (`docs/brand/design_handoff_repong/`).
 
 ## 2. Dove sta tutto
 
@@ -50,7 +50,7 @@ Su `lingua-api` (Render → Environment). Elenco commentato in `backend/.env.exa
 - `src/components/chat/` — `Sidebar` (elenco, tab Chats/Groups/Profile), `ChatWindow`, `MessageBubble`, `MessageActions` (menu al tocco), `ProfilePanel`, `InfoPanel`, `NewChatDialog`, `PushPrompt`.
 - `src/hooks/useAppViewport.js` — tiene ferma l'intestazione quando si apre la tastiera su iPhone.
 - `src/lib/push.js` + `public/sw.js` — notifiche. `public/manifest.json` + icone — installazione.
-- Font: Plus Jakarta Sans (incluso nel sito). Colore: variabili `--h --s --l` in `src/index.css` (oggi **Azzurro** `205 85% 44%`). Sfondo chat: texture neutra `public/wallpaper-*.svg`.
+- Font: **Onest** (testo e logo) e **Noto Sans Arabic** per le lingue da destra a sinistra, inclusi nel sito. Colori: token Glotter in `src/index.css` (nero e giallo, neutri caldi; modalità scura con primario giallo), presi da `docs/brand/design_handoff_glotter/tokens.css`. Sfondo chat: carta calda con un puntino ogni 18px (solo CSS). Logo: `components/Logo.jsx` (scritta + frecce; `LogoArrows` si anima mentre traduce). Icone: `tools/e2e/make_icons.py`.
 
 **Dati (collezioni Mongo):** `users`, `chats`, `messages` (originale + traduzioni per lingua + traduzioni per utente con glossario, `reactions`, `deleted_for`), `contacts`, `files`, `translation_cache`, `translation_logs`, `reports`, `settings` (chiavi VAPID create da sole), `push_subs`.
 
@@ -67,7 +67,7 @@ Chat 1:1 e gruppi; traduzione automatica per ognuno (originale sempre recuperabi
 - **Lingua = quella del profilo** (non c'è riconoscimento automatico della lingua del testo).
 - Un solo tono neutro (la scelta formale/informale è stata tolta; il motore la sa ancora fare).
 - Beta chiusa su invito; vocali spenti ("solo testo al momento").
-- Aspetto: colore Azzurro, font Plus Jakarta Sans, icona con il nome intero "glott", "g" minuscola come favicon (la "G" maiuscola somigliava a quella di Google).
+- Aspetto: terracotta e sabbia (Repong) sostituiti dal design Glotter (nero e giallo, `docs/brand/design_handoff_glotter/`). Sotto i propri messaggi, nelle chat a due, "{nome} legge in {lingua}" mostra il testo tradotto per l'altra persona.
 - Notifiche: il server manda la push solo a chi non è collegato da più di 60 secondi (ping ogni 20 s dal sito); gli indirizzi push ammessi sono solo quelli dei browser principali (il server si collega a quell'indirizzo).
 
 ## 7. Sicurezza e limiti noti

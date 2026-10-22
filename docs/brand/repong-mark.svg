@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <!-- Repong mark: the outgoing arrow (terracotta) and the return arrow (sand) -->
+  <path d="M6 14 H33 M26 7 L33 14 L26 21" fill="none" stroke="#c2410c" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M34 27 H7 M14 20 L7 27 L14 34" fill="none" stroke="#f2b544" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

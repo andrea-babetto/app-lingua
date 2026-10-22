@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react";
-import { Send, Smile, Paperclip, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil } from "lucide-react";
+import { ArrowUp, Smile, Plus, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil, Check } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { api } from "@/lib/api";
@@ -28,7 +28,7 @@ const draftKey = (id) => `glott_draft_${id}`;
 const readDraft = (id) => { try { return localStorage.getItem(draftKey(id)) || ""; } catch { return ""; } };
 const writeDraft = (id, v) => { try { v ? localStorage.setItem(draftKey(id), v) : localStorage.removeItem(draftKey(id)); } catch { /* storage blocked */ } };
 
-const headerBtn = "w-10 h-10 rounded-full flex items-center justify-center text-primary-foreground/90 hover:bg-white/15 active:bg-white/25 transition shrink-0";
+const headerBtn = "w-10 h-10 rounded-full flex items-center justify-center text-foreground/80 hover:bg-muted active:bg-muted transition shrink-0";
 
 function MessageSkeleton() {
   return (
@@ -49,6 +49,8 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const [reply, setReply] = useState(null);
   const [editing, setEditing] = useState(null);
   const [actionMsg, setActionMsg] = useState(null);
+  const [originals, setOriginals] = useState({}); // message ids shown in their original language
+  const toggleOriginal = (id) => setOriginals((o) => ({ ...o, [id]: !o[id] }));
   const [uploading, setUploading] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [sq, setSq] = useState("");
@@ -155,22 +157,26 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     ? t("{count} members", { count: chat.members_info.length })
     : other?.online ? t("online") : (other?.last_seen ? t("last seen recently") : langName(other?.language));
 
+  const latestMineId = [...messages].reverse().find((m) => m.sender_id === user.id)?.id;
+
   const sameBlock = (a, b) => a && b && a.sender_id === b.sender_id && !a.deleted_for_all && !b.deleted_for_all
     && new Date(a.created_at).toDateString() === new Date(b.created_at).toDateString()
     && Math.abs(new Date(b.created_at) - new Date(a.created_at)) < GROUP_GAP_MS;
 
   return (
     <div className="h-full w-full flex-1 min-w-0 flex flex-col bg-background relative">
-      <header className="h-16 ps-1.5 pe-2 flex items-center gap-1 bg-primary text-primary-foreground shrink-0 shadow-sm z-10">
+      <header className="h-16 ps-1.5 pe-2 flex items-center gap-1 bg-card text-foreground border-b border-border shrink-0 z-10">
         <button data-testid="mobile-back-button" aria-label={t("Back")} className={`${headerBtn} md:hidden`} onClick={onBack}><ArrowLeft className="w-6 h-6 rtl:rotate-180" /></button>
         <button className="flex items-center gap-3 flex-1 min-w-0 text-start h-full md:ps-2" onClick={onToggleInfo}>
-          <Avatar className="w-10 h-10 ring-2 ring-white/30">
+          <Avatar className={`w-10 h-10 ${isGroup ? "rounded-xl" : ""}`}>
             <AvatarImage src={chat.display_avatar} />
-            <AvatarFallback className="bg-white/20 text-primary-foreground font-semibold">{chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className={`bg-label text-label-foreground font-semibold ${isGroup ? "rounded-xl" : ""}`}>{chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <div className="text-[17px] font-bold truncate leading-tight">{chat.display_name}</div>
-            <div className="text-xs text-primary-foreground/80 truncate">{subtitle}</div>
+            <div className="text-[17px] font-semibold truncate leading-tight">{chat.display_name}</div>
+            {typingUser
+              ? <div className="text-xs text-primary font-medium truncate">{t("typing in {language}", { language: langName(typingUser.language) })}…</div>
+              : <div className={`text-xs truncate ${!isGroup && other?.online ? "text-online font-medium" : "text-muted-foreground"}`}>{subtitle}</div>}
           </div>
         </button>
         <button data-testid="search-messages-button" aria-label={t("Search")} className={headerBtn} onClick={() => { setSearchOpen((v) => !v); setSq(""); setSres([]); }}><Search className="w-5 h-5" /></button>
@@ -214,17 +220,18 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
             <div key={m.id}>
               {showDay && (
                 <div className="flex justify-center my-3">
-                  <span className="text-xs font-semibold text-muted-foreground bg-card/90 border border-border rounded-full px-3 py-1 shadow-sm">{dayLabel(m.created_at, t, lang)}</span>
+                  <span className="text-xs font-semibold text-muted-foreground bg-card/90 rounded-full px-3 py-1 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">{dayLabel(m.created_at, t, lang)}</span>
                 </div>
               )}
-              <MessageBubble msg={m} mine={m.sender_id === user.id} isGroup={isGroup} first={first} last={last}
+              <MessageBubble msg={m} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
+                showOriginal={!!originals[m.id]} onToggleOriginal={() => toggleOriginal(m.id)}
                 onOpenActions={setActionMsg} onReact={onReact} />
             </div>
           );
         })}
         {typingUser && (
           <div data-testid="typing-indicator" className="flex items-center gap-2 px-3 mt-1">
-            <div className="flex items-center gap-1 px-3 py-2 rounded-2xl bg-bubble-in shadow-sm">
+            <div className="flex items-center gap-1 px-3 py-2 rounded-[18px] rounded-es-[6px] bg-bubble-in shadow-[0_1px_1px_rgba(0,0,0,0.06)]">
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
@@ -237,7 +244,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
 
       {!atBottom && !loading && (
         <button data-testid="scroll-to-bottom" aria-label={t("Go to the latest message")} onClick={() => { scrollToBottom(true); setNewBelow(0); }}
-          className="absolute end-4 bottom-24 z-10 w-11 h-11 rounded-full bg-card border border-border shadow-lg flex items-center justify-center active:scale-95 transition">
+          className="absolute end-4 bottom-20 z-10 w-11 h-11 rounded-full bg-card border border-border shadow-lg flex items-center justify-center active:scale-95 transition">
           <ChevronDown className="w-6 h-6" />
           {newBelow > 0 && <span className="absolute -top-2 -right-1 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">{newBelow}</span>}
         </button>
@@ -255,16 +262,15 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         </div>
       )}
 
-      <div className="p-2.5 flex items-end gap-2 bg-background border-t border-border shrink-0">
-        <div className="flex-1 flex items-end gap-0.5 bg-card rounded-3xl border border-border shadow-sm px-1.5 py-1 focus-within:ring-2 focus-within:ring-primary/30">
-          <Popover>
-            <PopoverTrigger asChild>
-              <button data-testid="emoji-picker-button" aria-label={t("Emoji")} className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0"><Smile className="w-6 h-6" /></button>
-            </PopoverTrigger>
-            <PopoverContent className="w-64 grid grid-cols-8 gap-1 p-2" side="top" align="start">
-              {EMOJIS.map((e) => <button key={e} className="text-xl hover:bg-muted rounded p-1" onClick={() => setText((t) => t + e)}>{e}</button>)}
-            </PopoverContent>
-          </Popover>
+      <div className="px-2.5 py-2 flex items-end gap-1.5 bg-card border-t border-border shrink-0">
+        {!editing && (
+          <button data-testid="attach-button" aria-label={t("Attach a file")} onClick={() => fileRef.current?.click()} disabled={uploading}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0">
+            {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-6 h-6" />}
+          </button>
+        )}
+        <input type="file" ref={fileRef} hidden onChange={onFile} />
+        <div className="flex-1 flex items-end bg-surface rounded-[20px] ps-3.5 pe-1 focus-within:ring-2 focus-within:ring-primary/25 min-w-0">
           <textarea
             ref={taRef}
             data-testid="message-input"
@@ -274,26 +280,29 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
               if (e.key === "Enter" && !e.shiftKey && !isTouchDevice()) { e.preventDefault(); send(); }
               if (e.key === "Escape" && editing) cancelEdit();
             }}
-            placeholder={editing ? t("Edit your message") : t("Message in {language}", { language: langName(user.language) })}
+            placeholder={editing ? t("Edit your message") : t("Write in {language}", { language: langName(user.language) })}
             rows={1}
             enterKeyHint="send"
-            className="flex-1 resize-none max-h-32 px-1.5 py-2.5 bg-transparent text-base outline-none min-w-0 leading-snug"
+            className="flex-1 resize-none max-h-32 py-2.5 bg-transparent text-base outline-none min-w-0 leading-snug placeholder:text-subtle"
           />
-          {!editing && (
-            <button aria-label={t("Attach a file")} className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0" onClick={() => fileRef.current?.click()} disabled={uploading}>
-              {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Paperclip className="w-5 h-5" />}
-            </button>
-          )}
-          <input type="file" ref={fileRef} hidden onChange={onFile} />
+          <Popover>
+            <PopoverTrigger asChild>
+              <button data-testid="emoji-picker-button" aria-label={t("Emoji")} className="w-9 h-10 rounded-full flex items-center justify-center text-subtle hover:text-foreground shrink-0"><Smile className="w-5 h-5" /></button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 grid grid-cols-8 gap-1 p-2" side="top" align="end">
+              {EMOJIS.map((e) => <button key={e} className="text-xl hover:bg-muted rounded p-1" onClick={() => setText((t) => t + e)}>{e}</button>)}
+            </PopoverContent>
+          </Popover>
         </div>
         <button data-testid="send-message-button" aria-label={editing ? t("Save") : t("Send")} onClick={send} disabled={!text.trim()}
-          className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 shadow-md transition active:scale-95 disabled:opacity-40 disabled:shadow-none">
-          {editing ? <Pencil className="w-5 h-5" /> : <Send className="w-5 h-5 -ms-0.5" />}
+          className="w-10 h-10 mb-0.5 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 transition active:scale-95 disabled:opacity-40">
+          {editing ? <Check className="w-5 h-5" /> : <ArrowUp className="w-5 h-5" strokeWidth={2.6} />}
         </button>
       </div>
 
       <MessageActions msg={actionMsg} mine={actionMsg?.sender_id === user.id} userId={user.id} onClose={() => setActionMsg(null)}
-        onReply={(m) => { setEditing(null); setReply(m); taRef.current?.focus(); }} onEdit={startEdit} onReact={onReact} />
+        onReply={(m) => { setEditing(null); setReply(m); taRef.current?.focus(); }} onEdit={startEdit} onReact={onReact}
+        onShowOriginal={(m) => toggleOriginal(m.id)} showingOriginal={!!(actionMsg && originals[actionMsg.id])} />
     </div>
   );
 }

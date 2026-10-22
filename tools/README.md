@@ -5,7 +5,6 @@ Script usati per controllare l'app in un browser simulato da telefono, **senza**
 ## Serve
 - Python con le dipendenze del server (`pip install -r backend/requirements-dev.txt`) per `run_demo_backend.py`.
 - Python con **Playwright** (`pip install playwright`) e un Chromium (variabile `CHROMIUM` = percorso dell'eseguibile; di default quello di `/opt/pw-browsers`) per gli script di controllo.
-- `pip install pillow` per `make_icons.py`.
 
 ## Come si usa (3 terminali, o 3 comandi in sottofondo)
 1. Server di prova (porta 8001, database in memoria, traduttore finto, utenti di prova `giulia@lingua.app` e `james@lingua.app`, admin `admin@test.dev`):
@@ -17,13 +16,12 @@ Script usati per controllare l'app in un browser simulato da telefono, **senza**
    - `python tools/e2e/features_check.py` — 17 controlli: menu del messaggio, reazioni, modifica, bozze, anteprima foto, tasto "vai in fondo", riconnessione, cambio password, reset da admin. **Cambia dati nel server di prova: riavviarlo prima di ripetere.**
    - `python tools/e2e/i18n_check.py` — 9 controlli: lingua dell'interfaccia (browser, menu, profilo), arabo da destra a sinistra, pagine `/privacy` e `/terms` senza account, consenso alla registrazione, elimina account. **Cambia dati nel server di prova: riavviarlo prima di ripetere.**
    - `python tools/e2e/keyboard_check.py` — simula la tastiera (schermo ridotto) e controlla che l'intestazione resti ferma.
-   - `python tools/e2e/palettes.py` — schermate con più palette, in un'unica immagine di confronto.
 
 ## Lingue dell'interfaccia
 `python tools/extract_i18n.py` rilegge tutte le frasi `t("...")` del sito e scrive `frontend/src/i18n/source.json`; con `--check` dice quali lingue (`frontend/src/i18n/locales/*.json`) non hanno ancora una frase.
 
 ## Icone
-`python tools/e2e/make_icons.py H S L` (per esempio `205 85 44`) riscrive `frontend/public/icon-*.png`, `apple-touch-icon.png` e `favicon.svg` con il nome "glott" e il colore indicato.
+`python tools/e2e/make_icons.py` riscrive `frontend/public/icon-*.png`, `icon-maskable-512.png`, `apple-touch-icon.png` e `favicon.svg` a partire dai file del marchio Glotter in `docs/brand/design_handoff_glotter/assets`.
 
 ## Cosa NON si può provare qui
 Safari su iPhone vero (tastiera, installazione sulla Home, notifiche reali): va provato sul telefono dopo la pubblicazione.

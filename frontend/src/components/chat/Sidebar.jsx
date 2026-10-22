@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Search, MessageCircle, Users, User, MessageSquarePlus, UserPlus, Check, X, Languages } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Search, MessageCircle, Users, User, Contact, Plus, UserPlus, Check, X, WifiOff } from "lucide-react";
 import { format, isToday, isYesterday } from "date-fns";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
-import Logo from "@/components/Logo";
+import Logo, { LogoArrows } from "@/components/Logo";
 import { useI18n } from "@/i18n";
 
 function initials(name) {
@@ -50,23 +50,26 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
     <button data-testid={`sidebar-chat-item-${chat.id}`} onClick={click}
       onTouchStart={start} onTouchEnd={cancel} onTouchMove={cancel} onTouchCancel={cancel}
       onContextMenu={(e) => { e.preventDefault(); onAskDelete(chat); }}
-      className={`w-full flex items-center gap-3.5 px-4 py-3 text-start select-none [-webkit-touch-callout:none] transition-colors ${active ? "bg-accent" : "hover:bg-muted/60 active:bg-muted"}`}>
+      className={`w-full flex items-center gap-3.5 px-5 py-3 text-start select-none [-webkit-touch-callout:none] transition-colors ${active ? "bg-accent" : "hover:bg-muted/60 active:bg-muted"}`}>
       <div className="relative shrink-0">
-        <Avatar style={{ width: "3.5rem", height: "3.5rem" }}>
+        <Avatar className={chat.type === "group" ? "rounded-2xl" : ""} style={{ width: "3.125rem", height: "3.125rem" }}>
           <AvatarImage src={chat.display_avatar} />
-          <AvatarFallback className="bg-primary/10 text-primary font-semibold">{initials(chat.display_name)}</AvatarFallback>
+          <AvatarFallback className={`bg-label text-label-foreground font-semibold ${chat.type === "group" ? "rounded-2xl" : ""}`}>{initials(chat.display_name)}</AvatarFallback>
         </Avatar>
-        {chat.other_user?.online && <span className="absolute bottom-0 end-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-card" />}
+        {chat.other_user?.online && <span className="absolute bottom-0 end-0 w-3.5 h-3.5 rounded-full bg-online border-2 border-card" />}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline justify-between gap-2">
-          <span className="text-[17px] font-medium truncate">{chat.display_name}</span>
+          <span className="flex items-baseline gap-1.5 min-w-0">
+            <span className="text-base font-semibold truncate">{chat.display_name}</span>
+            {chat.other_user?.language && <span className="shrink-0 text-[10px] font-bold uppercase text-subtle">{chat.other_user.language}</span>}
+          </span>
           {chat.last_message && (
-            <span className={`text-xs shrink-0 ${chat.unread > 0 ? "text-primary font-semibold" : "text-muted-foreground"}`}>{when(chat.last_message.created_at, t)}</span>
+            <span className={`text-xs shrink-0 ${chat.unread > 0 ? "text-primary font-bold" : "text-subtle"}`}>{when(chat.last_message.created_at, t)}</span>
           )}
         </div>
         <div className="flex items-center justify-between gap-2 mt-0.5">
-          <span className="text-[15px] text-muted-foreground truncate">{preview(chat, myId, t)}</span>
+          <span dir="auto" className="text-sm text-muted-foreground truncate">{preview(chat, myId, t)}</span>
           {chat.unread > 0 && (
             <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center">{chat.unread}</span>
           )}
@@ -76,11 +79,43 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
   );
 }
 
+function useOnline() {
+  const [online, setOnline] = useState(() => navigator.onLine !== false);
+  useEffect(() => {
+    const up = () => setOnline(true), down = () => setOnline(false);
+    window.addEventListener("online", up); window.addEventListener("offline", down);
+    return () => { window.removeEventListener("online", up); window.removeEventListener("offline", down); };
+  }, []);
+  return online;
+}
+
 const TABS = [
   { id: "chats", label: "Chats", Icon: MessageCircle },
   { id: "groups", label: "Groups", Icon: Users },
+  { id: "contacts", label: "Contacts", Icon: Contact },
   { id: "profile", label: "Profile", Icon: User },
 ];
+
+// The people you already have a one-to-one chat with, one row each. Tapping a row opens that chat.
+function ContactRow({ chat, onSelect }) {
+  const other = chat.other_user || {};
+  return (
+    <button data-testid={`contact-item-${other.id}`} onClick={() => onSelect(chat)}
+      className="w-full flex items-center gap-3.5 px-5 py-3 text-start hover:bg-muted/60 active:bg-muted transition-colors">
+      <div className="relative shrink-0">
+        <Avatar style={{ width: "2.75rem", height: "2.75rem" }}>
+          <AvatarImage src={chat.display_avatar} />
+          <AvatarFallback className="bg-label text-label-foreground font-semibold">{initials(chat.display_name)}</AvatarFallback>
+        </Avatar>
+        {other.online && <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-online border-2 border-card" />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-base font-semibold truncate">{chat.display_name}</div>
+        {other.language && <div className="text-xs text-subtle">{other.language.toUpperCase()}</div>}
+      </div>
+    </button>
+  );
+}
 
 export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, requests, onAccept, onDecline }) {
   const { user } = useAuth();
@@ -88,10 +123,12 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
   const [tab, setTab] = useState("chats");
   const [q, setQ] = useState("");
   const [toDelete, setToDelete] = useState(null);
+  const online = useOnline();
 
   const direct = chats.filter((c) => c.type !== "group");
   const groups = chats.filter((c) => c.type === "group");
   const list = (tab === "groups" ? groups : direct).filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
+  const contactsList = direct.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
   const unread = { chats: direct.reduce((n, c) => n + (c.unread || 0), 0), groups: groups.reduce((n, c) => n + (c.unread || 0), 0) };
 
   const confirmDelete = async () => {
@@ -102,19 +139,31 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
 
   return (
     <div className="h-full flex flex-col bg-card relative">
-      <header className="h-14 px-4 flex items-center shrink-0 bg-primary text-primary-foreground">
-        <Logo className="text-[28px]" />
+      <header className="h-16 px-5 flex items-center justify-between shrink-0 bg-card">
+        <Logo height={29} />
+        <button data-testid="header-profile-button" onClick={() => setTab("profile")} aria-label={t("Profile")}>
+          <Avatar className="w-9 h-9">
+            <AvatarImage src={user.avatar} />
+            <AvatarFallback className="bg-label text-label-foreground text-xs font-bold">{initials(user.name)}</AvatarFallback>
+          </Avatar>
+        </button>
       </header>
+
+      {!online && (
+        <div data-testid="offline-banner" className="mx-4 mb-2 px-3.5 py-2.5 rounded-xl bg-[#fdecea] text-[#7a1a10] dark:bg-[#3a1512] dark:text-[#f8c9c2] text-sm font-medium flex items-center gap-2 shrink-0">
+          <WifiOff className="w-4 h-4 shrink-0" /> {t("You're offline. Check your connection.")}
+        </div>
+      )}
 
       {tab === "profile" ? (
         <ProfilePanel onOpenAdmin={onOpenAdmin} />
       ) : (
         <>
-          <div className="px-3 pt-3 pb-1 shrink-0">
+          <div className="px-4 pt-1 pb-2 shrink-0">
             <div className="relative">
-              <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input data-testid="sidebar-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={tab === "groups" ? t("Search groups") : t("Search chats")}
-                className="w-full h-10 ps-9 pe-3 rounded-full bg-muted text-[15px] outline-none focus:ring-2 focus:ring-primary/40" />
+              <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-subtle" />
+              <input data-testid="sidebar-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={tab === "groups" ? t("Search groups") : tab === "contacts" ? t("Search contacts") : t("Search chats")}
+                className="w-full h-10 ps-10 pe-3 rounded-xl bg-surface text-[15px] placeholder:text-subtle outline-none focus:ring-2 focus:ring-primary/30" />
             </div>
           </div>
 
@@ -147,39 +196,55 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                 ))}
               </div>
             )}
-            {!loading && list.length === 0 && (
-              <div className="p-8 text-center text-sm text-muted-foreground">
-                <Languages className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                {tab === "groups" ? t("No groups yet. Tap the button to create one.") : t("No chats yet. Tap the button to find someone.")}
+            {tab === "contacts" && !loading && contactsList.length === 0 && (
+              <div className="px-8 pt-14 text-center text-[15px] text-muted-foreground" data-testid="empty-contacts">{t("No contacts yet.")}</div>
+            )}
+            {tab === "contacts" && contactsList.map((c) => <ContactRow key={c.id} chat={c} onSelect={onSelect} />)}
+            {tab !== "contacts" && !loading && list.length === 0 && (
+              <div className="px-8 pt-14 text-center" data-testid="empty-list">
+                <div className="w-[104px] h-[104px] rounded-full bg-surface mx-auto mb-5 flex items-center justify-center">
+                  <LogoArrows className="w-12 h-12" />
+                </div>
+                <p className={`text-muted-foreground max-w-[16rem] mx-auto leading-snug ${tab === "groups" ? "text-[17px] font-semibold text-foreground" : "text-[15px]"}`}>
+                  {tab === "groups" ? t("No groups, for now.") : t("No chats yet. Tap the button to find someone.")}
+                </p>
+                <Button className="mt-5 h-[52px] w-full max-w-xs rounded-2xl text-base font-semibold" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}>
+                  {tab === "groups" ? t("New group") : t("New chat")}
+                </Button>
+                {tab === "groups" && (
+                  <button type="button" data-testid="invite-with-link" onClick={() => onNewChat("person")} className="mt-3 text-sm text-primary font-semibold">
+                    {t("Invite with a link")}
+                  </button>
+                )}
               </div>
             )}
-            {list.map((c) => (
+            {tab !== "contacts" && list.map((c) => (
               <ChatRow key={c.id} chat={c} active={activeId === c.id} myId={user.id} onSelect={onSelect} onAskDelete={setToDelete} />
             ))}
-            {list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat to delete it.") : t("Right-click a chat to delete it.")}</p>}
+            {tab !== "contacts" && list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat to delete it.") : t("Right-click a chat to delete it.")}</p>}
           </div>
 
           <button data-testid="new-chat-button" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}
             aria-label={tab === "groups" ? t("New group") : t("New chat")}
-            className="absolute end-4 bottom-20 w-14 h-14 rounded-2xl bg-primary text-primary-foreground shadow-lg flex items-center justify-center active:scale-95 transition">
-            {tab === "groups" ? <Users className="w-6 h-6" /> : <MessageSquarePlus className="w-6 h-6" />}
+            className="absolute end-4 bottom-20 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 flex items-center justify-center active:scale-95 transition">
+            <Plus className="w-7 h-7" strokeWidth={2.4} />
           </button>
         </>
       )}
 
-      <nav className="grid grid-cols-3 shrink-0 border-t border-border bg-card" data-testid="bottom-tabs">
+      <nav className="grid grid-cols-4 shrink-0 border-t border-border bg-card" data-testid="bottom-tabs">
         {TABS.map(({ id, label, Icon }) => {
           const on = tab === id;
           return (
             <button key={id} data-testid={`tab-${id}`} onClick={() => { setTab(id); setQ(""); }}
               className="flex flex-col items-center gap-1 pt-2 pb-2.5 text-xs">
-              <span className={`relative px-5 py-1 rounded-full transition-colors ${on ? "bg-primary/15 text-primary" : "text-muted-foreground"}`}>
+              <span className={`relative px-5 py-1 rounded-full transition-colors ${on ? "bg-primary/14 text-primary" : "text-subtle"}`}>
                 <Icon className="w-6 h-6" strokeWidth={on ? 2.4 : 2} />
                 {unread[id] > 0 && (
                   <span className="absolute -top-1 right-1 min-w-4 h-4 px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold flex items-center justify-center">{unread[id]}</span>
                 )}
               </span>
-              <span className={on ? "font-semibold text-foreground" : "text-muted-foreground"}>{t(label)}</span>
+              <span className={on ? "font-semibold text-primary" : "text-subtle"}>{t(label)}</span>
             </button>
           );
         })}

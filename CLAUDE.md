@@ -11,7 +11,7 @@ Chat in tempo reale in cui ognuno scrive e legge nella propria lingua, tradotta 
 - Lavora su un ramo, **non aprire pull request se non richiesto**, e **unisci a `main` solo quando Andrea dice "unisci"**. Ogni unione va seguita da istruzioni chiare su cosa ripubblicare su Render (`lingua-web` e/o `lingua-api`) e sul telefono.
 - Prima di dire "fatto": `cd backend && pytest`, `cd frontend && yarn build`, e provalo nel browser simulato (`tools/README.md`). Dì chiaramente cosa **non** hai potuto provare (iPhone vero, notifiche reali).
 - Non dire "disponibile" per un dominio o un nome senza averlo controllato; la ricerca web non è una verifica legale sul marchio.
-- Il nome "Glott" è provvisorio.
+- Il nome è **Glotter** (scelto da Andrea il 22/10/2026): "glot" dal greco *glotta* (lingua) + "-ter" (chi fa qualcosa). Interfaccia già aggiornata (logo, colori nero e giallo, carattere Onest, 41 lingue) con il design in `docs/brand/design_handoff_glotter/`. Marchio NON ancora verificato: TMview trova "GLOTTER" registrato in Messico (classe 25) e "PolyGlotterz" in Francia (classe 38, telecomunicazioni); serve un parere di un consulente in marchi (EUIPO, WIPO, UIBM). Domini: glotter.com occupato; alla verifica del 22/10 risultavano liberi .it .net .biz .eu .me .tel .tv (da confermare dal registrar prima di comprarli). Repong è stato il nome precedente: resta solo nei documenti di storia (`docs/brand/design_handoff_repong/`).
 
 ## Comandi
 - Test server: `cd backend && pip install -r requirements-dev.txt && pytest`

@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "@tanstack/react-query";
-import "@fontsource-variable/plus-jakarta-sans";
-import "@fontsource/tajawal/arabic-400.css";
-import "@fontsource/tajawal/arabic-500.css";
-import "@fontsource/tajawal/arabic-700.css";
+import "@fontsource-variable/onest";
+import "@fontsource-variable/noto-sans-arabic";
+import "@fontsource-variable/noto-sans-devanagari";
+import "@fontsource-variable/noto-sans-sc";
 import "@/index.css";
 import App from "@/App";
 import { queryClient } from "@/lib/queryClient";
