@@ -55,7 +55,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
     : `rounded-[18px] ${last ? "rounded-es-[6px]" : ""}`;
 
   return (
-    <div className={`rp-msg-in flex items-end gap-2 px-3 ${mine ? "justify-end" : "justify-start"} ${last ? "mb-1.5" : "mb-0.5"}`} data-testid={`message-bubble-${msg.id}`}>
+    <div className={`gl-msg-in flex items-end gap-2 px-3 ${mine ? "justify-end" : "justify-start"} ${last ? "mb-1.5" : "mb-0.5"}`} data-testid={`message-bubble-${msg.id}`}>
       {!mine && isGroup && (
         <div className="w-8 shrink-0">
           {last && (

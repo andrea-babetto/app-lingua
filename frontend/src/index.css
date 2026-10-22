@@ -147,11 +147,11 @@
 .gl-pulse { animation: gl-pulse 1s ease-in-out infinite; }
 
 /* new messages slide up and fade in */
-@keyframes rp-msg-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
-.rp-msg-in { animation: rp-msg-in 250ms ease-out; }
+@keyframes gl-msg-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+.gl-msg-in { animation: gl-msg-in 250ms ease-out; }
 
 @media (prefers-reduced-motion: reduce) {
-  .gl-pulse, .rp-msg-in, .typing-dot, .animate-slide-in { animation: none; }
+  .gl-pulse, .gl-msg-in, .typing-dot, .animate-slide-in { animation: none; }
 }
 
 
@@ -164,5 +164,3 @@
 .chat-lock, .chat-lock body { overflow: hidden; overscroll-behavior: none; }
 .app-shell { position: fixed; left: 0; right: 0; top: var(--app-top, 0px); height: var(--app-height, 100dvh); }
 
-/* logo arrow that "goes": terracotta, lighter on dark backgrounds */
-.dark { --rp-arrow-top: #f0703a; }
