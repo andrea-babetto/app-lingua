@@ -75,7 +75,6 @@
  "Make admin": "Đặt làm quản trị viên",
  "Members": "Thành viên",
  "Message actions": "Tùy chọn tin nhắn",
- "Message in {language}": "Tin nhắn bằng {language}",
  "Message not sent": "Tin nhắn chưa được gửi",
  "My language": "Ngôn ngữ của tôi",
  "New chat": "Trò chuyện mới",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Chưa có liên hệ nào.",
  "Have an invite code?": "Bạn có mã mời không?",
  "Turn on notifications": "Bật thông báo",
- "So you don't miss any reply.": "Như vậy bạn sẽ không bỏ lỡ câu trả lời nào."
+ "So you don't miss any reply.": "Như vậy bạn sẽ không bỏ lỡ câu trả lời nào.",
+ "Write in {language}": "Viết bằng {language}"
 }

@@ -75,7 +75,6 @@
  "Make admin": "एडमिन बनाएँ",
  "Members": "सदस्य",
  "Message actions": "संदेश के विकल्प",
- "Message in {language}": "{language} में संदेश",
  "Message not sent": "संदेश नहीं भेजा गया",
  "My language": "मेरी भाषा",
  "New chat": "नई चैट",
@@ -189,5 +188,6 @@
  "No contacts yet.": "अभी तक कोई संपर्क नहीं।",
  "Have an invite code?": "क्या आपके पास आमंत्रण कोड है?",
  "Turn on notifications": "सूचनाएँ चालू करें",
- "So you don't miss any reply.": "इससे आपका कोई जवाब नहीं छूटेगा।"
+ "So you don't miss any reply.": "इससे आपका कोई जवाब नहीं छूटेगा।",
+ "Write in {language}": "{language} में लिखें"
 }

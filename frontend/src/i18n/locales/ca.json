@@ -75,7 +75,6 @@
  "Make admin": "Fes administrador",
  "Members": "Membres",
  "Message actions": "Accions del missatge",
- "Message in {language}": "Missatge en {language}",
  "Message not sent": "Missatge no enviat",
  "My language": "El meu idioma",
  "New chat": "Xat nou",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Encara no hi ha contactes.",
  "Have an invite code?": "Tens un codi d'invitació?",
  "Turn on notifications": "Activa les notificacions",
- "So you don't miss any reply.": "Així no perdràs cap resposta."
+ "So you don't miss any reply.": "Així no perdràs cap resposta.",
+ "Write in {language}": "Escriu en {language}"
 }

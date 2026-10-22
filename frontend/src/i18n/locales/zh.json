@@ -75,7 +75,6 @@
  "Make admin": "设为管理员",
  "Members": "成员",
  "Message actions": "消息操作",
- "Message in {language}": "用{language}发消息",
  "Message not sent": "消息未发送",
  "My language": "我的语言",
  "New chat": "新聊天",
@@ -189,5 +188,6 @@
  "No contacts yet.": "还没有联系人。",
  "Have an invite code?": "有邀请码吗？",
  "Turn on notifications": "开启通知",
- "So you don't miss any reply.": "这样就不会错过任何回复。"
+ "So you don't miss any reply.": "这样就不会错过任何回复。",
+ "Write in {language}": "用{language}输入"
 }

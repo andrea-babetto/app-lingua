@@ -75,7 +75,6 @@
  "Make admin": "Postavi za admina",
  "Members": "Članovi",
  "Message actions": "Radnje s porukom",
- "Message in {language}": "Poruka na jeziku {language}",
  "Message not sent": "Poruka nije poslana",
  "My language": "Moj jezik",
  "New chat": "Novi chat",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Još nema kontakata.",
  "Have an invite code?": "Imate kôd za pozivnicu?",
  "Turn on notifications": "Uključi obavijesti",
- "So you don't miss any reply.": "Tako nećete propustiti nijedan odgovor."
+ "So you don't miss any reply.": "Tako nećete propustiti nijedan odgovor.",
+ "Write in {language}": "Pišite na jeziku: {language}"
 }

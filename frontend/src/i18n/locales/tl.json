@@ -75,7 +75,6 @@
  "Make admin": "Gawing admin",
  "Members": "Mga miyembro",
  "Message actions": "Mga aksyon sa mensahe",
- "Message in {language}": "Mensahe sa {language}",
  "Message not sent": "Hindi naipadala ang mensahe",
  "My language": "Wika ko",
  "New chat": "Bagong chat",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Wala pang contact.",
  "Have an invite code?": "May invite code ka?",
  "Turn on notifications": "I-on ang mga abiso",
- "So you don't miss any reply.": "Sa ganito, walang reply na mapapalampas mo."
+ "So you don't miss any reply.": "Sa ganito, walang reply na mapapalampas mo.",
+ "Write in {language}": "Magsulat sa {language}"
 }

@@ -277,7 +277,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
               if (e.key === "Enter" && !e.shiftKey && !isTouchDevice()) { e.preventDefault(); send(); }
               if (e.key === "Escape" && editing) cancelEdit();
             }}
-            placeholder={editing ? t("Edit your message") : t("Message in {language}", { language: langName(user.language) })}
+            placeholder={editing ? t("Edit your message") : t("Write in {language}", { language: langName(user.language) })}
             rows={1}
             enterKeyHint="send"
             className="flex-1 resize-none max-h-32 py-2.5 bg-transparent text-base outline-none min-w-0 leading-snug placeholder:text-subtle"

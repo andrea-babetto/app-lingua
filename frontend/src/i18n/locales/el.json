@@ -75,7 +75,6 @@
  "Make admin": "Ορισμός ως διαχειριστή",
  "Members": "Μέλη",
  "Message actions": "Ενέργειες μηνύματος",
- "Message in {language}": "Μήνυμα σε {language}",
  "Message not sent": "Το μήνυμα δεν στάλθηκε",
  "My language": "Η γλώσσα μου",
  "New chat": "Νέα συνομιλία",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Δεν υπάρχουν επαφές ακόμα.",
  "Have an invite code?": "Έχετε κωδικό πρόσκλησης;",
  "Turn on notifications": "Ενεργοποίηση ειδοποιήσεων",
- "So you don't miss any reply.": "Έτσι δεν θα χάσετε καμία απάντηση."
+ "So you don't miss any reply.": "Έτσι δεν θα χάσετε καμία απάντηση.",
+ "Write in {language}": "Γράψτε στα {language}"
 }

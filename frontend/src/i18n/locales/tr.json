@@ -75,7 +75,6 @@
  "Make admin": "Yönetici yap",
  "Members": "Üyeler",
  "Message actions": "Mesaj işlemleri",
- "Message in {language}": "{language} dilinde mesaj",
  "Message not sent": "Mesaj gönderilemedi",
  "My language": "Dilim",
  "New chat": "Yeni sohbet",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Henüz kişi yok.",
  "Have an invite code?": "Davet kodunuz var mı?",
  "Turn on notifications": "Bildirimleri aç",
- "So you don't miss any reply.": "Böylece hiçbir yanıtı kaçırmazsınız."
+ "So you don't miss any reply.": "Böylece hiçbir yanıtı kaçırmazsınız.",
+ "Write in {language}": "{language} dilinde yaz"
 }

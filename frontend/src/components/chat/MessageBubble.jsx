@@ -70,7 +70,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
 
       <div className={`max-w-[82%] sm:max-w-[68%] min-w-0 ${mine ? "items-end" : "items-start"} flex flex-col`}>
         {msg.reply_to_preview && (
-          <div className={`text-xs px-3 py-1.5 mb-1 rounded-xl border-s-2 truncate max-w-full ${mine ? "bg-primary/10 border-primary text-foreground/80" : "bg-card/90 border-sand text-muted-foreground"}`}>
+          <div className={`text-xs px-3 py-1.5 mb-1 rounded-xl border-s-2 truncate max-w-full ${mine ? "bg-bubble-out-foreground/15 border-bubble-out-foreground/60 text-bubble-out-foreground/85" : "bg-card/90 border-sand text-muted-foreground"}`}>
             {msg.reply_to_preview}
           </div>
         )}

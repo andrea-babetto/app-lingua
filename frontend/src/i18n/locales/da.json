@@ -75,7 +75,6 @@
  "Make admin": "Gør til administrator",
  "Members": "Medlemmer",
  "Message actions": "Beskedhandlinger",
- "Message in {language}": "Besked på {language}",
  "Message not sent": "Beskeden blev ikke sendt",
  "My language": "Mit sprog",
  "New chat": "Ny chat",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Ingen kontakter endnu.",
  "Have an invite code?": "Har du en invitationskode?",
  "Turn on notifications": "Slå notifikationer til",
- "So you don't miss any reply.": "Så går du ikke glip af nogen svar."
+ "So you don't miss any reply.": "Så går du ikke glip af nogen svar.",
+ "Write in {language}": "Skriv på {language}"
 }

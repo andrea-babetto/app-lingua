@@ -75,7 +75,6 @@
  "Make admin": "అడ్మిన్ చేయి",
  "Members": "సభ్యులు",
  "Message actions": "సందేశ చర్యలు",
- "Message in {language}": "{language}లో సందేశం",
  "Message not sent": "సందేశం పంపబడలేదు",
  "My language": "నా భాష",
  "New chat": "కొత్త చాట్",
@@ -189,5 +188,6 @@
  "No contacts yet.": "ఇంకా పరిచయాలు లేవు.",
  "Have an invite code?": "మీ దగ్గర ఆహ్వాన కోడ్ ఉందా?",
  "Turn on notifications": "నోటిఫికేషన్లు ఆన్ చేయండి",
- "So you don't miss any reply.": "ఇలా చేస్తే ఏ జవాబూ మిస్ అవ్వదు."
+ "So you don't miss any reply.": "ఇలా చేస్తే ఏ జవాబూ మిస్ అవ్వదు.",
+ "Write in {language}": "{language}లో రాయండి"
 }

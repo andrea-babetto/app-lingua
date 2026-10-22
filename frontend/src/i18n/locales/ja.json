@@ -75,7 +75,6 @@
  "Make admin": "管理者にする",
  "Members": "メンバー",
  "Message actions": "メッセージの操作",
- "Message in {language}": "{language}でメッセージ",
  "Message not sent": "メッセージを送信できませんでした",
  "My language": "使用言語",
  "New chat": "新しいチャット",
@@ -189,5 +188,6 @@
  "No contacts yet.": "まだ連絡先がありません。",
  "Have an invite code?": "招待コードはお持ちですか？",
  "Turn on notifications": "通知をオンにする",
- "So you don't miss any reply.": "これで返信を見逃しません。"
+ "So you don't miss any reply.": "これで返信を見逃しません。",
+ "Write in {language}": "{language}で入力"
 }

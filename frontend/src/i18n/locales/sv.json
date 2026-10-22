@@ -75,7 +75,6 @@
  "Make admin": "Gör till admin",
  "Members": "Medlemmar",
  "Message actions": "Meddelandeåtgärder",
- "Message in {language}": "Meddelande på {language}",
  "Message not sent": "Meddelandet skickades inte",
  "My language": "Mitt språk",
  "New chat": "Ny chatt",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Inga kontakter än.",
  "Have an invite code?": "Har du en inbjudningskod?",
  "Turn on notifications": "Aktivera aviseringar",
- "So you don't miss any reply.": "Så missar du inga svar."
+ "So you don't miss any reply.": "Så missar du inga svar.",
+ "Write in {language}": "Skriv på {language}"
 }

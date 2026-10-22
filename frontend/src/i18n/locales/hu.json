@@ -75,7 +75,6 @@
  "Make admin": "Adminná tesz",
  "Members": "Tagok",
  "Message actions": "Üzenetműveletek",
- "Message in {language}": "Üzenet ezen a nyelven: {language}",
  "Message not sent": "Az üzenet nem lett elküldve",
  "My language": "Az én nyelvem",
  "New chat": "Új csevegés",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Még nincs kapcsolat.",
  "Have an invite code?": "Van meghívókódod?",
  "Turn on notifications": "Értesítések bekapcsolása",
- "So you don't miss any reply.": "Így egyetlen választ sem hagysz ki."
+ "So you don't miss any reply.": "Így egyetlen választ sem hagysz ki.",
+ "Write in {language}": "Írj {language} nyelven"
 }

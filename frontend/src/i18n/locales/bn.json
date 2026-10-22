@@ -75,7 +75,6 @@
  "Make admin": "অ্যাডমিন করুন",
  "Members": "সদস্য",
  "Message actions": "মেসেজের অ্যাকশন",
- "Message in {language}": "{language} ভাষায় মেসেজ",
  "Message not sent": "মেসেজ পাঠানো হয়নি",
  "My language": "আমার ভাষা",
  "New chat": "নতুন চ্যাট",
@@ -189,5 +188,6 @@
  "No contacts yet.": "এখনও কোনো যোগাযোগ নেই।",
  "Have an invite code?": "আপনার কি আমন্ত্রণ কোড আছে?",
  "Turn on notifications": "বিজ্ঞপ্তি চালু করুন",
- "So you don't miss any reply.": "এভাবে কোনো উত্তর মিস হবে না।"
+ "So you don't miss any reply.": "এভাবে কোনো উত্তর মিস হবে না।",
+ "Write in {language}": "{language}-এ লিখুন"
 }

@@ -75,7 +75,6 @@
  "Make admin": "Fanya msimamizi",
  "Members": "Wanachama",
  "Message actions": "Vitendo vya ujumbe",
- "Message in {language}": "Ujumbe kwa {language}",
  "Message not sent": "Ujumbe haujatumwa",
  "My language": "Lugha yangu",
  "New chat": "Gumzo jipya",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Bado hakuna anwani.",
  "Have an invite code?": "Una msimbo wa mwaliko?",
  "Turn on notifications": "Washa arifa",
- "So you don't miss any reply.": "Kwa njia hii, hutakosa jibu lolote."
+ "So you don't miss any reply.": "Kwa njia hii, hutakosa jibu lolote.",
+ "Write in {language}": "Andika kwa {language}"
 }

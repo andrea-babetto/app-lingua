@@ -75,7 +75,6 @@
  "Make admin": "Jadikan admin",
  "Members": "Ahli",
  "Message actions": "Tindakan mesej",
- "Message in {language}": "Mesej dalam {language}",
  "Message not sent": "Mesej tidak dihantar",
  "My language": "Bahasa saya",
  "New chat": "Sembang baharu",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Belum ada kenalan.",
  "Have an invite code?": "Ada kod jemputan?",
  "Turn on notifications": "Hidupkan pemberitahuan",
- "So you don't miss any reply.": "Dengan itu, anda tidak akan terlepas sebarang balasan."
+ "So you don't miss any reply.": "Dengan itu, anda tidak akan terlepas sebarang balasan.",
+ "Write in {language}": "Tulis dalam {language}"
 }

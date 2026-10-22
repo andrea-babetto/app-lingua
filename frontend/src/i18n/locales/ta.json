@@ -75,7 +75,6 @@
  "Make admin": "நிர்வாகியாக்கு",
  "Members": "உறுப்பினர்கள்",
  "Message actions": "செய்தி செயல்கள்",
- "Message in {language}": "{language} மொழியில் செய்தி",
  "Message not sent": "செய்தி அனுப்பப்படவில்லை",
  "My language": "என் மொழி",
  "New chat": "புதிய சாட்",
@@ -189,5 +188,6 @@
  "No contacts yet.": "இன்னும் தொடர்புகள் இல்லை.",
  "Have an invite code?": "அழைப்புக் குறியீடு உள்ளதா?",
  "Turn on notifications": "அறிவிப்புகளை இயக்கு",
- "So you don't miss any reply.": "இப்படி எந்த பதிலையும் தவறவிட மாட்டீர்கள்."
+ "So you don't miss any reply.": "இப்படி எந்த பதிலையும் தவறவிட மாட்டீர்கள்.",
+ "Write in {language}": "{language} இல் எழுதுங்கள்"
 }

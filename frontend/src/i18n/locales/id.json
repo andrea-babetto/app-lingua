@@ -75,7 +75,6 @@
  "Make admin": "Jadikan admin",
  "Members": "Anggota",
  "Message actions": "Aksi pesan",
- "Message in {language}": "Pesan dalam {language}",
  "Message not sent": "Pesan tidak terkirim",
  "My language": "Bahasa saya",
  "New chat": "Chat baru",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Belum ada kontak.",
  "Have an invite code?": "Punya kode undangan?",
  "Turn on notifications": "Aktifkan notifikasi",
- "So you don't miss any reply.": "Dengan begitu, tidak ada balasan yang terlewat."
+ "So you don't miss any reply.": "Dengan begitu, tidak ada balasan yang terlewat.",
+ "Write in {language}": "Tulis dalam {language}"
 }

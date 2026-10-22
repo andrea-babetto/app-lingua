@@ -75,7 +75,6 @@
  "Make admin": "Nommer admin",
  "Members": "Membres",
  "Message actions": "Actions du message",
- "Message in {language}": "Message en {language}",
  "Message not sent": "Message non envoyé",
  "My language": "Ma langue",
  "New chat": "Nouvelle discussion",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Aucun contact pour l'instant.",
  "Have an invite code?": "Vous avez un code d'invitation ?",
  "Turn on notifications": "Activer les notifications",
- "So you don't miss any reply.": "Ainsi, vous ne manquez aucune réponse."
+ "So you don't miss any reply.": "Ainsi, vous ne manquez aucune réponse.",
+ "Write in {language}": "Écrire en {language}"
 }

@@ -75,7 +75,6 @@
  "Make admin": "הפיכה למנהל",
  "Members": "חברים",
  "Message actions": "פעולות על ההודעה",
- "Message in {language}": "הודעה ב-{language}",
  "Message not sent": "ההודעה לא נשלחה",
  "My language": "השפה שלי",
  "New chat": "צ'אט חדש",
@@ -189,5 +188,6 @@
  "No contacts yet.": "עדיין אין אנשי קשר.",
  "Have an invite code?": "יש לך קוד הזמנה?",
  "Turn on notifications": "הפעל התראות",
- "So you don't miss any reply.": "כך לא תפספסו אף תשובה."
+ "So you don't miss any reply.": "כך לא תפספסו אף תשובה.",
+ "Write in {language}": "כתבו ב{language}"
 }

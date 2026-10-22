@@ -75,7 +75,6 @@
  "Make admin": "Направи админ",
  "Members": "Участници",
  "Message actions": "Действия със съобщението",
- "Message in {language}": "Съобщение на {language}",
  "Message not sent": "Съобщението не е изпратено",
  "My language": "Моят език",
  "New chat": "Нов чат",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Още няма контакти.",
  "Have an invite code?": "Имате ли код за покана?",
  "Turn on notifications": "Включете известията",
- "So you don't miss any reply.": "Така няма да пропуснете нито един отговор."
+ "So you don't miss any reply.": "Така няма да пропуснете нито един отговор.",
+ "Write in {language}": "Пишете на {language}"
 }

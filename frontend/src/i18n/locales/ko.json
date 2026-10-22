@@ -75,7 +75,6 @@
  "Make admin": "관리자로 지정",
  "Members": "멤버",
  "Message actions": "메시지 옵션",
- "Message in {language}": "{language} 메시지",
  "Message not sent": "메시지를 보내지 못했어요",
  "My language": "내 언어",
  "New chat": "새 채팅",
@@ -189,5 +188,6 @@
  "No contacts yet.": "아직 연락처가 없습니다.",
  "Have an invite code?": "초대 코드가 있나요?",
  "Turn on notifications": "알림 켜기",
- "So you don't miss any reply.": "답장을 놓치지 않도록 해요."
+ "So you don't miss any reply.": "답장을 놓치지 않도록 해요.",
+ "Write in {language}": "{language}로 입력"
 }

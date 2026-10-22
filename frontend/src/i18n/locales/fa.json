@@ -75,7 +75,6 @@
  "Make admin": "ارتقا به مدیر",
  "Members": "اعضا",
  "Message actions": "گزینه‌های پیام",
- "Message in {language}": "پیام به زبان {language}",
  "Message not sent": "پیام ارسال نشد",
  "My language": "زبان من",
  "New chat": "گفتگوی جدید",
@@ -189,5 +188,6 @@
  "No contacts yet.": "هنوز مخاطبی نیست.",
  "Have an invite code?": "کد دعوت دارید؟",
  "Turn on notifications": "اعلان‌ها را روشن کنید",
- "So you don't miss any reply.": "اینطوری هیچ پاسخی را از دست نمی‌دهید."
+ "So you don't miss any reply.": "اینطوری هیچ پاسخی را از دست نمی‌دهید.",
+ "Write in {language}": "به {language} بنویسید"
 }

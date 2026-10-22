@@ -75,7 +75,6 @@
  "Make admin": "Nastaviť ako správcu",
  "Members": "Členovia",
  "Message actions": "Akcie so správou",
- "Message in {language}": "Správa v jazyku {language}",
  "Message not sent": "Správa nebola odoslaná",
  "My language": "Môj jazyk",
  "New chat": "Nový chat",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Zatiaľ žiadne kontakty.",
  "Have an invite code?": "Máte kód pozvánky?",
  "Turn on notifications": "Zapnúť upozornenia",
- "So you don't miss any reply.": "Vďaka tomu nepremeškáte žiadnu odpoveď."
+ "So you don't miss any reply.": "Vďaka tomu nepremeškáte žiadnu odpoveď.",
+ "Write in {language}": "Píšte v {language}"
 }

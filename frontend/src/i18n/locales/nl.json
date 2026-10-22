@@ -75,7 +75,6 @@
  "Make admin": "Beheerder maken",
  "Members": "Leden",
  "Message actions": "Berichtacties",
- "Message in {language}": "Bericht in {language}",
  "Message not sent": "Bericht niet verzonden",
  "My language": "Mijn taal",
  "New chat": "Nieuwe chat",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Nog geen contacten.",
  "Have an invite code?": "Heb je een uitnodigingscode?",
  "Turn on notifications": "Meldingen aanzetten",
- "So you don't miss any reply.": "Zo mis je geen antwoord."
+ "So you don't miss any reply.": "Zo mis je geen antwoord.",
+ "Write in {language}": "Schrijf in het {language}"
 }

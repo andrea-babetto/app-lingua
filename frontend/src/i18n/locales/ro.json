@@ -75,7 +75,6 @@
  "Make admin": "Fă administrator",
  "Members": "Membri",
  "Message actions": "Acțiuni mesaj",
- "Message in {language}": "Mesaj în {language}",
  "Message not sent": "Mesajul nu a fost trimis",
  "My language": "Limba mea",
  "New chat": "Chat nou",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Încă nu ai contacte.",
  "Have an invite code?": "Ai un cod de invitație?",
  "Turn on notifications": "Activează notificările",
- "So you don't miss any reply.": "Așa nu pierzi niciun răspuns."
+ "So you don't miss any reply.": "Așa nu pierzi niciun răspuns.",
+ "Write in {language}": "Scrie în {language}"
 }

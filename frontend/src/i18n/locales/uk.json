@@ -75,7 +75,6 @@
  "Make admin": "Призначити адміністратором",
  "Members": "Учасники",
  "Message actions": "Дії з повідомленням",
- "Message in {language}": "Повідомлення мовою {language}",
  "Message not sent": "Повідомлення не надіслано",
  "My language": "Моя мова",
  "New chat": "Новий чат",
@@ -189,5 +188,6 @@
  "No contacts yet.": "Контактів поки немає.",
  "Have an invite code?": "Є код запрошення?",
  "Turn on notifications": "Увімкнути сповіщення",
- "So you don't miss any reply.": "Так ви не пропустите жодної відповіді."
+ "So you don't miss any reply.": "Так ви не пропустите жодної відповіді.",
+ "Write in {language}": "Пишіть {language}ою"
 }

@@ -75,7 +75,6 @@
  "Make admin": "تعيين كمشرف",
  "Members": "الأعضاء",
  "Message actions": "إجراءات الرسالة",
- "Message in {language}": "رسالة بـ{language}",
  "Message not sent": "لم يتم إرسال الرسالة",
  "My language": "لغتي",
  "New chat": "محادثة جديدة",
@@ -189,5 +188,6 @@
  "No contacts yet.": "لا توجد جهات اتصال بعد.",
  "Have an invite code?": "هل لديك رمز دعوة؟",
  "Turn on notifications": "فعّل الإشعارات",
- "So you don't miss any reply.": "حتى لا تفوتك أي رد."
+ "So you don't miss any reply.": "حتى لا تفوتك أي رد.",
+ "Write in {language}": "اكتب بـ{language}"
 }
