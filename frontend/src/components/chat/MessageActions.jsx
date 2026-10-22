@@ -1,10 +1,10 @@
-import { Copy, Pencil, Reply, Trash2 } from "lucide-react";
+import { Copy, Globe, Pencil, Reply, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useI18n } from "@/i18n";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
-export const REACTIONS = ["👍", "❤️", "😂", "😮", "😢", "🙏"];
+export const REACTIONS = ["👍", "❤️", "😂", "😮", "🙏"];
 const EDIT_MINUTES = 30;
 
 export function canEdit(msg, mine) {
@@ -22,7 +22,7 @@ function Row({ icon: Icon, label, onClick, danger, testId }) {
 }
 
 // The menu that opens when you tap a message: reactions on top, then what you can do with it.
-export default function MessageActions({ msg, mine, userId, onClose, onReply, onEdit, onReact }) {
+export default function MessageActions({ msg, mine, userId, onClose, onReply, onEdit, onReact, onShowOriginal, showingOriginal }) {
   const { t } = useI18n();
   const open = !!msg;
   const done = (fn) => () => { onClose(); fn?.(); };
@@ -49,8 +49,9 @@ export default function MessageActions({ msg, mine, userId, onClose, onReply, on
             <div className="py-1">
               <Row icon={Reply} label={t("Reply")} testId="action-reply" onClick={done(() => onReply(msg))} />
               {canEdit(msg, mine) && <Row icon={Pencil} label={t("Edit")} testId="action-edit" onClick={done(() => onEdit(msg))} />}
-              {msg.original_text && <Row icon={Copy} label={msg.is_translated ? t("Copy original") : t("Copy")} testId="action-copy" onClick={done(() => copy(msg.original_text))} />}
               {msg.is_translated && <Row icon={Copy} label={t("Copy translation")} testId="action-copy-translation" onClick={done(() => copy(msg.display_text))} />}
+              {msg.original_text && <Row icon={Copy} label={msg.is_translated ? t("Copy original") : t("Copy")} testId="action-copy" onClick={done(() => copy(msg.original_text))} />}
+              {msg.is_translated && <Row icon={Globe} label={showingOriginal ? t("Show translation") : t("Show original")} testId="action-show-original" onClick={done(() => onShowOriginal(msg))} />}
               <Row icon={Trash2} label={t("Delete for me")} danger testId="action-delete-me" onClick={done(() => del(false))} />
               {mine && <Row icon={Trash2} label={t("Delete for everyone")} danger testId="action-delete-all" onClick={done(() => del(true))} />}
             </div>

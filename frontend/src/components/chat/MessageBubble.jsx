@@ -24,10 +24,9 @@ function Lightbox({ src, alt, onClose }) {
   );
 }
 
-export default function MessageBubble({ msg, mine, isGroup, first, last, other, latestMine, onOpenActions, onReact }) {
+export default function MessageBubble({ msg, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();
-  const [showOriginal, setShowOriginal] = useState(false);
   const [zoom, setZoom] = useState(false);
   const [showTheirs, setShowTheirs] = useState(false);
   const translating = msg.status === "translating" && !msg.is_translated && !mine;
@@ -124,7 +123,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
         )}
 
         {!mine && msg.is_translated && !translating && (
-          <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={() => setShowOriginal((s) => !s)}
+          <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={onToggleOriginal}
             className={`mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold transition hover:opacity-85 ${showOriginal
               ? "bg-foreground text-background" : "bg-label text-label-foreground"}`}>
             <LogoArrows className="w-3 h-3" />

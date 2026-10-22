@@ -49,6 +49,8 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const [reply, setReply] = useState(null);
   const [editing, setEditing] = useState(null);
   const [actionMsg, setActionMsg] = useState(null);
+  const [originals, setOriginals] = useState({}); // message ids shown in their original language
+  const toggleOriginal = (id) => setOriginals((o) => ({ ...o, [id]: !o[id] }));
   const [uploading, setUploading] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [sq, setSq] = useState("");
@@ -222,6 +224,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
                 </div>
               )}
               <MessageBubble msg={m} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
+                showOriginal={!!originals[m.id]} onToggleOriginal={() => toggleOriginal(m.id)}
                 onOpenActions={setActionMsg} onReact={onReact} />
             </div>
           );
@@ -298,7 +301,8 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
       </div>
 
       <MessageActions msg={actionMsg} mine={actionMsg?.sender_id === user.id} userId={user.id} onClose={() => setActionMsg(null)}
-        onReply={(m) => { setEditing(null); setReply(m); taRef.current?.focus(); }} onEdit={startEdit} onReact={onReact} />
+        onReply={(m) => { setEditing(null); setReply(m); taRef.current?.focus(); }} onEdit={startEdit} onReact={onReact}
+        onShowOriginal={(m) => toggleOriginal(m.id)} showingOriginal={!!(actionMsg && originals[actionMsg.id])} />
     </div>
   );
 }
