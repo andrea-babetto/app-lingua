@@ -107,7 +107,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
           <div dir="ltr" className={`flex items-center gap-1 justify-end mt-0.5 text-[11px] ${mine ? "text-bubble-out-foreground/75" : "text-subtle"}`}>
             {msg.edited && <span>{t("edited")}</span>}
             <span>{time}</span>
-            {mine && (msg.read ? <CheckCheck className="w-4 h-4 text-label" /> : <Check className="w-4 h-4" />)}
+            {mine && (msg.read ? <CheckCheck className="w-4 h-4" /> : <Check className="w-4 h-4" />)}
           </div>
         </div>
 
