@@ -1,70 +1,48 @@
-# Glott
+# Handoff: Glotter — marchio e interfaccia mobile (nero e giallo)
 
-Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: un modello AI (Claude Haiku) traduce ogni messaggio per ogni destinatario. Funziona su desktop e su telefono (web app responsive).
+## Overview
+Rebrand di **Glott** (repo `andrea-babetto/app-lingua`, `frontend/src`) in **Glotter**: chat in cui ognuno scrive e legge nella propria lingua. Nuovo logo (la "o" è un fumetto con coda e un punto), palette **nero e giallo**, carattere **Onest**, schermate mobile riviste.
 
-> Il nome "Glott" è provvisorio (il codice e i servizi su Render si chiamano ancora `lingua-*`).
+## About the Design Files
+`Glotter Brand Nero Giallo.dc.html` è un **riferimento di design in HTML** (aprire nel browser con `support.js` accanto), non codice da copiare. Ricreare il design nel repo esistente (React + Vite, `index.css`, i18n) riusando i componenti attuali: `MessageBubble.jsx`, `Sidebar.jsx`, `ChatWindow.jsx`, `ProfilePanel.jsx`, `Logo.jsx`, `LanguagePicker.jsx`.
 
-## Com'è fatta
+## Fidelity
+High-fidelity: colori, tipografia, raggi e testi definitivi.
 
-| Parte | Tecnologia | Cartella |
-|---|---|---|
-| API + WebSocket | Python, FastAPI | `backend/` |
-| Sito | React 19, Vite, Tailwind 4, shadcn/ui | `frontend/` |
-| Database | MongoDB (Atlas in produzione) | – |
-| File e vocali | Cloudflare R2 / qualsiasi S3 | `backend/storage.py` |
-| Traduzione | API di Anthropic (`claude-haiku-4-5`) | `backend/translation.py` |
-| Trascrizione vocali (opzionale) | API di OpenAI | `backend/stt.py` |
-| Login Google (opzionale) | Google Identity Services | `frontend/src/components/GoogleSignIn.jsx` |
+## Marchio
+- **Logo**: usare i file in `assets/` così come sono (lettere già in tracciati, viewBox 625×224). **Non ricomporre il logo con il font.**
+  - `glotter-logo.svg` su chiaro · `glotter-logo-su-scuro.svg` su scuro · `glotter-logo-su-giallo.svg` su giallo · `glotter-logo-nero.svg` / `glotter-logo-bianco.svg` a un colore
+- **Logo.jsx**: importare lo SVG e dimensionarlo in altezza (rapporto 625:224). Intestazione app: altezza ~29px.
+- **Simbolo** (`mark.svg`, 24×24): anello r9 tratto 3.8, coda in basso a sinistra, punto r2.6. Usato nella pill "Tradotto" (11px) e come indicatore di traduzione in corso (15px, il punto pulsa opacity .35→1, 1s; rispettare `prefers-reduced-motion`).
+- **Icone/PWA**: `icon-app.svg` (fondo nero, simbolo bianco, punto giallo), `icon-app-light.svg`, `icon-maskable.svg` (area sicura 80%), `favicon.svg`. Generare PNG 192/512/1024. `manifest.json`: name/short_name "Glotter", theme_color #1d1a16, background_color #ffffff.
 
-Nessun servizio di Emergent è più necessario.
+## Colori (vedi `tokens.css`)
+- **Chiaro**: primario **nero #1d1a16** (bolle inviate, CTA, tab attivo, badge, switch on); accento **giallo #ffcc1e** (punto del logo, dettagli, bordo tratteggiato "Hamad legge"); giallo chiaro #fff0b8 (pill "Tradotto" con testo #5b4300, banner notifiche). Superfici calde #f7f5ef / #fbf8ef, linee #f1ece1, bordi #ebe6da, testi #1d1a16 / #5f5a50 / #8a8477.
+- **Scuro**: il primario diventa **giallo con testo nero** (bolle inviate, CTA, badge, FAB, avatar gruppo); fondi #15130f / #1d1b16 / #181611.
+- **Regola**: mai giallo come colore del testo su fondo chiaro.
+- Errore #b42318 solo con icona "!" e fondo #fdecea.
 
-### Il motore di traduzione è sostituibile
-Il resto dell'app parla solo con `TranslationEngine`. I motori disponibili (variabile `TRANSLATION_PROVIDER`): `llm` (Claude, predefinito), `selfhosted` (un server compatibile LibreTranslate; usa solo modelli con licenza commerciale, **NLLB-200 è solo non commerciale**), `mock` (test). Cache, ripiego tra motori e costo reale per messaggio (dai token usati) sono nel motore, non nei singoli fornitori.
+## Cosa cambiare nel repo (ordine)
+1. Token: sostituire le variabili azzurro di `index.css` con `tokens.css`; Onest 400–800 (+ fallback Noto Sans Arabic/Devanagari/SC), togliere Plus Jakarta Sans.
+2. Logo.jsx, favicon, icone PWA, manifest.
+3. Testi: "Glott" → "Glotter" in tutti i locale.
+4. Schermate come sotto. Navigazione in basso **a 4 voci**: Chat / Gruppi / Contatti / Profilo.
 
-### Il messaggio è un dato, non un comando
-Il testo degli utenti non è mai fidato. Va al modello dentro un tag casuale diverso a ogni richiesta, con l'istruzione di non obbedirgli; la risposta viene controllata (frasi da assistente, tag, lunghezza anomala) e, se sospetta, viene richiesta di nuovo o scartata (l'utente vede l'originale e un pulsante "riprova"). Vedi `backend/tests/test_translation.py`.
+## Screens (sezione 11 del file)
+- **11d Accesso**: menu lingua UI in alto a destra; logo; tagline 23/600 "Ogni messaggio ha una risposta, in ogni lingua."; campi h48 r14, focus nero + ring 3px rgba(29,26,22,.12); CTA h52 r16 nera; "Registrati"; "Hai un codice d'invito?".
+- **11e Lingua (onboarding 2/2)**: progresso 2 segmenti; titolo 26/700; ricerca; righe nome nativo + nome italiano; radio 22 (selezionato bordo 7px nero, riga #fff6d6); CTA "Continua in {lingua}".
+- **11f Elenco chat**: logo + avatar; ricerca; banner notifiche giallo chiaro; righe avatar 50 (persona cerchio, gruppo r16), codice lingua, non letti bold + badge nero; "sta scrivendo" nell'anteprima; FAB 56 nero; tab bar 4 voci.
+- **11g Conversazione**: stato "online" / "sta scrivendo in inglese…"; sfondo #fbf8ef con puntini #ebe4d0 ogni 18px. Ricevuta bianca r18/18/18/6. **Pill "Tradotto dall'inglese"** sotto ogni ricevuto; al tocco mostra l'originale. Inviata nera r18/18/6/18 con ✓/✓✓ e citazione risposta. Sotto i miei "⇄ Hamad legge in inglese" → riquadro tratteggiato giallo col testo tradotto. Reazioni. Bottone ↓ (padding-bottom ≥56px sulla lista). Composer: +, input, invio nero.
+- **11h Menu messaggio**: reazioni; Rispondi, Copia traduzione, Copia originale, Mostra l'originale, Elimina per me; toast.
+- **11i Profilo**: Lingua e traduzione / Preferenze / Account. Switch 46×28.
+- **11j Vuoto + errore** (Gruppi).
+- **11k/11l Scuro**, **11m RTL arabo** (`dir="rtl"`, layout specchiato, orari LTR; testi arabi da far verificare).
 
-## Avvio in locale
+## State
+Per messaggio: showOriginal, showRecipientView, status (translating|sent|read), reactions, replyTo. Utente: uiLanguage, chatLanguage, theme, preferenze. Traduzione: backend esistente (Claude Haiku).
 
-```bash
-# 1) backend
-cd backend
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements-dev.txt
-cp .env.example .env        # compila almeno MONGO_URL, JWT_SECRET, ANTHROPIC_API_KEY
-uvicorn server:app --reload --port 8001
+## Non ancora disegnato
+Contatti, nuova chat/gruppo, info contatto, privacy e termini, desktop: seguire lo stesso stile.
 
-# 2) sito (altro terminale)
-cd frontend
-cp .env.example .env        # REACT_APP_BACKEND_URL=http://localhost:8001
-yarn install && yarn dev    # http://localhost:3000
-```
-
-Serve un MongoDB raggiungibile (`MONGO_URL`). Per provare senza AI a pagamento: `TRANSLATION_PROVIDER=mock`.
-
-## Test
-
-```bash
-cd backend && pytest        # 79 test, senza rete e senza database reale (MongoDB simulato)
-cd frontend && yarn build   # controlla che il sito compili
-```
-
-I test coprono: traduzione e protezioni contro i messaggi "trabocchetto", permessi tra chat, privacy della ricerca, upload pericolosi, limiti anti-abuso, login (anche Google), vocali, WebSocket, archiviazione S3.
-
-## Pubblicare
-
-Vedi **[docs/PUBBLICAZIONE.md](docs/PUBBLICAZIONE.md)** (guida passo-passo) e `render.yaml` (configurazione di Render).
-
-## Sicurezza: cosa c'è e cosa manca
-
-Fatto: password con bcrypt (fuori dal ciclo degli eventi), blocco dopo tentativi falliti, limiti per indirizzo e per utente, ricerca utenti senza elenco pubblico (solo username/email esatta/telefono esatto; nessun dato privato negli altri profili), controlli di appartenenza su ogni chat e messaggio, upload con tipi consentiti + controllo del contenuto + `nosniff` + CSP `sandbox` (niente SVG/HTML), allegati ricostruiti dai record del server, WebSocket con controllo di origine e di appartenenza, CORS esplicito.
-
-Limiti noti (da decidere più avanti):
-- I limiti anti-abuso sono in memoria: validi per **un solo** processo (come in `render.yaml`). Con più istanze serve Redis.
-- I file si aprono con il loro link (identificativo casuale, come i link dei media nelle chat più diffuse). Le foto profilo devono poter essere caricate dal sito.
-- Si può iniziare una chat con chiunque si trovi per username/email esatta (la richiesta di contatto è parallela, non bloccante). Se arriva spam, si rende obbligatoria l'accettazione.
-- Nessuna verifica email né recupero password.
-- La registrazione è aperta finché non imposti `INVITE_CODE` (vedi docs/PUBBLICAZIONE.md, punto 4b).
-- Il token di accesso sta in `localStorage`; manca una Content-Security-Policy sul sito.
-- Il token del WebSocket passa nell'indirizzo (finisce nei log del server).
-- Il database gratuito di Atlas non ha backup.
+## Files
+`Glotter Brand Nero Giallo.dc.html` + `support.js`, `tokens.css`, `assets/*.svg`.
