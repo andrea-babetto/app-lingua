@@ -55,7 +55,6 @@
  "Enter your password to confirm": "확인을 위해 비밀번호를 입력하세요",
  "Failed": "실패",
  "Find members by username or exact email": "사용자 이름 또는 정확한 이메일로 멤버 찾기",
- "Get a notification when someone writes to you.": "누군가 메시지를 보내면 알림을 받아요.",
  "Get notified when someone writes to you": "누군가 메시지를 보내면 알림 받기",
  "Go to the latest message": "최신 메시지로 이동",
  "Google sign-in failed": "Google 로그인에 실패했어요",
@@ -188,5 +187,7 @@
  "Contacts": "연락처",
  "Search contacts": "연락처 검색",
  "No contacts yet.": "아직 연락처가 없습니다.",
- "Have an invite code?": "초대 코드가 있나요?"
+ "Have an invite code?": "초대 코드가 있나요?",
+ "Turn on notifications": "알림 켜기",
+ "So you don't miss any reply.": "답장을 놓치지 않도록 해요."
 }

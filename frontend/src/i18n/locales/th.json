@@ -55,7 +55,6 @@
  "Enter your password to confirm": "ใส่รหัสผ่านเพื่อยืนยัน",
  "Failed": "ล้มเหลว",
  "Find members by username or exact email": "ค้นหาสมาชิกด้วยชื่อผู้ใช้หรืออีเมลที่ตรงกันทุกตัวอักษร",
- "Get a notification when someone writes to you.": "รับการแจ้งเตือนเมื่อมีคนส่งข้อความถึงคุณ",
  "Get notified when someone writes to you": "รับการแจ้งเตือนเมื่อมีคนส่งข้อความถึงคุณ",
  "Go to the latest message": "ไปที่ข้อความล่าสุด",
  "Google sign-in failed": "เข้าสู่ระบบด้วย Google ไม่สำเร็จ",
@@ -188,5 +187,7 @@
  "Contacts": "รายชื่อติดต่อ",
  "Search contacts": "ค้นหารายชื่อติดต่อ",
  "No contacts yet.": "ยังไม่มีรายชื่อติดต่อ",
- "Have an invite code?": "มีรหัสเชิญไหม"
+ "Have an invite code?": "มีรหัสเชิญไหม",
+ "Turn on notifications": "เปิดการแจ้งเตือน",
+ "So you don't miss any reply.": "แบบนี้คุณจะไม่พลาดคำตอบใด"
 }

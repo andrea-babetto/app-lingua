@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Введіть пароль для підтвердження",
  "Failed": "Помилка",
  "Find members by username or exact email": "Знаходьте учасників за іменем користувача або точною адресою пошти",
- "Get a notification when someone writes to you.": "Отримуйте сповіщення, коли вам хтось пише.",
  "Get notified when someone writes to you": "Отримувати сповіщення, коли вам хтось пише",
  "Go to the latest message": "До останнього повідомлення",
  "Google sign-in failed": "Не вдалося увійти через Google",
@@ -188,5 +187,7 @@
  "Contacts": "Контакти",
  "Search contacts": "Пошук контактів",
  "No contacts yet.": "Контактів поки немає.",
- "Have an invite code?": "Є код запрошення?"
+ "Have an invite code?": "Є код запрошення?",
+ "Turn on notifications": "Увімкнути сповіщення",
+ "So you don't miss any reply.": "Так ви не пропустите жодної відповіді."
 }

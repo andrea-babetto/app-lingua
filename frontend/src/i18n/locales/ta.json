@@ -55,7 +55,6 @@
  "Enter your password to confirm": "உறுதிப்படுத்த உங்கள் கடவுச்சொல்லை உள்ளிடவும்",
  "Failed": "தோல்வி",
  "Find members by username or exact email": "பயனர்பெயர் அல்லது சரியான மின்னஞ்சல் மூலம் உறுப்பினர்களைத் தேடுங்கள்",
- "Get a notification when someone writes to you.": "யாராவது உங்களுக்கு எழுதினால் அறிவிப்பு பெறுங்கள்.",
  "Get notified when someone writes to you": "யாராவது உங்களுக்கு எழுதினால் அறிவிப்பு பெறுங்கள்",
  "Go to the latest message": "சமீபத்திய செய்திக்குச் செல்",
  "Google sign-in failed": "Google உள்நுழைவு தோல்வியடைந்தது",
@@ -188,5 +187,7 @@
  "Contacts": "தொடர்புகள்",
  "Search contacts": "தொடர்புகளில் தேடு",
  "No contacts yet.": "இன்னும் தொடர்புகள் இல்லை.",
- "Have an invite code?": "அழைப்புக் குறியீடு உள்ளதா?"
+ "Have an invite code?": "அழைப்புக் குறியீடு உள்ளதா?",
+ "Turn on notifications": "அறிவிப்புகளை இயக்கு",
+ "So you don't miss any reply.": "இப்படி எந்த பதிலையும் தவறவிட மாட்டீர்கள்."
 }

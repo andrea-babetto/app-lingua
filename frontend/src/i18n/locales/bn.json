@@ -55,7 +55,6 @@
  "Enter your password to confirm": "নিশ্চিত করতে আপনার পাসওয়ার্ড লিখুন",
  "Failed": "ব্যর্থ হয়েছে",
  "Find members by username or exact email": "ইউজারনেম বা সঠিক ইমেইল দিয়ে সদস্য খুঁজুন",
- "Get a notification when someone writes to you.": "কেউ আপনাকে মেসেজ করলে নোটিফিকেশন পান।",
  "Get notified when someone writes to you": "কেউ আপনাকে মেসেজ করলে জানান",
  "Go to the latest message": "সর্বশেষ মেসেজে যান",
  "Google sign-in failed": "Google সাইন-ইন ব্যর্থ হয়েছে",
@@ -188,5 +187,7 @@
  "Contacts": "যোগাযোগ",
  "Search contacts": "যোগাযোগে খুঁজুন",
  "No contacts yet.": "এখনও কোনো যোগাযোগ নেই।",
- "Have an invite code?": "আপনার কি আমন্ত্রণ কোড আছে?"
+ "Have an invite code?": "আপনার কি আমন্ত্রণ কোড আছে?",
+ "Turn on notifications": "বিজ্ঞপ্তি চালু করুন",
+ "So you don't miss any reply.": "এভাবে কোনো উত্তর মিস হবে না।"
 }

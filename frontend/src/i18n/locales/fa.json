@@ -55,7 +55,6 @@
  "Enter your password to confirm": "برای تأیید، گذرواژه خود را وارد کنید",
  "Failed": "ناموفق",
  "Find members by username or exact email": "اعضا را با نام کاربری یا ایمیل دقیق پیدا کنید",
- "Get a notification when someone writes to you.": "وقتی کسی برایتان پیام می‌نویسد، اعلان بگیرید.",
  "Get notified when someone writes to you": "وقتی کسی برایتان پیام می‌نویسد، اعلان بگیرید",
  "Go to the latest message": "رفتن به آخرین پیام",
  "Google sign-in failed": "ورود با گوگل ناموفق بود",
@@ -188,5 +187,7 @@
  "Contacts": "مخاطبین",
  "Search contacts": "جستجوی مخاطبین",
  "No contacts yet.": "هنوز مخاطبی نیست.",
- "Have an invite code?": "کد دعوت دارید؟"
+ "Have an invite code?": "کد دعوت دارید؟",
+ "Turn on notifications": "اعلان‌ها را روشن کنید",
+ "So you don't miss any reply.": "اینطوری هیچ پاسخی را از دست نمی‌دهید."
 }

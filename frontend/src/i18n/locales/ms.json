@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Masukkan kata laluan anda untuk mengesahkan",
  "Failed": "Gagal",
  "Find members by username or exact email": "Cari ahli melalui nama pengguna atau e-mel tepat",
- "Get a notification when someone writes to you.": "Dapatkan pemberitahuan apabila seseorang menulis kepada anda.",
  "Get notified when someone writes to you": "Dapatkan pemberitahuan apabila seseorang menulis kepada anda",
  "Go to the latest message": "Pergi ke mesej terkini",
  "Google sign-in failed": "Log masuk Google gagal",
@@ -188,5 +187,7 @@
  "Contacts": "Kenalan",
  "Search contacts": "Cari kenalan",
  "No contacts yet.": "Belum ada kenalan.",
- "Have an invite code?": "Ada kod jemputan?"
+ "Have an invite code?": "Ada kod jemputan?",
+ "Turn on notifications": "Hidupkan pemberitahuan",
+ "So you don't miss any reply.": "Dengan itu, anda tidak akan terlepas sebarang balasan."
 }

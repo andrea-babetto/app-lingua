@@ -55,7 +55,6 @@
  "Enter your password to confirm": "पुष्टि के लिए अपना पासवर्ड डालें",
  "Failed": "विफल",
  "Find members by username or exact email": "यूज़रनेम या सटीक ईमेल से सदस्य खोजें",
- "Get a notification when someone writes to you.": "कोई आपको लिखे तो नोटिफ़िकेशन पाएँ।",
  "Get notified when someone writes to you": "कोई आपको लिखे तो सूचना पाएँ",
  "Go to the latest message": "सबसे नए संदेश पर जाएँ",
  "Google sign-in failed": "Google से साइन इन नहीं हो सका",
@@ -188,5 +187,7 @@
  "Contacts": "संपर्क",
  "Search contacts": "संपर्कों में खोजें",
  "No contacts yet.": "अभी तक कोई संपर्क नहीं।",
- "Have an invite code?": "क्या आपके पास आमंत्रण कोड है?"
+ "Have an invite code?": "क्या आपके पास आमंत्रण कोड है?",
+ "Turn on notifications": "सूचनाएँ चालू करें",
+ "So you don't miss any reply.": "इससे आपका कोई जवाब नहीं छूटेगा।"
 }

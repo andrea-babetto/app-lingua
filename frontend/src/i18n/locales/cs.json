@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Pro potvrzení zadejte své heslo",
  "Failed": "Selhalo",
  "Find members by username or exact email": "Najděte členy podle uživatelského jména nebo přesného e-mailu",
- "Get a notification when someone writes to you.": "Dostanete oznámení, když vám někdo napíše.",
  "Get notified when someone writes to you": "Dostávat oznámení, když vám někdo napíše",
  "Go to the latest message": "Přejít na poslední zprávu",
  "Google sign-in failed": "Přihlášení přes Google se nezdařilo",
@@ -188,5 +187,7 @@
  "Contacts": "Kontakty",
  "Search contacts": "Hledat v kontaktech",
  "No contacts yet.": "Zatím žádné kontakty.",
- "Have an invite code?": "Máte kód pozvánky?"
+ "Have an invite code?": "Máte kód pozvánky?",
+ "Turn on notifications": "Zapněte oznámení",
+ "So you don't miss any reply.": "Tak nepropustíte žádnou odpověď."
 }

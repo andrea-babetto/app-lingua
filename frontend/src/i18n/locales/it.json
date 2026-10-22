@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Inserisci la password per confermare",
  "Failed": "Non riuscito",
  "Find members by username or exact email": "Trova membri per nome utente o email esatta",
- "Get a notification when someone writes to you.": "Ricevi una notifica quando qualcuno ti scrive.",
  "Get notified when someone writes to you": "Ricevi notifiche quando qualcuno ti scrive",
  "Go to the latest message": "Vai all'ultimo messaggio",
  "Google sign-in failed": "Accesso con Google non riuscito",
@@ -188,5 +187,7 @@
  "Contacts": "Contatti",
  "Search contacts": "Cerca contatti",
  "No contacts yet.": "Non hai ancora contatti.",
- "Have an invite code?": "Hai un codice d'invito?"
+ "Have an invite code?": "Hai un codice d'invito?",
+ "Turn on notifications": "Attiva le notifiche",
+ "So you don't miss any reply.": "Così non perdi nessuna risposta."
 }

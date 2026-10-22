@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Εισαγάγετε τον κωδικό σας για επιβεβαίωση",
  "Failed": "Απέτυχε",
  "Find members by username or exact email": "Βρείτε μέλη με όνομα χρήστη ή ακριβές email",
- "Get a notification when someone writes to you.": "Λάβετε ειδοποίηση όταν κάποιος σας γράφει.",
  "Get notified when someone writes to you": "Λάβετε ειδοποίηση όταν κάποιος σας γράφει",
  "Go to the latest message": "Μετάβαση στο τελευταίο μήνυμα",
  "Google sign-in failed": "Η σύνδεση με Google απέτυχε",
@@ -188,5 +187,7 @@
  "Contacts": "Επαφές",
  "Search contacts": "Αναζήτηση επαφών",
  "No contacts yet.": "Δεν υπάρχουν επαφές ακόμα.",
- "Have an invite code?": "Έχετε κωδικό πρόσκλησης;"
+ "Have an invite code?": "Έχετε κωδικό πρόσκλησης;",
+ "Turn on notifications": "Ενεργοποίηση ειδοποιήσεων",
+ "So you don't miss any reply.": "Έτσι δεν θα χάσετε καμία απάντηση."
 }

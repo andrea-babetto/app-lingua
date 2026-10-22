@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Introdu parola pentru confirmare",
  "Failed": "Eșuat",
  "Find members by username or exact email": "Găsește membri după nume de utilizator sau e-mail exact",
- "Get a notification when someone writes to you.": "Primești o notificare când îți scrie cineva.",
  "Get notified when someone writes to you": "Primește notificări când îți scrie cineva",
  "Go to the latest message": "Mergi la ultimul mesaj",
  "Google sign-in failed": "Autentificarea cu Google a eșuat",
@@ -188,5 +187,7 @@
  "Contacts": "Contacte",
  "Search contacts": "Caută contacte",
  "No contacts yet.": "Încă nu ai contacte.",
- "Have an invite code?": "Ai un cod de invitație?"
+ "Have an invite code?": "Ai un cod de invitație?",
+ "Turn on notifications": "Activează notificările",
+ "So you don't miss any reply.": "Așa nu pierzi niciun răspuns."
 }

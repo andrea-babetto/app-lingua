@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Skriv inn passordet ditt for å bekrefte",
  "Failed": "Mislyktes",
  "Find members by username or exact email": "Finn medlemmer med brukernavn eller nøyaktig e-post",
- "Get a notification when someone writes to you.": "Få et varsel når noen skriver til deg.",
  "Get notified when someone writes to you": "Få varsel når noen skriver til deg",
  "Go to the latest message": "Gå til siste melding",
  "Google sign-in failed": "Pålogging med Google mislyktes",
@@ -188,5 +187,7 @@
  "Contacts": "Kontakter",
  "Search contacts": "Søk i kontakter",
  "No contacts yet.": "Ingen kontakter ennå.",
- "Have an invite code?": "Har du en invitasjonskode?"
+ "Have an invite code?": "Har du en invitasjonskode?",
+ "Turn on notifications": "Slå på varsler",
+ "So you don't miss any reply.": "Da går du ikke glipp av noen svar."
 }

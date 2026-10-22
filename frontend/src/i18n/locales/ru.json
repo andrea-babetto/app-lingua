@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Введите пароль для подтверждения",
  "Failed": "Ошибка",
  "Find members by username or exact email": "Ищите участников по имени пользователя или точному адресу эл. почты",
- "Get a notification when someone writes to you.": "Получайте уведомление, когда вам пишут.",
  "Get notified when someone writes to you": "Уведомлять, когда мне пишут",
  "Go to the latest message": "К последнему сообщению",
  "Google sign-in failed": "Не удалось войти через Google",
@@ -188,5 +187,7 @@
  "Contacts": "Контакты",
  "Search contacts": "Поиск контактов",
  "No contacts yet.": "Контактов пока нет.",
- "Have an invite code?": "Есть код приглашения?"
+ "Have an invite code?": "Есть код приглашения?",
+ "Turn on notifications": "Включить уведомления",
+ "So you don't miss any reply.": "Так вы не пропустите ни одного ответа."
 }

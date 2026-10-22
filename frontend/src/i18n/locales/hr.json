@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Unesite lozinku za potvrdu",
  "Failed": "Neuspjelo",
  "Find members by username or exact email": "Pronađite članove po korisničkom imenu ili točnoj e-adresi",
- "Get a notification when someone writes to you.": "Primite obavijest kad vam netko piše.",
  "Get notified when someone writes to you": "Primajte obavijesti kad vam netko piše",
  "Go to the latest message": "Idi na zadnju poruku",
  "Google sign-in failed": "Prijava putem Googlea nije uspjela",
@@ -188,5 +187,7 @@
  "Contacts": "Kontakti",
  "Search contacts": "Traži kontakte",
  "No contacts yet.": "Još nema kontakata.",
- "Have an invite code?": "Imate kôd za pozivnicu?"
+ "Have an invite code?": "Imate kôd za pozivnicu?",
+ "Turn on notifications": "Uključi obavijesti",
+ "So you don't miss any reply.": "Tako nećete propustiti nijedan odgovor."
 }

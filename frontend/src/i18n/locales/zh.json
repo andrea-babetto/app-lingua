@@ -55,7 +55,6 @@
  "Enter your password to confirm": "输入密码以确认",
  "Failed": "失败",
  "Find members by username or exact email": "通过用户名或完整邮箱查找成员",
- "Get a notification when someone writes to you.": "有人给您发消息时收到通知。",
  "Get notified when someone writes to you": "有人给您发消息时通知我",
  "Go to the latest message": "转到最新消息",
  "Google sign-in failed": "Google 登录失败",
@@ -188,5 +187,7 @@
  "Contacts": "联系人",
  "Search contacts": "搜索联系人",
  "No contacts yet.": "还没有联系人。",
- "Have an invite code?": "有邀请码吗？"
+ "Have an invite code?": "有邀请码吗？",
+ "Turn on notifications": "开启通知",
+ "So you don't miss any reply.": "这样就不会错过任何回复。"
 }

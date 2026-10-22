@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Onaylamak için şifrenizi girin",
  "Failed": "Başarısız",
  "Find members by username or exact email": "Üyeleri kullanıcı adı veya tam e-posta ile bulun",
- "Get a notification when someone writes to you.": "Biri size yazdığında bildirim alın.",
  "Get notified when someone writes to you": "Biri bana yazdığında bildir",
  "Go to the latest message": "Son mesaja git",
  "Google sign-in failed": "Google ile giriş başarısız oldu",
@@ -188,5 +187,7 @@
  "Contacts": "Kişiler",
  "Search contacts": "Kişilerde ara",
  "No contacts yet.": "Henüz kişi yok.",
- "Have an invite code?": "Davet kodunuz var mı?"
+ "Have an invite code?": "Davet kodunuz var mı?",
+ "Turn on notifications": "Bildirimleri aç",
+ "So you don't miss any reply.": "Böylece hiçbir yanıtı kaçırmazsınız."
 }

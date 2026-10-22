@@ -55,7 +55,6 @@
  "Enter your password to confirm": "הזינו את הסיסמה לאישור",
  "Failed": "נכשל",
  "Find members by username or exact email": "חפשו חברים לפי שם משתמש או אימייל מדויק",
- "Get a notification when someone writes to you.": "קבלו התראה כשמישהו כותב לכם.",
  "Get notified when someone writes to you": "קבלו התראה כשמישהו כותב לכם",
  "Go to the latest message": "מעבר להודעה האחרונה",
  "Google sign-in failed": "ההתחברות עם Google נכשלה",
@@ -188,5 +187,7 @@
  "Contacts": "אנשי קשר",
  "Search contacts": "חיפוש באנשי קשר",
  "No contacts yet.": "עדיין אין אנשי קשר.",
- "Have an invite code?": "יש לך קוד הזמנה?"
+ "Have an invite code?": "יש לך קוד הזמנה?",
+ "Turn on notifications": "הפעל התראות",
+ "So you don't miss any reply.": "כך לא תפספסו אף תשובה."
 }

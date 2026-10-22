@@ -55,7 +55,6 @@
  "Enter your password to confirm": "నిర్ధారించడానికి మీ పాస్‌వర్డ్ నమోదు చేయండి",
  "Failed": "విఫలమైంది",
  "Find members by username or exact email": "యూజర్‌నేమ్ లేదా ఖచ్చితమైన ఈమెయిల్‌తో సభ్యులను కనుగొనండి",
- "Get a notification when someone writes to you.": "ఎవరైనా మీకు మెసేజ్ చేస్తే నోటిఫికేషన్ పొందండి.",
  "Get notified when someone writes to you": "ఎవరైనా మీకు మెసేజ్ చేస్తే నోటిఫికేషన్ పొందండి",
  "Go to the latest message": "తాజా సందేశానికి వెళ్లు",
  "Google sign-in failed": "Google సైన్-ఇన్ విఫలమైంది",
@@ -188,5 +187,7 @@
  "Contacts": "పరిచయాలు",
  "Search contacts": "పరిచయాల్లో వెతకండి",
  "No contacts yet.": "ఇంకా పరిచయాలు లేవు.",
- "Have an invite code?": "మీ దగ్గర ఆహ్వాన కోడ్ ఉందా?"
+ "Have an invite code?": "మీ దగ్గర ఆహ్వాన కోడ్ ఉందా?",
+ "Turn on notifications": "నోటిఫికేషన్లు ఆన్ చేయండి",
+ "So you don't miss any reply.": "ఇలా చేస్తే ఏ జవాబూ మిస్ అవ్వదు."
 }

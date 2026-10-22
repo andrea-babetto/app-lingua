@@ -55,7 +55,6 @@
  "Enter your password to confirm": "A megerősítéshez add meg a jelszavadat",
  "Failed": "Sikertelen",
  "Find members by username or exact email": "Tagok keresése felhasználónév vagy pontos e-mail-cím alapján",
- "Get a notification when someone writes to you.": "Értesítést kapsz, ha valaki ír neked.",
  "Get notified when someone writes to you": "Értesítés, ha valaki ír neked",
  "Go to the latest message": "Ugrás a legutóbbi üzenethez",
  "Google sign-in failed": "A Google-bejelentkezés sikertelen",
@@ -188,5 +187,7 @@
  "Contacts": "Kapcsolatok",
  "Search contacts": "Keresés a kapcsolatok között",
  "No contacts yet.": "Még nincs kapcsolat.",
- "Have an invite code?": "Van meghívókódod?"
+ "Have an invite code?": "Van meghívókódod?",
+ "Turn on notifications": "Értesítések bekapcsolása",
+ "So you don't miss any reply.": "Így egyetlen választ sem hagysz ki."
 }

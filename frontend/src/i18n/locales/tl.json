@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Ilagay ang password mo para kumpirmahin",
  "Failed": "Nabigo",
  "Find members by username or exact email": "Maghanap ng miyembro gamit ang username o eksaktong email",
- "Get a notification when someone writes to you.": "Makatanggap ng abiso kapag may sumulat sa iyo.",
  "Get notified when someone writes to you": "Makatanggap ng abiso kapag may sumulat sa iyo",
  "Go to the latest message": "Pumunta sa pinakabagong mensahe",
  "Google sign-in failed": "Nabigo ang pag-sign in sa Google",
@@ -188,5 +187,7 @@
  "Contacts": "Mga contact",
  "Search contacts": "Maghanap ng contact",
  "No contacts yet.": "Wala pang contact.",
- "Have an invite code?": "May invite code ka?"
+ "Have an invite code?": "May invite code ka?",
+ "Turn on notifications": "I-on ang mga abiso",
+ "So you don't miss any reply.": "Sa ganito, walang reply na mapapalampas mo."
 }

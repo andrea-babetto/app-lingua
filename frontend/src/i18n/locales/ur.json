@@ -55,7 +55,6 @@
  "Enter your password to confirm": "تصدیق کے لیے اپنا پاس ورڈ درج کریں",
  "Failed": "ناکام",
  "Find members by username or exact email": "صارف نام یا درست ای میل سے ارکان تلاش کریں",
- "Get a notification when someone writes to you.": "کوئی آپ کو لکھے تو اطلاع پائیں۔",
  "Get notified when someone writes to you": "کوئی آپ کو لکھے تو اطلاع پائیں",
  "Go to the latest message": "تازہ ترین پیغام پر جائیں",
  "Google sign-in failed": "گوگل سے سائن اِن ناکام رہا",
@@ -188,5 +187,7 @@
  "Contacts": "رابطے",
  "Search contacts": "رابطوں میں تلاش کریں",
  "No contacts yet.": "ابھی کوئی رابطہ نہیں۔",
- "Have an invite code?": "کیا آپ کے پاس دعوتی کوڈ ہے؟"
+ "Have an invite code?": "کیا آپ کے پاس دعوتی کوڈ ہے؟",
+ "Turn on notifications": "اطلاعات آن کریں",
+ "So you don't miss any reply.": "اس طرح آپ کوئی جواب نہیں چھوڑیں گے۔"
 }

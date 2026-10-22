@@ -55,7 +55,6 @@
  "Enter your password to confirm": "確認のためパスワードを入力してください",
  "Failed": "失敗しました",
  "Find members by username or exact email": "ユーザー名または正確なメールアドレスでメンバーを検索",
- "Get a notification when someone writes to you.": "誰かからメッセージが届いたら通知を受け取る。",
  "Get notified when someone writes to you": "誰かからメッセージが届いたら通知する",
  "Go to the latest message": "最新のメッセージへ移動",
  "Google sign-in failed": "Googleでのログインに失敗しました",
@@ -188,5 +187,7 @@
  "Contacts": "連絡先",
  "Search contacts": "連絡先を検索",
  "No contacts yet.": "まだ連絡先がありません。",
- "Have an invite code?": "招待コードはお持ちですか？"
+ "Have an invite code?": "招待コードはお持ちですか？",
+ "Turn on notifications": "通知をオンにする",
+ "So you don't miss any reply.": "これで返信を見逃しません。"
 }

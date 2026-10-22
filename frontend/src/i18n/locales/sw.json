@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Weka nenosiri lako ili kuthibitisha",
  "Failed": "Imeshindwa",
  "Find members by username or exact email": "Tafuta wanachama kwa jina la mtumiaji au barua pepe kamili",
- "Get a notification when someone writes to you.": "Pata arifa mtu akikuandikia.",
  "Get notified when someone writes to you": "Pata arifa mtu akikuandikia",
  "Go to the latest message": "Nenda kwenye ujumbe wa mwisho",
  "Google sign-in failed": "Kuingia kwa Google kumeshindwa",
@@ -188,5 +187,7 @@
  "Contacts": "Anwani",
  "Search contacts": "Tafuta anwani",
  "No contacts yet.": "Bado hakuna anwani.",
- "Have an invite code?": "Una msimbo wa mwaliko?"
+ "Have an invite code?": "Una msimbo wa mwaliko?",
+ "Turn on notifications": "Washa arifa",
+ "So you don't miss any reply.": "Kwa njia hii, hutakosa jibu lolote."
 }

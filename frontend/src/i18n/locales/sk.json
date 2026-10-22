@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Na potvrdenie zadajte heslo",
  "Failed": "Zlyhalo",
  "Find members by username or exact email": "Nájdite členov podľa používateľského mena alebo presného e-mailu",
- "Get a notification when someone writes to you.": "Dostanete upozornenie, keď vám niekto napíše.",
  "Get notified when someone writes to you": "Dostávajte upozornenia, keď vám niekto napíše",
  "Go to the latest message": "Prejsť na poslednú správu",
  "Google sign-in failed": "Prihlásenie cez Google zlyhalo",
@@ -188,5 +187,7 @@
  "Contacts": "Kontakty",
  "Search contacts": "Hľadať kontakty",
  "No contacts yet.": "Zatiaľ žiadne kontakty.",
- "Have an invite code?": "Máte kód pozvánky?"
+ "Have an invite code?": "Máte kód pozvánky?",
+ "Turn on notifications": "Zapnúť upozornenia",
+ "So you don't miss any reply.": "Vďaka tomu nepremeškáte žiadnu odpoveď."
 }

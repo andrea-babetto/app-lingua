@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Nhập mật khẩu để xác nhận",
  "Failed": "Thất bại",
  "Find members by username or exact email": "Tìm thành viên theo tên người dùng hoặc email chính xác",
- "Get a notification when someone writes to you.": "Nhận thông báo khi có người nhắn cho bạn.",
  "Get notified when someone writes to you": "Nhận thông báo khi có người nhắn cho bạn",
  "Go to the latest message": "Đến tin nhắn mới nhất",
  "Google sign-in failed": "Đăng nhập Google thất bại",
@@ -188,5 +187,7 @@
  "Contacts": "Liên hệ",
  "Search contacts": "Tìm liên hệ",
  "No contacts yet.": "Chưa có liên hệ nào.",
- "Have an invite code?": "Bạn có mã mời không?"
+ "Have an invite code?": "Bạn có mã mời không?",
+ "Turn on notifications": "Bật thông báo",
+ "So you don't miss any reply.": "Như vậy bạn sẽ không bỏ lỡ câu trả lời nào."
 }

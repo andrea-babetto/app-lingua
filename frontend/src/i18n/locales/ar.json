@@ -55,7 +55,6 @@
  "Enter your password to confirm": "أدخل كلمة المرور للتأكيد",
  "Failed": "فشل",
  "Find members by username or exact email": "ابحث عن الأعضاء باسم المستخدم أو البريد الإلكتروني الكامل",
- "Get a notification when someone writes to you.": "احصل على إشعار عندما يراسلك أحد.",
  "Get notified when someone writes to you": "تلقَّ إشعاراً عندما يراسلك أحد",
  "Go to the latest message": "الانتقال إلى آخر رسالة",
  "Google sign-in failed": "فشل تسجيل الدخول عبر Google",
@@ -188,5 +187,7 @@
  "Contacts": "جهات الاتصال",
  "Search contacts": "ابحث في جهات الاتصال",
  "No contacts yet.": "لا توجد جهات اتصال بعد.",
- "Have an invite code?": "هل لديك رمز دعوة؟"
+ "Have an invite code?": "هل لديك رمز دعوة؟",
+ "Turn on notifications": "فعّل الإشعارات",
+ "So you don't miss any reply.": "حتى لا تفوتك أي رد."
 }

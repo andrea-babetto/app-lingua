@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Ange ditt lösenord för att bekräfta",
  "Failed": "Misslyckades",
  "Find members by username or exact email": "Hitta medlemmar med användarnamn eller exakt e-postadress",
- "Get a notification when someone writes to you.": "Få en avisering när någon skriver till dig.",
  "Get notified when someone writes to you": "Få en avisering när någon skriver till dig",
  "Go to the latest message": "Gå till senaste meddelandet",
  "Google sign-in failed": "Inloggning med Google misslyckades",
@@ -188,5 +187,7 @@
  "Contacts": "Kontakter",
  "Search contacts": "Sök kontakter",
  "No contacts yet.": "Inga kontakter än.",
- "Have an invite code?": "Har du en inbjudningskod?"
+ "Have an invite code?": "Har du en inbjudningskod?",
+ "Turn on notifications": "Aktivera aviseringar",
+ "So you don't miss any reply.": "Så missar du inga svar."
 }

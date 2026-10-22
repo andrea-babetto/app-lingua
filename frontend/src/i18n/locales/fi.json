@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Vahvista antamalla salasanasi",
  "Failed": "Epäonnistui",
  "Find members by username or exact email": "Etsi jäseniä käyttäjänimellä tai tarkalla sähköpostiosoitteella",
- "Get a notification when someone writes to you.": "Saat ilmoituksen, kun joku kirjoittaa sinulle.",
  "Get notified when someone writes to you": "Saa ilmoitus, kun joku kirjoittaa sinulle",
  "Go to the latest message": "Siirry uusimpaan viestiin",
  "Google sign-in failed": "Google-kirjautuminen epäonnistui",
@@ -188,5 +187,7 @@
  "Contacts": "Yhteystiedot",
  "Search contacts": "Hae yhteystiedoista",
  "No contacts yet.": "Ei vielä yhteystietoja.",
- "Have an invite code?": "Onko sinulla kutsukoodi?"
+ "Have an invite code?": "Onko sinulla kutsukoodi?",
+ "Turn on notifications": "Ota ilmoitukset käyttöön",
+ "So you don't miss any reply.": "Näin et jää paitsi yhdestäkään vastauksesta."
 }

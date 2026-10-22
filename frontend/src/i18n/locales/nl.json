@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Voer je wachtwoord in om te bevestigen",
  "Failed": "Mislukt",
  "Find members by username or exact email": "Zoek leden op gebruikersnaam of exact e-mailadres",
- "Get a notification when someone writes to you.": "Krijg een melding als iemand je een bericht stuurt.",
  "Get notified when someone writes to you": "Krijg een melding als iemand je schrijft",
  "Go to the latest message": "Ga naar het laatste bericht",
  "Google sign-in failed": "Inloggen met Google mislukt",
@@ -188,5 +187,7 @@
  "Contacts": "Contacten",
  "Search contacts": "Zoek contacten",
  "No contacts yet.": "Nog geen contacten.",
- "Have an invite code?": "Heb je een uitnodigingscode?"
+ "Have an invite code?": "Heb je een uitnodigingscode?",
+ "Turn on notifications": "Meldingen aanzetten",
+ "So you don't miss any reply.": "Zo mis je geen antwoord."
 }

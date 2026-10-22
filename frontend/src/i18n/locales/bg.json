@@ -55,7 +55,6 @@
  "Enter your password to confirm": "Въведете паролата си за потвърждение",
  "Failed": "Неуспешно",
  "Find members by username or exact email": "Намерете участници по потребителско име или точен имейл",
- "Get a notification when someone writes to you.": "Получавайте известие, когато някой ви пише.",
  "Get notified when someone writes to you": "Получавайте известия, когато някой ви пише",
  "Go to the latest message": "Към последното съобщение",
  "Google sign-in failed": "Входът с Google не успя",
@@ -188,5 +187,7 @@
  "Contacts": "Контакти",
  "Search contacts": "Търсене в контактите",
  "No contacts yet.": "Още няма контакти.",
- "Have an invite code?": "Имате ли код за покана?"
+ "Have an invite code?": "Имате ли код за покана?",
+ "Turn on notifications": "Включете известията",
+ "So you don't miss any reply.": "Така няма да пропуснете нито един отговор."
 }
