@@ -76,7 +76,6 @@
  "Members": "Учасники",
  "Message actions": "Дії з повідомленням",
  "Message not sent": "Повідомлення не надіслано",
- "My language": "Моя мова",
  "New chat": "Новий чат",
  "New group": "Нова група",
  "New password (8+ characters)": "Новий пароль (від 8 символів)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Увімкнути сповіщення",
  "So you don't miss any reply.": "Так ви не пропустите жодної відповіді.",
  "Write in {language}": "Пишіть {language}ою",
- "Show original": "Показати оригінал"
+ "Show original": "Показати оригінал",
+ "Language and translation": "Мова та переклад"
 }

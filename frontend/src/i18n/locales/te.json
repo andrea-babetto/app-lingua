@@ -76,7 +76,6 @@
  "Members": "సభ్యులు",
  "Message actions": "సందేశ చర్యలు",
  "Message not sent": "సందేశం పంపబడలేదు",
- "My language": "నా భాష",
  "New chat": "కొత్త చాట్",
  "New group": "కొత్త గ్రూప్",
  "New password (8+ characters)": "కొత్త పాస్‌వర్డ్ (8+ అక్షరాలు)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "నోటిఫికేషన్లు ఆన్ చేయండి",
  "So you don't miss any reply.": "ఇలా చేస్తే ఏ జవాబూ మిస్ అవ్వదు.",
  "Write in {language}": "{language}లో రాయండి",
- "Show original": "అసలును చూపించు"
+ "Show original": "అసలును చూపించు",
+ "Language and translation": "భాష మరియు అనువాదం"
 }

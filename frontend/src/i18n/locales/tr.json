@@ -76,7 +76,6 @@
  "Members": "Üyeler",
  "Message actions": "Mesaj işlemleri",
  "Message not sent": "Mesaj gönderilemedi",
- "My language": "Dilim",
  "New chat": "Yeni sohbet",
  "New group": "Yeni grup",
  "New password (8+ characters)": "Yeni şifre (en az 8 karakter)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Bildirimleri aç",
  "So you don't miss any reply.": "Böylece hiçbir yanıtı kaçırmazsınız.",
  "Write in {language}": "{language} dilinde yaz",
- "Show original": "Orijinali göster"
+ "Show original": "Orijinali göster",
+ "Language and translation": "Dil ve çeviri"
 }

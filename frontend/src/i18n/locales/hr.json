@@ -76,7 +76,6 @@
  "Members": "Članovi",
  "Message actions": "Radnje s porukom",
  "Message not sent": "Poruka nije poslana",
- "My language": "Moj jezik",
  "New chat": "Novi chat",
  "New group": "Nova grupa",
  "New password (8+ characters)": "Nova lozinka (8+ znakova)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Uključi obavijesti",
  "So you don't miss any reply.": "Tako nećete propustiti nijedan odgovor.",
  "Write in {language}": "Pišite na jeziku: {language}",
- "Show original": "Prikaži izvornik"
+ "Show original": "Prikaži izvornik",
+ "Language and translation": "Jezik i prijevod"
 }

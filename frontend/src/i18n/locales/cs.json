@@ -76,7 +76,6 @@
  "Members": "Členové",
  "Message actions": "Akce se zprávou",
  "Message not sent": "Zpráva nebyla odeslána",
- "My language": "Můj jazyk",
  "New chat": "Nový chat",
  "New group": "Nová skupina",
  "New password (8+ characters)": "Nové heslo (min. 8 znaků)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Zapněte oznámení",
  "So you don't miss any reply.": "Tak nepropustíte žádnou odpověď.",
  "Write in {language}": "Pište v {language}",
- "Show original": "Zobrazit originál"
+ "Show original": "Zobrazit originál",
+ "Language and translation": "Jazyk a překlad"
 }

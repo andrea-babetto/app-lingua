@@ -76,7 +76,6 @@
  "Members": "Wanachama",
  "Message actions": "Vitendo vya ujumbe",
  "Message not sent": "Ujumbe haujatumwa",
- "My language": "Lugha yangu",
  "New chat": "Gumzo jipya",
  "New group": "Kundi jipya",
  "New password (8+ characters)": "Nenosiri jipya (herufi 8+)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Washa arifa",
  "So you don't miss any reply.": "Kwa njia hii, hutakosa jibu lolote.",
  "Write in {language}": "Andika kwa {language}",
- "Show original": "Onyesha asili"
+ "Show original": "Onyesha asili",
+ "Language and translation": "Lugha na tafsiri"
 }

@@ -76,7 +76,6 @@
  "Members": "اعضا",
  "Message actions": "گزینه‌های پیام",
  "Message not sent": "پیام ارسال نشد",
- "My language": "زبان من",
  "New chat": "گفتگوی جدید",
  "New group": "گروه جدید",
  "New password (8+ characters)": "گذرواژه جدید (حداقل 8 کاراکتر)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "اعلان‌ها را روشن کنید",
  "So you don't miss any reply.": "اینطوری هیچ پاسخی را از دست نمی‌دهید.",
  "Write in {language}": "به {language} بنویسید",
- "Show original": "نمایش اصل"
+ "Show original": "نمایش اصل",
+ "Language and translation": "زبان و ترجمه"
 }

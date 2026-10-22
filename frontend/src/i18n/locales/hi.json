@@ -76,7 +76,6 @@
  "Members": "सदस्य",
  "Message actions": "संदेश के विकल्प",
  "Message not sent": "संदेश नहीं भेजा गया",
- "My language": "मेरी भाषा",
  "New chat": "नई चैट",
  "New group": "नया ग्रुप",
  "New password (8+ characters)": "नया पासवर्ड (8+ अक्षर)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "सूचनाएँ चालू करें",
  "So you don't miss any reply.": "इससे आपका कोई जवाब नहीं छूटेगा।",
  "Write in {language}": "{language} में लिखें",
- "Show original": "मूल दिखाएँ"
+ "Show original": "मूल दिखाएँ",
+ "Language and translation": "भाषा और अनुवाद"
 }

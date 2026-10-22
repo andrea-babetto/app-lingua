@@ -76,7 +76,6 @@
  "Members": "Ahli",
  "Message actions": "Tindakan mesej",
  "Message not sent": "Mesej tidak dihantar",
- "My language": "Bahasa saya",
  "New chat": "Sembang baharu",
  "New group": "Kumpulan baharu",
  "New password (8+ characters)": "Kata laluan baharu (8+ aksara)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Hidupkan pemberitahuan",
  "So you don't miss any reply.": "Dengan itu, anda tidak akan terlepas sebarang balasan.",
  "Write in {language}": "Tulis dalam {language}",
- "Show original": "Tunjuk asal"
+ "Show original": "Tunjuk asal",
+ "Language and translation": "Bahasa dan terjemahan"
 }

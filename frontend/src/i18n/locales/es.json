@@ -76,7 +76,6 @@
  "Members": "Miembros",
  "Message actions": "Acciones del mensaje",
  "Message not sent": "Mensaje no enviado",
- "My language": "Mi idioma",
  "New chat": "Nuevo chat",
  "New group": "Nuevo grupo",
  "New password (8+ characters)": "Nueva contraseña (8+ caracteres)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Activa las notificaciones",
  "So you don't miss any reply.": "Así no te pierdes ninguna respuesta.",
  "Write in {language}": "Escribe en {language}",
- "Show original": "Mostrar el original"
+ "Show original": "Mostrar el original",
+ "Language and translation": "Idioma y traducción"
 }

@@ -76,7 +76,6 @@
  "Members": "Anggota",
  "Message actions": "Aksi pesan",
  "Message not sent": "Pesan tidak terkirim",
- "My language": "Bahasa saya",
  "New chat": "Chat baru",
  "New group": "Grup baru",
  "New password (8+ characters)": "Kata sandi baru (8+ karakter)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Aktifkan notifikasi",
  "So you don't miss any reply.": "Dengan begitu, tidak ada balasan yang terlewat.",
  "Write in {language}": "Tulis dalam {language}",
- "Show original": "Tampilkan asli"
+ "Show original": "Tampilkan asli",
+ "Language and translation": "Bahasa dan terjemahan"
 }

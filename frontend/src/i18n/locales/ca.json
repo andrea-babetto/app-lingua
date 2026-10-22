@@ -76,7 +76,6 @@
  "Members": "Membres",
  "Message actions": "Accions del missatge",
  "Message not sent": "Missatge no enviat",
- "My language": "El meu idioma",
  "New chat": "Xat nou",
  "New group": "Grup nou",
  "New password (8+ characters)": "Contrasenya nova (8+ caràcters)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Activa les notificacions",
  "So you don't miss any reply.": "Així no perdràs cap resposta.",
  "Write in {language}": "Escriu en {language}",
- "Show original": "Mostra l'original"
+ "Show original": "Mostra l'original",
+ "Language and translation": "Llengua i traducció"
 }

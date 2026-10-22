@@ -76,7 +76,6 @@
  "Members": "সদস্য",
  "Message actions": "মেসেজের অ্যাকশন",
  "Message not sent": "মেসেজ পাঠানো হয়নি",
- "My language": "আমার ভাষা",
  "New chat": "নতুন চ্যাট",
  "New group": "নতুন গ্রুপ",
  "New password (8+ characters)": "নতুন পাসওয়ার্ড (কমপক্ষে ৮ অক্ষর)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "বিজ্ঞপ্তি চালু করুন",
  "So you don't miss any reply.": "এভাবে কোনো উত্তর মিস হবে না।",
  "Write in {language}": "{language}-এ লিখুন",
- "Show original": "মূল দেখান"
+ "Show original": "মূল দেখান",
+ "Language and translation": "ভাষা ও অনুবাদ"
 }

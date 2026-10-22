@@ -76,7 +76,6 @@
  "Members": "Medlemmer",
  "Message actions": "Beskedhandlinger",
  "Message not sent": "Beskeden blev ikke sendt",
- "My language": "Mit sprog",
  "New chat": "Ny chat",
  "New group": "Ny gruppe",
  "New password (8+ characters)": "Ny adgangskode (mindst 8 tegn)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Slå notifikationer til",
  "So you don't miss any reply.": "Så går du ikke glip af nogen svar.",
  "Write in {language}": "Skriv på {language}",
- "Show original": "Vis originalen"
+ "Show original": "Vis originalen",
+ "Language and translation": "Sprog og oversættelse"
 }

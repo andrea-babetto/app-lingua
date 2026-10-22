@@ -76,7 +76,6 @@
  "Members": "Mga miyembro",
  "Message actions": "Mga aksyon sa mensahe",
  "Message not sent": "Hindi naipadala ang mensahe",
- "My language": "Wika ko",
  "New chat": "Bagong chat",
  "New group": "Bagong grupo",
  "New password (8+ characters)": "Bagong password (8+ character)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "I-on ang mga abiso",
  "So you don't miss any reply.": "Sa ganito, walang reply na mapapalampas mo.",
  "Write in {language}": "Magsulat sa {language}",
- "Show original": "Ipakita ang orihinal"
+ "Show original": "Ipakita ang orihinal",
+ "Language and translation": "Wika at pagsasalin"
 }

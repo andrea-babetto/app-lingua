@@ -76,7 +76,6 @@
  "Members": "成员",
  "Message actions": "消息操作",
  "Message not sent": "消息未发送",
- "My language": "我的语言",
  "New chat": "新聊天",
  "New group": "新建群组",
  "New password (8+ characters)": "新密码（至少 8 个字符）",
@@ -190,5 +189,6 @@
  "Turn on notifications": "开启通知",
  "So you don't miss any reply.": "这样就不会错过任何回复。",
  "Write in {language}": "用{language}输入",
- "Show original": "显示原文"
+ "Show original": "显示原文",
+ "Language and translation": "语言和翻译"
 }

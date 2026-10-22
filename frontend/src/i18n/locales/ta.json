@@ -76,7 +76,6 @@
  "Members": "உறுப்பினர்கள்",
  "Message actions": "செய்தி செயல்கள்",
  "Message not sent": "செய்தி அனுப்பப்படவில்லை",
- "My language": "என் மொழி",
  "New chat": "புதிய சாட்",
  "New group": "புதிய குழு",
  "New password (8+ characters)": "புதிய கடவுச்சொல் (8+ எழுத்துகள்)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "அறிவிப்புகளை இயக்கு",
  "So you don't miss any reply.": "இப்படி எந்த பதிலையும் தவறவிட மாட்டீர்கள்.",
  "Write in {language}": "{language} இல் எழுதுங்கள்",
- "Show original": "மூலத்தைக் காட்டு"
+ "Show original": "மூலத்தைக் காட்டு",
+ "Language and translation": "மொழியும் மொழிபெயர்ப்பும்"
 }

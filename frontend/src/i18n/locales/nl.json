@@ -76,7 +76,6 @@
  "Members": "Leden",
  "Message actions": "Berichtacties",
  "Message not sent": "Bericht niet verzonden",
- "My language": "Mijn taal",
  "New chat": "Nieuwe chat",
  "New group": "Nieuwe groep",
  "New password (8+ characters)": "Nieuw wachtwoord (8+ tekens)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Meldingen aanzetten",
  "So you don't miss any reply.": "Zo mis je geen antwoord.",
  "Write in {language}": "Schrijf in het {language}",
- "Show original": "Origineel tonen"
+ "Show original": "Origineel tonen",
+ "Language and translation": "Taal en vertaling"
 }

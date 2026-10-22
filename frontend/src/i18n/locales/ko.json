@@ -76,7 +76,6 @@
  "Members": "멤버",
  "Message actions": "메시지 옵션",
  "Message not sent": "메시지를 보내지 못했어요",
- "My language": "내 언어",
  "New chat": "새 채팅",
  "New group": "새 그룹",
  "New password (8+ characters)": "새 비밀번호 (8자 이상)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "알림 켜기",
  "So you don't miss any reply.": "답장을 놓치지 않도록 해요.",
  "Write in {language}": "{language}로 입력",
- "Show original": "원문 보기"
+ "Show original": "원문 보기",
+ "Language and translation": "언어 및 번역"
 }

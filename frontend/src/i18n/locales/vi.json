@@ -76,7 +76,6 @@
  "Members": "Thành viên",
  "Message actions": "Tùy chọn tin nhắn",
  "Message not sent": "Tin nhắn chưa được gửi",
- "My language": "Ngôn ngữ của tôi",
  "New chat": "Trò chuyện mới",
  "New group": "Nhóm mới",
  "New password (8+ characters)": "Mật khẩu mới (từ 8 ký tự)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Bật thông báo",
  "So you don't miss any reply.": "Như vậy bạn sẽ không bỏ lỡ câu trả lời nào.",
  "Write in {language}": "Viết bằng {language}",
- "Show original": "Hiện bản gốc"
+ "Show original": "Hiện bản gốc",
+ "Language and translation": "Ngôn ngữ và dịch"
 }

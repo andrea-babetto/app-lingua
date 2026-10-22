@@ -76,7 +76,6 @@
  "Members": "ارکان",
  "Message actions": "پیغام کے اختیارات",
  "Message not sent": "پیغام نہیں بھیجا گیا",
- "My language": "میری زبان",
  "New chat": "نئی چیٹ",
  "New group": "نیا گروپ",
  "New password (8+ characters)": "نیا پاس ورڈ (8+ حروف)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "اطلاعات آن کریں",
  "So you don't miss any reply.": "اس طرح آپ کوئی جواب نہیں چھوڑیں گے۔",
  "Write in {language}": "{language} میں لکھیں",
- "Show original": "اصل دکھائیں"
+ "Show original": "اصل دکھائیں",
+ "Language and translation": "زبان اور ترجمہ"
 }

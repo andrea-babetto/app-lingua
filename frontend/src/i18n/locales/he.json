@@ -76,7 +76,6 @@
  "Members": "חברים",
  "Message actions": "פעולות על ההודעה",
  "Message not sent": "ההודעה לא נשלחה",
- "My language": "השפה שלי",
  "New chat": "צ'אט חדש",
  "New group": "קבוצה חדשה",
  "New password (8+ characters)": "סיסמה חדשה (8 תווים ומעלה)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "הפעל התראות",
  "So you don't miss any reply.": "כך לא תפספסו אף תשובה.",
  "Write in {language}": "כתבו ב{language}",
- "Show original": "הצג את המקור"
+ "Show original": "הצג את המקור",
+ "Language and translation": "שפה ותרגום"
 }

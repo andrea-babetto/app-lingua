@@ -76,7 +76,6 @@
  "Members": "Μέλη",
  "Message actions": "Ενέργειες μηνύματος",
  "Message not sent": "Το μήνυμα δεν στάλθηκε",
- "My language": "Η γλώσσα μου",
  "New chat": "Νέα συνομιλία",
  "New group": "Νέα ομάδα",
  "New password (8+ characters)": "Νέος κωδικός (8+ χαρακτήρες)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "Ενεργοποίηση ειδοποιήσεων",
  "So you don't miss any reply.": "Έτσι δεν θα χάσετε καμία απάντηση.",
  "Write in {language}": "Γράψτε στα {language}",
- "Show original": "Εμφάνιση πρωτοτύπου"
+ "Show original": "Εμφάνιση πρωτοτύπου",
+ "Language and translation": "Γλώσσα και μετάφραση"
 }

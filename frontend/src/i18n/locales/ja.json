@@ -76,7 +76,6 @@
  "Members": "メンバー",
  "Message actions": "メッセージの操作",
  "Message not sent": "メッセージを送信できませんでした",
- "My language": "使用言語",
  "New chat": "新しいチャット",
  "New group": "新しいグループ",
  "New password (8+ characters)": "新しいパスワード（8文字以上）",
@@ -190,5 +189,6 @@
  "Turn on notifications": "通知をオンにする",
  "So you don't miss any reply.": "これで返信を見逃しません。",
  "Write in {language}": "{language}で入力",
- "Show original": "原文を表示"
+ "Show original": "原文を表示",
+ "Language and translation": "言語と翻訳"
 }

@@ -76,7 +76,6 @@
  "Members": "สมาชิก",
  "Message actions": "การดำเนินการกับข้อความ",
  "Message not sent": "ส่งข้อความไม่สำเร็จ",
- "My language": "ภาษาของฉัน",
  "New chat": "แชทใหม่",
  "New group": "กลุ่มใหม่",
  "New password (8+ characters)": "รหัสผ่านใหม่ (8 ตัวอักษรขึ้นไป)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "เปิดการแจ้งเตือน",
  "So you don't miss any reply.": "แบบนี้คุณจะไม่พลาดคำตอบใด",
  "Write in {language}": "พิมพ์เป็น{language}",
- "Show original": "แสดงต้นฉบับ"
+ "Show original": "แสดงต้นฉบับ",
+ "Language and translation": "ภาษาและการแปล"
 }

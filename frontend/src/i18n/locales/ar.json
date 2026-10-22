@@ -76,7 +76,6 @@
  "Members": "الأعضاء",
  "Message actions": "إجراءات الرسالة",
  "Message not sent": "لم يتم إرسال الرسالة",
- "My language": "لغتي",
  "New chat": "محادثة جديدة",
  "New group": "مجموعة جديدة",
  "New password (8+ characters)": "كلمة مرور جديدة (8 أحرف على الأقل)",
@@ -190,5 +189,6 @@
  "Turn on notifications": "فعّل الإشعارات",
  "So you don't miss any reply.": "حتى لا تفوتك أي رد.",
  "Write in {language}": "اكتب بـ{language}",
- "Show original": "أظهر الأصل"
+ "Show original": "أظهر الأصل",
+ "Language and translation": "اللغة والترجمة"
 }
