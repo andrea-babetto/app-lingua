@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import "@fontsource-variable/onest";
 import "@fontsource-variable/noto-sans-arabic";
+import "@fontsource-variable/noto-sans-devanagari";
+import "@fontsource-variable/noto-sans-sc";
 import "@/index.css";
 import App from "@/App";
 import { queryClient } from "@/lib/queryClient";

@@ -78,6 +78,16 @@
   resolved "https://registry.yarnpkg.com/@fontsource-variable/noto-sans-arabic/-/noto-sans-arabic-5.3.0.tgz#3f799cc590e31e474aca0814482f8ecec8119f98"
   integrity sha512-Rz8+DBzza3//cmN+DBQajJhx3x+Dx12eUgnQsTOgPWbOT0+In6APmE8z4I/QQnUWfAx+s8l93+60qDT5vJH1sA==
 
+"@fontsource-variable/noto-sans-devanagari@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/noto-sans-devanagari/-/noto-sans-devanagari-5.3.0.tgz#1e23afa10f206a0624cb5df65707113ec70064bd"
+  integrity sha512-52XBcJS3jRvZ5ugFXJvdKgffXPYnN08LeodXkgCbepOdMKVRVTQu1yj071cq8S3zmUwT6w6XKKXRSQlQkwwNNg==
+
+"@fontsource-variable/noto-sans-sc@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/noto-sans-sc/-/noto-sans-sc-5.3.1.tgz#aab760688d1ae81057e19fcead2b99ff9677d605"
+  integrity sha512-UB96JJ17HyD5ehEU7Em0hDdh7fvTMB4B4Hzmq5c4QaNwwSLqTrdM2S+coySeBqCkXwh0DxqXT0b0wMrmzorFpQ==
+
 "@fontsource-variable/onest@^5.3.1":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@fontsource-variable/onest/-/onest-5.3.1.tgz#df43b775b16d3f4e63eb63092f81ff3ef7c1ec73"
