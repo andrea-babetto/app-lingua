@@ -69,7 +69,7 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
           )}
         </div>
         <div className="flex items-center justify-between gap-2 mt-0.5">
-          <span className="text-sm text-muted-foreground truncate">{preview(chat, myId, t)}</span>
+          <span dir="auto" className="text-sm text-muted-foreground truncate">{preview(chat, myId, t)}</span>
           {chat.unread > 0 && (
             <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center">{chat.unread}</span>
           )}

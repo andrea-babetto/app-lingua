@@ -202,7 +202,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
           <input type="file" accept="image/*" ref={fileRef} hidden onChange={uploadAvatar} />
         </div>
         <div className="text-xl font-semibold mt-1">{user.name}</div>
-        <div className="text-sm text-muted-foreground">@{user.username} · {lang.flag} {langName(user.language)}</div>
+        <div className="text-sm text-muted-foreground"><bdi dir="ltr">@{user.username}</bdi> · {lang.flag} {langName(user.language)}</div>
       </div>
 
       <Section title={t("Language and translation")}>
