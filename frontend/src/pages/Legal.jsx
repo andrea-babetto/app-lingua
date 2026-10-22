@@ -13,7 +13,7 @@ const PRIVACY = {
   en: {
     title: "Privacy Policy",
     sections: [
-      ["Who we are", [`Repong is a chat where everyone writes and reads in their own language. The data controller is ${NAME}. You can contact us at ${EMAIL}.`]],
+      ["Who we are", [`Glotter is a chat where everyone writes and reads in their own language. The data controller is ${NAME}. You can contact us at ${EMAIL}.`]],
       ["What we collect", [
         "Account: name, email, username, password (stored only as a one-way hash), language, profile photo, and optionally a phone number.",
         "Content: the messages, photos and files you send, reactions, your personal glossary, your settings and the people you chat with.",
@@ -43,14 +43,14 @@ const PRIVACY = {
         "You can complain to your data protection authority (in Italy: Garante per la protezione dei dati personali, www.garanteprivacy.it).",
       ]],
       ["Cookies and storage", ["We do not use advertising or tracking cookies. The app stores on your device only what it needs to work: your sign-in, your language and theme, and unsent drafts."]],
-      ["Children", ["Repong is not intended for people under 16. If you think a child has created an account, write to us and we will delete it."]],
+      ["Children", ["Glotter is not intended for people under 16. If you think a child has created an account, write to us and we will delete it."]],
       ["Changes", ["We may update this policy. The date above shows the latest version; for important changes we will tell you in the app."]],
     ],
   },
   it: {
     title: "Informativa sulla privacy",
     sections: [
-      ["Chi siamo", [`Repong è una chat in cui ognuno scrive e legge nella propria lingua. Il titolare del trattamento è ${NAME}. Puoi contattarci a ${EMAIL}.`]],
+      ["Chi siamo", [`Glotter è una chat in cui ognuno scrive e legge nella propria lingua. Il titolare del trattamento è ${NAME}. Puoi contattarci a ${EMAIL}.`]],
       ["Quali dati raccogliamo", [
         "Account: nome, email, nome utente, password (conservata solo come impronta non reversibile), lingua, foto del profilo ed eventualmente un numero di telefono.",
         "Contenuti: i messaggi, le foto e i file che invii, le reazioni, il tuo glossario personale, le impostazioni e le persone con cui chatti.",
@@ -80,7 +80,7 @@ const PRIVACY = {
         "Puoi presentare reclamo all'autorità per la protezione dei dati (in Italia: Garante per la protezione dei dati personali, www.garanteprivacy.it).",
       ]],
       ["Cookie e archiviazione", ["Non usiamo cookie pubblicitari né di tracciamento. L'app salva sul tuo dispositivo solo ciò che serve per funzionare: l'accesso, la lingua e il tema, e le bozze non inviate."]],
-      ["Minori", ["Repong non è destinato a persone sotto i 16 anni. Se pensi che un minore abbia creato un account, scrivici e lo cancelleremo."]],
+      ["Minori", ["Glotter non è destinato a persone sotto i 16 anni. Se pensi che un minore abbia creato un account, scrivici e lo cancelleremo."]],
       ["Modifiche", ["Possiamo aggiornare questa informativa. La data qui sopra indica l'ultima versione; per le modifiche importanti ti avviseremo nell'app."]],
     ],
   },
@@ -90,13 +90,13 @@ const TERMS = {
   en: {
     title: "Terms of Service",
     sections: [
-      ["The service", [`Repong is a chat service that translates messages automatically between languages. It is provided by ${NAME} ("we"). It is currently in a closed beta and may change or be interrupted.`]],
+      ["The service", [`Glotter is a chat service that translates messages automatically between languages. It is provided by ${NAME} ("we"). It is currently in a closed beta and may change or be interrupted.`]],
       ["Your account", [
         "You must be at least 16 years old. Give correct information and keep your password secret. You are responsible for what happens under your account.",
         "Registration may require an invite code. You can delete your account at any time from Profile.",
       ]],
       ["How to use it", [
-        "Do not use Repong for anything illegal, to harass, threaten or defraud anyone, to send spam or malware, to share content that exploits minors, or to impersonate others.",
+        "Do not use Glotter for anything illegal, to harass, threaten or defraud anyone, to send spam or malware, to share content that exploits minors, or to impersonate others.",
         "You can block and report other users. We may remove content or suspend accounts that break these rules.",
       ]],
       ["Your content", [
@@ -105,20 +105,20 @@ const TERMS = {
       ]],
       ["Automatic translation", ["Translations are produced by software and may be wrong or incomplete. Do not rely on them for medical, legal, financial or other important decisions without checking."]],
       ["No guarantee, limited liability", ["The service is provided \"as is\", without guarantees of availability or accuracy. To the extent allowed by law, we are not liable for indirect damages or loss of data. Nothing here limits rights you have by law as a consumer."]],
-      ["Ending", ["You can stop using Repong and delete your account at any time. We may suspend or close accounts that break these terms or put others at risk."]],
+      ["Ending", ["You can stop using Glotter and delete your account at any time. We may suspend or close accounts that break these terms or put others at risk."]],
       ["Changes and law", [`We may update these terms; the date above shows the latest version. These terms are governed by Italian law, without removing the protection that mandatory rules of your country give you as a consumer. Questions: ${EMAIL}.`]],
     ],
   },
   it: {
     title: "Termini di servizio",
     sections: [
-      ["Il servizio", [`Repong è un servizio di chat che traduce automaticamente i messaggi tra lingue diverse. È offerto da ${NAME} ("noi"). Al momento è in beta chiusa e può cambiare o interrompersi.`]],
+      ["Il servizio", [`Glotter è un servizio di chat che traduce automaticamente i messaggi tra lingue diverse. È offerto da ${NAME} ("noi"). Al momento è in beta chiusa e può cambiare o interrompersi.`]],
       ["Il tuo account", [
         "Devi avere almeno 16 anni. Fornisci informazioni corrette e tieni segreta la password. Sei responsabile di ciò che avviene con il tuo account.",
         "La registrazione può richiedere un codice d'invito. Puoi eliminare l'account in qualsiasi momento dal Profilo.",
       ]],
       ["Come usarlo", [
-        "Non usare Repong per attività illegali, per molestare, minacciare o truffare qualcuno, per inviare spam o malware, per condividere contenuti che sfruttano minori o per impersonare altri.",
+        "Non usare Glotter per attività illegali, per molestare, minacciare o truffare qualcuno, per inviare spam o malware, per condividere contenuti che sfruttano minori o per impersonare altri.",
         "Puoi bloccare e segnalare altri utenti. Possiamo rimuovere contenuti o sospendere account che violano queste regole.",
       ]],
       ["I tuoi contenuti", [
@@ -127,7 +127,7 @@ const TERMS = {
       ]],
       ["Traduzione automatica", ["Le traduzioni sono prodotte da un software e possono essere sbagliate o incomplete. Non farci affidamento per decisioni mediche, legali, finanziarie o importanti senza verificare."]],
       ["Nessuna garanzia, responsabilità limitata", ["Il servizio è fornito \"così com'è\", senza garanzie di disponibilità o accuratezza. Nei limiti consentiti dalla legge, non rispondiamo di danni indiretti o perdita di dati. Nulla qui limita i diritti che hai per legge come consumatore."]],
-      ["Chiusura", ["Puoi smettere di usare Repong ed eliminare l'account in qualsiasi momento. Possiamo sospendere o chiudere gli account che violano questi termini o mettono a rischio altre persone."]],
+      ["Chiusura", ["Puoi smettere di usare Glotter ed eliminare l'account in qualsiasi momento. Possiamo sospendere o chiudere gli account che violano questi termini o mettono a rischio altre persone."]],
       ["Modifiche e legge applicabile", [`Possiamo aggiornare questi termini; la data qui sopra indica l'ultima versione. Si applica la legge italiana, senza togliere la tutela che le norme inderogabili del tuo Paese ti danno come consumatore. Domande: ${EMAIL}.`]],
     ],
   },

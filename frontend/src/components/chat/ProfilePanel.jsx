@@ -40,7 +40,7 @@ function NotificationsRow() {
   };
 
   const note = {
-    "needs-install": t("On iPhone: tap Share, then Add to Home Screen, and open Repong from there."),
+    "needs-install": t("On iPhone: tap Share, then Add to Home Screen, and open Glotter from there."),
     blocked: t("Blocked for this site. Allow notifications in your browser or phone settings."),
     unsupported: t("This browser cannot show notifications."),
   }[state];

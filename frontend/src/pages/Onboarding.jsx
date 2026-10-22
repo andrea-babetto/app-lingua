@@ -41,7 +41,7 @@ export default function Onboarding() {
     try {
       const { data } = await api.put("/auth/profile", avatar !== (user?.avatar || "") ? { name, avatar, language } : { name, language });
       updateUser(data);
-      toast.success(t("All set! Welcome to Repong"));
+      toast.success(t("All set! Welcome to Glotter"));
       nav("/");
     } catch (err) {
       toast.error(errText(err.response?.data?.detail));

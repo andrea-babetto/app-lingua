@@ -32,7 +32,7 @@ export default function PushPrompt() {
         <div className="text-[15px] font-bold">{t("Notifications")}</div>
         <div className="text-[13px]">
           {state === "needs-install"
-            ? t("Add Repong to your Home Screen (Share → Add to Home Screen) to get notified.")
+            ? t("Add Glotter to your Home Screen (Share → Add to Home Screen) to get notified.")
             : t("Get a notification when someone writes to you.")}
         </div>
       </div>
