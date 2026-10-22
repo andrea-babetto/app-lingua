@@ -1,41 +1,32 @@
-// The brand: the lowercase wordmark "repong" followed by two swap arrows (the message that goes,
-// the reply that comes back). Colours follow docs/brand/design_handoff_repong.
+// The brand: the Glotter logo (the file from the design handoff, used as it is), the app icon and the small mark.
+// The light and dark logos are both in the page; Tailwind's dark variant shows the right one.
+import logoLight from "@/assets/brand/glotter-logo.svg";
+import logoDark from "@/assets/brand/glotter-logo-su-scuro.svg";
+import appIcon from "@/assets/brand/icon-app.svg";
 
-// The two arrows. tone: "brand" (terracotta + sand; terracotta-light on dark), "onBrand" (white + light sand,
-// for a terracotta background) or "mono" (both in the text colour). animate: the arrows swap places.
-export function LogoArrows({ className = "w-5 h-5", tone = "brand", animate = false, strokeWidth = 4.6 }) {
-  const top = tone === "onBrand" ? "#ffffff" : tone === "mono" ? "currentColor" : "var(--rp-arrow-top, #c2410c)";
-  const bottom = tone === "onBrand" ? "#fde3a7" : tone === "mono" ? "currentColor" : "#f2b544";
-  return (
-    <svg viewBox="3.5 4.5 33 32" className={`rp-arrows ${animate ? "rp-swap" : ""} ${className}`} aria-hidden="true">
-      <path className="rp-top" d="M6 14 H33 M26 7 L33 14 L26 21" fill="none" stroke={top}
-        strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-      <path className="rp-bottom" d="M34 27 H7 M14 20 L7 27 L14 34" fill="none" stroke={bottom}
-        strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-// The app icon: a terracotta rounded square with the arrows (used where only a small symbol fits).
+// The app icon, for the big empty-state picture.
 export function LogoMark({ className = "w-9 h-9" }) {
+  return <img src={appIcon} alt="" aria-hidden="true" className={className} />;
+}
+
+// The mark: a ring with a tail and a dot (it means "a message that has been translated").
+// It takes the text colour for the ring and the tail; the dot pulses while a message is being translated.
+export function LogoArrows({ className = "w-4 h-4", animate = false }) {
   return (
-    <svg viewBox="0 0 1024 1024" className={className} aria-hidden="true">
-      <rect width="1024" height="1024" rx="228" fill="#c2410c" />
-      <g transform="translate(512 512) scale(15.5) translate(-20 -20.5)" fill="none" strokeWidth="4.6"
-        strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 14 H33 M26 7 L33 14 L26 21" stroke="#ffffff" />
-        <path d="M34 27 H7 M14 20 L7 27 L14 34" stroke="#fde3a7" />
-      </g>
+    <svg viewBox="0 0 24 24" className={`text-primary dark:text-primary shrink-0 ${className}`} aria-hidden="true">
+      <circle cx="12" cy="11.2" r="9" fill="none" stroke="currentColor" strokeWidth="3.8" />
+      <path d="M4.4 15.8 L2.4 22.4 L9.4 19.6 Z" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
+      <circle className={`fill-[#ffcc1e] dark:fill-white ${animate ? "gl-pulse" : ""}`} cx="12" cy="11.2" r="2.6" />
     </svg>
   );
 }
 
-export default function Logo({ className = "text-2xl", tone = "brand" }) {
+// height: the logo's height in pixels (the design's sizes: 29 in the header, 44 on the sign-in page).
+export default function Logo({ height = 29, className = "" }) {
   return (
-    <span dir="ltr" className={`inline-flex items-center font-bold leading-none select-none ${className}`}
-      style={{ letterSpacing: "-0.03em" }} aria-label="Repong">
-      <span data-testid="logo-wordmark">repong</span>
-      <LogoArrows tone={tone} className="h-[0.5em] w-[0.52em] ms-[0.07em] shrink-0" strokeWidth={4.6} />
+    <span className={`inline-flex items-center select-none ${className}`}>
+      <img src={logoLight} alt="Glotter" data-testid="logo-wordmark" style={{ height }} className="w-auto block dark:hidden" />
+      <img src={logoDark} alt="Glotter" style={{ height }} className="w-auto hidden dark:block" />
     </span>
   );
 }

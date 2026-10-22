@@ -142,18 +142,16 @@
   background-size: 18px 18px;
 }
 
-/* the two arrows of the logo swap places while a message is being translated */
-@keyframes rp-swap-top { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(13px); } }
-@keyframes rp-swap-bottom { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-13px); } }
-.rp-swap .rp-top { animation: rp-swap-top 1.6s ease-in-out infinite; }
-.rp-swap .rp-bottom { animation: rp-swap-bottom 1.6s ease-in-out infinite; }
+/* the dot of the translation mark pulses while a message is being translated */
+@keyframes gl-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+.gl-pulse { animation: gl-pulse 1s ease-in-out infinite; }
 
 /* new messages slide up and fade in */
 @keyframes rp-msg-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
 .rp-msg-in { animation: rp-msg-in 250ms ease-out; }
 
 @media (prefers-reduced-motion: reduce) {
-  .rp-swap .rp-top, .rp-swap .rp-bottom, .rp-msg-in, .typing-dot, .animate-slide-in { animation: none; }
+  .gl-pulse, .rp-msg-in, .typing-dot, .animate-slide-in { animation: none; }
 }
 
 

@@ -127,7 +127,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
           <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={() => setShowOriginal((s) => !s)}
             className={`mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold transition hover:opacity-85 ${showOriginal
               ? "bg-foreground text-background" : "bg-label text-label-foreground"}`}>
-            <LogoArrows tone="mono" className="w-3 h-3" strokeWidth={5.5} />
+            <LogoArrows className="w-3 h-3" />
             {showOriginal
               ? `${t("Original in {language}", { language: langName(msg.translated_from) })} · ${t("Show translation")}`
               : t("Translated from {language}", { language: langName(msg.translated_from) })}
@@ -135,14 +135,14 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
         )}
         {sendingTranslation && (
           <div data-testid="sending-translation" className="mt-1 inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-muted-foreground">
-            <LogoArrows animate className="w-3.5 h-3.5" strokeWidth={5} />
+            <LogoArrows animate className="w-3.5 h-3.5" />
             {t("Translating for {name}…", { name: (other.name || "").split(" ")[0] })}
           </div>
         )}
         {theirText && (
           <button data-testid={`their-view-toggle-${msg.id}`} onClick={() => setShowTheirs((v) => !v)}
             className="mt-1 inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-muted-foreground hover:text-foreground transition">
-            <LogoArrows className="w-3.5 h-3.5" strokeWidth={5} />
+            <LogoArrows className="w-3.5 h-3.5" />
             {t("{name} reads it in {language}", { name: (other.name || "").split(" ")[0], language: langName(theirLang) })}
           </button>
         )}

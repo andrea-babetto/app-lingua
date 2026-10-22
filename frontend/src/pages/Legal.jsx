@@ -141,7 +141,7 @@ export default function Legal({ kind }) {
     <div className="min-h-dvh bg-background">
       <header className="h-14 px-4 flex items-center gap-3 bg-primary text-primary-foreground">
         <Link to="/" aria-label={t("Back")} className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/15"><ArrowLeft className="w-6 h-6 rtl:rotate-180" /></Link>
-        <Logo className="text-[26px]" />
+        <Logo height={29} />
       </header>
       <main className="max-w-2xl mx-auto px-5 py-8" data-testid={`legal-${kind}`}>
         <h1 className="text-3xl font-extrabold tracking-tight">{doc.title}</h1>

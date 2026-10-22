@@ -1,5 +1,5 @@
-"""Render the app icons from the Repong brand files (docs/brand/design_handoff_repong/assets).
-usage: make_icons.py  -> writes frontend/public/{icon-192,icon-512,icon-maskable-512,apple-touch-icon}.png and favicon.svg
+"""Render the app icons from the Glotter brand files (docs/brand/design_handoff_glotter/assets).
+usage: make_icons.py  -> writes frontend/public/{icon-192,icon-512,icon-1024,icon-maskable-512,apple-touch-icon}.png and favicon.svg
 """
 import base64
 import os
@@ -9,7 +9,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[2]  # the repository
-ASSETS = ROOT / "docs/brand/design_handoff_repong/assets"
+ASSETS = ROOT / "docs/brand/design_handoff_glotter/assets"
 PUBLIC = ROOT / "frontend/public"
 CHROMIUM = os.environ.get("CHROMIUM", "/opt/pw-browsers/chromium-1194/chrome-linux/chrome")
 
@@ -20,7 +20,7 @@ def clean(name):
     return re.sub(r"<metadata>.*?</metadata>", "", re.sub(r' xmlns:c2pa="[^"]*"', "", svg), flags=re.S)
 
 
-JOBS = [("icon-app.svg", "icon-192.png", 192), ("icon-app.svg", "icon-512.png", 512),
+JOBS = [("icon-app.svg", "icon-192.png", 192), ("icon-app.svg", "icon-512.png", 512), ("icon-app.svg", "icon-1024.png", 1024),
         ("icon-maskable.svg", "icon-maskable-512.png", 512), ("icon-maskable.svg", "apple-touch-icon.png", 180)]
 
 if __name__ == "__main__":

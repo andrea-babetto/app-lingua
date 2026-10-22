@@ -81,7 +81,7 @@ export default function Onboarding() {
     <div className="min-h-dvh flex justify-center bg-background">
       <div className="w-full max-w-md flex flex-col px-6 pt-5 pb-6">
         {progress}
-        <Logo className="text-3xl mt-8" />
+        <Logo height={36} className="mt-8" />
         <h1 className="mt-5 text-[26px] font-bold tracking-tight leading-tight">{t("Set up your profile")}</h1>
         <p className="text-[15px] text-muted-foreground mt-2 leading-snug">{t("This is how others will see you. Add a photo if you like, and pick the language you want to read & write in.")}</p>
 

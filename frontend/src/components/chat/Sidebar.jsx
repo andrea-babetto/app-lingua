@@ -117,7 +117,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
   return (
     <div className="h-full flex flex-col bg-card relative">
       <header className="h-16 px-5 flex items-center justify-between shrink-0 bg-card">
-        <Logo className="text-[26px]" />
+        <Logo height={29} />
         <button data-testid="header-profile-button" onClick={() => setTab("profile")} aria-label={t("Profile")}>
           <Avatar className="w-9 h-9">
             <AvatarImage src={user.avatar} />
