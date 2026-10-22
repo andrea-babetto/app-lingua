@@ -81,7 +81,6 @@
  "New password (8+ characters)": "కొత్త పాస్‌వర్డ్ (8+ అక్షరాలు)",
  "No account?": "ఖాతా లేదా?",
  "No chats yet. Tap the button to find someone.": "ఇంకా చాట్‌లు లేవు. ఎవరినైనా కనుగొనడానికి బటన్ నొక్కండి.",
- "No groups yet. Tap the button to create one.": "ఇంకా గ్రూప్‌లు లేవు. ఒకటి సృష్టించడానికి బటన్ నొక్కండి.",
  "No matches": "సరిపోలికలు లేవు",
  "No users found. Try their username or exact email.": "యూజర్లు ఎవరూ దొరకలేదు. వారి యూజర్‌నేమ్ లేదా ఖచ్చితమైన ఈమెయిల్ ప్రయత్నించండి.",
  "Notifications": "నోటిఫికేషన్లు",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "ఇలా చేస్తే ఏ జవాబూ మిస్ అవ్వదు.",
  "Write in {language}": "{language}లో రాయండి",
  "Show original": "అసలును చూపించు",
- "Language and translation": "భాష మరియు అనువాదం"
+ "Language and translation": "భాష మరియు అనువాదం",
+ "No groups, for now.": "ప్రస్తుతం గ్రూపులు లేవు.",
+ "Invite with a link": "లింక్ ద్వారా ఆహ్వానించండి"
 }

@@ -81,7 +81,6 @@
  "New password (8+ characters)": "新しいパスワード（8文字以上）",
  "No account?": "アカウントをお持ちでないですか？",
  "No chats yet. Tap the button to find someone.": "チャットはまだありません。ボタンをタップして相手を探しましょう。",
- "No groups yet. Tap the button to create one.": "グループはまだありません。ボタンをタップして作成しましょう。",
  "No matches": "一致する結果なし",
  "No users found. Try their username or exact email.": "ユーザーが見つかりません。ユーザー名または正確なメールアドレスをお試しください。",
  "Notifications": "通知",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "これで返信を見逃しません。",
  "Write in {language}": "{language}で入力",
  "Show original": "原文を表示",
- "Language and translation": "言語と翻訳"
+ "Language and translation": "言語と翻訳",
+ "No groups, for now.": "まだグループはありません。",
+ "Invite with a link": "リンクで招待"
 }

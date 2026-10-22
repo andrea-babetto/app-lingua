@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nuova password (almeno 8 caratteri)",
  "No account?": "Non hai un account?",
  "No chats yet. Tap the button to find someone.": "Ancora nessuna chat. Tocca il pulsante per trovare qualcuno.",
- "No groups yet. Tap the button to create one.": "Ancora nessun gruppo. Tocca il pulsante per crearne uno.",
  "No matches": "Nessun risultato",
  "No users found. Try their username or exact email.": "Nessun utente trovato. Prova con il nome utente o l'email esatta.",
  "Notifications": "Notifiche",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Così non perdi nessuna risposta.",
  "Write in {language}": "Scrivi in {language}",
  "Show original": "Mostra l'originale",
- "Language and translation": "Lingua e traduzione"
+ "Language and translation": "Lingua e traduzione",
+ "No groups, for now.": "Nessun gruppo, per ora.",
+ "Invite with a link": "Invita con un link"
 }

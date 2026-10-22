@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Yeni şifre (en az 8 karakter)",
  "No account?": "Hesabınız yok mu?",
  "No chats yet. Tap the button to find someone.": "Henüz sohbet yok. Birini bulmak için düğmeye dokunun.",
- "No groups yet. Tap the button to create one.": "Henüz grup yok. Oluşturmak için düğmeye dokunun.",
  "No matches": "Eşleşme yok",
  "No users found. Try their username or exact email.": "Kullanıcı bulunamadı. Kullanıcı adını veya tam e-postasını deneyin.",
  "Notifications": "Bildirimler",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Böylece hiçbir yanıtı kaçırmazsınız.",
  "Write in {language}": "{language} dilinde yaz",
  "Show original": "Orijinali göster",
- "Language and translation": "Dil ve çeviri"
+ "Language and translation": "Dil ve çeviri",
+ "No groups, for now.": "Şimdilik grup yok.",
+ "Invite with a link": "Bağlantıyla davet et"
 }

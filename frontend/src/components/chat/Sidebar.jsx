@@ -205,12 +205,17 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                 <div className="w-[104px] h-[104px] rounded-full bg-surface mx-auto mb-5 flex items-center justify-center">
                   <LogoArrows className="w-12 h-12" />
                 </div>
-                <p className="text-[15px] text-muted-foreground max-w-[16rem] mx-auto leading-snug">
-                  {tab === "groups" ? t("No groups yet. Tap the button to create one.") : t("No chats yet. Tap the button to find someone.")}
+                <p className={`text-muted-foreground max-w-[16rem] mx-auto leading-snug ${tab === "groups" ? "text-[17px] font-semibold text-foreground" : "text-[15px]"}`}>
+                  {tab === "groups" ? t("No groups, for now.") : t("No chats yet. Tap the button to find someone.")}
                 </p>
-                <Button className="mt-5 h-11 rounded-2xl px-6 font-semibold" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}>
+                <Button className="mt-5 h-[52px] w-full max-w-xs rounded-2xl text-base font-semibold" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}>
                   {tab === "groups" ? t("New group") : t("New chat")}
                 </Button>
+                {tab === "groups" && (
+                  <button type="button" data-testid="invite-with-link" onClick={() => onNewChat("person")} className="mt-3 text-sm text-primary font-semibold">
+                    {t("Invite with a link")}
+                  </button>
+                )}
               </div>
             )}
             {tab !== "contacts" && list.map((c) => (

@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Contrasenya nova (8+ caràcters)",
  "No account?": "No tens compte?",
  "No chats yet. Tap the button to find someone.": "Encara no hi ha xats. Toca el botó per trobar algú.",
- "No groups yet. Tap the button to create one.": "Encara no hi ha grups. Toca el botó per crear-ne un.",
  "No matches": "Cap resultat",
  "No users found. Try their username or exact email.": "No s'ha trobat cap usuari. Prova amb el nom d'usuari o el correu exacte.",
  "Notifications": "Notificacions",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Així no perdràs cap resposta.",
  "Write in {language}": "Escriu en {language}",
  "Show original": "Mostra l'original",
- "Language and translation": "Llengua i traducció"
+ "Language and translation": "Llengua i traducció",
+ "No groups, for now.": "De moment no hi ha grups.",
+ "Invite with a link": "Convida amb un enllaç"
 }

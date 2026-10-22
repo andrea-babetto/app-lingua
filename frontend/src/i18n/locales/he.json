@@ -81,7 +81,6 @@
  "New password (8+ characters)": "סיסמה חדשה (8 תווים ומעלה)",
  "No account?": "אין לכם חשבון?",
  "No chats yet. Tap the button to find someone.": "עדיין אין צ'אטים. הקישו על הכפתור כדי למצוא מישהו.",
- "No groups yet. Tap the button to create one.": "עדיין אין קבוצות. הקישו על הכפתור כדי ליצור קבוצה.",
  "No matches": "אין תוצאות",
  "No users found. Try their username or exact email.": "לא נמצאו משתמשים. נסו שם משתמש או אימייל מדויק.",
  "Notifications": "התראות",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "כך לא תפספסו אף תשובה.",
  "Write in {language}": "כתבו ב{language}",
  "Show original": "הצג את המקור",
- "Language and translation": "שפה ותרגום"
+ "Language and translation": "שפה ותרגום",
+ "No groups, for now.": "אין קבוצות לעת עתה.",
+ "Invite with a link": "הזמנה באמצעות קישור"
 }

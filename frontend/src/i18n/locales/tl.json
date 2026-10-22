@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Bagong password (8+ character)",
  "No account?": "Wala pang account?",
  "No chats yet. Tap the button to find someone.": "Wala pang chat. I-tap ang button para maghanap ng kausap.",
- "No groups yet. Tap the button to create one.": "Wala pang grupo. I-tap ang button para gumawa.",
  "No matches": "Walang tugma",
  "No users found. Try their username or exact email.": "Walang nakitang user. Subukan ang username o eksaktong email nila.",
  "Notifications": "Mga notification",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Sa ganito, walang reply na mapapalampas mo.",
  "Write in {language}": "Magsulat sa {language}",
  "Show original": "Ipakita ang orihinal",
- "Language and translation": "Wika at pagsasalin"
+ "Language and translation": "Wika at pagsasalin",
+ "No groups, for now.": "Walang grupo sa ngayon.",
+ "Invite with a link": "Mag-imbita gamit ang link"
 }

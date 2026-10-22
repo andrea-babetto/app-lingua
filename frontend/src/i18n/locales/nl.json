@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nieuw wachtwoord (8+ tekens)",
  "No account?": "Nog geen account?",
  "No chats yet. Tap the button to find someone.": "Nog geen chats. Tik op de knop om iemand te zoeken.",
- "No groups yet. Tap the button to create one.": "Nog geen groepen. Tik op de knop om er een te maken.",
  "No matches": "Geen resultaten",
  "No users found. Try their username or exact email.": "Geen gebruikers gevonden. Probeer hun gebruikersnaam of exact e-mailadres.",
  "Notifications": "Meldingen",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Zo mis je geen antwoord.",
  "Write in {language}": "Schrijf in het {language}",
  "Show original": "Origineel tonen",
- "Language and translation": "Taal en vertaling"
+ "Language and translation": "Taal en vertaling",
+ "No groups, for now.": "Nog geen groepen.",
+ "Invite with a link": "Uitnodigen met een link"
 }

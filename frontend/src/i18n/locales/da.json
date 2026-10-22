@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Ny adgangskode (mindst 8 tegn)",
  "No account?": "Har du ikke en konto?",
  "No chats yet. Tap the button to find someone.": "Ingen chats endnu. Tryk på knappen for at finde nogen.",
- "No groups yet. Tap the button to create one.": "Ingen grupper endnu. Tryk på knappen for at oprette en.",
  "No matches": "Ingen resultater",
  "No users found. Try their username or exact email.": "Ingen brugere fundet. Prøv deres brugernavn eller nøjagtige e-mail.",
  "Notifications": "Notifikationer",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Så går du ikke glip af nogen svar.",
  "Write in {language}": "Skriv på {language}",
  "Show original": "Vis originalen",
- "Language and translation": "Sprog og oversættelse"
+ "Language and translation": "Sprog og oversættelse",
+ "No groups, for now.": "Ingen grupper endnu.",
+ "Invite with a link": "Inviter med et link"
 }

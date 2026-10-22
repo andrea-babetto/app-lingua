@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nytt passord (minst 8 tegn)",
  "No account?": "Har du ikke konto?",
  "No chats yet. Tap the button to find someone.": "Ingen chatter ennå. Trykk på knappen for å finne noen.",
- "No groups yet. Tap the button to create one.": "Ingen grupper ennå. Trykk på knappen for å opprette en.",
  "No matches": "Ingen treff",
  "No users found. Try their username or exact email.": "Fant ingen brukere. Prøv brukernavnet eller nøyaktig e-post.",
  "Notifications": "Varsler",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Da går du ikke glipp av noen svar.",
  "Write in {language}": "Skriv på {language}",
  "Show original": "Vis originalen",
- "Language and translation": "Språk og oversettelse"
+ "Language and translation": "Språk og oversettelse",
+ "No groups, for now.": "Ingen grupper foreløpig.",
+ "Invite with a link": "Inviter med en lenke"
 }

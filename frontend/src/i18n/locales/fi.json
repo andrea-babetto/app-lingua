@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Uusi salasana (väh. 8 merkkiä)",
  "No account?": "Eikö sinulla ole tiliä?",
  "No chats yet. Tap the button to find someone.": "Ei vielä keskusteluja. Etsi joku napauttamalla painiketta.",
- "No groups yet. Tap the button to create one.": "Ei vielä ryhmiä. Luo ryhmä napauttamalla painiketta.",
  "No matches": "Ei osumia",
  "No users found. Try their username or exact email.": "Käyttäjiä ei löytynyt. Kokeile käyttäjänimeä tai tarkkaa sähköpostiosoitetta.",
  "Notifications": "Ilmoitukset",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Näin et jää paitsi yhdestäkään vastauksesta.",
  "Write in {language}": "Kirjoita kielellä {language}",
  "Show original": "Näytä alkuperäinen",
- "Language and translation": "Kieli ja käännös"
+ "Language and translation": "Kieli ja käännös",
+ "No groups, for now.": "Ei ryhmiä toistaiseksi.",
+ "Invite with a link": "Kutsu linkillä"
 }

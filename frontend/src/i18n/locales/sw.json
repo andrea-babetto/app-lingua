@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nenosiri jipya (herufi 8+)",
  "No account?": "Huna akaunti?",
  "No chats yet. Tap the button to find someone.": "Bado hakuna gumzo. Gusa kitufe kumtafuta mtu.",
- "No groups yet. Tap the button to create one.": "Bado hakuna makundi. Gusa kitufe kuunda.",
  "No matches": "Hakuna zinazolingana",
  "No users found. Try their username or exact email.": "Hakuna watumiaji waliopatikana. Jaribu jina la mtumiaji au barua pepe kamili.",
  "Notifications": "Arifa",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Kwa njia hii, hutakosa jibu lolote.",
  "Write in {language}": "Andika kwa {language}",
  "Show original": "Onyesha asili",
- "Language and translation": "Lugha na tafsiri"
+ "Language and translation": "Lugha na tafsiri",
+ "No groups, for now.": "Hakuna vikundi kwa sasa.",
+ "Invite with a link": "Alika kwa kiungo"
 }

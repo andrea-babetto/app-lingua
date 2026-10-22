@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Новый пароль (от 8 символов)",
  "No account?": "Нет аккаунта?",
  "No chats yet. Tap the button to find someone.": "Чатов пока нет. Нажмите кнопку, чтобы найти собеседника.",
- "No groups yet. Tap the button to create one.": "Групп пока нет. Нажмите кнопку, чтобы создать группу.",
  "No matches": "Ничего не найдено",
  "No users found. Try their username or exact email.": "Пользователи не найдены. Попробуйте имя пользователя или точный адрес эл. почты.",
  "Notifications": "Уведомления",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Так вы не пропустите ни одного ответа.",
  "Write in {language}": "Пишите на языке: {language}",
  "Show original": "Показать оригинал",
- "Language and translation": "Язык и перевод"
+ "Language and translation": "Язык и перевод",
+ "No groups, for now.": "Пока нет групп.",
+ "Invite with a link": "Пригласить по ссылке"
 }

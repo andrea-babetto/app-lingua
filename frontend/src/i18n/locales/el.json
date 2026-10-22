@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Νέος κωδικός (8+ χαρακτήρες)",
  "No account?": "Δεν έχετε λογαριασμό;",
  "No chats yet. Tap the button to find someone.": "Δεν υπάρχουν συνομιλίες ακόμη. Πατήστε το κουμπί για να βρείτε κάποιον.",
- "No groups yet. Tap the button to create one.": "Δεν υπάρχουν ομάδες ακόμη. Πατήστε το κουμπί για να δημιουργήσετε μία.",
  "No matches": "Κανένα αποτέλεσμα",
  "No users found. Try their username or exact email.": "Δεν βρέθηκαν χρήστες. Δοκιμάστε το όνομα χρήστη ή το ακριβές email.",
  "Notifications": "Ειδοποιήσεις",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Έτσι δεν θα χάσετε καμία απάντηση.",
  "Write in {language}": "Γράψτε στα {language}",
  "Show original": "Εμφάνιση πρωτοτύπου",
- "Language and translation": "Γλώσσα και μετάφραση"
+ "Language and translation": "Γλώσσα και μετάφραση",
+ "No groups, for now.": "Δεν υπάρχουν ομάδες προς το παρόν.",
+ "Invite with a link": "Πρόσκληση με σύνδεσμο"
 }

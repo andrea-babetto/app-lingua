@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Új jelszó (min. 8 karakter)",
  "No account?": "Nincs fiókod?",
  "No chats yet. Tap the button to find someone.": "Még nincs csevegés. Koppints a gombra, hogy keress valakit.",
- "No groups yet. Tap the button to create one.": "Még nincs csoport. Koppints a gombra, hogy létrehozz egyet.",
  "No matches": "Nincs találat",
  "No users found. Try their username or exact email.": "Nem található felhasználó. Próbáld a felhasználónevét vagy a pontos e-mail-címét.",
  "Notifications": "Értesítések",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Így egyetlen választ sem hagysz ki.",
  "Write in {language}": "Írj {language} nyelven",
  "Show original": "Eredeti megjelenítése",
- "Language and translation": "Nyelv és fordítás"
+ "Language and translation": "Nyelv és fordítás",
+ "No groups, for now.": "Egyelőre nincs csoport.",
+ "Invite with a link": "Meghívás linkkel"
 }

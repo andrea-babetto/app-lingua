@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Нова парола (8+ знака)",
  "No account?": "Нямате акаунт?",
  "No chats yet. Tap the button to find someone.": "Още няма чатове. Натиснете бутона, за да намерите някого.",
- "No groups yet. Tap the button to create one.": "Още няма групи. Натиснете бутона, за да създадете.",
  "No matches": "Няма съвпадения",
  "No users found. Try their username or exact email.": "Няма намерени потребители. Опитайте с потребителско име или точен имейл.",
  "Notifications": "Известия",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Така няма да пропуснете нито един отговор.",
  "Write in {language}": "Пишете на {language}",
  "Show original": "Показване на оригинала",
- "Language and translation": "Език и превод"
+ "Language and translation": "Език и превод",
+ "No groups, for now.": "Засега няма групи.",
+ "Invite with a link": "Покана с връзка"
 }

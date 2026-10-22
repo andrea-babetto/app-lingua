@@ -81,7 +81,6 @@
  "New password (8+ characters)": "নতুন পাসওয়ার্ড (কমপক্ষে ৮ অক্ষর)",
  "No account?": "অ্যাকাউন্ট নেই?",
  "No chats yet. Tap the button to find someone.": "এখনও কোনো চ্যাট নেই। কাউকে খুঁজতে বোতামে ট্যাপ করুন।",
- "No groups yet. Tap the button to create one.": "এখনও কোনো গ্রুপ নেই। তৈরি করতে বোতামে ট্যাপ করুন।",
  "No matches": "কোনো মিল নেই",
  "No users found. Try their username or exact email.": "কোনো ব্যবহারকারী পাওয়া যায়নি। ইউজারনেম বা সঠিক ইমেইল চেষ্টা করুন।",
  "Notifications": "নোটিফিকেশন",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "এভাবে কোনো উত্তর মিস হবে না।",
  "Write in {language}": "{language}-এ লিখুন",
  "Show original": "মূল দেখান",
- "Language and translation": "ভাষা ও অনুবাদ"
+ "Language and translation": "ভাষা ও অনুবাদ",
+ "No groups, for now.": "এখনও কোনো গ্রুপ নেই।",
+ "Invite with a link": "লিংক দিয়ে আমন্ত্রণ জানান"
 }

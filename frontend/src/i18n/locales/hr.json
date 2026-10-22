@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nova lozinka (8+ znakova)",
  "No account?": "Nemate račun?",
  "No chats yet. Tap the button to find someone.": "Još nema chatova. Dodirnite gumb da nekoga pronađete.",
- "No groups yet. Tap the button to create one.": "Još nema grupa. Dodirnite gumb da izradite grupu.",
  "No matches": "Nema rezultata",
  "No users found. Try their username or exact email.": "Nema pronađenih korisnika. Pokušajte s korisničkim imenom ili točnom e-adresom.",
  "Notifications": "Obavijesti",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Tako nećete propustiti nijedan odgovor.",
  "Write in {language}": "Pišite na jeziku: {language}",
  "Show original": "Prikaži izvornik",
- "Language and translation": "Jezik i prijevod"
+ "Language and translation": "Jezik i prijevod",
+ "No groups, for now.": "Za sada nema grupa.",
+ "Invite with a link": "Pozovi poveznicom"
 }

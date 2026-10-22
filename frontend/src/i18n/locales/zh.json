@@ -81,7 +81,6 @@
  "New password (8+ characters)": "新密码（至少 8 个字符）",
  "No account?": "没有账号？",
  "No chats yet. Tap the button to find someone.": "还没有聊天。点击按钮查找联系人。",
- "No groups yet. Tap the button to create one.": "还没有群组。点击按钮创建一个。",
  "No matches": "无匹配结果",
  "No users found. Try their username or exact email.": "未找到用户。试试用户名或完整邮箱。",
  "Notifications": "通知",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "这样就不会错过任何回复。",
  "Write in {language}": "用{language}输入",
  "Show original": "显示原文",
- "Language and translation": "语言和翻译"
+ "Language and translation": "语言和翻译",
+ "No groups, for now.": "暂时还没有群组。",
+ "Invite with a link": "通过链接邀请"
 }

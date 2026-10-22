@@ -81,7 +81,6 @@
  "New password (8+ characters)": "نیا پاس ورڈ (8+ حروف)",
  "No account?": "اکاؤنٹ نہیں ہے؟",
  "No chats yet. Tap the button to find someone.": "ابھی کوئی چیٹ نہیں۔ کسی کو تلاش کرنے کے لیے بٹن دبائیں۔",
- "No groups yet. Tap the button to create one.": "ابھی کوئی گروپ نہیں۔ گروپ بنانے کے لیے بٹن دبائیں۔",
  "No matches": "کوئی نتیجہ نہیں",
  "No users found. Try their username or exact email.": "کوئی صارف نہیں ملا۔ ان کا صارف نام یا درست ای میل آزمائیں۔",
  "Notifications": "اطلاعات",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "اس طرح آپ کوئی جواب نہیں چھوڑیں گے۔",
  "Write in {language}": "{language} میں لکھیں",
  "Show original": "اصل دکھائیں",
- "Language and translation": "زبان اور ترجمہ"
+ "Language and translation": "زبان اور ترجمہ",
+ "No groups, for now.": "فی الحال کوئی گروپ نہیں۔",
+ "Invite with a link": "لنک کے ذریعے دعوت دیں"
 }

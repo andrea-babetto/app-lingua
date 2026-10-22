@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nové heslo (8+ znakov)",
  "No account?": "Nemáte účet?",
  "No chats yet. Tap the button to find someone.": "Zatiaľ žiadne chaty. Klepnite na tlačidlo a nájdite niekoho.",
- "No groups yet. Tap the button to create one.": "Zatiaľ žiadne skupiny. Klepnite na tlačidlo a vytvorte ju.",
  "No matches": "Žiadne výsledky",
  "No users found. Try their username or exact email.": "Nenašli sa žiadni používatelia. Skúste ich používateľské meno alebo presný e-mail.",
  "Notifications": "Upozornenia",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Vďaka tomu nepremeškáte žiadnu odpoveď.",
  "Write in {language}": "Píšte v {language}",
  "Show original": "Zobraziť originál",
- "Language and translation": "Jazyk a preklad"
+ "Language and translation": "Jazyk a preklad",
+ "No groups, for now.": "Zatiaľ žiadne skupiny.",
+ "Invite with a link": "Pozvať odkazom"
 }

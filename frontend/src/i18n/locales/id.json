@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Kata sandi baru (8+ karakter)",
  "No account?": "Belum punya akun?",
  "No chats yet. Tap the button to find someone.": "Belum ada chat. Ketuk tombol untuk mencari seseorang.",
- "No groups yet. Tap the button to create one.": "Belum ada grup. Ketuk tombol untuk membuatnya.",
  "No matches": "Tidak ada yang cocok",
  "No users found. Try their username or exact email.": "Pengguna tidak ditemukan. Coba nama pengguna atau email yang tepat.",
  "Notifications": "Notifikasi",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Dengan begitu, tidak ada balasan yang terlewat.",
  "Write in {language}": "Tulis dalam {language}",
  "Show original": "Tampilkan asli",
- "Language and translation": "Bahasa dan terjemahan"
+ "Language and translation": "Bahasa dan terjemahan",
+ "No groups, for now.": "Belum ada grup.",
+ "Invite with a link": "Undang dengan tautan"
 }

@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Nytt lösenord (minst 8 tecken)",
  "No account?": "Inget konto?",
  "No chats yet. Tap the button to find someone.": "Inga chattar än. Tryck på knappen för att hitta någon.",
- "No groups yet. Tap the button to create one.": "Inga grupper än. Tryck på knappen för att skapa en.",
  "No matches": "Inga träffar",
  "No users found. Try their username or exact email.": "Inga användare hittades. Prova användarnamn eller exakt e-postadress.",
  "Notifications": "Aviseringar",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Så missar du inga svar.",
  "Write in {language}": "Skriv på {language}",
  "Show original": "Visa originalet",
- "Language and translation": "Språk och översättning"
+ "Language and translation": "Språk och översättning",
+ "No groups, for now.": "Inga grupper än.",
+ "Invite with a link": "Bjud in med en länk"
 }

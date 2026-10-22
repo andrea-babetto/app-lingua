@@ -81,7 +81,6 @@
  "New password (8+ characters)": "گذرواژه جدید (حداقل 8 کاراکتر)",
  "No account?": "حساب ندارید؟",
  "No chats yet. Tap the button to find someone.": "هنوز گفتگویی نیست. برای پیدا کردن کسی روی دکمه بزنید.",
- "No groups yet. Tap the button to create one.": "هنوز گروهی نیست. برای ساختن گروه روی دکمه بزنید.",
  "No matches": "موردی پیدا نشد",
  "No users found. Try their username or exact email.": "کاربری پیدا نشد. نام کاربری یا ایمیل دقیق او را امتحان کنید.",
  "Notifications": "اعلان‌ها",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "اینطوری هیچ پاسخی را از دست نمی‌دهید.",
  "Write in {language}": "به {language} بنویسید",
  "Show original": "نمایش اصل",
- "Language and translation": "زبان و ترجمه"
+ "Language and translation": "زبان و ترجمه",
+ "No groups, for now.": "فعلاً گروهی نیست.",
+ "Invite with a link": "دعوت با پیوند"
 }

@@ -81,7 +81,6 @@
  "New password (8+ characters)": "புதிய கடவுச்சொல் (8+ எழுத்துகள்)",
  "No account?": "கணக்கு இல்லையா?",
  "No chats yet. Tap the button to find someone.": "இன்னும் சாட்கள் இல்லை. ஒருவரைத் தேட பொத்தானைத் தட்டவும்.",
- "No groups yet. Tap the button to create one.": "இன்னும் குழுக்கள் இல்லை. ஒன்றை உருவாக்க பொத்தானைத் தட்டவும்.",
  "No matches": "பொருத்தங்கள் இல்லை",
  "No users found. Try their username or exact email.": "பயனர்கள் யாரும் கிடைக்கவில்லை. அவர்களின் பயனர்பெயர் அல்லது சரியான மின்னஞ்சலை முயற்சிக்கவும்.",
  "Notifications": "அறிவிப்புகள்",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "இப்படி எந்த பதிலையும் தவறவிட மாட்டீர்கள்.",
  "Write in {language}": "{language} இல் எழுதுங்கள்",
  "Show original": "மூலத்தைக் காட்டு",
- "Language and translation": "மொழியும் மொழிபெயர்ப்பும்"
+ "Language and translation": "மொழியும் மொழிபெயர்ப்பும்",
+ "No groups, for now.": "இப்போதைக்கு குழுக்கள் இல்லை.",
+ "Invite with a link": "இணைப்பின் மூலம் அழையுங்கள்"
 }

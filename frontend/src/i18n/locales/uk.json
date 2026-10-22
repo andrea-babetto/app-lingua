@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Новий пароль (від 8 символів)",
  "No account?": "Немає облікового запису?",
  "No chats yet. Tap the button to find someone.": "Чатів поки немає. Натисніть кнопку, щоб когось знайти.",
- "No groups yet. Tap the button to create one.": "Груп поки немає. Натисніть кнопку, щоб створити.",
  "No matches": "Нічого не знайдено",
  "No users found. Try their username or exact email.": "Користувачів не знайдено. Спробуйте ім’я користувача або точну адресу пошти.",
  "Notifications": "Сповіщення",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Так ви не пропустите жодної відповіді.",
  "Write in {language}": "Пишіть {language}ою",
  "Show original": "Показати оригінал",
- "Language and translation": "Мова та переклад"
+ "Language and translation": "Мова та переклад",
+ "No groups, for now.": "Поки що немає груп.",
+ "Invite with a link": "Запросити за посиланням"
 }

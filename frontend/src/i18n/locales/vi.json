@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Mật khẩu mới (từ 8 ký tự)",
  "No account?": "Chưa có tài khoản?",
  "No chats yet. Tap the button to find someone.": "Chưa có cuộc trò chuyện nào. Nhấn nút để tìm ai đó.",
- "No groups yet. Tap the button to create one.": "Chưa có nhóm nào. Nhấn nút để tạo nhóm.",
  "No matches": "Không có kết quả",
  "No users found. Try their username or exact email.": "Không tìm thấy người dùng. Hãy thử tên người dùng hoặc email chính xác của họ.",
  "Notifications": "Thông báo",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Như vậy bạn sẽ không bỏ lỡ câu trả lời nào.",
  "Write in {language}": "Viết bằng {language}",
  "Show original": "Hiện bản gốc",
- "Language and translation": "Ngôn ngữ và dịch"
+ "Language and translation": "Ngôn ngữ và dịch",
+ "No groups, for now.": "Chưa có nhóm nào.",
+ "Invite with a link": "Mời bằng liên kết"
 }

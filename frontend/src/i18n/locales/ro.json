@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Parolă nouă (minim 8 caractere)",
  "No account?": "Nu ai cont?",
  "No chats yet. Tap the button to find someone.": "Încă nu ai chaturi. Atinge butonul ca să cauți pe cineva.",
- "No groups yet. Tap the button to create one.": "Încă nu ai grupuri. Atinge butonul ca să creezi unul.",
  "No matches": "Niciun rezultat",
  "No users found. Try their username or exact email.": "Niciun utilizator găsit. Încearcă numele de utilizator sau e-mailul exact.",
  "Notifications": "Notificări",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Așa nu pierzi niciun răspuns.",
  "Write in {language}": "Scrie în {language}",
  "Show original": "Arată originalul",
- "Language and translation": "Limbă și traducere"
+ "Language and translation": "Limbă și traducere",
+ "No groups, for now.": "Deocamdată nu ai grupuri.",
+ "Invite with a link": "Invită cu un link"
 }

@@ -81,7 +81,6 @@
  "New password (8+ characters)": "كلمة مرور جديدة (8 أحرف على الأقل)",
  "No account?": "ليس لديك حساب؟",
  "No chats yet. Tap the button to find someone.": "لا توجد محادثات بعد. اضغط على الزر للعثور على أحد.",
- "No groups yet. Tap the button to create one.": "لا توجد مجموعات بعد. اضغط على الزر لإنشاء مجموعة.",
  "No matches": "لا توجد نتائج",
  "No users found. Try their username or exact email.": "لم يتم العثور على مستخدمين. جرّب اسم المستخدم أو البريد الإلكتروني الكامل.",
  "Notifications": "الإشعارات",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "حتى لا تفوتك أي رد.",
  "Write in {language}": "اكتب بـ{language}",
  "Show original": "أظهر الأصل",
- "Language and translation": "اللغة والترجمة"
+ "Language and translation": "اللغة والترجمة",
+ "No groups, for now.": "لا توجد مجموعات الآن.",
+ "Invite with a link": "ادعُ بالرابط"
 }

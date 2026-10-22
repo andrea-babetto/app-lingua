@@ -81,7 +81,6 @@
  "New password (8+ characters)": "Нова лозинка (8+ знакова)",
  "No account?": "Немате налог?",
  "No chats yet. Tap the button to find someone.": "Још нема ћаскања. Додирните дугме да пронађете некога.",
- "No groups yet. Tap the button to create one.": "Још нема група. Додирните дугме да направите једну.",
  "No matches": "Нема резултата",
  "No users found. Try their username or exact email.": "Нема пронађених корисника. Пробајте корисничко име или тачну имејл адресу.",
  "Notifications": "Обавештења",
@@ -190,5 +189,7 @@
  "So you don't miss any reply.": "Тако нећете пропустити ниједан одговор.",
  "Write in {language}": "Пишите на {language}",
  "Show original": "Прикажи оригинал",
- "Language and translation": "Језик и превод"
+ "Language and translation": "Језик и превод",
+ "No groups, for now.": "За сада нема група.",
+ "Invite with a link": "Позови linkom"
 }
