@@ -19,6 +19,7 @@ export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [googleClientId, setGoogleClientId] = useState("");
   const [inviteRequired, setInviteRequired] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
   const { auth } = useAuth();
   const nav = useNavigate();
 
@@ -97,7 +98,12 @@ export default function Login() {
                   {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </span></label>
-            {mode === "register" && inviteRequired && (
+            {mode === "register" && !inviteRequired && !showInvite && (
+              <button type="button" data-testid="show-invite-button" onClick={() => setShowInvite(true)} className="text-sm text-primary font-semibold">
+                {t("Have an invite code?")}
+              </button>
+            )}
+            {mode === "register" && (inviteRequired || showInvite) && (
               <label className="block"><span className={label}>{t("Invite code")}</span>
                 <Input data-testid="invite-input" className={field} value={form.invite_code} required autoComplete="off" onChange={set("invite_code")} /></label>
             )}
