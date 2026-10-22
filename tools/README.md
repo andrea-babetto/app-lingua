@@ -21,7 +21,7 @@ Script usati per controllare l'app in un browser simulato da telefono, **senza**
 `python tools/extract_i18n.py` rilegge tutte le frasi `t("...")` del sito e scrive `frontend/src/i18n/source.json`; con `--check` dice quali lingue (`frontend/src/i18n/locales/*.json`) non hanno ancora una frase.
 
 ## Icone
-`python tools/e2e/make_icons.py` riscrive `frontend/public/icon-*.png`, `icon-maskable-512.png`, `apple-touch-icon.png` e `favicon.svg` a partire dai file del marchio Repong in `docs/brand/design_handoff_repong/assets`.
+`python tools/e2e/make_icons.py` riscrive `frontend/public/icon-*.png`, `icon-maskable-512.png`, `apple-touch-icon.png` e `favicon.svg` a partire dai file del marchio Glotter in `docs/brand/design_handoff_glotter/assets`.
 
 ## Cosa NON si può provare qui
 Safari su iPhone vero (tastiera, installazione sulla Home, notifiche reali): va provato sul telefono dopo la pubblicazione.
