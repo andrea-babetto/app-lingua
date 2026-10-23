@@ -130,3 +130,11 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Icona dell'app (scelta da Andrea il 23/10/2026): quadro avorio, fumetto antracite, pallino verde (`tools/brand_recolor.py` poi `tools/e2e/make_icons.py`).
 - Pagina d'ingresso in tre schermate: benvenuto (prima volta: logo, slogan, descrizione, animazione di esempio, "Crea il tuo account", Google se non serve il codice d'invito, "Ho già un account"), crea account (con "Indietro") e accedi ("Bentornato"). Il telefono ricorda di aver già avuto un account (`glott_seen` nel browser) e apre direttamente il modulo di accesso. Descrizione dell'app (meta e manifest) allineata allo slogan.
 - Sfondo delle conversazioni in stile WhatsApp: texture fitta e leggera di piccole icone a linee Lucide (chat, lingue, viaggio, monumenti, cibo, musica; `tools/make_chat_pattern.py` le legge da `node_modules`, posizioni casuali ma fisse). Barra delle chat più larga su computer (22, 26 e 28 rem). Pagine Termini e Privacy: testata chiara con logo a contrasto e freccia che torna alla schermata di partenza (Profilo › Privacy, registrazione con nome e email già scritti, mai la password). Aiuto e feedback è una pagina con l'email scritta, "Scrivici" e "Copia" (compare solo se c'è `VITE_LEGAL_EMAIL`).
+
+## Pagamenti: decisioni del 23/10/2026 (ipotesi, da verificare prima di costruire)
+- Modello: **gratis con limite di messaggi tradotti al mese, poi abbonamento**; prima un piano personale, poi (fase 2) un piano per team.
+- Prezzo personale pensato: **2-4 € al mese**; vendita **in tutto il mondo** (India, USA...); partenza prevista tra **3-6 mesi**, dopo la beta con utenti veri.
+- Incasso: Andrea ha già una partita IVA / società attiva.
+- Costo reale della traduzione (stima): ~0,56 $ ogni 1.000 messaggi tradotti; 300 messaggi gratis ≈ 0,17 $ al mese per utente gratuito.
+- Da decidere con commercialista e legale: IVA/GST/sales tax nei vari paesi (valutare un "merchant of record" come Paddle o Lemon Squeezy, che incassa e gestisce le imposte), diritto di recesso, termini di servizio con prezzi e rinnovo.
+- Da verificare: commissioni fisse sui prezzi molto bassi (pesano molto sotto i 4 €), pagamenti ricorrenti con carta in India (regole RBI), metodi di pagamento locali (UPI).
