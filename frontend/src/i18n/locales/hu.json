@@ -191,5 +191,13 @@
  "Show original": "Eredeti megjelenítése",
  "Language and translation": "Nyelv és fordítás",
  "No groups, for now.": "Egyelőre nincs csoport.",
- "Invite with a link": "Meghívás linkkel"
+ "Invite with a link": "Meghívás linkkel",
+ "All": "Mind",
+ "Unread": "Olvasatlan",
+ "Filter chats": "Csevegések szűrése",
+ "No unread chats.": "Nincs olvasatlan csevegés.",
+ "Media": "Média",
+ "Files": "Fájlok",
+ "Links": "Linkek",
+ "Nothing here yet.": "Itt még nincs semmi."
 }

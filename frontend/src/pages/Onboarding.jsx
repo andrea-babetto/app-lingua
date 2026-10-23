@@ -6,6 +6,7 @@ import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { avatarClass } from "@/lib/avatar";
 import LanguagePicker from "@/components/LanguagePicker";
 import Logo from "@/components/Logo";
 import { useI18n } from "@/i18n";
@@ -91,7 +92,7 @@ export default function Onboarding() {
               <img src={avatar} alt="avatar" className="w-full h-full object-cover" />
             </button>
           ) : (
-            <div className="w-16 h-16 rounded-full bg-label text-label-foreground flex items-center justify-center text-lg font-bold">
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center text-lg font-bold ${avatarClass(name)}`}>
               {(name || "?").trim().slice(0, 2).toUpperCase()}
             </div>
           )}

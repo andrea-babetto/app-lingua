@@ -191,5 +191,13 @@
  "Show original": "Показать оригинал",
  "Language and translation": "Язык и перевод",
  "No groups, for now.": "Пока нет групп.",
- "Invite with a link": "Пригласить по ссылке"
+ "Invite with a link": "Пригласить по ссылке",
+ "All": "Все",
+ "Unread": "Непрочитанные",
+ "Filter chats": "Фильтр чатов",
+ "No unread chats.": "Нет непрочитанных чатов.",
+ "Media": "Медиа",
+ "Files": "Файлы",
+ "Links": "Ссылки",
+ "Nothing here yet.": "Здесь пока ничего нет."
 }

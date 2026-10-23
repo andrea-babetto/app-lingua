@@ -191,5 +191,13 @@
  "Show original": "Afficher l'original",
  "Language and translation": "Langue et traduction",
  "No groups, for now.": "Aucun groupe pour l'instant.",
- "Invite with a link": "Inviter avec un lien"
+ "Invite with a link": "Inviter avec un lien",
+ "All": "Toutes",
+ "Unread": "Non lues",
+ "Filter chats": "Filtrer les discussions",
+ "No unread chats.": "Aucune discussion non lue.",
+ "Media": "Médias",
+ "Files": "Fichiers",
+ "Links": "Liens",
+ "Nothing here yet.": "Rien ici pour l'instant."
 }

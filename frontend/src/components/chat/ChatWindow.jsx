@@ -9,6 +9,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import MessageBubble from "@/components/chat/MessageBubble";
+import { avatarClass } from "@/lib/avatar";
 import MessageActions from "@/components/chat/MessageActions";
 import { useI18n } from "@/i18n";
 
@@ -42,7 +43,7 @@ function MessageSkeleton() {
   );
 }
 
-export default function ChatWindow({ chat, messages, loading, onSend, onEdit, onReact, onBack, typingUser, onToggleInfo, bottomRef }) {
+export default function ChatWindow({ chat, messages, loading, onSend, onEdit, onReact, onBack, typingUser, onToggleInfo, bottomRef, openSearchSignal = 0 }) {
   const { user } = useAuth();
   const { t, lang, langName } = useI18n();
   const [text, setText] = useState(() => readDraft(chat.id));
@@ -53,6 +54,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const toggleOriginal = (id) => setOriginals((o) => ({ ...o, [id]: !o[id] }));
   const [uploading, setUploading] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  useEffect(() => { if (openSearchSignal > 0) setSearchOpen(true); }, [openSearchSignal]);
   const [sq, setSq] = useState("");
   const [sres, setSres] = useState([]);
   const [atBottom, setAtBottom] = useState(true);
@@ -170,7 +172,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         <button className="flex items-center gap-3 flex-1 min-w-0 text-start h-full md:ps-2" onClick={onToggleInfo}>
           <Avatar className={`w-10 h-10 ${isGroup ? "rounded-xl" : ""}`}>
             <AvatarImage src={chat.display_avatar} />
-            <AvatarFallback className={`bg-label text-label-foreground font-semibold ${isGroup ? "rounded-xl" : ""}`}>{chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${isGroup ? "rounded-xl" : ""}`}>{chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <div className="text-[17px] font-semibold truncate leading-tight">{chat.display_name}</div>

@@ -1,4 +1,4 @@
-"""Render the app icons from the Glotter brand files (docs/brand/design_handoff_glotter/assets).
+"""Render the app icons from the Glotter brand files (docs/brand/glotter_v2/assets, made by tools/brand_recolor.py).
 usage: make_icons.py  -> writes frontend/public/{icon-192,icon-512,icon-1024,icon-maskable-512,apple-touch-icon}.png and favicon.svg
 """
 import base64
@@ -9,7 +9,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[2]  # the repository
-ASSETS = ROOT / "docs/brand/design_handoff_glotter/assets"
+ASSETS = ROOT / "docs/brand/glotter_v2/assets"
 PUBLIC = ROOT / "frontend/public"
 CHROMIUM = os.environ.get("CHROMIUM", "/opt/pw-browsers/chromium-1194/chrome-linux/chrome")
 

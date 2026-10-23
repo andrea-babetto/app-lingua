@@ -35,6 +35,7 @@ export default function Chat() {
   const [newChatOpen, setNewChatOpen] = useState(false);
   const [newChatTab, setNewChatTab] = useState("person");
   const [infoOpen, setInfoOpen] = useState(false);
+  const [searchSignal, setSearchSignal] = useState(0); // the contact card asks the open chat to start a search
   const [mobileView, setMobileView] = useState("list"); // list | chat
   const wsRef = useRef(null);
   const bottomRef = useRef(null);
@@ -262,7 +263,7 @@ export default function Chat() {
       <div className={`${mobileView === "chat" ? "flex animate-slide-in" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping}>
         {active ? (
           <ChatWindow key={active.id} chat={active} messages={messages} loading={messagesLoading} onSend={send} onEdit={edit} onReact={react}
-            onBack={closeActive} typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
+            onBack={closeActive} openSearchSignal={searchSignal} typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">
             <LogoMark className="w-20 h-20 rounded-[22%] mb-5 shadow-lg" />
@@ -273,7 +274,7 @@ export default function Chat() {
       </div>
 
       {infoOpen && active && (
-        <InfoPanel chat={active} onClose={() => setInfoOpen(false)} onChanged={async () => {
+        <InfoPanel chat={active} messages={messages} onSearch={() => { setInfoOpen(false); setSearchSignal((n) => n + 1); }} onClose={() => setInfoOpen(false)} onChanged={async () => {
           const fresh = await loadChats();
           const f = fresh.find((x) => x.id === active.id);
           if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins }));

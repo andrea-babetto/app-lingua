@@ -191,5 +191,13 @@
  "Show original": "显示原文",
  "Language and translation": "语言和翻译",
  "No groups, for now.": "暂时还没有群组。",
- "Invite with a link": "通过链接邀请"
+ "Invite with a link": "通过链接邀请",
+ "All": "全部",
+ "Unread": "未读",
+ "Filter chats": "筛选聊天",
+ "No unread chats.": "没有未读聊天。",
+ "Media": "媒体",
+ "Files": "文件",
+ "Links": "链接",
+ "Nothing here yet.": "这里还没有内容。"
 }

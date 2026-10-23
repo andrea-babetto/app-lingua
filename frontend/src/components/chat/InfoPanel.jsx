@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check, Trash2 } from "lucide-react";
-import { api, errText } from "@/lib/api";
+import { api, API, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -9,9 +9,73 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { avatarClass } from "@/lib/avatar";
 import { useI18n } from "@/i18n";
 
-export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked, onDelete }) {
+// Round action button with its label underneath (search, block, report).
+function ActionButton({ icon: Icon, label, onClick, testId, danger }) {
+  return (
+    <button data-testid={testId} onClick={onClick} className="flex flex-col items-center gap-1.5 w-20 text-center group">
+      <span className={`w-12 h-12 rounded-full flex items-center justify-center bg-surface group-hover:bg-muted transition-colors ${danger ? "text-destructive" : "text-foreground"}`}>
+        <Icon className="w-5 h-5" />
+      </span>
+      <span className={`text-[11px] leading-tight font-medium ${danger ? "text-destructive" : "text-muted-foreground"}`}>{label}</span>
+    </button>
+  );
+}
+
+const URL_RE = /https?:\/\/[^\s<>"']+/g;
+
+// Photos, files and links found in the messages already loaded in this chat.
+function SharedTabs({ messages }) {
+  const { t } = useI18n();
+  const [tab, setTab] = useState("media");
+  const live = (messages || []).filter((m) => !m.deleted_for_all);
+  const media = live.filter((m) => m.attachment?.is_image);
+  const files = live.filter((m) => m.attachment && !m.attachment.is_image && !m.attachment.is_voice);
+  const links = [...new Set(live.flatMap((m) => (m.original_text || "").match(URL_RE) || []))];
+  const tabs = [["media", t("Media"), media.length], ["files", t("Files"), files.length], ["links", t("Links"), links.length]];
+  const empty = <p className="text-sm text-muted-foreground text-center py-6">{t("Nothing here yet.")}</p>;
+  return (
+    <div data-testid="shared-tabs">
+      <div className="flex gap-1 p-1 rounded-full bg-surface" role="tablist">
+        {tabs.map(([id, label, n]) => (
+          <button key={id} role="tab" aria-selected={tab === id} data-testid={`shared-tab-${id}`} onClick={() => setTab(id)}
+            className={`flex-1 h-8 rounded-full text-[13px] font-semibold transition-colors ${tab === id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}>
+            {label}{n > 0 && <span className="ms-1 text-[11px] opacity-70">{n}</span>}
+          </button>
+        ))}
+      </div>
+      <div className="mt-3">
+        {tab === "media" && (media.length ? (
+          <div className="grid grid-cols-3 gap-1">
+            {media.map((m) => (
+              <a key={m.id} href={`${API}/files/${m.attachment.id}`} target="_blank" rel="noreferrer" className="aspect-square overflow-hidden rounded-lg bg-surface">
+                <img src={`${API}/files/${m.attachment.id}`} alt={m.attachment.filename} loading="lazy" className="w-full h-full object-cover" />
+              </a>
+            ))}
+          </div>
+        ) : empty)}
+        {tab === "files" && (files.length ? (
+          <ul className="space-y-1">
+            {files.map((m) => (
+              <li key={m.id}><a href={`${API}/files/${m.attachment.id}`} target="_blank" rel="noreferrer" className="block px-3 py-2 rounded-lg bg-surface text-sm truncate hover:bg-muted">📎 {m.attachment.filename}</a></li>
+            ))}
+          </ul>
+        ) : empty)}
+        {tab === "links" && (links.length ? (
+          <ul className="space-y-1">
+            {links.map((u) => (
+              <li key={u}><a href={u} target="_blank" rel="noreferrer noopener" className="block px-3 py-2 rounded-lg bg-surface text-sm truncate text-primary hover:bg-muted" dir="ltr">{u}</a></li>
+            ))}
+          </ul>
+        ) : empty)}
+      </div>
+    </div>
+  );
+}
+
+export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, onBlocked, onDelete, onSearch }) {
   const { user, reload } = useAuth();
   const { t, langName } = useI18n();
   const isGroup = chat.type === "group";
@@ -102,7 +166,7 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked,
       <div className="flex-1 overflow-y-auto chat-scroll p-5 space-y-6">
         <div className="flex flex-col items-center text-center gap-2">
           <div className="relative">
-            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className="text-2xl">{chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className={`text-2xl ${avatarClass(chat.display_name)}`}>{chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
             {isGroup && editing && (
               <label className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer" data-testid="group-avatar-upload">
                 <Camera className="w-4 h-4" />
@@ -177,16 +241,16 @@ export default function InfoPanel({ chat, onClose, onChanged, onLeft, onBlocked,
         )}
 
         {!isGroup && other && (
-          <div className="space-y-2">
-            <Button variant="outline" className="w-full justify-start text-destructive" onClick={block} data-testid="block-user-button">
-              <Ban className="w-4 h-4 me-2" /> {blocked ? t("Unblock user") : t("Block user")}
-            </Button>
-            <Button variant="outline" className="w-full justify-start text-destructive" onClick={() => setReportOpen(true)} data-testid="report-user-button">
-              <Flag className="w-4 h-4 me-2" /> {t("Report user")}
-            </Button>
-            <Button variant="outline" className="w-full justify-start text-destructive" onClick={() => setDeleteOpen(true)} data-testid="delete-chat-button">
-              <Trash2 className="w-4 h-4 me-2" /> {t("Delete chat")}
-            </Button>
+          <div className="space-y-5">
+            <div className="flex justify-center gap-3">
+              <ActionButton icon={Search} label={t("Search")} onClick={onSearch} testId="info-search-button" />
+              <ActionButton icon={Ban} label={blocked ? t("Unblock user") : t("Block user")} onClick={block} testId="block-user-button" danger />
+              <ActionButton icon={Flag} label={t("Report user")} onClick={() => setReportOpen(true)} testId="report-user-button" danger />
+            </div>
+            <SharedTabs messages={messages} />
+            <button onClick={() => setDeleteOpen(true)} data-testid="delete-chat-button" className="w-full text-center text-sm text-destructive py-2 hover:underline">
+              <Trash2 className="w-4 h-4 inline me-1.5 -mt-0.5" />{t("Delete chat")}
+            </button>
           </div>
         )}
       </div>

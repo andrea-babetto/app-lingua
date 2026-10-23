@@ -191,5 +191,13 @@
  "Show original": "原文を表示",
  "Language and translation": "言語と翻訳",
  "No groups, for now.": "まだグループはありません。",
- "Invite with a link": "リンクで招待"
+ "Invite with a link": "リンクで招待",
+ "All": "すべて",
+ "Unread": "未読",
+ "Filter chats": "チャットを絞り込む",
+ "No unread chats.": "未読のチャットはありません。",
+ "Media": "メディア",
+ "Files": "ファイル",
+ "Links": "リンク",
+ "Nothing here yet.": "まだ何もありません。"
 }

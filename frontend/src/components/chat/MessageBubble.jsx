@@ -8,6 +8,7 @@ import { isRTL } from "@/data/languages";
 import { useI18n } from "@/i18n";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogoArrows } from "@/components/Logo";
+import { avatarClass } from "@/lib/avatar";
 
 function Lightbox({ src, alt, onClose }) {
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
           {last && (
             <Avatar className="w-8 h-8">
               <AvatarImage src={msg.sender_avatar} />
-              <AvatarFallback className="text-[11px] bg-label text-label-foreground font-semibold">{(msg.sender_name || "?").slice(0, 2).toUpperCase()}</AvatarFallback>
+              <AvatarFallback className={`text-[11px] font-semibold ${avatarClass(msg.sender_name)}`}>{(msg.sender_name || "?").slice(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
           )}
         </div>
@@ -126,7 +127,6 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
           <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={onToggleOriginal}
             className={`mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold transition hover:opacity-85 ${showOriginal
               ? "bg-foreground text-background" : "bg-label text-label-foreground"}`}>
-            <LogoArrows className="w-3 h-3" />
             {showOriginal
               ? `${t("Original in {language}", { language: langName(msg.translated_from) })} · ${t("Show translation")}`
               : t("Translated from {language}", { language: langName(msg.translated_from) })}

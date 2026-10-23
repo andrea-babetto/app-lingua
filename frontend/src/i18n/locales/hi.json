@@ -191,5 +191,13 @@
  "Show original": "मूल दिखाएँ",
  "Language and translation": "भाषा और अनुवाद",
  "No groups, for now.": "अभी कोई ग्रुप नहीं है।",
- "Invite with a link": "लिंक से आमंत्रित करें"
+ "Invite with a link": "लिंक से आमंत्रित करें",
+ "All": "सभी",
+ "Unread": "अपठित",
+ "Filter chats": "चैट फ़िल्टर",
+ "No unread chats.": "कोई अपठित चैट नहीं।",
+ "Media": "मीडिया",
+ "Files": "फ़ाइलें",
+ "Links": "लिंक",
+ "Nothing here yet.": "यहाँ अभी कुछ नहीं है।"
 }

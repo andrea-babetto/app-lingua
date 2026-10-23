@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { avatarClass } from "@/lib/avatar";
 import LanguagePicker from "@/components/LanguagePicker";
 import { useI18n } from "@/i18n";
 
@@ -194,7 +195,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
     <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-panel">
       <div className="bg-card px-4 py-6 flex flex-col items-center gap-1.5">
         <div className="relative">
-          <Avatar className="w-24 h-24"><AvatarImage src={user.avatar} /><AvatarFallback className="text-2xl bg-label text-label-foreground font-bold">{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+          <Avatar className="w-24 h-24"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-2xl font-bold ${avatarClass(user.name)}`}>{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button"
             className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}

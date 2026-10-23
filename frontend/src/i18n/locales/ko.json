@@ -191,5 +191,13 @@
  "Show original": "원문 보기",
  "Language and translation": "언어 및 번역",
  "No groups, for now.": "아직 그룹이 없어요.",
- "Invite with a link": "링크로 초대하기"
+ "Invite with a link": "링크로 초대하기",
+ "All": "전체",
+ "Unread": "읽지 않음",
+ "Filter chats": "채팅 필터",
+ "No unread chats.": "읽지 않은 채팅이 없습니다.",
+ "Media": "미디어",
+ "Files": "파일",
+ "Links": "링크",
+ "Nothing here yet.": "아직 아무것도 없어요."
 }

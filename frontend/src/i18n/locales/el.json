@@ -191,5 +191,13 @@
  "Show original": "Εμφάνιση πρωτοτύπου",
  "Language and translation": "Γλώσσα και μετάφραση",
  "No groups, for now.": "Δεν υπάρχουν ομάδες προς το παρόν.",
- "Invite with a link": "Πρόσκληση με σύνδεσμο"
+ "Invite with a link": "Πρόσκληση με σύνδεσμο",
+ "All": "Όλες",
+ "Unread": "Μη αναγνωσμένες",
+ "Filter chats": "Φίλτρο συνομιλιών",
+ "No unread chats.": "Καμία μη αναγνωσμένη συνομιλία.",
+ "Media": "Πολυμέσα",
+ "Files": "Αρχεία",
+ "Links": "Σύνδεσμοι",
+ "Nothing here yet.": "Δεν υπάρχει τίποτα ακόμα."
 }

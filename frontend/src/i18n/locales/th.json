@@ -191,5 +191,13 @@
  "Show original": "แสดงต้นฉบับ",
  "Language and translation": "ภาษาและการแปล",
  "No groups, for now.": "ยังไม่มีกลุ่มในตอนนี้",
- "Invite with a link": "เชิญด้วยลิงก์"
+ "Invite with a link": "เชิญด้วยลิงก์",
+ "All": "ทั้งหมด",
+ "Unread": "ยังไม่อ่าน",
+ "Filter chats": "กรองแชท",
+ "No unread chats.": "ไม่มีแชทที่ยังไม่อ่าน",
+ "Media": "สื่อ",
+ "Files": "ไฟล์",
+ "Links": "ลิงก์",
+ "Nothing here yet.": "ยังไม่มีอะไรที่นี่"
 }

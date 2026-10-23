@@ -11,6 +11,7 @@ import {
 import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
 import Logo, { LogoArrows } from "@/components/Logo";
+import { avatarClass } from "@/lib/avatar";
 import { useI18n } from "@/i18n";
 
 function initials(name) {
@@ -54,7 +55,7 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
       <div className="relative shrink-0">
         <Avatar className={chat.type === "group" ? "rounded-2xl" : ""} style={{ width: "3.125rem", height: "3.125rem" }}>
           <AvatarImage src={chat.display_avatar} />
-          <AvatarFallback className={`bg-label text-label-foreground font-semibold ${chat.type === "group" ? "rounded-2xl" : ""}`}>{initials(chat.display_name)}</AvatarFallback>
+          <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${chat.type === "group" ? "rounded-2xl" : ""}`}>{initials(chat.display_name)}</AvatarFallback>
         </Avatar>
         {chat.other_user?.online && <span className="absolute bottom-0 end-0 w-3.5 h-3.5 rounded-full bg-online border-2 border-card" />}
       </div>
@@ -105,7 +106,7 @@ function ContactRow({ chat, onSelect }) {
       <div className="relative shrink-0">
         <Avatar style={{ width: "2.75rem", height: "2.75rem" }}>
           <AvatarImage src={chat.display_avatar} />
-          <AvatarFallback className="bg-label text-label-foreground font-semibold">{initials(chat.display_name)}</AvatarFallback>
+          <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)}`}>{initials(chat.display_name)}</AvatarFallback>
         </Avatar>
         {other.online && <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-online border-2 border-card" />}
       </div>
@@ -122,14 +123,17 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
   const { t } = useI18n();
   const [tab, setTab] = useState("chats");
   const [q, setQ] = useState("");
+  const [filter, setFilter] = useState("all"); // "all" | "unread", on the Chats tab
   const [toDelete, setToDelete] = useState(null);
   const online = useOnline();
 
   const direct = chats.filter((c) => c.type !== "group");
   const groups = chats.filter((c) => c.type === "group");
-  const list = (tab === "groups" ? groups : direct).filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
+  // the Chats tab shows every conversation, groups included; the Groups tab only the groups
+  const base = tab === "groups" ? groups : chats;
+  const list = base.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()) && (tab !== "chats" || filter === "all" || (c.unread || 0) > 0));
   const contactsList = direct.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
-  const unread = { chats: direct.reduce((n, c) => n + (c.unread || 0), 0), groups: groups.reduce((n, c) => n + (c.unread || 0), 0) };
+  const unread = { chats: chats.reduce((n, c) => n + (c.unread || 0), 0), groups: groups.reduce((n, c) => n + (c.unread || 0), 0) };
 
   const confirmDelete = async () => {
     const c = toDelete;
@@ -144,7 +148,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
         <button data-testid="header-profile-button" onClick={() => setTab("profile")} aria-label={t("Profile")}>
           <Avatar className="w-9 h-9">
             <AvatarImage src={user.avatar} />
-            <AvatarFallback className="bg-label text-label-foreground text-xs font-bold">{initials(user.name)}</AvatarFallback>
+            <AvatarFallback className={`text-xs font-bold ${avatarClass(user.name)}`}>{initials(user.name)}</AvatarFallback>
           </Avatar>
         </button>
       </header>
@@ -168,6 +172,17 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
           </div>
 
           {tab === "chats" && <PushPrompt />}
+
+          {tab === "chats" && (
+            <div className="px-4 pb-2 flex gap-2 shrink-0" role="tablist" aria-label={t("Filter chats")}>
+              {[["all", t("All")], ["unread", t("Unread")]].map(([id, label]) => (
+                <button key={id} role="tab" aria-selected={filter === id} data-testid={`filter-${id}`} onClick={() => setFilter(id)}
+                  className={`h-8 px-4 rounded-full text-[13px] font-semibold transition-colors ${filter === id ? "bg-primary text-primary-foreground" : "bg-surface text-muted-foreground hover:text-foreground"}`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {tab === "chats" && requests.length > 0 && (
             <div className="px-3 py-2 space-y-2 shrink-0">
@@ -206,7 +221,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                   <LogoArrows className="w-12 h-12" />
                 </div>
                 <p className={`text-muted-foreground max-w-[16rem] mx-auto leading-snug ${tab === "groups" ? "text-[17px] font-semibold text-foreground" : "text-[15px]"}`}>
-                  {tab === "groups" ? t("No groups, for now.") : t("No chats yet. Tap the button to find someone.")}
+                  {tab === "groups" ? t("No groups, for now.") : filter === "unread" && chats.length > 0 ? t("No unread chats.") : t("No chats yet. Tap the button to find someone.")}
                 </p>
                 <Button className="mt-5 h-[52px] w-full max-w-xs rounded-2xl text-base font-semibold" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}>
                   {tab === "groups" ? t("New group") : t("New chat")}

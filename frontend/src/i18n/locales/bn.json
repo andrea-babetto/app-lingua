@@ -191,5 +191,13 @@
  "Show original": "মূল দেখান",
  "Language and translation": "ভাষা ও অনুবাদ",
  "No groups, for now.": "এখনও কোনো গ্রুপ নেই।",
- "Invite with a link": "লিংক দিয়ে আমন্ত্রণ জানান"
+ "Invite with a link": "লিংক দিয়ে আমন্ত্রণ জানান",
+ "All": "সব",
+ "Unread": "না পড়া",
+ "Filter chats": "চ্যাট ফিল্টার",
+ "No unread chats.": "কোনো না-পড়া চ্যাট নেই।",
+ "Media": "মিডিয়া",
+ "Files": "ফাইল",
+ "Links": "লিংক",
+ "Nothing here yet.": "এখানে এখনও কিছু নেই।"
 }

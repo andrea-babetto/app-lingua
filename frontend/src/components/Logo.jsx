@@ -16,7 +16,7 @@ export function LogoArrows({ className = "w-4 h-4", animate = false }) {
     <svg viewBox="0 0 24 24" className={`text-primary dark:text-primary shrink-0 ${className}`} aria-hidden="true">
       <circle cx="12" cy="11.2" r="9" fill="none" stroke="currentColor" strokeWidth="3.8" />
       <path d="M4.4 15.8 L2.4 22.4 L9.4 19.6 Z" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
-      <circle className={`fill-[#ffcc1e] dark:fill-white ${animate ? "gl-pulse" : ""}`} cx="12" cy="11.2" r="2.6" />
+      <circle className={`fill-[#f5c745] dark:fill-white ${animate ? "gl-pulse" : ""}`} cx="12" cy="11.2" r="2.6" />
     </svg>
   );
 }

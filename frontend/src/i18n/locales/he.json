@@ -191,5 +191,13 @@
  "Show original": "הצג את המקור",
  "Language and translation": "שפה ותרגום",
  "No groups, for now.": "אין קבוצות לעת עתה.",
- "Invite with a link": "הזמנה באמצעות קישור"
+ "Invite with a link": "הזמנה באמצעות קישור",
+ "All": "הכול",
+ "Unread": "שלא נקראו",
+ "Filter chats": "סינון צ'אטים",
+ "No unread chats.": "אין צ'אטים שלא נקראו.",
+ "Media": "מדיה",
+ "Files": "קבצים",
+ "Links": "קישורים",
+ "Nothing here yet.": "אין כאן עדיין כלום."
 }

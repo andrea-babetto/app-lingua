@@ -191,5 +191,13 @@
  "Show original": "Näytä alkuperäinen",
  "Language and translation": "Kieli ja käännös",
  "No groups, for now.": "Ei ryhmiä toistaiseksi.",
- "Invite with a link": "Kutsu linkillä"
+ "Invite with a link": "Kutsu linkillä",
+ "All": "Kaikki",
+ "Unread": "Lukemattomat",
+ "Filter chats": "Suodata keskustelut",
+ "No unread chats.": "Ei lukemattomia keskusteluja.",
+ "Media": "Media",
+ "Files": "Tiedostot",
+ "Links": "Linkit",
+ "Nothing here yet.": "Täällä ei ole vielä mitään."
 }

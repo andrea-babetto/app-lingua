@@ -191,5 +191,13 @@
  "Show original": "نمایش اصل",
  "Language and translation": "زبان و ترجمه",
  "No groups, for now.": "فعلاً گروهی نیست.",
- "Invite with a link": "دعوت با پیوند"
+ "Invite with a link": "دعوت با پیوند",
+ "All": "همه",
+ "Unread": "خوانده‌نشده",
+ "Filter chats": "فیلتر گفتگوها",
+ "No unread chats.": "گفتگوی خوانده‌نشده‌ای نیست.",
+ "Media": "رسانه",
+ "Files": "فایل‌ها",
+ "Links": "پیوندها",
+ "Nothing here yet.": "هنوز چیزی اینجا نیست."
 }
