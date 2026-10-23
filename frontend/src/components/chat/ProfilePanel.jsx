@@ -226,40 +226,6 @@ function AccountPage({ onBack }) {
 }
 
 // Languages I read well: messages in them are shown as written, not translated.
-function KnownLanguages() {
-  const { user } = useAuth();
-  const { t, langName } = useI18n();
-  const save = useSave();
-  const [adding, setAdding] = useState(false);
-  const list = user.known_languages || [];
-  const set = (next) => save({ known_languages: next }).catch((e) => toast.error(errText(e.response?.data?.detail)));
-  return (
-    <div data-testid="known-languages">
-      <div className="text-sm font-medium">{t("Languages I know")}</div>
-      <div className="text-xs text-muted-foreground mt-0.5">{t("Messages written in these languages are not translated for you.")}</div>
-      <div className="flex flex-wrap gap-2 mt-3">
-        {list.map((c) => (
-          <span key={c} className="inline-flex items-center gap-1.5 ps-3 pe-1.5 h-8 rounded-full bg-label text-label-foreground text-[13px] font-semibold">
-            {langByCode(c).flag} {langName(c)}
-            <button aria-label={t("Remove {language}", { language: langName(c) })} data-testid={`known-remove-${c}`} onClick={() => set(list.filter((x) => x !== c))}
-              className="w-5 h-5 rounded-full hover:bg-black/10 flex items-center justify-center"><X className="w-3 h-3" /></button>
-          </span>
-        ))}
-        {list.length < 5 && (
-          <button data-testid="known-add" onClick={() => setAdding((v) => !v)} className="h-8 px-3 rounded-full border border-dashed border-border text-[13px] font-semibold text-muted-foreground inline-flex items-center gap-1">
-            <Plus className="w-3.5 h-3.5" /> {t("Add a language")}
-          </button>
-        )}
-      </div>
-      {adding && (
-        <div className="mt-3">
-          <LanguagePicker value="" testId="known" onChange={(c) => { if (c !== user.language && !list.includes(c)) set([...list, c]); setAdding(false); }} />
-        </div>
-      )}
-    </div>
-  );
-}
-
 function LanguagePage({ onBack }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();
@@ -275,7 +241,6 @@ function LanguagePage({ onBack }) {
         </button>
         {langOpen && <LanguagePicker value={user.language} onChange={(c) => { save({ language: c }); setLangOpen(false); }} testId="settings-language" />}
       </Section>
-      <Section><KnownLanguages /></Section>
       <Section>
         <div className="flex items-center justify-between gap-3">
           <div><div className="text-sm font-medium">{t("Show original under translation")}</div><div className="text-xs text-muted-foreground">{t("Reveal source text by default")}</div></div>
@@ -463,7 +428,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
 
       <Group>
         <Row icon={User2} label={t("Account")} testId="profile-row-account" onClick={() => setPage("account")} />
-        <Row icon={Languages} label={t("Language and translation")} hint={[langName(user.language), ...(user.known_languages || []).map(langName)].join(" · ")} testId="profile-row-language" onClick={() => setPage("language")} />
+        <Row icon={Languages} label={t("Language and translation")} hint={langName(user.language)} testId="profile-row-language" onClick={() => setPage("language")} />
         <Row icon={Bell} label={t("Notifications")} testId="profile-row-notifications" onClick={() => setPage("notifications")} />
         <Row icon={Palette} label={t("Appearance")} hint={themeLabel} testId="profile-row-appearance" onClick={() => setPage("appearance")} />
         <Row icon={BookMarked} label={t("Personal glossary")} testId="profile-row-glossary" onClick={() => setPage("glossary")} />

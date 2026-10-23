@@ -760,33 +760,13 @@ def test_group_emoji_is_optional_validated_and_editable_by_admins(client, make_p
     assert client.put(f"/api/chats/{g['id']}/info", json={"emoji": "<script>"}, headers=a.h).status_code == 422
 
 
-def test_bio_and_known_languages_are_validated(client, make_person):
+def test_bio_is_validated(client, make_person):
     a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
     me = client.put("/api/auth/profile", json={"bio": "  Marketing   a Milano \n e dintorni "}, headers=a.h).json()
     assert me["bio"] == "Marketing a Milano e dintorni"
     assert client.put("/api/auth/profile", json={"bio": "x" * 141}, headers=a.h).status_code == 422
     chat = direct(client, a, b)
     assert client.get("/api/chats", headers=b.h).json()[0]["other_user"]["bio"] == "Marketing a Milano e dintorni"  # others see the bio
-    assert client.put("/api/auth/profile", json={"known_languages": ["en", "en", "fr"]}, headers=b.h).json()["known_languages"] == ["en", "fr"]
-    assert client.put("/api/auth/profile", json={"known_languages": ["xx"]}, headers=b.h).status_code == 400
-    assert client.put("/api/auth/profile", json={"known_languages": ["en", "fr", "de", "es", "pt", "ru"]}, headers=b.h).status_code == 422
-    assert "known_languages" not in client.get("/api/chats", headers=a.h).json()[0]["other_user"]  # private to the person
-
-
-def test_known_languages_skip_the_translation(client, make_person):
-    a = make_person("a@x.com", "Anna", "it")
-    b, c = make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
-    client.put("/api/auth/profile", json={"known_languages": ["it"]}, headers=b.h)   # Bob reads Italian well
-    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id]}, headers=a.h).json()
-    FakeProvider.calls.clear()
-    m = client.post("/api/messages", json={"chat_id": g["id"], "text": "ciao a tutti"}, headers=a.h).json()
-    wait_for(client, c, g["id"], m["id"], lambda x: x["status"] == "sent")
-    assert [c_["target"] for c_ in FakeProvider.calls] == ["en"]            # translated once, for Carl only
-    carl = client.get(f"/api/messages/{g['id']}", headers=c.h).json()[0]
-    bob = client.get(f"/api/messages/{g['id']}", headers=b.h).json()[0]
-    assert carl["is_translated"] is True and carl["display_text"] == "[en] ciao a tutti"
-    assert bob["is_translated"] is False and bob["display_text"] == "ciao a tutti"   # Bob sees the original, even though a translation exists
-    assert "translations_by_user" not in bob
 
 
 def test_blocked_users_page_lists_names_and_unblocks(client, make_person):

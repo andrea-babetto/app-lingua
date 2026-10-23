@@ -124,6 +124,5 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Titolo della schermata (icona + nome) in cima a ogni scheda al posto del logo ripetuto; scorrendo da sinistra a destra (da destra a sinistra in arabo/ebraico) si chiude la chat aperta sul telefono.
 - Profilo rifatto: intestazione grande con foto, nome, @username, lingua e frase di presentazione; elenco di righe che aprono sotto-pagine (Account, Lingua e traduzione, Notifiche, Aspetto, Glossario personale, Privacy con Utenti bloccati) più "Invita un amico" (condivisione di `/?invite=username`) e "Aiuto e segnalazioni" (mail a `VITE_LEGAL_EMAIL`, compare solo se la variabile c'è).
 - Frase di presentazione (`bio`, max 140 caratteri, NON tradotta): pubblica, visibile nella scheda contatto e nella ricerca.
-- Lingue che conosco (`known_languages`, max 5, private): per i messaggi scritti in una di quelle lingue il server non traduce e mostra l'originale (marcatore `{"original": True}` in `translations_by_user`).
 - Utenti bloccati: `GET /api/users/blocked/details` (nomi) e sblocco dalla pagina Privacy.
 - Aspetto: Chiaro / Scuro / Come il telefono (`glott_theme` = light | dark | system).

@@ -117,7 +117,7 @@ def public_user(u: dict) -> dict:
     """The user's OWN profile (includes private fields). Never send this to other users."""
     if not u:
         return u
-    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "phone", "settings", "role", "created_at", "online", "last_seen", "blocked", "bio", "known_languages"]}
+    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "phone", "settings", "role", "created_at", "online", "last_seen", "blocked", "bio"]}
 
 
 def public_profile(u: dict) -> dict:
@@ -196,7 +196,6 @@ class ProfileIn(BaseModel):
     phone: Optional[str] = Field(default=None, max_length=32)
     settings: Optional[dict] = None
     bio: Optional[str] = Field(default=None, max_length=140)
-    known_languages: Optional[List[str]] = Field(default=None, max_length=5)  # languages I read well: not translated for me
 
 
 class MessageIn(BaseModel):
@@ -483,11 +482,6 @@ async def update_profile(body: ProfileIn, user=Depends(get_current_user)):
         updates["username"] = username
     if "bio" in raw:
         updates["bio"] = " ".join(raw["bio"].split())  # one line, no stray spaces
-    if "known_languages" in raw:
-        langs = list(dict.fromkeys(raw["known_languages"]))
-        if any(not isinstance(c, str) or c not in LANG_CODES for c in langs):
-            raise HTTPException(status_code=400, detail="Unsupported language")
-        updates["known_languages"] = langs
     if raw.get("settings"):
         for k in ("show_original", "last_seen_enabled"):
             if k in raw["settings"]:
@@ -576,7 +570,7 @@ def message_view(msg, user_lang, uid=None):
     tr = msg.get("translations", {})
     mine = (msg.get("translations_by_user") or {}).get(uid) if uid else None
     entry = mine or tr.get(user_lang)
-    if msg["original_language"] == user_lang or not entry or (mine or {}).get("original"):
+    if msg["original_language"] == user_lang or not entry:
         out["display_text"] = msg["original_text"]
         out["is_translated"] = False
         out["translated_from"] = None
@@ -863,9 +857,7 @@ async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, noti
         jobs = {}  # (lang, glossary) -> [user ids]
         for mid, u in users.items():
             lang = u.get("language")
-            if lang and lang != sender_lang and sender_lang in (u.get("known_languages") or []):
-                by_user[mid] = {"original": True}  # reads this language well: no translation, no cost
-            elif lang and lang != sender_lang:
+            if lang and lang != sender_lang:
                 glossary = "; ".join(f"{g['term']}={g.get('rule', 'keep')}" for g in u.get("glossary", []))
                 jobs.setdefault((lang, glossary), []).append(mid)
         keys = list(jobs)
