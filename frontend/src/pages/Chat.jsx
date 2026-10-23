@@ -259,6 +259,17 @@ export default function Chat() {
     if (dx > 80 && Math.abs(dy) < dx / 2) closeActive();
   };
 
+  // On a computer, Esc goes back to the list without a chat open (like WhatsApp): first closes the info panel, then the chat.
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== "Escape" || e.defaultPrevented || !activeRef.current) return;
+      if (overlayOpen() || document.querySelector('[data-testid="message-search-panel"]')) return;
+      if (infoOpen) setInfoOpen(false); else closeActive();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  });
+
   const togglePin = async (chat) => {
     try {
       await api.post(`/chats/${chat.id}/${chat.pinned ? "unpin" : "pin"}`);

@@ -183,6 +183,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         </button>
         <button data-testid="search-messages-button" aria-label={t("Search")} className={headerBtn} onClick={() => { setSearchOpen((v) => !v); setSq(""); setSres([]); }}><Search className="w-5 h-5" /></button>
         <button data-testid="toggle-info-panel-button" aria-label={t("Chat info")} className={headerBtn} onClick={onToggleInfo}><Info className="w-5 h-5" /></button>
+        <button data-testid="close-chat-button" aria-label={t("Close")} title={t("Close")} className={`${headerBtn} hidden md:flex`} onClick={onBack}><X className="w-5 h-5" /></button>
       </header>
 
       {searchOpen && (
