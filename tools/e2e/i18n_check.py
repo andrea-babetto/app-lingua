@@ -33,6 +33,9 @@ async def main():
         # 1. sign-in page follows the browser language and the language menu
         pg = await page_for(lang="it-IT")
         await pg.goto(URL + "/login")
+        await pg.get_by_test_id("welcome-register").wait_for()  # first visit: the welcome page, not the form
+        check("welcome page in Italian with the example and two ways in", "Crea il tuo account" in await pg.get_by_test_id("welcome-register").inner_text() and await pg.get_by_test_id("login-demo").count() == 1)
+        await pg.get_by_test_id("welcome-login").click()
         await pg.get_by_test_id("submit-auth-button").wait_for()
         check("login page in Italian from the browser language", "Accedi" in await pg.get_by_test_id("submit-auth-button").inner_text())
         await pg.get_by_test_id("ui-language-select").select_option("hi")

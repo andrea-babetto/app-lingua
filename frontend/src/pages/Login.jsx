@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -12,9 +12,15 @@ import GoogleSignIn from "@/components/GoogleSignIn";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
 
+// Remembers that this phone has already had an account, so the sign-in page opens straight on the form.
+const SEEN = "glott_seen";
+const seenBefore = () => { try { return !!localStorage.getItem(SEEN); } catch { return false; } };
+const markSeen = () => { try { localStorage.setItem(SEEN, "1"); } catch { /* storage blocked */ } };
+
 export default function Login() {
   const { t, lang, setUiLang } = useI18n();
-  const [mode, setMode] = useState("login");
+  const [view, setView] = useState(() => (seenBefore() ? "login" : "welcome")); // welcome | login | register
+  const mode = view === "register" ? "register" : "login";
   const [form, setForm] = useState({ name: "", email: "", password: "", invite_code: "" });
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
@@ -32,6 +38,7 @@ export default function Login() {
       const payload = mode === "login" ? { email: form.email, password: form.password } : form;
       const { data } = await api.post(url, payload);
       auth(data);
+      markSeen();
       nav(data.user.language ? "/" : "/onboarding");
     } catch (err) {
       toast.error(errText(err.response?.data?.detail) || t("Failed"));
@@ -52,6 +59,7 @@ export default function Login() {
     try {
       const { data } = await api.post("/auth/google", { credential, invite_code: form.invite_code });
       auth(data);
+      markSeen();
       nav(data.user.language ? "/" : "/onboarding");
     } catch (err) {
       toast.error(errText(err.response?.data?.detail) || t("Google sign-in failed"));
@@ -65,23 +73,59 @@ export default function Login() {
   const field = "h-12 rounded-[14px] border-[1.5px] border-border bg-background px-4 text-base shadow-none focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/12";
   const label = "block text-[13px] font-semibold text-muted-foreground mb-1.5";
 
+  const consent = (
+    <p className="text-xs text-center text-muted-foreground leading-relaxed" data-testid="welcome-consent">
+      {t("By creating an account you agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
+        i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} className="underline font-semibold">{part}</Link> : part)}
+    </p>
+  );
+  const languageMenu = (
+    <select data-testid="ui-language-select" aria-label="Language" value={lang} onChange={(e) => setUiLang(e.target.value)}
+      className="max-w-[11rem] h-9 rounded-full border border-border bg-background text-sm font-semibold px-3 outline-none focus:border-primary">
+      {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.flag} {l.native}</option>)}
+    </select>
+  );
+
+  if (view === "welcome") {
+    return (
+      <div className="min-h-dvh bg-background flex justify-center px-6 pt-5 pb-8">
+        <div className="w-full max-w-sm flex flex-col" data-testid="welcome-page">
+          <div className="flex justify-end">{languageMenu}</div>
+          <div className="mt-8">
+            <Logo height={44} />
+            <h1 className="mt-5 text-[25px] leading-snug font-semibold tracking-tight">{t("One language: yours.")}</h1>
+            <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Talk to anyone in the world: everyone writes and reads in their own language.")}</p>
+            <LoginDemo always />
+          </div>
+          <div className="mt-auto pt-8 space-y-3">
+            <Button data-testid="welcome-register" className="w-full h-[54px] rounded-2xl text-base font-semibold" onClick={() => setView("register")}>{t("Create your account")}</Button>
+            {googleClientId && !inviteRequired && <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />}
+            <button type="button" data-testid="welcome-login" onClick={() => setView("login")} className="w-full h-10 text-[15px] font-semibold">{t("I already have an account")}</button>
+            {consent}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-dvh bg-background flex justify-center px-6 pt-5 pb-8">
       <div className="w-full max-w-sm flex flex-col">
-        <div className="flex justify-end">
-          <select data-testid="ui-language-select" aria-label="Language" value={lang} onChange={(e) => setUiLang(e.target.value)}
-            className="max-w-[11rem] h-9 rounded-full border border-border bg-background text-sm font-semibold px-3 outline-none focus:border-primary">
-            {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.flag} {l.native}</option>)}
-          </select>
+        <div className="flex items-center justify-between">
+          {mode === "register"
+            ? <button type="button" data-testid="auth-back" onClick={() => setView("welcome")} className="h-9 -ms-2 px-2 inline-flex items-center gap-1.5 text-[15px] font-semibold"><ArrowLeft className="w-5 h-5 rtl:rotate-180" /> {t("Back")}</button>
+            : <span />}
+          {languageMenu}
         </div>
 
         <div className="mt-8 mb-7">
-          <Logo height={44} />
-          <h1 className="mt-5 text-[23px] leading-snug font-semibold tracking-tight">
-            {t("One language: yours.")}
+          {mode === "login" && <Logo height={44} />}
+          <h1 data-testid="auth-title" className={`${mode === "login" ? "mt-5" : "mt-6"} text-[25px] leading-snug font-semibold tracking-tight`}>
+            {mode === "login" ? t("Welcome back.") : t("Create your account")}
           </h1>
-          <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Talk to anyone in the world: everyone writes and reads in their own language.")}</p>
-          <LoginDemo />
+          <p className="mt-2 text-[15px] leading-snug text-muted-foreground">
+            {mode === "login" ? t("Sign in to pick up your conversations.") : t("It takes 30 seconds.")}
+          </p>
         </div>
 
         <form onSubmit={submit} className="flex-1 flex flex-col">
@@ -132,7 +176,7 @@ export default function Login() {
             )}
             <p className="text-sm text-center text-muted-foreground">
               {mode === "login" ? t("No account?") : t("Have an account?")}{" "}
-              <button type="button" data-testid="toggle-auth-mode" className="text-primary font-bold" onClick={() => setMode(mode === "login" ? "register" : "login")}>
+              <button type="button" data-testid="toggle-auth-mode" className="text-primary font-bold" onClick={() => setView(mode === "login" ? "register" : "login")}>
                 {mode === "login" ? t("Sign up") : t("Sign in")}
               </button>
             </p>

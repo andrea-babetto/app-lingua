@@ -18,7 +18,7 @@ function Chip({ code }) {
   return <div className="text-xs font-semibold text-muted-foreground mb-1.5">{langByCode(code).flag} {langName(code)}</div>;
 }
 
-export default function LoginDemo() {
+export default function LoginDemo({ always = false }) {
   const { t, langName } = useI18n();
   const [i, setI] = useState(0);
   const [typed, setTyped] = useState(0);
@@ -46,7 +46,7 @@ export default function LoginDemo() {
   const shown = still ? pair.text : [...pair.text].slice(0, typed).join("");
   const done = still || phase === 2;
   return (
-    <div data-testid="login-demo" aria-hidden="true" className="mt-6 rounded-3xl bg-surface p-4 select-none [@media(max-height:760px)]:hidden">
+    <div data-testid="login-demo" aria-hidden="true" className={`mt-6 rounded-3xl bg-surface p-4 select-none ${always ? "" : "[@media(max-height:760px)]:hidden"}`}>
       <div className="min-h-[68px]">
         <Chip code={pair.from} />
         <div dir={isRTL(pair.from) ? "rtl" : "ltr"} className="ms-auto w-fit max-w-[88%] rounded-[18px] rounded-ee-[6px] bg-primary text-primary-foreground px-3.5 py-2 text-[15px] leading-snug min-h-[38px]">

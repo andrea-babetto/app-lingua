@@ -216,5 +216,10 @@
  "Same as phone": "ตามโทรศัพท์",
  "Unblock": "เลิกบล็อก",
  "You have not blocked anyone.": "คุณยังไม่ได้บล็อกใคร",
- "Talk to anyone in the world: everyone writes and reads in their own language.": "คุยกับใครก็ได้ในโลก: ทุกคนเขียนและอ่านด้วยภาษาของตัวเอง"
+ "Talk to anyone in the world: everyone writes and reads in their own language.": "คุยกับใครก็ได้ในโลก: ทุกคนเขียนและอ่านด้วยภาษาของตัวเอง",
+ "Create your account": "สร้างบัญชีของคุณ",
+ "I already have an account": "ฉันมีบัญชีอยู่แล้ว",
+ "Welcome back.": "ยินดีต้อนรับกลับมา",
+ "Sign in to pick up your conversations.": "เข้าสู่ระบบเพื่อคุยต่อจากเดิม",
+ "It takes 30 seconds.": "ใช้เวลาแค่ 30 วินาที"
 }
