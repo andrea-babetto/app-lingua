@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Photo prête — enregistrez pour l'appliquer",
  "Please choose your language": "Veuillez choisir votre langue",
  "Preferences": "Préférences",
- "Press and hold a chat to delete it.": "Appuyez longuement sur une discussion pour la supprimer.",
  "Privacy Policy": "Politique de confidentialité",
  "Profile": "Profil",
  "Promoted to admin": "Promu admin",
@@ -108,7 +107,6 @@
  "Request accepted": "Demande acceptée",
  "Retrying translation...": "Nouvelle tentative de traduction...",
  "Reveal source text by default": "Afficher le texte d'origine par défaut",
- "Right-click a chat to delete it.": "Faites un clic droit sur une discussion pour la supprimer.",
  "Rule (e.g. keep)": "Règle (ex. : conserver)",
  "Save": "Enregistrer",
  "Save new password": "Enregistrer le nouveau mot de passe",
@@ -199,5 +197,10 @@
  "Media": "Médias",
  "Files": "Fichiers",
  "Links": "Liens",
- "Nothing here yet.": "Rien ici pour l'instant."
+ "Nothing here yet.": "Rien ici pour l'instant.",
+ "Pinned": "Épinglées",
+ "Pin to the top": "Épingler en haut",
+ "Unpin": "Désépingler",
+ "Press and hold a chat for options.": "Appuyez longuement sur une discussion pour voir les options.",
+ "Right-click a chat for options.": "Faites un clic droit sur une discussion pour voir les options."
 }

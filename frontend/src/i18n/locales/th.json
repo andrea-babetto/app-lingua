@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "รูปภาพพร้อมแล้ว — บันทึกเพื่อใช้งาน",
  "Please choose your language": "โปรดเลือกภาษาของคุณ",
  "Preferences": "การตั้งค่า",
- "Press and hold a chat to delete it.": "กดค้างที่แชทเพื่อลบ",
  "Privacy Policy": "นโยบายความเป็นส่วนตัว",
  "Profile": "โปรไฟล์",
  "Promoted to admin": "เลื่อนเป็นผู้ดูแลแล้ว",
@@ -108,7 +107,6 @@
  "Request accepted": "ยอมรับคำขอแล้ว",
  "Retrying translation...": "กำลังลองแปลอีกครั้ง...",
  "Reveal source text by default": "แสดงข้อความต้นฉบับเป็นค่าเริ่มต้น",
- "Right-click a chat to delete it.": "คลิกขวาที่แชทเพื่อลบ",
  "Rule (e.g. keep)": "กฎ (เช่น คงไว้)",
  "Save": "บันทึก",
  "Save new password": "บันทึกรหัสผ่านใหม่",
@@ -199,5 +197,10 @@
  "Media": "สื่อ",
  "Files": "ไฟล์",
  "Links": "ลิงก์",
- "Nothing here yet.": "ยังไม่มีอะไรที่นี่"
+ "Nothing here yet.": "ยังไม่มีอะไรที่นี่",
+ "Pinned": "ปักหมุดแล้ว",
+ "Pin to the top": "ปักหมุดไว้ด้านบน",
+ "Unpin": "เลิกปักหมุด",
+ "Press and hold a chat for options.": "กดแชทค้างไว้เพื่อดูตัวเลือก",
+ "Right-click a chat for options.": "คลิกขวาที่แชทเพื่อดูตัวเลือก"
 }

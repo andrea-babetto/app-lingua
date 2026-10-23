@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Fotot är klart — spara för att använda det",
  "Please choose your language": "Välj ditt språk",
  "Preferences": "Inställningar",
- "Press and hold a chat to delete it.": "Tryck och håll på en chatt för att radera den.",
  "Privacy Policy": "Integritetspolicy",
  "Profile": "Profil",
  "Promoted to admin": "Befordrad till admin",
@@ -108,7 +107,6 @@
  "Request accepted": "Förfrågan godkänd",
  "Retrying translation...": "Försöker översätta igen...",
  "Reveal source text by default": "Visa originaltext som standard",
- "Right-click a chat to delete it.": "Högerklicka på en chatt för att radera den.",
  "Rule (e.g. keep)": "Regel (t.ex. behåll)",
  "Save": "Spara",
  "Save new password": "Spara nytt lösenord",
@@ -199,5 +197,10 @@
  "Media": "Media",
  "Files": "Filer",
  "Links": "Länkar",
- "Nothing here yet.": "Inget här ännu."
+ "Nothing here yet.": "Inget här ännu.",
+ "Pinned": "Fästa",
+ "Pin to the top": "Fäst överst",
+ "Unpin": "Släpp",
+ "Press and hold a chat for options.": "Håll in en chatt för alternativ.",
+ "Right-click a chat for options.": "Högerklicka på en chatt för alternativ."
 }

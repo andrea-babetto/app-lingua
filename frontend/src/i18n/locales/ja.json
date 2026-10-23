@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "写真の準備ができました — 保存して反映",
  "Please choose your language": "言語を選択してください",
  "Preferences": "設定",
- "Press and hold a chat to delete it.": "チャットを長押しすると削除できます。",
  "Privacy Policy": "プライバシーポリシー",
  "Profile": "プロフィール",
  "Promoted to admin": "管理者に昇格しました",
@@ -108,7 +107,6 @@
  "Request accepted": "リクエストを承認しました",
  "Retrying translation...": "翻訳を再試行中...",
  "Reveal source text by default": "デフォルトで原文を表示",
- "Right-click a chat to delete it.": "チャットを右クリックすると削除できます。",
  "Rule (e.g. keep)": "ルール（例：そのまま）",
  "Save": "保存",
  "Save new password": "新しいパスワードを保存",
@@ -199,5 +197,10 @@
  "Media": "メディア",
  "Files": "ファイル",
  "Links": "リンク",
- "Nothing here yet.": "まだ何もありません。"
+ "Nothing here yet.": "まだ何もありません。",
+ "Pinned": "固定",
+ "Pin to the top": "上部に固定",
+ "Unpin": "固定を解除",
+ "Press and hold a chat for options.": "チャットを長押しするとオプションが表示されます。",
+ "Right-click a chat for options.": "チャットを右クリックするとオプションが表示されます。"
 }

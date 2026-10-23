@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Fotografija je spremna — spremite za primjenu",
  "Please choose your language": "Odaberite svoj jezik",
  "Preferences": "Postavke",
- "Press and hold a chat to delete it.": "Pritisnite i držite chat da biste ga izbrisali.",
  "Privacy Policy": "Pravilnik o privatnosti",
  "Profile": "Profil",
  "Promoted to admin": "Postavljen za admina",
@@ -108,7 +107,6 @@
  "Request accepted": "Zahtjev je prihvaćen",
  "Retrying translation...": "Ponovni pokušaj prijevoda...",
  "Reveal source text by default": "Prema zadanome prikaži izvorni tekst",
- "Right-click a chat to delete it.": "Desnim klikom na chat izbrišite ga.",
  "Rule (e.g. keep)": "Pravilo (npr. zadrži)",
  "Save": "Spremi",
  "Save new password": "Spremi novu lozinku",
@@ -199,5 +197,10 @@
  "Media": "Mediji",
  "Files": "Datoteke",
  "Links": "Poveznice",
- "Nothing here yet.": "Ovdje još nema ničega."
+ "Nothing here yet.": "Ovdje još nema ničega.",
+ "Pinned": "Prikvačeno",
+ "Pin to the top": "Prikvači na vrh",
+ "Unpin": "Otkvači",
+ "Press and hold a chat for options.": "Dugo pritisnite razgovor za opcije.",
+ "Right-click a chat for options.": "Desni klik na razgovor za opcije."
 }

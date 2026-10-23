@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "A fotó kész — mentsd az alkalmazáshoz",
  "Please choose your language": "Válaszd ki a nyelvedet",
  "Preferences": "Beállítások",
- "Press and hold a chat to delete it.": "Tartsd lenyomva a csevegést a törléshez.",
  "Privacy Policy": "Adatvédelmi szabályzat",
  "Profile": "Profil",
  "Promoted to admin": "Adminná léptetve",
@@ -108,7 +107,6 @@
  "Request accepted": "Kérés elfogadva",
  "Retrying translation...": "Fordítás újrapróbálása...",
  "Reveal source text by default": "Eredeti szöveg megjelenítése alapértelmezetten",
- "Right-click a chat to delete it.": "Kattints jobb gombbal a csevegésre a törléshez.",
  "Rule (e.g. keep)": "Szabály (pl. megtart)",
  "Save": "Mentés",
  "Save new password": "Új jelszó mentése",
@@ -199,5 +197,10 @@
  "Media": "Média",
  "Files": "Fájlok",
  "Links": "Linkek",
- "Nothing here yet.": "Itt még nincs semmi."
+ "Nothing here yet.": "Itt még nincs semmi.",
+ "Pinned": "Kitűzött",
+ "Pin to the top": "Kitűzés felülre",
+ "Unpin": "Kitűzés megszüntetése",
+ "Press and hold a chat for options.": "Tartsd nyomva a csevegést a lehetőségekért.",
+ "Right-click a chat for options.": "Kattints jobb gombbal a csevegésre a lehetőségekért."
 }

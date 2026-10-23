@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Foto a punt — desa per aplicar-la",
  "Please choose your language": "Tria el teu idioma",
  "Preferences": "Preferències",
- "Press and hold a chat to delete it.": "Mantén premut un xat per eliminar-lo.",
  "Privacy Policy": "Política de privadesa",
  "Profile": "Perfil",
  "Promoted to admin": "Ascendit a administrador",
@@ -108,7 +107,6 @@
  "Request accepted": "Sol·licitud acceptada",
  "Retrying translation...": "Reintentant la traducció...",
  "Reveal source text by default": "Mostra el text original per defecte",
- "Right-click a chat to delete it.": "Fes clic amb el botó dret en un xat per eliminar-lo.",
  "Rule (e.g. keep)": "Regla (p. ex. mantén)",
  "Save": "Desa",
  "Save new password": "Desa la contrasenya nova",
@@ -199,5 +197,10 @@
  "Media": "Multimèdia",
  "Files": "Fitxers",
  "Links": "Enllaços",
- "Nothing here yet.": "Encara no hi ha res."
+ "Nothing here yet.": "Encara no hi ha res.",
+ "Pinned": "Fixats",
+ "Pin to the top": "Fixa a dalt",
+ "Unpin": "Deixa de fixar",
+ "Press and hold a chat for options.": "Mantén premut un xat per veure les opcions.",
+ "Right-click a chat for options.": "Fes clic dret en un xat per veure les opcions."
 }

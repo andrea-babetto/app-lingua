@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "ఫోటో సిద్ధం — వర్తింపజేయడానికి సేవ్ చేయండి",
  "Please choose your language": "దయచేసి మీ భాషను ఎంచుకోండి",
  "Preferences": "ప్రాధాన్యతలు",
- "Press and hold a chat to delete it.": "చాట్‌ను తొలగించడానికి దాన్ని నొక్కి పట్టుకోండి.",
  "Privacy Policy": "గోప్యతా విధానం",
  "Profile": "ప్రొఫైల్",
  "Promoted to admin": "అడ్మిన్‌గా చేయబడింది",
@@ -108,7 +107,6 @@
  "Request accepted": "అభ్యర్థన ఆమోదించబడింది",
  "Retrying translation...": "అనువాదాన్ని మళ్లీ ప్రయత్నిస్తోంది...",
  "Reveal source text by default": "అసలు పాఠాన్ని డిఫాల్ట్‌గా చూపించు",
- "Right-click a chat to delete it.": "చాట్‌ను తొలగించడానికి దానిపై రైట్-క్లిక్ చేయండి.",
  "Rule (e.g. keep)": "నియమం (ఉదా. keep)",
  "Save": "సేవ్ చేయి",
  "Save new password": "కొత్త పాస్‌వర్డ్ సేవ్ చేయి",
@@ -199,5 +197,10 @@
  "Media": "మీడియా",
  "Files": "ఫైళ్లు",
  "Links": "లింక్‌లు",
- "Nothing here yet.": "ఇక్కడ ఇంకా ఏమీ లేదు."
+ "Nothing here yet.": "ఇక్కడ ఇంకా ఏమీ లేదు.",
+ "Pinned": "పిన్ చేసినవి",
+ "Pin to the top": "పైన పిన్ చేయండి",
+ "Unpin": "పిన్ తీసివేయండి",
+ "Press and hold a chat for options.": "ఎంపికల కోసం చాట్‌ను నొక్కి పట్టుకోండి.",
+ "Right-click a chat for options.": "ఎంపికల కోసం చాట్‌పై రైట్-క్లిక్ చేయండి."
 }

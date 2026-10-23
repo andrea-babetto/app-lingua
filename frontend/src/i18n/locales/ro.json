@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Fotografie pregătită — salvează pentru a aplica",
  "Please choose your language": "Alege limba ta",
  "Preferences": "Preferințe",
- "Press and hold a chat to delete it.": "Ține apăsat pe un chat pentru a-l șterge.",
  "Privacy Policy": "Politica de confidențialitate",
  "Profile": "Profil",
  "Promoted to admin": "Promovat la administrator",
@@ -108,7 +107,6 @@
  "Request accepted": "Cerere acceptată",
  "Retrying translation...": "Se reîncearcă traducerea...",
  "Reveal source text by default": "Arată implicit textul original",
- "Right-click a chat to delete it.": "Click dreapta pe un chat pentru a-l șterge.",
  "Rule (e.g. keep)": "Regulă (ex. păstrează)",
  "Save": "Salvează",
  "Save new password": "Salvează parola nouă",
@@ -199,5 +197,10 @@
  "Media": "Media",
  "Files": "Fișiere",
  "Links": "Linkuri",
- "Nothing here yet.": "Încă nu e nimic aici."
+ "Nothing here yet.": "Încă nu e nimic aici.",
+ "Pinned": "Fixate",
+ "Pin to the top": "Fixează sus",
+ "Unpin": "Anulează fixarea",
+ "Press and hold a chat for options.": "Ține apăsat pe o conversație pentru opțiuni.",
+ "Right-click a chat for options.": "Click dreapta pe o conversație pentru opțiuni."
 }

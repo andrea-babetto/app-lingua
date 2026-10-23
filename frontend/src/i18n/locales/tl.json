@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Handa na ang larawan — i-save para ilapat",
  "Please choose your language": "Pumili ng wika mo",
  "Preferences": "Mga kagustuhan",
- "Press and hold a chat to delete it.": "Pindutin nang matagal ang chat para burahin ito.",
  "Privacy Policy": "Patakaran sa Privacy",
  "Profile": "Profile",
  "Promoted to admin": "Ginawang admin",
@@ -108,7 +107,6 @@
  "Request accepted": "Tinanggap ang request",
  "Retrying translation...": "Sinusubukang muli ang pagsasalin...",
  "Reveal source text by default": "Ipakita ang orihinal na teksto bilang default",
- "Right-click a chat to delete it.": "I-right-click ang chat para burahin ito.",
  "Rule (e.g. keep)": "Panuntunan (hal. keep)",
  "Save": "I-save",
  "Save new password": "I-save ang bagong password",
@@ -199,5 +197,10 @@
  "Media": "Media",
  "Files": "Mga file",
  "Links": "Mga link",
- "Nothing here yet.": "Wala pa rito."
+ "Nothing here yet.": "Wala pa rito.",
+ "Pinned": "Naka-pin",
+ "Pin to the top": "I-pin sa itaas",
+ "Unpin": "Alisin sa pin",
+ "Press and hold a chat for options.": "Pindutin nang matagal ang chat para sa mga opsyon.",
+ "Right-click a chat for options.": "I-right-click ang chat para sa mga opsyon."
 }

@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "الصورة جاهزة — احفظ للتطبيق",
  "Please choose your language": "الرجاء اختيار لغتك",
  "Preferences": "التفضيلات",
- "Press and hold a chat to delete it.": "اضغط مطولاً على محادثة لحذفها.",
  "Privacy Policy": "سياسة الخصوصية",
  "Profile": "الملف الشخصي",
  "Promoted to admin": "تمت الترقية إلى مشرف",
@@ -108,7 +107,6 @@
  "Request accepted": "تم قبول الطلب",
  "Retrying translation...": "إعادة محاولة الترجمة...",
  "Reveal source text by default": "إظهار النص الأصلي افتراضياً",
- "Right-click a chat to delete it.": "انقر بزر الماوس الأيمن على محادثة لحذفها.",
  "Rule (e.g. keep)": "القاعدة (مثل: إبقاء)",
  "Save": "حفظ",
  "Save new password": "حفظ كلمة المرور الجديدة",
@@ -199,5 +197,10 @@
  "Media": "الوسائط",
  "Files": "الملفات",
  "Links": "الروابط",
- "Nothing here yet.": "لا شيء هنا بعد."
+ "Nothing here yet.": "لا شيء هنا بعد.",
+ "Pinned": "المثبّتة",
+ "Pin to the top": "تثبيت في الأعلى",
+ "Unpin": "إلغاء التثبيت",
+ "Press and hold a chat for options.": "اضغط مطولاً على محادثة لعرض الخيارات.",
+ "Right-click a chat for options.": "انقر بزر الفأرة الأيمن على محادثة لعرض الخيارات."
 }

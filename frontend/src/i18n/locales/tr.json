@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Fotoğraf hazır — uygulamak için kaydedin",
  "Please choose your language": "Lütfen dilinizi seçin",
  "Preferences": "Tercihler",
- "Press and hold a chat to delete it.": "Silmek için bir sohbete basılı tutun.",
  "Privacy Policy": "Gizlilik Politikası",
  "Profile": "Profil",
  "Promoted to admin": "Yönetici yapıldı",
@@ -108,7 +107,6 @@
  "Request accepted": "İstek kabul edildi",
  "Retrying translation...": "Çeviri yeniden deneniyor...",
  "Reveal source text by default": "Varsayılan olarak orijinal metni göster",
- "Right-click a chat to delete it.": "Silmek için bir sohbete sağ tıklayın.",
  "Rule (e.g. keep)": "Kural (örn. koru)",
  "Save": "Kaydet",
  "Save new password": "Yeni şifreyi kaydet",
@@ -199,5 +197,10 @@
  "Media": "Medya",
  "Files": "Dosyalar",
  "Links": "Bağlantılar",
- "Nothing here yet.": "Burada henüz bir şey yok."
+ "Nothing here yet.": "Burada henüz bir şey yok.",
+ "Pinned": "Sabitlenenler",
+ "Pin to the top": "En üste sabitle",
+ "Unpin": "Sabitlemeyi kaldır",
+ "Press and hold a chat for options.": "Seçenekler için bir sohbete uzun basın.",
+ "Right-click a chat for options.": "Seçenekler için bir sohbete sağ tıklayın."
 }

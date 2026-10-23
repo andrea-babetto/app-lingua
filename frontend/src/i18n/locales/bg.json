@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Снимката е готова — запазете, за да я приложите",
  "Please choose your language": "Моля, изберете езика си",
  "Preferences": "Предпочитания",
- "Press and hold a chat to delete it.": "Натиснете и задръжте чат, за да го изтриете.",
  "Privacy Policy": "Политика за поверителност",
  "Profile": "Профил",
  "Promoted to admin": "Направен админ",
@@ -108,7 +107,6 @@
  "Request accepted": "Заявката е приета",
  "Retrying translation...": "Опит за превод отново...",
  "Reveal source text by default": "Показвай оригиналния текст по подразбиране",
- "Right-click a chat to delete it.": "Щракнете с десния бутон върху чат, за да го изтриете.",
  "Rule (e.g. keep)": "Правило (напр. запази)",
  "Save": "Запази",
  "Save new password": "Запази новата парола",
@@ -199,5 +197,10 @@
  "Media": "Медия",
  "Files": "Файлове",
  "Links": "Връзки",
- "Nothing here yet.": "Още няма нищо."
+ "Nothing here yet.": "Още няма нищо.",
+ "Pinned": "Закачени",
+ "Pin to the top": "Закачи най-горе",
+ "Unpin": "Откачи",
+ "Press and hold a chat for options.": "Задръжте чат за опции.",
+ "Right-click a chat for options.": "Щракнете с десния бутон върху чат за опции."
 }

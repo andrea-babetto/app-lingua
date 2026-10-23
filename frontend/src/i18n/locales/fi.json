@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Kuva valmis — tallenna ottaaksesi sen käyttöön",
  "Please choose your language": "Valitse kielesi",
  "Preferences": "Asetukset",
- "Press and hold a chat to delete it.": "Poista keskustelu painamalla sitä pitkään.",
  "Privacy Policy": "Tietosuojakäytäntö",
  "Profile": "Profiili",
  "Promoted to admin": "Ylennetty ylläpitäjäksi",
@@ -108,7 +107,6 @@
  "Request accepted": "Pyyntö hyväksytty",
  "Retrying translation...": "Yritetään käännöstä uudelleen...",
  "Reveal source text by default": "Näytä alkuperäinen teksti oletuksena",
- "Right-click a chat to delete it.": "Poista keskustelu napsauttamalla sitä hiiren kakkospainikkeella.",
  "Rule (e.g. keep)": "Sääntö (esim. säilytä)",
  "Save": "Tallenna",
  "Save new password": "Tallenna uusi salasana",
@@ -199,5 +197,10 @@
  "Media": "Media",
  "Files": "Tiedostot",
  "Links": "Linkit",
- "Nothing here yet.": "Täällä ei ole vielä mitään."
+ "Nothing here yet.": "Täällä ei ole vielä mitään.",
+ "Pinned": "Kiinnitetyt",
+ "Pin to the top": "Kiinnitä ylös",
+ "Unpin": "Poista kiinnitys",
+ "Press and hold a chat for options.": "Pidä keskustelua painettuna nähdäksesi vaihtoehdot.",
+ "Right-click a chat for options.": "Napsauta keskustelua hiiren kakkospainikkeella nähdäksesi vaihtoehdot."
 }

@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "照片已就绪——保存即可应用",
  "Please choose your language": "请选择您的语言",
  "Preferences": "偏好设置",
- "Press and hold a chat to delete it.": "长按聊天即可删除。",
  "Privacy Policy": "隐私政策",
  "Profile": "个人资料",
  "Promoted to admin": "已升为管理员",
@@ -108,7 +107,6 @@
  "Request accepted": "请求已接受",
  "Retrying translation...": "正在重试翻译...",
  "Reveal source text by default": "默认显示原文",
- "Right-click a chat to delete it.": "右键点击聊天即可删除。",
  "Rule (e.g. keep)": "规则（例如：保留）",
  "Save": "保存",
  "Save new password": "保存新密码",
@@ -199,5 +197,10 @@
  "Media": "媒体",
  "Files": "文件",
  "Links": "链接",
- "Nothing here yet.": "这里还没有内容。"
+ "Nothing here yet.": "这里还没有内容。",
+ "Pinned": "已置顶",
+ "Pin to the top": "置顶",
+ "Unpin": "取消置顶",
+ "Press and hold a chat for options.": "长按聊天可查看选项。",
+ "Right-click a chat for options.": "右键点击聊天可查看选项。"
 }

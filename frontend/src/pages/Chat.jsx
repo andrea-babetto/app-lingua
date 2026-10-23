@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { api, WS_URL } from "@/lib/api";
+import { api, WS_URL, errText } from "@/lib/api";
 import { syncPush } from "@/lib/push";
 import useAppViewport from "@/hooks/useAppViewport";
 import { useAuth } from "@/context/AuthContext";
@@ -243,6 +243,13 @@ export default function Chat() {
 
   const closeActive = () => { openReq.current++; setActive(null); setInfoOpen(false); setMobileView("list"); };
 
+  const togglePin = async (chat) => {
+    try {
+      await api.post(`/chats/${chat.id}/${chat.pinned ? "unpin" : "pin"}`);
+      await loadChats();
+    } catch (e) { toast.error(errText(e.response?.data?.detail)); }
+  };
+
   const deleteChat = async (chat) => {
     try {
       await api.post(`/chats/${chat.id}/delete`);
@@ -256,7 +263,7 @@ export default function Chat() {
     <div className="app-shell flex overflow-hidden bg-background">
       <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-80 lg:w-96 shrink-0 border-r border-border flex-col`}>
         <Sidebar chats={chats} loading={!chatsLoaded} activeId={active?.id} onSelect={openChat} onNewChat={(kind) => { setNewChatTab(kind); setNewChatOpen(true); }}
-          onOpenAdmin={() => nav("/admin")} onDeleteChat={deleteChat}
+          onOpenAdmin={() => nav("/admin")} onDeleteChat={deleteChat} onTogglePin={togglePin}
           requests={requests} onAccept={accept} onDecline={decline} />
       </div>
 

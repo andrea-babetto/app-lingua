@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Foto siap — simpan untuk menerapkan",
  "Please choose your language": "Pilih bahasa Anda",
  "Preferences": "Preferensi",
- "Press and hold a chat to delete it.": "Tekan dan tahan chat untuk menghapusnya.",
  "Privacy Policy": "Kebijakan Privasi",
  "Profile": "Profil",
  "Promoted to admin": "Dijadikan admin",
@@ -108,7 +107,6 @@
  "Request accepted": "Permintaan diterima",
  "Retrying translation...": "Mencoba menerjemahkan lagi...",
  "Reveal source text by default": "Tampilkan teks asli secara default",
- "Right-click a chat to delete it.": "Klik kanan chat untuk menghapusnya.",
  "Rule (e.g. keep)": "Aturan (mis. pertahankan)",
  "Save": "Simpan",
  "Save new password": "Simpan kata sandi baru",
@@ -199,5 +197,10 @@
  "Media": "Media",
  "Files": "File",
  "Links": "Tautan",
- "Nothing here yet.": "Belum ada apa pun di sini."
+ "Nothing here yet.": "Belum ada apa pun di sini.",
+ "Pinned": "Disematkan",
+ "Pin to the top": "Sematkan di atas",
+ "Unpin": "Lepas sematan",
+ "Press and hold a chat for options.": "Tekan lama obrolan untuk melihat opsi.",
+ "Right-click a chat for options.": "Klik kanan obrolan untuk melihat opsi."
 }

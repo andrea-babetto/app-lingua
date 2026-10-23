@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Bildet er klart — lagre for å bruke det",
  "Please choose your language": "Velg språket ditt",
  "Preferences": "Innstillinger",
- "Press and hold a chat to delete it.": "Trykk og hold på en chat for å slette den.",
  "Privacy Policy": "Personvernerklæring",
  "Profile": "Profil",
  "Promoted to admin": "Gjort til administrator",
@@ -108,7 +107,6 @@
  "Request accepted": "Forespørsel godtatt",
  "Retrying translation...": "Prøver oversettelsen på nytt...",
  "Reveal source text by default": "Vis originalteksten som standard",
- "Right-click a chat to delete it.": "Høyreklikk på en chat for å slette den.",
  "Rule (e.g. keep)": "Regel (f.eks. behold)",
  "Save": "Lagre",
  "Save new password": "Lagre nytt passord",
@@ -199,5 +197,10 @@
  "Media": "Medier",
  "Files": "Filer",
  "Links": "Lenker",
- "Nothing here yet.": "Ingenting her ennå."
+ "Nothing here yet.": "Ingenting her ennå.",
+ "Pinned": "Festet",
+ "Pin to the top": "Fest øverst",
+ "Unpin": "Løsne",
+ "Press and hold a chat for options.": "Hold inne en samtale for alternativer.",
+ "Right-click a chat for options.": "Høyreklikk på en samtale for alternativer."
 }

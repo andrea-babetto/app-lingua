@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, MessageCircle, Users, User, Contact, Plus, UserPlus, Check, X, WifiOff } from "lucide-react";
+import { Search, MessageCircle, Users, User, Contact, Plus, UserPlus, Check, X, WifiOff, Pin, PinOff, Trash2 } from "lucide-react";
 import { format, isToday, isYesterday } from "date-fns";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -8,6 +8,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
 import Logo, { LogoArrows } from "@/components/Logo";
@@ -118,20 +119,22 @@ function ContactRow({ chat, onSelect }) {
   );
 }
 
-export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, requests, onAccept, onDecline }) {
+export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, onTogglePin, requests, onAccept, onDecline }) {
   const { user } = useAuth();
   const { t } = useI18n();
   const [tab, setTab] = useState("chats");
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState("all"); // "all" | "unread", on the Chats tab
   const [toDelete, setToDelete] = useState(null);
+  const [menuChat, setMenuChat] = useState(null); // the chat whose long-press menu is open
   const online = useOnline();
 
   const direct = chats.filter((c) => c.type !== "group");
   const groups = chats.filter((c) => c.type === "group");
   // the Chats tab shows every conversation, groups included; the Groups tab only the groups
   const base = tab === "groups" ? groups : chats;
-  const list = base.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()) && (tab !== "chats" || filter === "all" || (c.unread || 0) > 0));
+  const sorted = tab === "chats" ? [...base].sort((x, y) => Number(!!y.pinned) - Number(!!x.pinned)) : base; // pinned first, order kept otherwise
+  const list = sorted.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()) && (tab !== "chats" || filter === "all" || (c.unread || 0) > 0));
   const contactsList = direct.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
   const unread = { chats: chats.reduce((n, c) => n + (c.unread || 0), 0), groups: groups.reduce((n, c) => n + (c.unread || 0), 0) };
 
@@ -233,10 +236,15 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                 )}
               </div>
             )}
-            {tab !== "contacts" && list.map((c) => (
-              <ChatRow key={c.id} chat={c} active={activeId === c.id} myId={user.id} onSelect={onSelect} onAskDelete={setToDelete} />
+            {tab !== "contacts" && list.map((c, i) => (
+              <div key={c.id}>
+                {tab === "chats" && list.some((x) => x.pinned) && (i === 0 || !!list[i - 1].pinned !== !!c.pinned) && (
+                  <div data-testid={c.pinned ? "section-pinned" : "section-chats"} className="px-5 pt-3 pb-1 text-xs font-semibold text-subtle">{c.pinned ? t("Pinned") : t("Chats")}</div>
+                )}
+                <ChatRow chat={c} active={activeId === c.id} myId={user.id} onSelect={onSelect} onAskDelete={setMenuChat} />
+              </div>
             ))}
-            {tab !== "contacts" && list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat to delete it.") : t("Right-click a chat to delete it.")}</p>}
+            {tab !== "contacts" && list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat for options.") : t("Right-click a chat for options.")}</p>}
           </div>
 
           <button data-testid="new-chat-button" onClick={() => onNewChat(tab === "groups" ? "group" : "person")}
@@ -264,6 +272,20 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
           );
         })}
       </nav>
+
+      <Dialog open={!!menuChat} onOpenChange={(v) => { if (!v) setMenuChat(null); }}>
+        <DialogContent data-testid="chat-menu" className="max-w-xs p-2 gap-0">
+          <DialogHeader className="px-3 pt-3 pb-2"><DialogTitle className="text-base truncate">{menuChat?.display_name}</DialogTitle></DialogHeader>
+          <button data-testid="chat-menu-pin" className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[15px] font-medium text-start hover:bg-muted"
+            onClick={() => { const c = menuChat; setMenuChat(null); onTogglePin(c); }}>
+            {menuChat?.pinned ? <PinOff className="w-5 h-5" /> : <Pin className="w-5 h-5" />} {menuChat?.pinned ? t("Unpin") : t("Pin to the top")}
+          </button>
+          <button data-testid="chat-menu-delete" className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[15px] font-medium text-start text-destructive hover:bg-muted"
+            onClick={() => { const c = menuChat; setMenuChat(null); setToDelete(c); }}>
+            <Trash2 className="w-5 h-5" /> {t("Delete chat")}
+          </button>
+        </DialogContent>
+      </Dialog>
 
       <AlertDialog open={!!toDelete} onOpenChange={(v) => { if (!v) setToDelete(null); }}>
         <AlertDialogContent data-testid="delete-chat-dialog">

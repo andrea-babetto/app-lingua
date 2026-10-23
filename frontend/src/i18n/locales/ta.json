@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "படம் தயார் — பயன்படுத்த சேமிக்கவும்",
  "Please choose your language": "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
  "Preferences": "விருப்பத்தேர்வுகள்",
- "Press and hold a chat to delete it.": "சாட்டை நீக்க அதை அழுத்திப் பிடிக்கவும்.",
  "Privacy Policy": "தனியுரிமைக் கொள்கை",
  "Profile": "சுயவிவரம்",
  "Promoted to admin": "நிர்வாகியாக்கப்பட்டார்",
@@ -108,7 +107,6 @@
  "Request accepted": "கோரிக்கை ஏற்கப்பட்டது",
  "Retrying translation...": "மொழிபெயர்ப்பை மீண்டும் முயல்கிறது...",
  "Reveal source text by default": "மூல உரையை இயல்பாகக் காட்டு",
- "Right-click a chat to delete it.": "சாட்டை நீக்க வலது கிளிக் செய்யவும்.",
  "Rule (e.g. keep)": "விதி (எ.கா. keep)",
  "Save": "சேமி",
  "Save new password": "புதிய கடவுச்சொல்லைச் சேமி",
@@ -199,5 +197,10 @@
  "Media": "மீடியா",
  "Files": "கோப்புகள்",
  "Links": "இணைப்புகள்",
- "Nothing here yet.": "இங்கே இன்னும் எதுவும் இல்லை."
+ "Nothing here yet.": "இங்கே இன்னும் எதுவும் இல்லை.",
+ "Pinned": "பின் செய்தவை",
+ "Pin to the top": "மேலே பின் செய்",
+ "Unpin": "பின்னை நீக்கு",
+ "Press and hold a chat for options.": "விருப்பங்களுக்கு அரட்டையை அழுத்திப் பிடிக்கவும்.",
+ "Right-click a chat for options.": "விருப்பங்களுக்கு அரட்டையை வலது கிளிக் செய்யவும்."
 }

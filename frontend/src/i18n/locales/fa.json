@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "عکس آماده است — برای اعمال، ذخیره کنید",
  "Please choose your language": "لطفاً زبان خود را انتخاب کنید",
  "Preferences": "ترجیحات",
- "Press and hold a chat to delete it.": "برای حذف گفتگو، روی آن نگه دارید.",
  "Privacy Policy": "سیاست حفظ حریم خصوصی",
  "Profile": "نمایه",
  "Promoted to admin": "به مدیر ارتقا یافت",
@@ -108,7 +107,6 @@
  "Request accepted": "درخواست پذیرفته شد",
  "Retrying translation...": "تلاش دوباره برای ترجمه...",
  "Reveal source text by default": "نمایش متن اصلی به‌صورت پیش‌فرض",
- "Right-click a chat to delete it.": "برای حذف گفتگو، روی آن راست‌کلیک کنید.",
  "Rule (e.g. keep)": "قانون (مثلاً: بماند)",
  "Save": "ذخیره",
  "Save new password": "ذخیره گذرواژه جدید",
@@ -199,5 +197,10 @@
  "Media": "رسانه",
  "Files": "فایل‌ها",
  "Links": "پیوندها",
- "Nothing here yet.": "هنوز چیزی اینجا نیست."
+ "Nothing here yet.": "هنوز چیزی اینجا نیست.",
+ "Pinned": "سنجاق‌شده",
+ "Pin to the top": "سنجاق در بالا",
+ "Unpin": "برداشتن سنجاق",
+ "Press and hold a chat for options.": "برای گزینه‌ها روی گفتگو نگه دارید.",
+ "Right-click a chat for options.": "برای گزینه‌ها روی گفتگو راست‌کلیک کنید."
 }

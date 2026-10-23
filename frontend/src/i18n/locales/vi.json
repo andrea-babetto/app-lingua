@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Ảnh đã sẵn sàng — lưu để áp dụng",
  "Please choose your language": "Vui lòng chọn ngôn ngữ của bạn",
  "Preferences": "Tùy chọn",
- "Press and hold a chat to delete it.": "Nhấn giữ một cuộc trò chuyện để xóa.",
  "Privacy Policy": "Chính sách quyền riêng tư",
  "Profile": "Hồ sơ",
  "Promoted to admin": "Đã nâng lên quản trị viên",
@@ -108,7 +107,6 @@
  "Request accepted": "Đã chấp nhận yêu cầu",
  "Retrying translation...": "Đang thử dịch lại...",
  "Reveal source text by default": "Luôn hiện văn bản gốc",
- "Right-click a chat to delete it.": "Nhấp chuột phải vào cuộc trò chuyện để xóa.",
  "Rule (e.g. keep)": "Quy tắc (ví dụ: giữ nguyên)",
  "Save": "Lưu",
  "Save new password": "Lưu mật khẩu mới",
@@ -199,5 +197,10 @@
  "Media": "Phương tiện",
  "Files": "Tệp",
  "Links": "Liên kết",
- "Nothing here yet.": "Chưa có gì ở đây."
+ "Nothing here yet.": "Chưa có gì ở đây.",
+ "Pinned": "Đã ghim",
+ "Pin to the top": "Ghim lên đầu",
+ "Unpin": "Bỏ ghim",
+ "Press and hold a chat for options.": "Nhấn giữ một cuộc trò chuyện để xem tùy chọn.",
+ "Right-click a chat for options.": "Nhấp chuột phải vào một cuộc trò chuyện để xem tùy chọn."
 }

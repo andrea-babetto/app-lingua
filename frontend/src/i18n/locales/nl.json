@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Foto klaar — sla op om toe te passen",
  "Please choose your language": "Kies je taal",
  "Preferences": "Voorkeuren",
- "Press and hold a chat to delete it.": "Houd een chat ingedrukt om hem te verwijderen.",
  "Privacy Policy": "Privacybeleid",
  "Profile": "Profiel",
  "Promoted to admin": "Benoemd tot beheerder",
@@ -108,7 +107,6 @@
  "Request accepted": "Verzoek geaccepteerd",
  "Retrying translation...": "Vertaling opnieuw proberen...",
  "Reveal source text by default": "Brontekst standaard tonen",
- "Right-click a chat to delete it.": "Klik met de rechtermuisknop op een chat om hem te verwijderen.",
  "Rule (e.g. keep)": "Regel (bijv. behouden)",
  "Save": "Opslaan",
  "Save new password": "Nieuw wachtwoord opslaan",
@@ -199,5 +197,10 @@
  "Media": "Media",
  "Files": "Bestanden",
  "Links": "Links",
- "Nothing here yet.": "Hier is nog niets."
+ "Nothing here yet.": "Hier is nog niets.",
+ "Pinned": "Vastgezet",
+ "Pin to the top": "Bovenaan vastzetten",
+ "Unpin": "Losmaken",
+ "Press and hold a chat for options.": "Houd een chat ingedrukt voor opties.",
+ "Right-click a chat for options.": "Klik met rechts op een chat voor opties."
 }

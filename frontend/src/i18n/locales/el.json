@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Η φωτογραφία είναι έτοιμη — αποθηκεύστε για εφαρμογή",
  "Please choose your language": "Επιλέξτε τη γλώσσα σας",
  "Preferences": "Προτιμήσεις",
- "Press and hold a chat to delete it.": "Πατήστε παρατεταμένα μια συνομιλία για να τη διαγράψετε.",
  "Privacy Policy": "Πολιτική Απορρήτου",
  "Profile": "Προφίλ",
  "Promoted to admin": "Προήχθη σε διαχειριστή",
@@ -108,7 +107,6 @@
  "Request accepted": "Το αίτημα έγινε δεκτό",
  "Retrying translation...": "Νέα προσπάθεια μετάφρασης...",
  "Reveal source text by default": "Εμφάνιση πρωτοτύπου από προεπιλογή",
- "Right-click a chat to delete it.": "Κάντε δεξί κλικ σε μια συνομιλία για να τη διαγράψετε.",
  "Rule (e.g. keep)": "Κανόνας (π.χ. διατήρηση)",
  "Save": "Αποθήκευση",
  "Save new password": "Αποθήκευση νέου κωδικού",
@@ -199,5 +197,10 @@
  "Media": "Πολυμέσα",
  "Files": "Αρχεία",
  "Links": "Σύνδεσμοι",
- "Nothing here yet.": "Δεν υπάρχει τίποτα ακόμα."
+ "Nothing here yet.": "Δεν υπάρχει τίποτα ακόμα.",
+ "Pinned": "Καρφιτσωμένες",
+ "Pin to the top": "Καρφίτσωμα στην κορυφή",
+ "Unpin": "Ξεκαρφίτσωμα",
+ "Press and hold a chat for options.": "Πατήστε παρατεταμένα μια συνομιλία για επιλογές.",
+ "Right-click a chat for options.": "Κάντε δεξί κλικ σε μια συνομιλία για επιλογές."
 }

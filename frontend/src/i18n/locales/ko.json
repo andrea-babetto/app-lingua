@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "사진 준비 완료 — 저장하면 적용돼요",
  "Please choose your language": "언어를 선택해 주세요",
  "Preferences": "환경설정",
- "Press and hold a chat to delete it.": "채팅을 길게 눌러 삭제하세요.",
  "Privacy Policy": "개인정보 처리방침",
  "Profile": "프로필",
  "Promoted to admin": "관리자로 지정되었어요",
@@ -108,7 +107,6 @@
  "Request accepted": "요청이 수락되었어요",
  "Retrying translation...": "번역을 다시 시도하는 중...",
  "Reveal source text by default": "기본으로 원문 보기",
- "Right-click a chat to delete it.": "채팅을 마우스 오른쪽 버튼으로 클릭해 삭제하세요.",
  "Rule (e.g. keep)": "규칙 (예: 유지)",
  "Save": "저장",
  "Save new password": "새 비밀번호 저장",
@@ -199,5 +197,10 @@
  "Media": "미디어",
  "Files": "파일",
  "Links": "링크",
- "Nothing here yet.": "아직 아무것도 없어요."
+ "Nothing here yet.": "아직 아무것도 없어요.",
+ "Pinned": "고정됨",
+ "Pin to the top": "상단에 고정",
+ "Unpin": "고정 해제",
+ "Press and hold a chat for options.": "채팅을 길게 눌러 옵션을 보세요.",
+ "Right-click a chat for options.": "채팅을 오른쪽 클릭해 옵션을 보세요."
 }

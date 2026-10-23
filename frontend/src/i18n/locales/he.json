@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "התמונה מוכנה — שמרו כדי להחיל",
  "Please choose your language": "בחרו את השפה שלכם",
  "Preferences": "העדפות",
- "Press and hold a chat to delete it.": "לחצו לחיצה ארוכה על צ'אט כדי למחוק אותו.",
  "Privacy Policy": "מדיניות הפרטיות",
  "Profile": "פרופיל",
  "Promoted to admin": "קודם למנהל",
@@ -108,7 +107,6 @@
  "Request accepted": "הבקשה אושרה",
  "Retrying translation...": "מנסה לתרגם שוב...",
  "Reveal source text by default": "הצגת הטקסט המקורי כברירת מחדל",
- "Right-click a chat to delete it.": "לחצו קליק ימני על צ'אט כדי למחוק אותו.",
  "Rule (e.g. keep)": "כלל (למשל: להשאיר)",
  "Save": "שמירה",
  "Save new password": "שמירת סיסמה חדשה",
@@ -199,5 +197,10 @@
  "Media": "מדיה",
  "Files": "קבצים",
  "Links": "קישורים",
- "Nothing here yet.": "אין כאן עדיין כלום."
+ "Nothing here yet.": "אין כאן עדיין כלום.",
+ "Pinned": "מוצמדים",
+ "Pin to the top": "הצמד למעלה",
+ "Unpin": "בטל הצמדה",
+ "Press and hold a chat for options.": "לחצו לחיצה ארוכה על צ'אט לאפשרויות.",
+ "Right-click a chat for options.": "לחצו קליק ימני על צ'אט לאפשרויות."
 }

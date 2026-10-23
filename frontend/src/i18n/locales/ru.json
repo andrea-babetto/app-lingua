@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Фото готово — сохраните, чтобы применить",
  "Please choose your language": "Выберите ваш язык",
  "Preferences": "Настройки",
- "Press and hold a chat to delete it.": "Нажмите и удерживайте чат, чтобы удалить его.",
  "Privacy Policy": "Политика конфиденциальности",
  "Profile": "Профиль",
  "Promoted to admin": "Назначен администратором",
@@ -108,7 +107,6 @@
  "Request accepted": "Запрос принят",
  "Retrying translation...": "Повторная попытка перевода...",
  "Reveal source text by default": "Показывать оригинал по умолчанию",
- "Right-click a chat to delete it.": "Щёлкните чат правой кнопкой мыши, чтобы удалить его.",
  "Rule (e.g. keep)": "Правило (напр., оставить)",
  "Save": "Сохранить",
  "Save new password": "Сохранить новый пароль",
@@ -199,5 +197,10 @@
  "Media": "Медиа",
  "Files": "Файлы",
  "Links": "Ссылки",
- "Nothing here yet.": "Здесь пока ничего нет."
+ "Nothing here yet.": "Здесь пока ничего нет.",
+ "Pinned": "Закреплённые",
+ "Pin to the top": "Закрепить вверху",
+ "Unpin": "Открепить",
+ "Press and hold a chat for options.": "Удерживайте чат, чтобы увидеть параметры.",
+ "Right-click a chat for options.": "Нажмите на чат правой кнопкой, чтобы увидеть параметры."
 }

@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "تصویر تیار ہے — لاگو کرنے کے لیے محفوظ کریں",
  "Please choose your language": "براہِ کرم اپنی زبان منتخب کریں",
  "Preferences": "ترجیحات",
- "Press and hold a chat to delete it.": "چیٹ حذف کرنے کے لیے اسے دبائے رکھیں۔",
  "Privacy Policy": "پرائیویسی پالیسی",
  "Profile": "پروفائل",
  "Promoted to admin": "ایڈمن بنا دیا گیا",
@@ -108,7 +107,6 @@
  "Request accepted": "درخواست قبول ہو گئی",
  "Retrying translation...": "ترجمہ دوبارہ کیا جا رہا ہے...",
  "Reveal source text by default": "اصل متن پہلے سے دکھائیں",
- "Right-click a chat to delete it.": "چیٹ حذف کرنے کے لیے اس پر رائٹ کلک کریں۔",
  "Rule (e.g. keep)": "اصول (مثلاً رکھیں)",
  "Save": "محفوظ کریں",
  "Save new password": "نیا پاس ورڈ محفوظ کریں",
@@ -199,5 +197,10 @@
  "Media": "میڈیا",
  "Files": "فائلیں",
  "Links": "لنکس",
- "Nothing here yet.": "یہاں ابھی کچھ نہیں۔"
+ "Nothing here yet.": "یہاں ابھی کچھ نہیں۔",
+ "Pinned": "پن کی گئیں",
+ "Pin to the top": "اوپر پن کریں",
+ "Unpin": "پن ہٹائیں",
+ "Press and hold a chat for options.": "اختیارات کے لیے چیٹ کو دیر تک دبائیں۔",
+ "Right-click a chat for options.": "اختیارات کے لیے چیٹ پر دایاں کلک کریں۔"
 }

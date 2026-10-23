@@ -421,7 +421,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
             await db.chats.delete_one({"id": chat["id"]})
             continue
         chat_ids.append(chat["id"])
-        await db.chats.update_one({"id": chat["id"]}, {"$pull": {"members": uid, "admins": uid}})
+        await db.chats.update_one({"id": chat["id"]}, {"$pull": {"members": uid, "admins": uid, "pinned_by": uid}})
         if not [a for a in chat.get("admins", []) if a in remaining]:
             await db.chats.update_one({"id": chat["id"]}, {"$addToSet": {"admins": remaining[0]}})
     await db.messages.delete_many({"sender_id": uid})
@@ -596,6 +596,7 @@ async def enrich_chat(chat, me_id):
                                                 "deleted_for": {"$ne": me_id}})
     out = dict(chat)
     out.pop("hidden_for", None)  # who deleted the chat is private to each person
+    out["pinned"] = me_id in (out.pop("pinned_by", None) or [])  # who pinned it is private too
     out["members_info"] = members
     out["last_message"] = last
     out["unread"] = unread
@@ -736,6 +737,27 @@ async def add_members(chat_id: str, body: AddMembersIn, user=Depends(get_current
     for mid in new_members:
         await ws_manager.send(mid, {"type": "new_chat", "chat": await enrich_chat(chat, mid)})
     return await enrich_chat(chat, user["id"])
+
+
+MAX_PINNED_CHATS = 5
+
+
+@api.post("/chats/{chat_id}/pin")
+async def pin_chat(chat_id: str, user=Depends(get_current_user)):
+    """Keep a chat at the top of my list. Private to me; at most MAX_PINNED_CHATS."""
+    await get_chat_for(chat_id, user)
+    already = await db.chats.count_documents({"pinned_by": user["id"], "members": user["id"]})
+    if already >= MAX_PINNED_CHATS and not await db.chats.find_one({"id": chat_id, "pinned_by": user["id"]}):
+        raise HTTPException(status_code=400, detail=f"You can pin up to {MAX_PINNED_CHATS} chats")
+    await db.chats.update_one({"id": chat_id}, {"$addToSet": {"pinned_by": user["id"]}})
+    return {"pinned": True}
+
+
+@api.post("/chats/{chat_id}/unpin")
+async def unpin_chat(chat_id: str, user=Depends(get_current_user)):
+    await get_chat_for(chat_id, user)
+    await db.chats.update_one({"id": chat_id}, {"$pull": {"pinned_by": user["id"]}})
+    return {"pinned": False}
 
 
 @api.post("/chats/{chat_id}/leave")

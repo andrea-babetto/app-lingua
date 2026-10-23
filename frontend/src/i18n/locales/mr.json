@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "फोटो तयार — लागू करण्यासाठी सेव्ह करा",
  "Please choose your language": "कृपया तुमची भाषा निवडा",
  "Preferences": "प्राधान्ये",
- "Press and hold a chat to delete it.": "चॅट हटवण्यासाठी ती दाबून धरा.",
  "Privacy Policy": "गोपनीयता धोरण",
  "Profile": "प्रोफाइल",
  "Promoted to admin": "अ‍ॅडमिन बनवले",
@@ -108,7 +107,6 @@
  "Request accepted": "विनंती स्वीकारली",
  "Retrying translation...": "भाषांतर पुन्हा प्रयत्न होत आहे...",
  "Reveal source text by default": "मूळ मजकूर डिफॉल्टने दाखवा",
- "Right-click a chat to delete it.": "चॅट हटवण्यासाठी तिच्यावर राइट-क्लिक करा.",
  "Rule (e.g. keep)": "नियम (उदा. keep)",
  "Save": "सेव्ह करा",
  "Save new password": "नवीन पासवर्ड सेव्ह करा",
@@ -199,5 +197,10 @@
  "Media": "मीडिया",
  "Files": "फाइल्स",
  "Links": "लिंक",
- "Nothing here yet.": "इथे अजून काही नाही."
+ "Nothing here yet.": "इथे अजून काही नाही.",
+ "Pinned": "पिन केलेले",
+ "Pin to the top": "वर पिन करा",
+ "Unpin": "पिन काढा",
+ "Press and hold a chat for options.": "पर्यायांसाठी चॅट दाबून ठेवा.",
+ "Right-click a chat for options.": "पर्यायांसाठी चॅटवर राइट-क्लिक करा."
 }

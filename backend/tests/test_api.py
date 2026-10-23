@@ -717,3 +717,28 @@ def test_group_members_get_a_notification_with_the_group_name(client, make_perso
         (b.id, {"title": "Anna · Team", "body": "[en] ciao a tutti", "chat_id": g["id"]}),
         (c.id, {"title": "Anna · Team", "body": "[es] ciao a tutti", "chat_id": g["id"]}),
     ], key=lambda s: s[0])
+
+
+def test_pin_a_chat_is_private_and_limited(client, make_person):
+    a, b = make_person("a@x.com"), make_person("b@x.com")
+    chat = direct(client, a, b)
+    assert client.get("/api/chats", headers=a.h).json()[0]["pinned"] is False
+    assert client.post(f"/api/chats/{chat['id']}/pin", headers=a.h).json() == {"pinned": True}
+    mine = client.get("/api/chats", headers=a.h).json()[0]
+    assert mine["pinned"] is True and "pinned_by" not in mine
+    assert client.get("/api/chats", headers=b.h).json()[0]["pinned"] is False  # the other person sees nothing
+    assert client.post(f"/api/chats/{chat['id']}/pin", headers=a.h).status_code == 200  # pinning twice is fine
+    assert client.post(f"/api/chats/{chat['id']}/unpin", headers=a.h).json() == {"pinned": False}
+    assert client.get("/api/chats", headers=a.h).json()[0]["pinned"] is False
+    c = make_person("c@x.com")
+    assert client.post(f"/api/chats/{chat['id']}/pin", headers=c.h).status_code == 403  # not a member
+    assert client.post(f"/api/chats/{chat['id']}/pin").status_code == 401
+
+
+def test_pinning_stops_at_five_chats(client, make_person):
+    a = make_person("a@x.com")
+    chats = [direct(client, a, make_person(f"p{i}@x.com")) for i in range(6)]
+    for c in chats[:5]:
+        assert client.post(f"/api/chats/{c['id']}/pin", headers=a.h).status_code == 200
+    assert client.post(f"/api/chats/{chats[5]['id']}/pin", headers=a.h).status_code == 400
+    assert client.post(f"/api/chats/{chats[0]['id']}/pin", headers=a.h).status_code == 200  # already pinned: no error

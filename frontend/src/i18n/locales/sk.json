@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "Fotka je pripravená — uložte na použitie",
  "Please choose your language": "Vyberte svoj jazyk",
  "Preferences": "Predvoľby",
- "Press and hold a chat to delete it.": "Chat odstránite stlačením a podržaním.",
  "Privacy Policy": "Zásady ochrany osobných údajov",
  "Profile": "Profil",
  "Promoted to admin": "Povýšený na správcu",
@@ -108,7 +107,6 @@
  "Request accepted": "Žiadosť bola prijatá",
  "Retrying translation...": "Opakujem preklad...",
  "Reveal source text by default": "Predvolene zobrazovať pôvodný text",
- "Right-click a chat to delete it.": "Chat odstránite kliknutím pravým tlačidlom.",
  "Rule (e.g. keep)": "Pravidlo (napr. ponechať)",
  "Save": "Uložiť",
  "Save new password": "Uložiť nové heslo",
@@ -199,5 +197,10 @@
  "Media": "Médiá",
  "Files": "Súbory",
  "Links": "Odkazy",
- "Nothing here yet.": "Zatiaľ tu nič nie je."
+ "Nothing here yet.": "Zatiaľ tu nič nie je.",
+ "Pinned": "Pripnuté",
+ "Pin to the top": "Pripnúť navrch",
+ "Unpin": "Odopnúť",
+ "Press and hold a chat for options.": "Podržaním chatu zobrazíte možnosti.",
+ "Right-click a chat for options.": "Kliknutím pravým tlačidlom na chat zobrazíte možnosti."
 }

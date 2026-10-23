@@ -95,7 +95,6 @@
  "Photo ready — save to apply": "ছবি প্রস্তুত — প্রয়োগ করতে সেভ করুন",
  "Please choose your language": "অনুগ্রহ করে আপনার ভাষা বেছে নিন",
  "Preferences": "পছন্দসমূহ",
- "Press and hold a chat to delete it.": "মুছতে চ্যাটে চেপে ধরে রাখুন।",
  "Privacy Policy": "গোপনীয়তা নীতি",
  "Profile": "প্রোফাইল",
  "Promoted to admin": "অ্যাডমিন করা হয়েছে",
@@ -108,7 +107,6 @@
  "Request accepted": "অনুরোধ গৃহীত হয়েছে",
  "Retrying translation...": "অনুবাদ আবার চেষ্টা করা হচ্ছে...",
  "Reveal source text by default": "ডিফল্টভাবে মূল লেখা দেখান",
- "Right-click a chat to delete it.": "মুছতে চ্যাটে রাইট-ক্লিক করুন।",
  "Rule (e.g. keep)": "নিয়ম (যেমন: রাখুন)",
  "Save": "সেভ",
  "Save new password": "নতুন পাসওয়ার্ড সেভ করুন",
@@ -199,5 +197,10 @@
  "Media": "মিডিয়া",
  "Files": "ফাইল",
  "Links": "লিংক",
- "Nothing here yet.": "এখানে এখনও কিছু নেই।"
+ "Nothing here yet.": "এখানে এখনও কিছু নেই।",
+ "Pinned": "পিন করা",
+ "Pin to the top": "উপরে পিন করুন",
+ "Unpin": "পিন সরান",
+ "Press and hold a chat for options.": "অপশনের জন্য চ্যাট চেপে ধরে রাখুন।",
+ "Right-click a chat for options.": "অপশনের জন্য চ্যাটে ডান-ক্লিক করুন।"
 }
