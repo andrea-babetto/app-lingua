@@ -172,7 +172,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         <button className="flex items-center gap-3 flex-1 min-w-0 text-start h-full md:ps-2" onClick={onToggleInfo}>
           <Avatar className={`w-10 h-10 ${isGroup ? "rounded-xl" : ""}`}>
             <AvatarImage src={chat.display_avatar} />
-            <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${isGroup ? "rounded-xl" : ""}`}>{chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${isGroup ? "rounded-xl" : ""}`}>{(isGroup && chat.emoji) || chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <div className="text-[17px] font-semibold truncate leading-tight">{chat.display_name}</div>

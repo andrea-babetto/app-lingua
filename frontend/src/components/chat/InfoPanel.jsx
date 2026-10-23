@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { avatarClass } from "@/lib/avatar";
+import EmojiPick from "@/components/chat/EmojiPick";
 import { useI18n } from "@/i18n";
 
 // Round action button with its label underneath (search, block, report).
@@ -88,6 +89,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
   const [gName, setGName] = useState(chat.display_name);
   const [gDesc, setGDesc] = useState(chat.description || "");
   const [gAvatar, setGAvatar] = useState(chat.display_avatar || "");
+  const [gEmoji, setGEmoji] = useState(chat.emoji || "");
   const [reportOpen, setReportOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [reason, setReason] = useState("");
@@ -133,7 +135,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
 
   const saveGroup = async () => {
     try {
-      await api.put(`/chats/${chat.id}/info`, { name: gName, description: gDesc, avatar: gAvatar });
+      await api.put(`/chats/${chat.id}/info`, { name: gName, description: gDesc, avatar: gAvatar, emoji: gEmoji });
       toast.success(t("Group updated"));
       setEditing(false);
       onChanged();
@@ -166,7 +168,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
       <div className="flex-1 overflow-y-auto chat-scroll p-5 space-y-6">
         <div className="flex flex-col items-center text-center gap-2">
           <div className="relative">
-            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className={`text-2xl ${avatarClass(chat.display_name)}`}>{chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className={`text-2xl ${avatarClass(chat.display_name)}`}>{(editing ? gEmoji : chat.emoji) || chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
             {isGroup && editing && (
               <label className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer" data-testid="group-avatar-upload">
                 <Camera className="w-4 h-4" />
@@ -177,9 +179,10 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
           {editing ? (
             <div className="w-full space-y-2 mt-2">
               <Input data-testid="edit-group-name" value={gName} onChange={(e) => setGName(e.target.value)} placeholder={t("Group name")} />
+              <EmojiPick value={gEmoji} onChange={setGEmoji} />
               <Textarea data-testid="edit-group-desc" value={gDesc} onChange={(e) => setGDesc(e.target.value)} placeholder={t("Group description")} rows={2} />
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1" onClick={() => { setEditing(false); setGName(chat.display_name); setGDesc(chat.description || ""); setGAvatar(chat.display_avatar || ""); }}>{t("Cancel")}</Button>
+                <Button variant="outline" className="flex-1" onClick={() => { setEditing(false); setGName(chat.display_name); setGDesc(chat.description || ""); setGAvatar(chat.display_avatar || ""); setGEmoji(chat.emoji || ""); }}>{t("Cancel")}</Button>
                 <Button className="flex-1" onClick={saveGroup} data-testid="save-group-button"><Check className="w-4 h-4 me-1" /> {t("Save")}</Button>
               </div>
             </div>

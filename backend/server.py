@@ -683,9 +683,20 @@ async def create_direct(other_id: str, user=Depends(get_current_user)):
     return await get_or_create_direct(user["id"], other_id)
 
 
+def clean_group_emoji(value):
+    """An optional emoji shown as the group's picture: a few symbol characters, never letters, digits or markup."""
+    v = (value or "").strip()
+    if not v:
+        return ""
+    if len(v) > 8 or any(c.isalnum() or c.isspace() or c in "<>&\"'`\\" or ord(c) < 32 for c in v):
+        raise HTTPException(status_code=422, detail="Use a single emoji")
+    return v
+
+
 class GroupIn(BaseModel):
     name: str = Field(min_length=1, max_length=60)
     member_ids: List[str] = Field(max_length=49)
+    emoji: Optional[str] = Field(default=None, max_length=16)
 
 
 async def _valid_member_ids(ids, adder_id):
@@ -702,6 +713,9 @@ async def create_group(body: GroupIn, user=Depends(get_current_user)):
     members = ([user["id"]] + [m for m in valid if m != user["id"]])[:50]
     chat = {"id": str(uuid.uuid4()), "type": "group", "name": body.name.strip(), "members": members,
             "admins": [user["id"]], "tone": DEFAULT_TONE, "created_at": now_iso()}
+    emoji = clean_group_emoji(body.emoji)
+    if emoji:
+        chat["emoji"] = emoji
     await db.chats.insert_one(dict(chat))
     enriched = await enrich_chat(chat, user["id"])
     for m in members:
@@ -789,6 +803,7 @@ class GroupInfoIn(BaseModel):
     name: Optional[str] = Field(default=None, min_length=1, max_length=60)
     avatar: Optional[str] = Field(default=None, max_length=600)
     description: Optional[str] = Field(default=None, max_length=500)
+    emoji: Optional[str] = Field(default=None, max_length=16)  # "" removes it
 
 
 @api.put("/chats/{chat_id}/info")
@@ -801,6 +816,8 @@ async def update_group_info(chat_id: str, body: GroupInfoIn, user=Depends(get_cu
     updates = {k: v for k, v in body.model_dump().items() if v is not None}
     if "avatar" in updates:
         updates["avatar"] = await validate_avatar_ref(updates["avatar"])
+    if "emoji" in updates:
+        updates["emoji"] = clean_group_emoji(updates["emoji"])
     if updates:
         await db.chats.update_one({"id": chat_id}, {"$set": updates})
         chat.update(updates)

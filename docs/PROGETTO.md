@@ -120,3 +120,4 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Elenco chat: filtri Tutte / Non lette; i gruppi si vedono anche tra tutte le chat.
 - Chat fissate (max 5, private, salvate sul server): `POST /api/chats/{id}/pin` e `/unpin`; nell'elenco compaiono sotto "Fissate". Si fissa con pressione lunga (o clic destro) sulla chat.
 - Scheda contatto: pulsanti rotondi Cerca / Blocca / Segnala e schede Media, File, Link (dai messaggi già caricati: gli ultimi 50 più quelli scorsi).
+- Gruppi con emoji come immagine (facoltativa): campo `emoji` del gruppo (solo simboli, max 8 caratteri; validato dal server), scelta alla creazione e nella modifica; al posto delle iniziali.

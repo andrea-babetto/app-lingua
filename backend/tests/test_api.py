@@ -742,3 +742,19 @@ def test_pinning_stops_at_five_chats(client, make_person):
         assert client.post(f"/api/chats/{c['id']}/pin", headers=a.h).status_code == 200
     assert client.post(f"/api/chats/{chats[5]['id']}/pin", headers=a.h).status_code == 400
     assert client.post(f"/api/chats/{chats[0]['id']}/pin", headers=a.h).status_code == 200  # already pinned: no error
+
+
+def test_group_emoji_is_optional_validated_and_editable_by_admins(client, make_person):
+    a, b = make_person("a@x.com"), make_person("b@x.com")
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id], "emoji": "💼"}, headers=a.h).json()
+    assert g["emoji"] == "💼"
+    assert client.get("/api/chats", headers=b.h).json()[0]["emoji"] == "💼"   # members see it too
+    plain = client.post("/api/chats/group", json={"name": "Plain", "member_ids": [b.id]}, headers=a.h).json()
+    assert not plain.get("emoji")
+    for bad in ("abc", "<b>", "1", "a💼", "💼💼💼💼💼💼💼💼💼"):
+        r = client.post("/api/chats/group", json={"name": "X", "member_ids": [], "emoji": bad}, headers=a.h)
+        assert r.status_code == 422, bad
+    assert client.put(f"/api/chats/{g['id']}/info", json={"emoji": "🍕"}, headers=b.h).status_code == 403  # not an admin
+    assert client.put(f"/api/chats/{g['id']}/info", json={"emoji": "🍕"}, headers=a.h).json()["emoji"] == "🍕"
+    assert not client.put(f"/api/chats/{g['id']}/info", json={"emoji": ""}, headers=a.h).json().get("emoji")  # removed
+    assert client.put(f"/api/chats/{g['id']}/info", json={"emoji": "<script>"}, headers=a.h).status_code == 422

@@ -56,7 +56,7 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
       <div className="relative shrink-0">
         <Avatar className={chat.type === "group" ? "rounded-2xl" : ""} style={{ width: "3.125rem", height: "3.125rem" }}>
           <AvatarImage src={chat.display_avatar} />
-          <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${chat.type === "group" ? "rounded-2xl" : ""}`}>{initials(chat.display_name)}</AvatarFallback>
+          <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${chat.type === "group" ? "rounded-2xl" : ""}`}>{(chat.type === "group" && chat.emoji) || initials(chat.display_name)}</AvatarFallback>
         </Avatar>
         {chat.other_user?.online && <span className="absolute bottom-0 end-0 w-3.5 h-3.5 rounded-full bg-online border-2 border-card" />}
       </div>

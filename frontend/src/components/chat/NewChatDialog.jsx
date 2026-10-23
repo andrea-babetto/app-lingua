@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import EmojiPick from "@/components/chat/EmojiPick";
 import { useI18n } from "@/i18n";
 
 export default function NewChatDialog({ open, onOpenChange, onStartChat, initialTab = "person" }) {
@@ -20,10 +21,11 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
   const [loading, setLoading] = useState(false);
   // group
   const [groupName, setGroupName] = useState("");
+  const [groupEmoji, setGroupEmoji] = useState("");
   const [selected, setSelected] = useState([]);
   const [creating, setCreating] = useState(false);
 
-  const reset = () => { setQ(""); setResults([]); setGroupName(""); setSelected([]); };
+  const reset = () => { setQ(""); setResults([]); setGroupName(""); setGroupEmoji(""); setSelected([]); };
 
   const search = async (val) => {
     setQ(val);
@@ -54,7 +56,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
     if (selected.length === 0) return toast.error(t("Add at least one member"));
     setCreating(true);
     try {
-      const { data } = await api.post("/chats/group", { name: groupName, member_ids: selected.map((u) => u.id) });
+      const { data } = await api.post("/chats/group", { name: groupName, member_ids: selected.map((u) => u.id), ...(groupEmoji ? { emoji: groupEmoji } : {}) });
       toast.success(t("Group created"));
       onStartChat(data);
       onOpenChange(false); reset();
@@ -110,6 +112,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
         ) : (
           <div className="space-y-3">
             <Input data-testid="group-name-input" placeholder={t("Group name")} value={groupName} onChange={(e) => setGroupName(e.target.value)} />
+            <EmojiPick value={groupEmoji} onChange={setGroupEmoji} />
             {selected.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {selected.map((u) => (
