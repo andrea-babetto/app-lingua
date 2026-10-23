@@ -11,7 +11,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
-import Logo, { LogoArrows } from "@/components/Logo";
+import { LogoArrows } from "@/components/Logo";
 import { avatarClass } from "@/lib/avatar";
 import { useI18n } from "@/i18n";
 
@@ -147,7 +147,15 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
   return (
     <div className="h-full flex flex-col bg-card relative">
       <header className="h-16 px-5 flex items-center justify-between shrink-0 bg-card">
-        <Logo height={29} />
+        {(() => {
+          const current = TABS.find((x) => x.id === tab) || TABS[0];
+          return (
+            <h1 data-testid="screen-title" className="flex items-center gap-2.5 text-[26px] leading-none font-bold tracking-tight">
+              <current.Icon className="w-6 h-6 text-primary" strokeWidth={2.4} aria-hidden="true" />
+              {t(current.label)}
+            </h1>
+          );
+        })()}
         <button data-testid="header-profile-button" onClick={() => setTab("profile")} aria-label={t("Profile")}>
           <Avatar className="w-9 h-9">
             <AvatarImage src={user.avatar} />

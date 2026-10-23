@@ -243,6 +243,22 @@ export default function Chat() {
 
   const closeActive = () => { openReq.current++; setActive(null); setInfoOpen(false); setMobileView("list"); };
 
+  // On a phone, swiping across the open chat in the "back" direction (left to right; right to left in Arabic and Hebrew) closes it.
+  const swipe = useRef(null);
+  const overlayOpen = () => !!document.querySelector('[role="dialog"], [data-testid="lightbox"]'); // a menu or a photo is open on top
+  const onSwipeStart = (e) => {
+    // checked now, not at the end: touching outside a menu closes it, and that touch must not also close the chat
+    swipe.current = e.touches.length === 1 && !overlayOpen() ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+  };
+  const onSwipeEnd = (e) => {
+    const s = swipe.current; swipe.current = null;
+    if (!s || !activeRef.current || window.innerWidth >= 768) return;
+    if (window.getSelection()?.toString()) return; // the person is selecting text
+    const t = e.changedTouches[0];
+    const dx = (t.clientX - s.x) * (document.documentElement.dir === "rtl" ? -1 : 1), dy = t.clientY - s.y;
+    if (dx > 80 && Math.abs(dy) < dx / 2) closeActive();
+  };
+
   const togglePin = async (chat) => {
     try {
       await api.post(`/chats/${chat.id}/${chat.pinned ? "unpin" : "pin"}`);
@@ -267,7 +283,7 @@ export default function Chat() {
           requests={requests} onAccept={accept} onDecline={decline} />
       </div>
 
-      <div className={`${mobileView === "chat" ? "flex animate-slide-in" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping}>
+      <div className={`${mobileView === "chat" ? "flex animate-slide-in" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping} onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
         {active ? (
           <ChatWindow key={active.id} chat={active} messages={messages} loading={messagesLoading} onSend={send} onEdit={edit} onReact={react}
             onBack={closeActive} openSearchSignal={searchSignal} typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
