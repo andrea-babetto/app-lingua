@@ -151,7 +151,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
           const current = TABS.find((x) => x.id === tab) || TABS[0];
           return (
             <h1 data-testid="screen-title" className="flex items-center gap-2.5 text-[26px] leading-none font-bold tracking-tight">
-              <current.Icon className="w-6 h-6 text-primary" strokeWidth={2.4} aria-hidden="true" />
+              <current.Icon className="w-6 h-6 text-foreground" strokeWidth={2.4} aria-hidden="true" />
               {t(current.label)}
             </h1>
           );
