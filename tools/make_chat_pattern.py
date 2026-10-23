@@ -21,7 +21,7 @@ NAMES = [
     "coffee", "pizza", "ice-cream-cone", "cake", "wine", "gift", "camera", "music", "guitar", "headphones", "book-open", "lightbulb", "palette", "sparkles", "star", "rocket",
 ]
 MARK = ('<circle cx="12" cy="11.2" r="9"/><path d="M4.4 15.8L2.4 22.4L9.4 19.6z"/><circle cx="12" cy="11.2" r="2.4"/>')  # the Glotter mark
-GRID, CELL = 7, 44             # GRID x GRID cells of CELL px: one tile repeats every W x H
+GRID, CELL = 9, 34             # GRID x GRID cells of CELL px: one tile repeats every W x H
 W = H = GRID * CELL
 
 
@@ -46,9 +46,9 @@ def tile(colour, opacity):
     parts = []
     for i in range(GRID * GRID):
         r, c = divmod(i, GRID)
-        size = rnd.uniform(26, 31)
-        cx = c * CELL + CELL / 2 + rnd.uniform(-6, 6) + (CELL / 2 if r % 2 else 0)
-        cy = r * CELL + CELL / 2 + rnd.uniform(-6, 6)
+        size = rnd.uniform(21, 26)
+        cx = c * CELL + CELL / 2 + rnd.uniform(-5, 5) + (CELL / 2 if r % 2 else 0)
+        cy = r * CELL + CELL / 2 + rnd.uniform(-5, 5)
         rot = rnd.uniform(-22, 22)
         for dx in (-W, 0, W):               # copies across the edge so the tile repeats without a seam
             for dy in (-H, 0, H):
