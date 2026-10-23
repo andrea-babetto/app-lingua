@@ -79,6 +79,7 @@ export default function Login() {
           <h1 className="mt-5 text-[23px] leading-snug font-semibold tracking-tight">
             {t("One language: yours.")}
           </h1>
+          <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Talk to anyone in the world: everyone writes and reads in their own language.")}</p>
         </div>
 
         <form onSubmit={submit} className="flex-1 flex flex-col">
