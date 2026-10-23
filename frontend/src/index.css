@@ -134,12 +134,13 @@
 .chat-scroll::-webkit-scrollbar { width: 6px; }
 .chat-scroll::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground) / 0.3); border-radius: 3px; }
 
-/* conversation background: warm paper with a dot every 18px */
+/* conversation background: warm paper with a light texture of small marks, bubbles and dots (tools/make_chat_pattern.py) */
 .chat-wallpaper {
   background-color: hsl(var(--chat-bg));
-  background-image: radial-gradient(hsl(var(--chat-dots)) 1px, transparent 1.2px);
-  background-size: 18px 18px;
+  background-image: url("./assets/brand/chat-pattern-light.svg");
+  background-size: 160px 160px;
 }
+.dark .chat-wallpaper { background-image: url("./assets/brand/chat-pattern-dark.svg"); }
 
 /* the dot of the translation mark pulses while a message is being translated */
 @keyframes gl-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }

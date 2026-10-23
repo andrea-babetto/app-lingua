@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/Logo";
 import LoginDemo from "@/components/LoginDemo";
+import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
@@ -16,12 +17,16 @@ import { LANGUAGES } from "@/data/languages";
 const SEEN = "glott_seen";
 const seenBefore = () => { try { return !!localStorage.getItem(SEEN); } catch { return false; } };
 const markSeen = () => { try { localStorage.setItem(SEEN, "1"); } catch { /* storage blocked */ } };
+// Coming back from the Terms or Privacy page: same screen as before, with the name and email already typed (never the password).
+const FORM = "glott_form";
+const comingBack = () => { const [page, view] = returnTarget().split(":"); return page === "login" ? view : ""; };
+const savedForm = () => { try { return comingBack() ? JSON.parse(sessionStorage.getItem(FORM) || "{}") : {}; } catch { return {}; } };
 
 export default function Login() {
   const { t, lang, setUiLang } = useI18n();
-  const [view, setView] = useState(() => (seenBefore() ? "login" : "welcome")); // welcome | login | register
+  const [view, setView] = useState(() => comingBack() || (seenBefore() ? "login" : "welcome")); // welcome | login | register
   const mode = view === "register" ? "register" : "login";
-  const [form, setForm] = useState({ name: "", email: "", password: "", invite_code: "" });
+  const [form, setForm] = useState(() => ({ name: "", email: "", password: "", invite_code: "", ...savedForm() }));
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [googleClientId, setGoogleClientId] = useState("");
@@ -29,6 +34,8 @@ export default function Login() {
   const [showInvite, setShowInvite] = useState(false);
   const { auth } = useAuth();
   const nav = useNavigate();
+  useEffect(() => { clearReturn(); try { sessionStorage.removeItem(FORM); } catch { /* storage blocked */ } }, []);
+  const toLegal = () => { rememberReturn(`login:${view}`); try { sessionStorage.setItem(FORM, JSON.stringify({ name: form.name, email: form.email })); } catch { /* storage blocked */ } };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -76,7 +83,7 @@ export default function Login() {
   const consent = (
     <p className="text-xs text-center text-muted-foreground leading-relaxed" data-testid="welcome-consent">
       {t("By creating an account you agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
-        i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} className="underline font-semibold">{part}</Link> : part)}
+        i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="underline font-semibold">{part}</Link> : part)}
     </p>
   );
   const languageMenu = (
@@ -157,7 +164,7 @@ export default function Login() {
             {mode === "register" && (
               <p data-testid="consent-line" className="text-xs text-muted-foreground leading-relaxed">
                 {t("By creating an account you agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
-                  i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} className="text-primary font-semibold underline">{part}</Link> : part)}
+                  i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="text-primary font-semibold underline">{part}</Link> : part)}
               </p>
             )}
           </div>
@@ -181,8 +188,8 @@ export default function Login() {
               </button>
             </p>
             <p className="text-xs text-center text-muted-foreground space-x-3 rtl:space-x-reverse">
-              <Link to="/terms" className="underline">{t("Terms of Service")}</Link>
-              <Link to="/privacy" className="underline">{t("Privacy Policy")}</Link>
+              <Link to="/terms" onClick={toLegal} className="underline">{t("Terms of Service")}</Link>
+              <Link to="/privacy" onClick={toLegal} className="underline">{t("Privacy Policy")}</Link>
             </p>
           </div>
         </form>

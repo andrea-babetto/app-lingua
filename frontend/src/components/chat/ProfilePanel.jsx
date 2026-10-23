@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { avatarClass } from "@/lib/avatar";
+import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import LanguagePicker from "@/components/LanguagePicker";
 import { useI18n } from "@/i18n";
 
@@ -354,8 +355,8 @@ function PrivacyPage({ onBack, onOpen }) {
       <Group><Row icon={Ban} label={t("Blocked users")} testId="profile-row-blocked" onClick={() => onOpen("blocked")} /></Group>
       <Section>
         <div className="flex flex-col gap-2 text-sm">
-          <Link to="/terms" className="hover:underline">{t("Terms of Service")}</Link>
-          <Link to="/privacy" className="hover:underline">{t("Privacy Policy")}</Link>
+          <Link to="/terms" onClick={() => rememberReturn("profile:privacy")} className="hover:underline">{t("Terms of Service")}</Link>
+          <Link to="/privacy" onClick={() => rememberReturn("profile:privacy")} className="hover:underline">{t("Privacy Policy")}</Link>
         </div>
       </Section>
     </SubPage>
@@ -364,12 +365,35 @@ function PrivacyPage({ onBack, onOpen }) {
 
 const HELP_EMAIL = import.meta.env.VITE_LEGAL_EMAIL || "";
 
+function HelpPage({ onBack }) {
+  const { t } = useI18n();
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(HELP_EMAIL); toast.success(t("Copied")); } catch { toast(HELP_EMAIL); }
+  };
+  return (
+    <SubPage title={t("Help and feedback")} onBack={onBack}>
+      <Section>
+        <p className="text-sm leading-relaxed">{t("We read every message. Tell us what is not working or what you would like to see.")}</p>
+        <div className="rounded-2xl bg-surface border border-border px-4 py-3">
+          <div className="text-xs font-medium text-muted-foreground">{t("Email")}</div>
+          <div data-testid="help-email" dir="ltr" className="mt-0.5 text-[15px] font-semibold break-all select-all">{HELP_EMAIL}</div>
+        </div>
+        <div className="flex gap-2">
+          <Button data-testid="help-write" className="flex-1" onClick={() => { window.location.href = `mailto:${HELP_EMAIL}?subject=${encodeURIComponent("Glotter")}`; }}><Mail className="w-4 h-4 me-2" /> {t("Write to us")}</Button>
+          <Button data-testid="help-copy" variant="outline" onClick={copy}>{t("Copy")}</Button>
+        </div>
+      </Section>
+    </SubPage>
+  );
+}
+
 export default function ProfilePanel({ onOpenAdmin }) {
   const { user, logout } = useAuth();
   const { mode } = useTheme();
   const { t, langName } = useI18n();
   const save = useSave();
-  const [page, setPage] = useState("main");
+  const [page, setPage] = useState(() => { const [tab, sub] = returnTarget().split(":"); return tab === "profile" && sub ? sub : "main"; });
+  useEffect(() => { clearReturn(); }, []);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef();
   const lang = langByCode(user.language);
@@ -406,6 +430,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
     glossary: <GlossaryPage onBack={back} />,
     privacy: <PrivacyPage onBack={back} onOpen={setPage} />,
     blocked: <BlockedPage onBack={() => setPage("privacy")} />,
+    help: <HelpPage onBack={back} />,
   };
   if (pages[page]) return pages[page];
 
@@ -437,7 +462,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
 
       <Group>
         <Row icon={Heart} label={t("Invite a friend")} testId="profile-row-invite" onClick={invite} />
-        {HELP_EMAIL && <Row icon={HelpCircle} label={t("Help and feedback")} testId="profile-row-help" onClick={() => { window.location.href = `mailto:${HELP_EMAIL}?subject=${encodeURIComponent("Glotter: help")}`; }} />}
+        {HELP_EMAIL && <Row icon={HelpCircle} label={t("Help and feedback")} hint={HELP_EMAIL} testId="profile-row-help" onClick={() => setPage("help")} />}
         {user.role === "admin" && <Row icon={BarChart3} label={t("Admin dashboard")} testId="open-admin-item" onClick={onOpenAdmin} />}
       </Group>
 

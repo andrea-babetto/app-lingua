@@ -13,6 +13,7 @@ import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
 import { LogoArrows } from "@/components/Logo";
 import { avatarClass } from "@/lib/avatar";
+import { returnTarget } from "@/lib/returnTarget";
 import { useI18n } from "@/i18n";
 
 function initials(name) {
@@ -122,7 +123,7 @@ function ContactRow({ chat, onSelect }) {
 export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, onTogglePin, requests, onAccept, onDecline }) {
   const { user } = useAuth();
   const { t } = useI18n();
-  const [tab, setTab] = useState("chats");
+  const [tab, setTab] = useState(() => (returnTarget().startsWith("profile") ? "profile" : "chats"));
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState("all"); // "all" | "unread", on the Chats tab
   const [toDelete, setToDelete] = useState(null);
