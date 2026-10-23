@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/Logo";
+import LoginDemo from "@/components/LoginDemo";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
@@ -74,12 +75,13 @@ export default function Login() {
           </select>
         </div>
 
-        <div className="mt-12 mb-9">
+        <div className="mt-8 mb-7">
           <Logo height={44} />
           <h1 className="mt-5 text-[23px] leading-snug font-semibold tracking-tight">
             {t("One language: yours.")}
           </h1>
           <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Talk to anyone in the world: everyone writes and reads in their own language.")}</p>
+          <LoginDemo />
         </div>
 
         <form onSubmit={submit} className="flex-1 flex flex-col">
