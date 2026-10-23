@@ -69,9 +69,9 @@
   :root {
     --gl-bg: #faf7f0; --gl-surface: #f1ede2; --gl-chat-bg: #f4f0e5; --gl-chat-dots: #e2dac5; --gl-line: #ebe5d4; --gl-border: #e3dcc9;
     --gl-text: #2b2823; --gl-text-2: #5a554a; --gl-text-3: #6f695d; --gl-danger: #a9392b; --gl-danger-bg: #fdecea; --gl-online: #3f8f5f;
-    --gl-primary: #3b3832; --gl-on-primary: #f8f4e9; --gl-accent: #f5c745; --gl-on-accent: #2b2823;
-    --gl-bubble-out: #3b3832; --gl-bubble-out-fg: #f8f4e9; --gl-bubble-in: #fffdf8; --gl-label-bg: #f7edcb; --gl-label-fg: #5a4410;
-    --gl-switch-off: #d8d1bf; --gl-selected-row: #f6ecca;
+    --gl-primary: #3b3832; --gl-on-primary: #f8f4e9; --gl-accent: #7da36f; --gl-on-accent: #14200f;
+    --gl-bubble-out: #3b3832; --gl-bubble-out-fg: #f8f4e9; --gl-bubble-in: #fffdf8; --gl-label-bg: #dce8d6; --gl-label-fg: #2f4a28;
+    --gl-switch-off: #d8d1bf; --gl-selected-row: #e4eedf;
     --gl-r-bubble: 18px; --gl-r-bubble-tail: 6px; --gl-r-card: 18px; --gl-r-input: 14px; --gl-r-btn: 16px;
   
     --background: var(--gl-bg);
@@ -111,9 +111,9 @@
 :root.dark, :root[data-theme="dark"] {
     --gl-bg: #1c1a17; --gl-surface: #25221e; --gl-chat-bg: #201e1a; --gl-chat-dots: #2b2823; --gl-line: #2e2a24; --gl-border: #38342d;
     --gl-text: #ece6d8; --gl-text-2: #b6ae9d; --gl-text-3: #968f80;
-    --gl-primary: #f5c745; --gl-on-primary: #1c1a17;
-    --gl-bubble-out: #3d382d; --gl-bubble-out-fg: #f1ead9; --gl-bubble-in: #2a2723; --gl-label-bg: rgba(245, 199, 69, 0.16); --gl-label-fg: #f2e0a6;
-    --gl-accent: #f5c745; --gl-selected-row: #2c2818;
+    --gl-primary: #a9c9a0; --gl-on-primary: #14200f;
+    --gl-bubble-out: #3d382d; --gl-bubble-out-fg: #f1ead9; --gl-bubble-in: #2a2723; --gl-label-bg: rgba(169, 201, 160, 0.16); --gl-label-fg: #d3e6cd;
+    --gl-accent: #a9c9a0; --gl-selected-row: #232a20;
   }
 }
 

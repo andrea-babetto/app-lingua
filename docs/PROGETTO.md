@@ -9,7 +9,7 @@ Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: un mo
 
 - **Proprietario:** Andrea Babetto (Shampissima, agenzia di Amazon PPC). Primo utente di prova: **Hamad** (agenzia, India). Parla italiano, preferisce istruzioni brevi, passo per passo, con screenshot.
 - **Stato:** in produzione, **beta chiusa su invito** (registrazione con codice `INVITE_CODE`). Usata da Andrea e Hamad.
-- **Nome:** **Glotter** (scelto da Andrea il 22/10/2026): "glot" dal greco *glotta* (lingua) + "-ter" (chi fa qualcosa). Interfaccia già aggiornata (logo, colori antracite, avorio e oro (aggiornati il 23/10/2026 sul ramo `design-refresh`, partendo dal design nero e giallo), carattere Onest, 41 lingue) con il design in `docs/brand/design_handoff_glotter/`. Marchio NON ancora verificato: TMview trova "GLOTTER" registrato in Messico (classe 25) e "PolyGlotterz" in Francia (classe 38, telecomunicazioni); serve un parere di un consulente in marchi (EUIPO, WIPO, UIBM). Domini: glotter.com occupato; alla verifica del 22/10 risultavano liberi .it .net .biz .eu .me .tel .tv (da confermare dal registrar prima di comprarli). Repong è stato il nome precedente: resta solo nei documenti di storia (`docs/brand/design_handoff_repong/`).
+- **Nome:** **Glotter** (scelto da Andrea il 22/10/2026): "glot" dal greco *glotta* (lingua) + "-ter" (chi fa qualcosa). Interfaccia già aggiornata (logo, colori antracite, avorio e verde salvia (aggiornati il 23/10/2026 sul ramo `design-refresh`, partendo dal design nero e giallo), carattere Onest, 41 lingue) con il design in `docs/brand/design_handoff_glotter/`. Marchio NON ancora verificato: TMview trova "GLOTTER" registrato in Messico (classe 25) e "PolyGlotterz" in Francia (classe 38, telecomunicazioni); serve un parere di un consulente in marchi (EUIPO, WIPO, UIBM). Domini: glotter.com occupato; alla verifica del 22/10 risultavano liberi .it .net .biz .eu .me .tel .tv (da confermare dal registrar prima di comprarli). Repong è stato il nome precedente: resta solo nei documenti di storia (`docs/brand/design_handoff_repong/`).
 
 ## 2. Dove sta tutto
 
@@ -50,7 +50,7 @@ Su `lingua-api` (Render → Environment). Elenco commentato in `backend/.env.exa
 - `src/components/chat/` — `Sidebar` (elenco, tab Chats/Groups/Profile), `ChatWindow`, `MessageBubble`, `MessageActions` (menu al tocco), `ProfilePanel`, `InfoPanel`, `NewChatDialog`, `PushPrompt`.
 - `src/hooks/useAppViewport.js` — tiene ferma l'intestazione quando si apre la tastiera su iPhone.
 - `src/lib/push.js` + `public/sw.js` — notifiche. `public/manifest.json` + icone — installazione.
-- Font: **Onest** (testo e logo) e **Noto Sans Arabic** per le lingue da destra a sinistra, inclusi nel sito. Colori: token Glotter in `src/index.css` (antracite, avorio e oro `#f5c745`, neutri caldi; modalità scura con primario oro), partiti da `docs/brand/design_handoff_glotter/tokens.css`; i file del marchio si rigenerano con `tools/brand_recolor.py` (in `docs/brand/glotter_v2/assets`). Sfondo chat: carta calda con un puntino ogni 18px (solo CSS). Logo: `components/Logo.jsx` (scritta + frecce; `LogoArrows` si anima mentre traduce). Icone: `tools/e2e/make_icons.py`.
+- Font: **Onest** (testo e logo) e **Noto Sans Arabic** per le lingue da destra a sinistra, inclusi nel sito. Colori: token Glotter in `src/index.css` (antracite, avorio e verde salvia `#7da36f`, neutri caldi; modalità scura con primario salvia chiaro `#a9c9a0`), partiti da `docs/brand/design_handoff_glotter/tokens.css`; i file del marchio si rigenerano con `tools/brand_recolor.py` (in `docs/brand/glotter_v2/assets`). Sfondo chat: carta calda con un puntino ogni 18px (solo CSS). Logo: `components/Logo.jsx` (scritta + frecce; `LogoArrows` si anima mentre traduce). Icone: `tools/e2e/make_icons.py`.
 
 **Dati (collezioni Mongo):** `users`, `chats`, `messages` (originale + traduzioni per lingua + traduzioni per utente con glossario, `reactions`, `deleted_for`), `contacts`, `files`, `translation_cache`, `translation_logs`, `reports`, `settings` (chiavi VAPID create da sole), `push_subs`.
 
@@ -67,7 +67,7 @@ Chat 1:1 e gruppi; traduzione automatica per ognuno (originale sempre recuperabi
 - **Lingua = quella del profilo** (non c'è riconoscimento automatico della lingua del testo).
 - Un solo tono neutro (la scelta formale/informale è stata tolta; il motore la sa ancora fare).
 - Beta chiusa su invito; vocali spenti ("solo testo al momento").
-- Aspetto: terracotta e sabbia (Repong) sostituiti dal design Glotter (prima nero e giallo, poi antracite, avorio e oro; `docs/brand/design_handoff_glotter/` e `docs/brand/glotter_v2/`). Sotto i propri messaggi, nelle chat a due, "{nome} legge in {lingua}" mostra il testo tradotto per l'altra persona.
+- Aspetto: terracotta e sabbia (Repong) sostituiti dal design Glotter (prima nero e giallo, poi antracite, avorio e verde salvia; `docs/brand/design_handoff_glotter/` e `docs/brand/glotter_v2/`). Sotto i propri messaggi, nelle chat a due, "{nome} legge in {lingua}" mostra il testo tradotto per l'altra persona.
 - Notifiche: il server manda la push solo a chi non è collegato da più di 60 secondi (ping ogni 20 s dal sito); gli indirizzi push ammessi sono solo quelli dei browser principali (il server si collega a quell'indirizzo).
 
 ## 7. Sicurezza e limiti noti
@@ -116,7 +116,7 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 
 ## Novità del 23/10/2026 (ramo `design-refresh`)
-- Tavolozza antracite, avorio e oro; avatar senza foto in sei colori morbidi scelti dal nome (`src/lib/avatar.js`).
+- Tavolozza antracite, avorio e verde salvia (provato prima l'oro, scartato); avatar senza foto in sei colori morbidi scelti dal nome (`src/lib/avatar.js`).
 - Elenco chat: filtri Tutte / Non lette; i gruppi si vedono anche tra tutte le chat.
 - Chat fissate (max 5, private, salvate sul server): `POST /api/chats/{id}/pin` e `/unpin`; nell'elenco compaiono sotto "Fissate". Si fissa con pressione lunga (o clic destro) sulla chat.
 - Scheda contatto: pulsanti rotondi Cerca / Blocca / Segnala e schede Media, File, Link (dai messaggi già caricati: gli ultimi 50 più quelli scorsi).

@@ -1,4 +1,4 @@
-"""Recolours the Glotter brand files from the design handoff with the antracite / ivory / gold palette.
+"""Recolours the Glotter brand files from the design handoff with the antracite / ivory / sage-green palette.
 usage: python tools/brand_recolor.py
 Reads docs/brand/design_handoff_glotter/assets/*.svg (left untouched), writes docs/brand/glotter_v2/assets/*.svg
 and copies the files the site imports into frontend/src/assets/brand/."""
@@ -11,15 +11,15 @@ SRC = ROOT / "docs/brand/design_handoff_glotter/assets"
 OUT = ROOT / "docs/brand/glotter_v2/assets"
 SITE = ROOT / "frontend/src/assets/brand"
 
-LETTERS, GOLD, IVORY, ANTHRACITE, PAPER = "#2b2823", "#f5c745", "#ece6d8", "#3b3832", "#f8f4e9"
+LETTERS, SAGE, SAGE_LIGHT, IVORY, ANTHRACITE, PAPER = "#2b2823", "#7da36f", "#a9c9a0", "#ece6d8", "#3b3832", "#f8f4e9"  # SAGE on light, SAGE_LIGHT on dark
 MAPS = {  # file -> {old colour: new colour}
-    "glotter-logo.svg": {"#1d1a16": LETTERS, "#ffcc1e": GOLD},
-    "glotter-logo-su-scuro.svg": {"#ffcc1e": GOLD, "#ffffff": IVORY},
-    "mark.svg": {"#1d1a16": LETTERS, "#ffcc1e": GOLD},
-    "mark-dark.svg": {"#ffcc1e": GOLD, "#ffffff": IVORY},
-    "icon-app.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": GOLD, "#ffffff": PAPER},
-    "icon-maskable.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": GOLD, "#ffffff": PAPER},
-    "favicon.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": GOLD, "#ffffff": PAPER},
+    "glotter-logo.svg": {"#1d1a16": LETTERS, "#ffcc1e": SAGE},
+    "glotter-logo-su-scuro.svg": {"#ffcc1e": SAGE_LIGHT, "#ffffff": IVORY},
+    "mark.svg": {"#1d1a16": LETTERS, "#ffcc1e": SAGE},
+    "mark-dark.svg": {"#ffcc1e": SAGE_LIGHT, "#ffffff": IVORY},
+    "icon-app.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": SAGE_LIGHT, "#ffffff": PAPER},
+    "icon-maskable.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": SAGE_LIGHT, "#ffffff": PAPER},
+    "favicon.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": SAGE_LIGHT, "#ffffff": PAPER},
 }
 
 
