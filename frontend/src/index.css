@@ -138,7 +138,7 @@
 .chat-wallpaper {
   background-color: hsl(var(--chat-bg));
   background-image: url("./assets/brand/chat-pattern-light.svg");
-  background-size: 276px 276px;
+  background-size: 308px 308px;
 }
 .dark .chat-wallpaper { background-image: url("./assets/brand/chat-pattern-dark.svg"); }
 
