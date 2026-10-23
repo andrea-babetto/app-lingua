@@ -1,7 +1,7 @@
 {
   "name": "Glotter",
   "short_name": "Glotter",
-  "description": "Chat with anyone in your own language. Messages are translated automatically.",
+  "description": "One language: yours. Talk to anyone in the world: everyone writes and reads in their own language.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
