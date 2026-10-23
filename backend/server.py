@@ -440,6 +440,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
             logger.warning("could not delete stored file %s", f.get("id"))
     await db.files.delete_many({"owner_id": uid})
     await db.push_subs.delete_many({"user_id": uid})
+    await db.usage.delete_many({"user_id": uid})
     await db.contacts.delete_many({"$or": [{"user_id": uid}, {"contact_id": uid}]})
     await db.users.update_many({"blocked": uid}, {"$pull": {"blocked": uid}})
     await db.users.delete_one({"id": uid})
@@ -841,11 +842,26 @@ async def update_group_info(chat_id: str, body: GroupInfoIn, user=Depends(get_cu
 
 
 # ---------------- Messages ----------------
-async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, notify=False):
+def usage_month(when=None):
+    return (when or datetime.now(timezone.utc)).strftime("%Y-%m")
+
+
+async def record_usage(sender_id, recipient_ids):
+    """Counts one translated message for the month: +1 'sent' for who wrote it, +1 'received' for each person it was translated for.
+    It never breaks a translation: a failure here is only logged."""
+    month = usage_month()
+    try:
+        for uid, field in [(sender_id, "sent")] + [(r, "received") for r in recipient_ids]:
+            await db.usage.update_one({"key": f"{uid}|{month}"}, {"$inc": {field: 1}, "$setOnInsert": {"user_id": uid, "month": month}}, upsert=True)
+    except Exception:
+        logger.exception("could not record the usage of message")
+
+
+async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, notify=False, count=True):
     """Translate one message for every recipient language, then push the update. Never leaves a
-    message stuck in 'translating'."""
+    message stuck in 'translating'. count=False for an edit: the same message is not counted twice."""
     status, translations, by_user = "translation_failed", {}, {}
-    members = []
+    members, delivered = [], []
     try:
         chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
         members = chat["members"] if chat else []
@@ -869,6 +885,7 @@ async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, noti
         for (lang, gl), res in zip(keys, results):
             if isinstance(res, dict):
                 entry = {"text": res["text"], "provider": res["provider"]}
+                delivered += jobs[(lang, gl)]
                 if gl:
                     for mid in jobs[(lang, gl)]:
                         by_user[mid] = entry
@@ -880,6 +897,10 @@ async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, noti
     except Exception:
         logger.exception("translation job failed for message %s", msg_id)
     finally:
+        if count and delivered:  # counted before the message shows as translated, so a reader of the status always finds the count too
+            row = await db.messages.find_one({"id": msg_id}, {"_id": 0, "sender_id": 1})
+            if row:
+                await record_usage(row["sender_id"], delivered)
         await db.messages.update_one({"id": msg_id}, {"$set": {"translations": translations, "translations_by_user": by_user, "status": status}})
         msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
         if msg:
@@ -1117,7 +1138,7 @@ async def edit_message(msg_id: str, body: EditIn, user=Depends(get_current_user)
         for mid in chat["members"]:
             u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
             await ws_manager.send(mid, {"type": "message_update", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat["id"]})
-        spawn(translate_message_async(msg_id, chat["id"], lang, text, DEFAULT_TONE))
+        spawn(translate_message_async(msg_id, chat["id"], lang, text, DEFAULT_TONE, count=False))
     return message_view(msg, lang, user["id"])
 
 
@@ -1281,6 +1302,38 @@ async def admin_stats(user=Depends(get_current_user)):
             "total_cost": round(cost_agg[0]["cost"], 4) if cost_agg else 0,
             "total_chars": cost_agg[0]["chars"] if cost_agg else 0,
             "daily": [{"date": d["_id"], "count": d["count"], "cost": round(d["cost"], 4), "chars": d["chars"]} for d in daily]}
+
+
+@api.get("/usage")
+async def my_usage(user=Depends(get_current_user)):
+    """This month's counters of the person: messages translated for them (received) and their messages that needed a translation (sent)."""
+    month = usage_month()
+    row = await db.usage.find_one({"key": f"{user['id']}|{month}"}, {"_id": 0}) or {}
+    return {"month": month, "received": row.get("received", 0), "sent": row.get("sent", 0)}
+
+
+def _percentile(sorted_values, q):
+    return sorted_values[int(q * (len(sorted_values) - 1))] if sorted_values else 0
+
+
+@api.get("/admin/usage")
+async def admin_usage(month: Optional[str] = None, user=Depends(get_current_user)):
+    """Messages translated per person in a month (default: this one), to choose the limit of a free plan."""
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin only")
+    month = month or usage_month()
+    if not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", month):
+        raise HTTPException(status_code=400, detail="Month must look like 2026-10")
+    rows = await db.usage.find({"month": month}, {"_id": 0}).to_list(5000)
+    names = {u["id"]: u async for u in db.users.find({"id": {"$in": [r["user_id"] for r in rows]}}, {"_id": 0, "id": 1, "name": 1, "username": 1})}
+    people = sorted(({"name": names.get(r["user_id"], {}).get("name", "?"), "username": names.get(r["user_id"], {}).get("username", ""),
+                      "received": r.get("received", 0), "sent": r.get("sent", 0)} for r in rows), key=lambda p: -p["received"])
+    received = sorted(p["received"] for p in people)
+    months = sorted(await db.usage.distinct("month"), reverse=True)
+    return {"month": month, "months": months, "active_people": len(people),
+            "total_received": sum(received), "total_sent": sum(p["sent"] for p in people),
+            "median_received": _percentile(received, 0.5), "p90_received": _percentile(received, 0.9), "max_received": received[-1] if received else 0,
+            "people": people[:200]}
 
 
 @api.get("/admin/users")
@@ -1448,6 +1501,8 @@ async def startup():
     await db.users.create_index("username")
     await db.messages.create_index([("chat_id", 1), ("created_at", -1)])
     await db.translation_cache.create_index("key", unique=True)
+    await db.usage.create_index("key", unique=True)
+    await db.usage.create_index("month")
     # Cached translations expire after 30 days so the database does not grow forever.
     await db.translation_cache.create_index("created_at_dt", expireAfterSeconds=30 * 24 * 3600)
     storage.get_storage()  # fail early (and log) if storage is misconfigured

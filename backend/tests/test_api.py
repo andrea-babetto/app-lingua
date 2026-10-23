@@ -779,3 +779,55 @@ def test_blocked_users_page_lists_names_and_unblocks(client, make_person):
     assert client.get("/api/users/blocked/details").status_code == 401
     client.post(f"/api/users/{b.id}/unblock", headers=a.h)
     assert client.get("/api/users/blocked/details", headers=a.h).json() == []
+
+
+def test_usage_counts_translated_messages_per_person_and_month(client, make_person):
+    a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
+    d = make_person("d@x.com", "Dora", "it")
+    zero = {"received": 0, "sent": 0}
+    assert {k: client.get("/api/usage", headers=a.h).json()[k] for k in zero} == zero
+    assert client.get("/api/usage").status_code == 401
+    # 1:1, different languages: Anna wrote (sent), Bob read it translated (received)
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    ua, ub = client.get("/api/usage", headers=a.h).json(), client.get("/api/usage", headers=b.h).json()
+    assert (ua["sent"], ua["received"], ub["sent"], ub["received"]) == (1, 0, 0, 1) and ua["month"] == ub["month"]
+    # same language: nothing to translate, nothing counted
+    chat2 = direct(client, a, d)
+    m2 = client.post("/api/messages", json={"chat_id": chat2["id"], "text": "ciao Dora"}, headers=a.h).json()
+    wait_for(client, d, chat2["id"], m2["id"], lambda x: x["status"] == "sent")
+    assert client.get("/api/usage", headers=d.h).json()["received"] == 0 and client.get("/api/usage", headers=a.h).json()["sent"] == 1
+    # an edit is the same message: not counted twice
+    client.put(f"/api/messages/{m['id']}", json={"text": "buongiorno"}, headers=a.h)
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent" and x["display_text"] == "[en] buongiorno")
+    assert (client.get("/api/usage", headers=a.h).json()["sent"], client.get("/api/usage", headers=b.h).json()["received"]) == (1, 1)
+    # group: one message written, each English reader counts it once for themselves
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id]}, headers=a.h).json()
+    m3 = client.post("/api/messages", json={"chat_id": g["id"], "text": "ciao a tutti"}, headers=a.h).json()
+    wait_for(client, c, g["id"], m3["id"], lambda x: x["status"] == "sent")
+    assert client.get("/api/usage", headers=a.h).json()["sent"] == 2
+    assert (client.get("/api/usage", headers=b.h).json()["received"], client.get("/api/usage", headers=c.h).json()["received"]) == (2, 1)
+
+
+def test_admin_usage_report_and_account_deletion(client, make_person):
+    admin, a, b = make_person("admin@x.com", "Admin", "it"), make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    asyncio.run(server.db.users.update_one({"id": admin.id}, {"$set": {"role": "admin"}}))
+    assert client.get("/api/admin/usage", headers=a.h).status_code == 403
+    assert client.get("/api/admin/usage?month=2026-13", headers=admin.h).status_code == 400
+    assert client.get("/api/admin/usage?month=nope", headers=admin.h).status_code == 400
+    empty = client.get("/api/admin/usage", headers=admin.h).json()
+    assert empty["people"] == [] and empty["median_received"] == 0 and empty["active_people"] == 0
+    chat = direct(client, a, b)
+    for text in ("uno", "due", "tre"):
+        m = client.post("/api/messages", json={"chat_id": chat["id"], "text": text}, headers=a.h).json()
+        wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    r = client.get("/api/admin/usage", headers=admin.h).json()
+    assert r["total_received"] == 3 and r["total_sent"] == 3 and r["active_people"] == 2 and r["months"] == [r["month"]]
+    assert r["people"][0]["name"] == "Bob" and r["people"][0]["received"] == 3 and "email" not in r["people"][0]
+    assert r["max_received"] == 3
+    # deleting an account also erases its counters
+    assert client.post("/api/auth/delete-account", json={"password": "correct-horse-1"}, headers=b.h).status_code == 200
+    assert asyncio.run(server.db.usage.count_documents({"user_id": b.id})) == 0
+    after = client.get("/api/admin/usage", headers=admin.h).json()
+    assert after["active_people"] == 1 and after["people"][0]["name"] == "Anna"

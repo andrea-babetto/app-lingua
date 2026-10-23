@@ -13,6 +13,8 @@ export default function Admin() {
   const [err, setErr] = useState("");
   const [net, setNet] = useState(null);
   const [users, setUsers] = useState([]);
+  const [usage, setUsage] = useState(null);
+  const [month, setMonth] = useState("");
   const [confirmFor, setConfirmFor] = useState(null);
   const [result, setResult] = useState(null);
   const nav = useNavigate();
@@ -22,6 +24,10 @@ export default function Admin() {
     api.get("/admin/users").then(({ data }) => setUsers(data)).catch(() => {});
     api.get("/admin/client-ip").then(({ data }) => setNet(data)).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    api.get("/admin/usage", { params: month ? { month } : {} }).then(({ data }) => setUsage(data)).catch(() => {});
+  }, [month]);
 
   const reset = async () => {
     const u = confirmFor;
@@ -67,6 +73,40 @@ export default function Admin() {
               <div className="text-sm text-muted-foreground">{c.label}</div>
             </div>
           ))}
+        </div>
+
+        <div className="bg-card border border-border rounded-xl p-5" data-testid="usage-card">
+          <div className="flex items-start justify-between gap-3 flex-wrap">
+            <div>
+              <h2 className="text-lg font-semibold mb-1">Messages translated per person</h2>
+              <p className="text-sm text-muted-foreground mb-3">
+                "Received" = messages translated for that person (what a free limit would count). "Written" = their own messages that needed a translation.
+              </p>
+            </div>
+            <select data-testid="usage-month" value={usage?.month || ""} onChange={(e) => setMonth(e.target.value)} className="h-9 rounded-lg border border-border bg-background text-sm px-2">
+              {(usage?.months?.length ? usage.months : [usage?.month || ""]).map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 text-center">
+            {[["People", usage?.active_people], ["Total received", usage?.total_received], ["Median per person", usage?.median_received], ["90% are under", usage?.p90_received]].map(([label, v]) => (
+              <div key={label} className="rounded-lg bg-muted/50 py-3">
+                <div className="text-xl font-bold tabular-nums">{v ?? "—"}</div>
+                <div className="text-xs text-muted-foreground">{label}</div>
+              </div>
+            ))}
+          </div>
+          {(usage?.people || []).length === 0
+            ? <p className="text-sm text-muted-foreground" data-testid="usage-empty">No translated messages in this month yet.</p>
+            : (
+              <table className="w-full text-sm">
+                <thead><tr className="text-xs text-muted-foreground text-left"><th className="py-1 font-medium">Person</th><th className="py-1 font-medium text-right">Received</th><th className="py-1 font-medium text-right">Written</th></tr></thead>
+                <tbody className="divide-y divide-border">
+                  {usage.people.map((p, i) => (
+                    <tr key={`${p.username}-${i}`}><td className="py-1.5">{p.name} <span className="text-xs text-muted-foreground">@{p.username}</span></td><td className="py-1.5 text-right tabular-nums">{p.received}</td><td className="py-1.5 text-right tabular-nums">{p.sent}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5" data-testid="users-card">
