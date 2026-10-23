@@ -17,9 +17,9 @@ MAPS = {  # file -> {old colour: new colour}
     "glotter-logo-su-scuro.svg": {"#ffffff": IVORY},  # the ring and the tail become ivory too, only the dot is green (see DOT_DARK)
     "mark.svg": {"#1d1a16": LETTERS, "#ffcc1e": SAGE},
     "mark-dark.svg": {"#ffffff": SAGE_LIGHT, "#ffcc1e": IVORY},  # ring and tail ivory, dot green
-    "icon-app.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": SAGE_LIGHT, "#ffffff": PAPER},
-    "icon-maskable.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": SAGE_LIGHT, "#ffffff": PAPER},
-    "favicon.svg": {"#1d1a16": ANTHRACITE, "#ffcc1e": SAGE_LIGHT, "#ffffff": PAPER},
+    "icon-app.svg": {"#1d1a16": PAPER, "#ffffff": ANTHRACITE, "#ffcc1e": SAGE},  # icon: ivory square, anthracite chat, green dot
+    "icon-maskable.svg": {"#1d1a16": PAPER, "#ffffff": ANTHRACITE, "#ffcc1e": SAGE},  # icon: ivory square, anthracite chat, green dot
+    "favicon.svg": {"#1d1a16": PAPER, "#ffffff": ANTHRACITE, "#ffcc1e": SAGE},  # icon: ivory square, anthracite chat, green dot
 }
 
 

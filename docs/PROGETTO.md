@@ -126,3 +126,5 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Frase di presentazione (`bio`, max 140 caratteri, NON tradotta): pubblica, visibile nella scheda contatto e nella ricerca.
 - Utenti bloccati: `GET /api/users/blocked/details` (nomi) e sblocco dalla pagina Privacy.
 - Aspetto: Chiaro / Scuro / Come il telefono (`glott_theme` = light | dark | system).
+- Tema scuro: nel logo solo il pallino è verde (scritta, O e coda avorio); le icone prima dei titoli hanno il colore del testo.
+- Icona dell'app (scelta da Andrea il 23/10/2026): quadro avorio, fumetto antracite, pallino verde (`tools/brand_recolor.py` poi `tools/e2e/make_icons.py`).
