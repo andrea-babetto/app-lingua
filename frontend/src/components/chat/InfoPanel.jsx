@@ -190,6 +190,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
             <>
               <div className="text-xl font-bold">{chat.display_name}</div>
               {!isGroup && other && <div className="text-sm text-muted-foreground">@{other.username} · {langByCode(other.language).flag} {t("reads & writes in {language}", { language: langName(other.language) })}</div>}
+              {!isGroup && other?.bio && <p data-testid="contact-bio" className="text-sm text-foreground/80 max-w-xs">{other.bio}</p>}
               {isGroup && <div className="text-sm text-muted-foreground">{t("{count} members", { count: members.length })}</div>}
               {isGroup && chat.description && <p className="text-sm text-muted-foreground mt-1">{chat.description}</p>}
             </>

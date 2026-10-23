@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Plus, Trash2, BookMarked, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, BarChart3, LogOut, ChevronRight, Bell, KeyRound } from "lucide-react";
+import { Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ArrowLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -15,6 +15,51 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { avatarClass } from "@/lib/avatar";
 import LanguagePicker from "@/components/LanguagePicker";
 import { useI18n } from "@/i18n";
+
+// ---- building blocks of the list-style profile ----
+function Group({ children }) {
+  return <div className="bg-card rounded-[18px] border border-border mx-3 mt-3 overflow-hidden divide-y divide-border">{children}</div>;
+}
+
+function Row({ icon: Icon, label, hint, onClick, testId }) {
+  return (
+    <button data-testid={testId} onClick={onClick} className="w-full flex items-center gap-3.5 px-4 py-3.5 text-start hover:bg-muted/60 active:bg-muted transition-colors">
+      <Icon className="w-5 h-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+      <span className="flex-1 min-w-0">
+        <span className="block text-[15px] font-medium truncate">{label}</span>
+        {hint && <span className="block text-xs text-muted-foreground truncate">{hint}</span>}
+      </span>
+      <ChevronRight className="w-4 h-4 shrink-0 text-subtle rtl:rotate-180" aria-hidden="true" />
+    </button>
+  );
+}
+
+function SubPage({ title, onBack, children }) {
+  const { t } = useI18n();
+  return (
+    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-subpage">
+      <div className="h-12 px-2 flex items-center gap-2 bg-card border-b border-border sticky top-0 z-10">
+        <button aria-label={t("Back")} data-testid="profile-back" onClick={onBack} className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted">
+          <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
+        </button>
+        <h2 className="text-base font-semibold">{title}</h2>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// Saves part of my profile and updates what the app knows about me.
+function useSave() {
+  const { updateUser } = useAuth();
+  const { t } = useI18n();
+  return async (patch, silent) => {
+    const { data } = await api.put("/auth/profile", patch);
+    updateUser(data);
+    if (!silent) toast.success(t("Saved"));
+    return data;
+  };
+}
 
 function Section({ title, children }) {
   return (
@@ -133,104 +178,28 @@ function DeleteAccount() {
   );
 }
 
-export default function ProfilePanel({ onOpenAdmin }) {
-  const { user, updateUser, logout } = useAuth();
-  const { theme, toggle } = useTheme();
-  const { t, langName } = useI18n();
-  const [glossary, setGlossary] = useState([]);
-  const [term, setTerm] = useState("");
-  const [rule, setRule] = useState("");
+// ---- the pages behind each row ----
+function AccountPage({ onBack }) {
+  const { user } = useAuth();
+  const { t } = useI18n();
+  const save = useSave();
   const [name, setName] = useState(user.name || "");
   const [username, setUsername] = useState(user.username || "");
   const [phone, setPhone] = useState(user.phone || "");
-  const [uploading, setUploading] = useState(false);
-  const [savingProfile, setSavingProfile] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-  const fileRef = useRef();
-
-  useEffect(() => { api.get("/glossary").then(({ data }) => setGlossary(data)).catch(() => {}); }, []);
-
-  const save = async (patch, silent) => {
-    const { data } = await api.put("/auth/profile", patch);
-    updateUser(data);
-    if (!silent) toast.success(t("Saved"));
-    return data;
-  };
-
-  const toggleOriginal = (v) => save({ settings: { ...user.settings, show_original: v } });
-  const toggleLastSeen = (v) => save({ settings: { ...user.settings, last_seen_enabled: v } });
-  const changeLang = (code) => save({ language: code });
-
-  const uploadAvatar = async (e) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    setUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append("file", f);
-      const { data } = await api.post("/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
-      await save({ avatar: `${api.defaults.baseURL}/files/${data.id}` });
-    } catch { toast.error(t("Upload failed")); }
-    finally { setUploading(false); e.target.value = ""; }
-  };
+  const [bio, setBio] = useState(user.bio || "");
+  const [busy, setBusy] = useState(false);
+  const dirty = name !== (user.name || "") || username !== (user.username || "") || phone !== (user.phone || "") || bio !== (user.bio || "");
 
   const saveProfile = async () => {
-    setSavingProfile(true);
-    try { await save({ name, username, phone }); }
+    setBusy(true);
+    try { await save({ name, username, phone, bio }); }
     catch (e) { toast.error(errText(e.response?.data?.detail)); }
-    finally { setSavingProfile(false); }
+    finally { setBusy(false); }
   };
-
-  const addTerm = async () => {
-    if (!term.trim()) return;
-    const { data } = await api.post("/glossary", { term, rule });
-    setGlossary(data); setTerm(""); setRule("");
-  };
-  const delTerm = async (t) => { const { data } = await api.delete(`/glossary/${encodeURIComponent(t)}`); setGlossary(data); };
-
-  const dirty = name !== (user.name || "") || username !== (user.username || "") || phone !== (user.phone || "");
-  const lang = langByCode(user.language);
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-panel">
-      <div className="bg-card px-4 py-6 flex flex-col items-center gap-1.5">
-        <div className="relative">
-          <Avatar className="w-24 h-24"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-2xl font-bold ${avatarClass(user.name)}`}>{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
-          <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button"
-            className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
-            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
-          </button>
-          <input type="file" accept="image/*" ref={fileRef} hidden onChange={uploadAvatar} />
-        </div>
-        <div className="text-xl font-semibold mt-1">{user.name}</div>
-        <div className="text-sm text-muted-foreground"><bdi dir="ltr">@{user.username}</bdi> · {lang.flag} {langName(user.language)}</div>
-      </div>
-
-      <Section title={t("Language and translation")}>
-        <button data-testid="language-toggle" onClick={() => setLangOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
-          <span className="text-xl leading-none">{lang.flag}</span> {langName(user.language)}
-          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? t("Close") : t("Change")}</span>
-        </button>
-        {langOpen && <LanguagePicker value={user.language} onChange={(c) => { changeLang(c); setLangOpen(false); }} testId="settings-language" />}
-        <div className="flex items-center justify-between gap-3">
-          <div><div className="text-sm font-medium">{t("Show original under translation")}</div><div className="text-xs text-muted-foreground">{t("Reveal source text by default")}</div></div>
-          <Switch data-testid="show-original-switch" checked={!!user.settings?.show_original} onCheckedChange={toggleOriginal} />
-        </div>
-      </Section>
-
-      <Section title={t("Preferences")}>
-        <NotificationsRow />
-        <div className="flex items-center justify-between gap-3">
-          <div><div className="text-sm font-medium">{t("Share last seen & online")}</div><div className="text-xs text-muted-foreground">{t("Let others see your status")}</div></div>
-          <Switch data-testid="last-seen-switch" checked={!!user.settings?.last_seen_enabled} onCheckedChange={toggleLastSeen} />
-        </div>
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2"><Moon className="w-4 h-4 text-muted-foreground" /><div className="text-sm font-medium">{t("Dark mode")}</div></div>
-          <Switch data-testid="theme-toggle-button" checked={theme === "dark"} onCheckedChange={toggle} />
-        </div>
-      </Section>
-
-      <Section title={t("Account")}>
+    <SubPage title={t("Account")} onBack={onBack}>
+      <Section>
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><User2 className="w-3.5 h-3.5" /> {t("Display name")}</label>
           <Input data-testid="settings-name-input" value={name} onChange={(e) => setName(e.target.value)} />
@@ -240,23 +209,124 @@ export default function ProfilePanel({ onOpenAdmin }) {
           <Input data-testid="settings-username-input" value={username} onChange={(e) => setUsername(e.target.value.replace(/\s/g, ""))} />
         </div>
         <div className="space-y-1.5">
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><Info className="w-3.5 h-3.5" /> {t("About me")}</label>
+          <Input data-testid="settings-bio-input" maxLength={140} value={bio} onChange={(e) => setBio(e.target.value)} placeholder={t("A few words about you")} />
+          <div className="text-[11px] text-subtle text-end" dir="ltr">{bio.length}/140</div>
+        </div>
+        <div className="space-y-1.5">
           <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> {t("Phone number")} <span className="opacity-70">{t("(optional, searchable)")}</span></label>
           <Input data-testid="settings-phone-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+39 333 1234567" />
         </div>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Mail className="w-3.5 h-3.5" /> {user.email}</div>
-        {dirty && <Button data-testid="save-profile-button" className="w-full" onClick={saveProfile} disabled={savingProfile}>{savingProfile ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Save profile")}</Button>}
-        <PasswordSection />
-        <div className="flex flex-col items-center gap-2 pt-1 text-xs text-muted-foreground">
-          <div className="space-x-3 rtl:space-x-reverse">
-            <Link to="/terms" className="hover:underline">{t("Terms of Service")}</Link>
-            <Link to="/privacy" className="hover:underline">{t("Privacy Policy")}</Link>
-          </div>
-        </div>
-        <Button data-testid="logout-item" variant="outline" className="w-full text-destructive" onClick={logout}><LogOut className="w-4 h-4 me-2" /> {t("Log out")}</Button>
-        <div className="flex justify-center text-xs text-muted-foreground"><DeleteAccount /></div>
+        {dirty && <Button data-testid="save-profile-button" className="w-full" onClick={saveProfile} disabled={busy}>{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Save profile")}</Button>}
       </Section>
+      <Section><PasswordSection /></Section>
+    </SubPage>
+  );
+}
 
-      <Section title={t("Personal glossary")}>
+// Languages I read well: messages in them are shown as written, not translated.
+function KnownLanguages() {
+  const { user } = useAuth();
+  const { t, langName } = useI18n();
+  const save = useSave();
+  const [adding, setAdding] = useState(false);
+  const list = user.known_languages || [];
+  const set = (next) => save({ known_languages: next }).catch((e) => toast.error(errText(e.response?.data?.detail)));
+  return (
+    <div data-testid="known-languages">
+      <div className="text-sm font-medium">{t("Languages I know")}</div>
+      <div className="text-xs text-muted-foreground mt-0.5">{t("Messages written in these languages are not translated for you.")}</div>
+      <div className="flex flex-wrap gap-2 mt-3">
+        {list.map((c) => (
+          <span key={c} className="inline-flex items-center gap-1.5 ps-3 pe-1.5 h-8 rounded-full bg-label text-label-foreground text-[13px] font-semibold">
+            {langByCode(c).flag} {langName(c)}
+            <button aria-label={t("Remove {language}", { language: langName(c) })} data-testid={`known-remove-${c}`} onClick={() => set(list.filter((x) => x !== c))}
+              className="w-5 h-5 rounded-full hover:bg-black/10 flex items-center justify-center"><X className="w-3 h-3" /></button>
+          </span>
+        ))}
+        {list.length < 5 && (
+          <button data-testid="known-add" onClick={() => setAdding((v) => !v)} className="h-8 px-3 rounded-full border border-dashed border-border text-[13px] font-semibold text-muted-foreground inline-flex items-center gap-1">
+            <Plus className="w-3.5 h-3.5" /> {t("Add a language")}
+          </button>
+        )}
+      </div>
+      {adding && (
+        <div className="mt-3">
+          <LanguagePicker value="" testId="known" onChange={(c) => { if (c !== user.language && !list.includes(c)) set([...list, c]); setAdding(false); }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LanguagePage({ onBack }) {
+  const { user } = useAuth();
+  const { t, langName } = useI18n();
+  const save = useSave();
+  const [langOpen, setLangOpen] = useState(false);
+  const lang = langByCode(user.language);
+  return (
+    <SubPage title={t("Language and translation")} onBack={onBack}>
+      <Section>
+        <button data-testid="language-toggle" onClick={() => setLangOpen((v) => !v)} className="w-full flex items-center gap-3 text-sm font-medium">
+          <span className="text-xl leading-none">{lang.flag}</span> {langName(user.language)}
+          <span className="ms-auto text-xs text-primary font-semibold">{langOpen ? t("Close") : t("Change")}</span>
+        </button>
+        {langOpen && <LanguagePicker value={user.language} onChange={(c) => { save({ language: c }); setLangOpen(false); }} testId="settings-language" />}
+      </Section>
+      <Section><KnownLanguages /></Section>
+      <Section>
+        <div className="flex items-center justify-between gap-3">
+          <div><div className="text-sm font-medium">{t("Show original under translation")}</div><div className="text-xs text-muted-foreground">{t("Reveal source text by default")}</div></div>
+          <Switch data-testid="show-original-switch" checked={!!user.settings?.show_original} onCheckedChange={(v) => save({ settings: { ...user.settings, show_original: v } })} />
+        </div>
+      </Section>
+    </SubPage>
+  );
+}
+
+function NotificationsPage({ onBack }) {
+  const { t } = useI18n();
+  return <SubPage title={t("Notifications")} onBack={onBack}><Section><NotificationsRow /></Section></SubPage>;
+}
+
+function AppearancePage({ onBack }) {
+  const { mode, setMode } = useTheme();
+  const { t } = useI18n();
+  const options = [["light", t("Light"), Sun], ["dark", t("Dark"), Moon], ["system", t("Same as phone"), Smartphone]];
+  return (
+    <SubPage title={t("Appearance")} onBack={onBack}>
+      <Group>
+        <div role="radiogroup" aria-label={t("Appearance")} className="divide-y divide-border">
+          {options.map(([id, label, Icon]) => (
+            <button key={id} role="radio" aria-checked={mode === id} data-testid={`theme-${id}`} onClick={() => setMode(id)} className="w-full flex items-center gap-3.5 px-4 py-3.5 text-start hover:bg-muted/60">
+              <Icon className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
+              <span className="flex-1 text-[15px] font-medium">{label}</span>
+              <span className={`w-[22px] h-[22px] rounded-full shrink-0 ${mode === id ? "border-[7px] border-primary" : "border-2 border-border"}`} />
+            </button>
+          ))}
+        </div>
+      </Group>
+    </SubPage>
+  );
+}
+
+function GlossaryPage({ onBack }) {
+  const { t } = useI18n();
+  const [glossary, setGlossary] = useState([]);
+  const [term, setTerm] = useState("");
+  const [rule, setRule] = useState("");
+  useEffect(() => { api.get("/glossary").then(({ data }) => setGlossary(data)).catch(() => {}); }, []);
+  const addTerm = async () => {
+    if (!term.trim()) return;
+    const { data } = await api.post("/glossary", { term, rule });
+    setGlossary(data); setTerm(""); setRule("");
+  };
+  const delTerm = async (x) => { const { data } = await api.delete(`/glossary/${encodeURIComponent(x)}`); setGlossary(data); };
+  return (
+    <SubPage title={t("Personal glossary")} onBack={onBack}>
+      <Section>
         <p className="text-xs text-muted-foreground flex items-start gap-1.5"><BookMarked className="w-4 h-4 shrink-0" /> {t("Terms that must be kept or translated a specific way (names, brands, jargon).")}</p>
         <div className="flex gap-2">
           <Input data-testid="glossary-term-input" placeholder={t("Term")} value={term} onChange={(e) => setTerm(e.target.value)} />
@@ -272,15 +342,144 @@ export default function ProfilePanel({ onOpenAdmin }) {
           ))}
         </div>
       </Section>
+    </SubPage>
+  );
+}
 
-      {user.role === "admin" && (
-        <Section>
-          <button data-testid="open-admin-item" onClick={onOpenAdmin} className="w-full flex items-center gap-3 text-sm font-medium">
-            <BarChart3 className="w-4 h-4 text-muted-foreground" /> {t("Admin dashboard")} <ChevronRight className="w-4 h-4 ms-auto text-muted-foreground" />
-          </button>
-        </Section>
+function BlockedPage({ onBack }) {
+  const { reload } = useAuth();
+  const { t } = useI18n();
+  const [rows, setRows] = useState(null);
+  const load = () => api.get("/users/blocked/details").then(({ data }) => setRows(data)).catch(() => setRows([]));
+  useEffect(() => { load(); }, []);
+  const unblock = async (u) => {
+    try { await api.post(`/users/${u.id}/unblock`); toast.success(t("Unblocked")); await reload(); load(); }
+    catch (e) { toast.error(errText(e.response?.data?.detail)); }
+  };
+  return (
+    <SubPage title={t("Blocked users")} onBack={onBack}>
+      {rows && rows.length === 0 && <p data-testid="blocked-empty" className="px-8 pt-12 text-center text-[15px] text-muted-foreground">{t("You have not blocked anyone.")}</p>}
+      {rows && rows.length > 0 && (
+        <Group>
+          {rows.map((u) => (
+            <div key={u.id} data-testid={`blocked-${u.id}`} className="flex items-center gap-3 px-4 py-3">
+              <Avatar className="w-10 h-10"><AvatarImage src={u.avatar} /><AvatarFallback className={`font-semibold ${avatarClass(u.name)}`}>{(u.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+              <div className="flex-1 min-w-0"><div className="text-[15px] font-medium truncate">{u.name}</div><div className="text-xs text-muted-foreground truncate" dir="ltr">@{u.username}</div></div>
+              <Button size="sm" variant="outline" data-testid={`unblock-${u.id}`} onClick={() => unblock(u)}>{t("Unblock")}</Button>
+            </div>
+          ))}
+        </Group>
       )}
+    </SubPage>
+  );
+}
 
+function PrivacyPage({ onBack, onOpen }) {
+  const { user } = useAuth();
+  const { t } = useI18n();
+  const save = useSave();
+  return (
+    <SubPage title={t("Privacy")} onBack={onBack}>
+      <Section>
+        <div className="flex items-center justify-between gap-3">
+          <div><div className="text-sm font-medium">{t("Share last seen & online")}</div><div className="text-xs text-muted-foreground">{t("Let others see your status")}</div></div>
+          <Switch data-testid="last-seen-switch" checked={!!user.settings?.last_seen_enabled} onCheckedChange={(v) => save({ settings: { ...user.settings, last_seen_enabled: v } })} />
+        </div>
+      </Section>
+      <Group><Row icon={Ban} label={t("Blocked users")} testId="profile-row-blocked" onClick={() => onOpen("blocked")} /></Group>
+      <Section>
+        <div className="flex flex-col gap-2 text-sm">
+          <Link to="/terms" className="hover:underline">{t("Terms of Service")}</Link>
+          <Link to="/privacy" className="hover:underline">{t("Privacy Policy")}</Link>
+        </div>
+      </Section>
+    </SubPage>
+  );
+}
+
+const HELP_EMAIL = import.meta.env.VITE_LEGAL_EMAIL || "";
+
+export default function ProfilePanel({ onOpenAdmin }) {
+  const { user, logout } = useAuth();
+  const { mode } = useTheme();
+  const { t, langName } = useI18n();
+  const save = useSave();
+  const [page, setPage] = useState("main");
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef();
+  const lang = langByCode(user.language);
+  const back = () => setPage("main");
+
+  const uploadAvatar = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", f);
+      const { data } = await api.post("/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
+      await save({ avatar: `${api.defaults.baseURL}/files/${data.id}` });
+    } catch { toast.error(t("Upload failed")); }
+    finally { setUploading(false); e.target.value = ""; }
+  };
+
+  const invite = async () => {
+    const url = `${window.location.origin}/?invite=${user.username}`;
+    const text = t("Chat with me on Glotter: each of us writes and reads in our own language.");
+    try {
+      if (navigator.share) { await navigator.share({ title: "Glotter", text, url }); return; }
+    } catch (e) { if (e?.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(`${text} ${url}`); toast.success(t("Invite link copied")); }
+    catch { toast(url); }
+  };
+
+  const pages = {
+    account: <AccountPage onBack={back} />,
+    language: <LanguagePage onBack={back} />,
+    notifications: <NotificationsPage onBack={back} />,
+    appearance: <AppearancePage onBack={back} />,
+    glossary: <GlossaryPage onBack={back} />,
+    privacy: <PrivacyPage onBack={back} onOpen={setPage} />,
+    blocked: <BlockedPage onBack={() => setPage("privacy")} />,
+  };
+  if (pages[page]) return pages[page];
+
+  const themeLabel = { light: t("Light"), dark: t("Dark"), system: t("Same as phone") }[mode];
+  return (
+    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-panel">
+      <div className="bg-card px-4 pt-4 pb-6 flex flex-col items-center gap-1.5">
+        <div className="relative">
+          <Avatar className="w-28 h-28"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-3xl font-bold ${avatarClass(user.name)}`}>{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+          <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button" aria-label={t("Change photo")}
+            className="absolute bottom-0 end-0 w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
+            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+          </button>
+          <input type="file" accept="image/*" ref={fileRef} hidden onChange={uploadAvatar} />
+        </div>
+        <div className="text-2xl font-bold mt-2 text-center">{user.name}</div>
+        <div className="text-sm text-muted-foreground"><bdi dir="ltr">@{user.username}</bdi> · {lang.flag} {langName(user.language)}</div>
+        {user.bio && <div data-testid="profile-bio" className="text-sm text-center text-foreground/80 mt-1 max-w-xs">{user.bio}</div>}
+      </div>
+
+      <Group>
+        <Row icon={User2} label={t("Account")} testId="profile-row-account" onClick={() => setPage("account")} />
+        <Row icon={Languages} label={t("Language and translation")} hint={[langName(user.language), ...(user.known_languages || []).map(langName)].join(" · ")} testId="profile-row-language" onClick={() => setPage("language")} />
+        <Row icon={Bell} label={t("Notifications")} testId="profile-row-notifications" onClick={() => setPage("notifications")} />
+        <Row icon={Palette} label={t("Appearance")} hint={themeLabel} testId="profile-row-appearance" onClick={() => setPage("appearance")} />
+        <Row icon={BookMarked} label={t("Personal glossary")} testId="profile-row-glossary" onClick={() => setPage("glossary")} />
+        <Row icon={Lock} label={t("Privacy")} testId="profile-row-privacy" onClick={() => setPage("privacy")} />
+      </Group>
+
+      <Group>
+        <Row icon={Heart} label={t("Invite a friend")} testId="profile-row-invite" onClick={invite} />
+        {HELP_EMAIL && <Row icon={HelpCircle} label={t("Help and feedback")} testId="profile-row-help" onClick={() => { window.location.href = `mailto:${HELP_EMAIL}?subject=${encodeURIComponent("Glotter: help")}`; }} />}
+        {user.role === "admin" && <Row icon={BarChart3} label={t("Admin dashboard")} testId="open-admin-item" onClick={onOpenAdmin} />}
+      </Group>
+
+      <div className="mx-3 mt-4">
+        <Button data-testid="logout-item" variant="outline" className="w-full text-destructive" onClick={logout}><LogOut className="w-4 h-4 me-2" /> {t("Log out")}</Button>
+      </div>
+      <div className="mx-3 mt-2 flex justify-center text-xs text-muted-foreground"><DeleteAccount /></div>
     </div>
   );
 }

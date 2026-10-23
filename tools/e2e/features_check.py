@@ -128,6 +128,7 @@ async def main():
         await page.get_by_test_id("tab-profile").click()
         await page.wait_for_timeout(600)
         check("profile shows the notifications row", "Notifiche" in await page.inner_text("body"))
+        await page.get_by_test_id("profile-row-account").click()
         await page.get_by_test_id("change-password-toggle").click()
         await page.get_by_test_id("current-password-input").fill(PW)
         await page.get_by_test_id("new-password-input").fill("a-brand-new-pass-9")
