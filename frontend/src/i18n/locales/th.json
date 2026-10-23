@@ -168,7 +168,7 @@
  "📎 Attachment": "📎 ไฟล์แนบ",
  "🚫 Message deleted": "🚫 ลบข้อความแล้ว",
  "🚫 This message was deleted": "🚫 ข้อความนี้ถูกลบแล้ว",
- "Every message gets a reply, in every language.": "ทุกข้อความมีคำตอบ ในทุกภาษา",
+ "One language: yours.": "ภาษาเดียว: ภาษาของคุณ",
  "Original in {language}": "ต้นฉบับภาษา{language}",
  "{name} reads it in {language}": "{name} อ่านเป็นภาษา{language}",
  "Continue in {language}": "ดำเนินการต่อเป็นภาษา{language}",

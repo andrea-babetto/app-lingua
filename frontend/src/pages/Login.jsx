@@ -77,7 +77,7 @@ export default function Login() {
         <div className="mt-12 mb-9">
           <Logo height={44} />
           <h1 className="mt-5 text-[23px] leading-snug font-semibold tracking-tight">
-            {t("Every message gets a reply, in every language.")}
+            {t("One language: yours.")}
           </h1>
         </div>
 
