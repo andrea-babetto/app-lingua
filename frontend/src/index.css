@@ -134,11 +134,11 @@
 .chat-scroll::-webkit-scrollbar { width: 6px; }
 .chat-scroll::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground) / 0.3); border-radius: 3px; }
 
-/* conversation background: warm paper with a light texture of small marks, bubbles and dots (tools/make_chat_pattern.py) */
+/* conversation background: warm paper with a light texture of line drawings of famous places around the world (tools/make_chat_pattern.py) */
 .chat-wallpaper {
   background-color: hsl(var(--chat-bg));
   background-image: url("./assets/brand/chat-pattern-light.svg");
-  background-size: 160px 160px;
+  background-size: 288px 216px;
 }
 .dark .chat-wallpaper { background-image: url("./assets/brand/chat-pattern-dark.svg"); }
 
