@@ -227,5 +227,18 @@
  "{time} local time": "{time} waktu tempatan",
  "Local time": "Waktu tempatan",
  "Show my local time": "Tunjukkan waktu tempatan saya",
- "People you chat with see what time it is for you": "Orang yang berbual dengan anda dapat melihat pukul berapa di tempat anda"
+ "People you chat with see what time it is for you": "Orang yang berbual dengan anda dapat melihat pukul berapa di tempat anda",
+ "Schedule message": "Jadualkan mesej",
+ "In 1 hour": "Dalam 1 jam",
+ "Tonight at {time}": "Malam ini pukul {time}",
+ "Tomorrow at {time}": "Esok pukul {time}",
+ "Other date and time": "Tarikh dan masa lain",
+ "For {name} it will be {time}": "Bagi {name} waktu itu pukul {time}",
+ "Schedule": "Jadualkan",
+ "Message scheduled": "Mesej dijadualkan",
+ "Will be sent {when}": "Akan dihantar {when}",
+ "Scheduled message": "Mesej berjadual",
+ "Send now": "Hantar sekarang",
+ "Change time": "Tukar masa",
+ "A scheduled message could not be sent": "Mesej berjadual tidak dapat dihantar"
 }

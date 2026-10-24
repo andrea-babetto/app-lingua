@@ -227,5 +227,18 @@
  "{time} local time": "helyi idő szerint {time}",
  "Local time": "Helyi idő",
  "Show my local time": "Helyi időm megjelenítése",
- "People you chat with see what time it is for you": "Akikkel csevegsz, látják, hány óra van nálad"
+ "People you chat with see what time it is for you": "Akikkel csevegsz, látják, hány óra van nálad",
+ "Schedule message": "Üzenet időzítése",
+ "In 1 hour": "1 óra múlva",
+ "Tonight at {time}": "Ma este {time}-kor",
+ "Tomorrow at {time}": "Holnap {time}-kor",
+ "Other date and time": "Más dátum és idő",
+ "For {name} it will be {time}": "{name} helyén ekkor {time} lesz",
+ "Schedule": "Időzítés",
+ "Message scheduled": "Üzenet időzítve",
+ "Will be sent {when}": "Küldés: {when}",
+ "Scheduled message": "Időzített üzenet",
+ "Send now": "Küldés most",
+ "Change time": "Időpont módosítása",
+ "A scheduled message could not be sent": "Egy időzített üzenetet nem sikerült elküldeni"
 }

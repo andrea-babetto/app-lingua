@@ -227,5 +227,18 @@
  "{time} local time": "مقامی وقت {time}",
  "Local time": "مقامی وقت",
  "Show my local time": "میرا مقامی وقت دکھائیں",
- "People you chat with see what time it is for you": "جن سے آپ بات کرتے ہیں وہ دیکھ سکتے ہیں کہ آپ کے ہاں کیا وقت ہے"
+ "People you chat with see what time it is for you": "جن سے آپ بات کرتے ہیں وہ دیکھ سکتے ہیں کہ آپ کے ہاں کیا وقت ہے",
+ "Schedule message": "پیغام شیڈول کریں",
+ "In 1 hour": "1 گھنٹے بعد",
+ "Tonight at {time}": "آج رات {time} بجے",
+ "Tomorrow at {time}": "کل {time} بجے",
+ "Other date and time": "کوئی اور تاریخ اور وقت",
+ "For {name} it will be {time}": "{name} کے ہاں تب {time} بجے ہوں گے",
+ "Schedule": "شیڈول کریں",
+ "Message scheduled": "پیغام شیڈول ہو گیا",
+ "Will be sent {when}": "{when} کو بھیجا جائے گا",
+ "Scheduled message": "شیڈول شدہ پیغام",
+ "Send now": "ابھی بھیجیں",
+ "Change time": "وقت بدلیں",
+ "A scheduled message could not be sent": "ایک شیڈول شدہ پیغام نہیں بھیجا جا سکا"
 }

@@ -227,5 +227,18 @@
  "{time} local time": "{time} ora locală",
  "Local time": "Ora locală",
  "Show my local time": "Arată ora mea locală",
- "People you chat with see what time it is for you": "Persoanele cu care vorbești văd cât e ceasul la tine"
+ "People you chat with see what time it is for you": "Persoanele cu care vorbești văd cât e ceasul la tine",
+ "Schedule message": "Programează mesajul",
+ "In 1 hour": "Peste 1 oră",
+ "Tonight at {time}": "Diseară la {time}",
+ "Tomorrow at {time}": "Mâine la {time}",
+ "Other date and time": "Altă dată și oră",
+ "For {name} it will be {time}": "Pentru {name} va fi ora {time}",
+ "Schedule": "Programează",
+ "Message scheduled": "Mesaj programat",
+ "Will be sent {when}": "Va fi trimis {when}",
+ "Scheduled message": "Mesaj programat",
+ "Send now": "Trimite acum",
+ "Change time": "Schimbă ora",
+ "A scheduled message could not be sent": "Un mesaj programat nu a putut fi trimis"
 }

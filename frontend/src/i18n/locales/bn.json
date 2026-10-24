@@ -227,5 +227,18 @@
  "{time} local time": "স্থানীয় সময় {time}",
  "Local time": "স্থানীয় সময়",
  "Show my local time": "আমার স্থানীয় সময় দেখান",
- "People you chat with see what time it is for you": "আপনি যাদের সঙ্গে চ্যাট করেন তারা দেখতে পান আপনার ওখানে এখন কটা বাজে"
+ "People you chat with see what time it is for you": "আপনি যাদের সঙ্গে চ্যাট করেন তারা দেখতে পান আপনার ওখানে এখন কটা বাজে",
+ "Schedule message": "বার্তা নির্ধারণ করুন",
+ "In 1 hour": "১ ঘণ্টা পরে",
+ "Tonight at {time}": "আজ রাত {time}-এ",
+ "Tomorrow at {time}": "আগামীকাল {time}-এ",
+ "Other date and time": "অন্য তারিখ ও সময়",
+ "For {name} it will be {time}": "{name}-এর ওখানে তখন {time} বাজবে",
+ "Schedule": "নির্ধারণ করুন",
+ "Message scheduled": "বার্তা নির্ধারিত হয়েছে",
+ "Will be sent {when}": "পাঠানো হবে {when}",
+ "Scheduled message": "নির্ধারিত বার্তা",
+ "Send now": "এখনই পাঠান",
+ "Change time": "সময় বদলান",
+ "A scheduled message could not be sent": "একটি নির্ধারিত বার্তা পাঠানো যায়নি"
 }

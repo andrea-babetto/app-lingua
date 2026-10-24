@@ -99,6 +99,9 @@ export default function Chat() {
         setMessages((prev) => prev.map((m) => (m.sender_id === user.id && !(m.read_by || []).includes(d.reader)
           ? { ...m, read_by: [...(m.read_by || []), d.reader] } : m)));
       }
+    } else if (d.type === "scheduled_sent") {
+      window.dispatchEvent(new CustomEvent("glott:scheduled-sent", { detail: d }));
+      if (!d.sent) toast.error(t("A scheduled message could not be sent"));
     } else if (d.type === "message_deleted") {
       if (cur && d.chat_id === cur.id) setMessages((prev) => prev.map((m) => (m.id === d.message_id ? { ...m, deleted_for_all: true } : m)));
     } else if (d.type === "contact_request") {

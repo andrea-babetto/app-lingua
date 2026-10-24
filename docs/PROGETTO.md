@@ -88,14 +88,13 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 9. Da completare
 
-Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista. Scartate: silenzioso e orari (24/10/2026). Stato personale: unito alla frase di presentazione già esistente (24/10/2026). Fatte: ora locale dell'altra persona; risposta rapida scorrendo il messaggio; animazioni di consegna e di lettura (24/10/2026).
+Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista. Scartate: silenzioso e orari (24/10/2026). Stato personale: unito alla frase di presentazione già esistente (24/10/2026). Fatte: ora locale dell'altra persona; risposta rapida scorrendo il messaggio; animazioni di consegna e di lettura; messaggi programmati (24/10/2026). Rimandate (ci torniamo): anteprima del link, contatore degli inviti.
 
 ### Costo zero, complessità piccola
 - [ ] Anteprima del link quando viene incollato
 - [ ] Contatore degli inviti
 
 ### Costo zero, complessità media
-- [ ] Messaggi programmati (partono all'ora scelta)
 - [ ] Scarica i miei dati (obbligo europeo) — **prima della beta allargata**
 - [ ] Contatti senza chat (la scheda Contatti mostra anche chi non hai ancora sentito, ma devi averlo salvato)
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
@@ -230,3 +229,4 @@ Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingu
 - **Ora locale dell'altra persona:** il telefono manda il suo fuso orario (`timezone`, nome IANA come "Asia/Kolkata", controllato dal server con `zoneinfo`; pacchetto `tzdata` aggiunto) e lo aggiorna quando cambia. Nelle chat a due si vede in alto ("online · ore 22:32 locali", solo se l'ora è diversa) e nella scheda contatto ("Ora locale: 22:32 (+3:30)"). Solo chi ha una chat con la persona la vede (non nella ricerca né nelle richieste di contatto: `stranger_profile`). Interruttore "Mostra la mia ora locale" in Profilo › Privacy (`settings.local_time_enabled`, acceso di default): chi lo spegne non mostra la sua ora e non vede quella degli altri.
 - **Risposta scorrendo il messaggio** (come WhatsApp): sul telefono si trascina un messaggio verso destra (verso sinistra in arabo/ebraico); oltre 56 px compare l'icona e, lasciando, si apre la risposta con la citazione (breve vibrazione dove il telefono la supporta). Un trascinamento corto o verticale non fa niente. Lo scorrimento che parte dal bordo dello schermo (28 px) chiude sempre la chat, anche sopra un messaggio.
 - **Spunte animate:** un messaggio appena inviato disegna la sua spunta; quando è letto la seconda spunta si disegna e tutte e due diventano verde salvia (#a9c9a0). I messaggi vecchi non si muovono. Rispetta "riduci animazioni". Corretto anche un difetto: la doppia spunta si vedeva solo mentre la chat era aperta (ora viene da `read_by` del server); nei gruppi diventa verde solo quando hanno letto tutti.
+- **Messaggi programmati:** si tiene premuto il tasto invio (o clic destro su computer) e si sceglie quando parte: tra 1 ora, stasera alle 20 (fino alle 19), domani alle 9, o data e ora a scelta (fino a 30 giorni). Nelle chat a due compare anche l'ora di chi riceve ("Per Hamad saranno le 13:30"). In attesa, il messaggio si vede solo a chi l'ha scritto, in fondo alla chat, tratteggiato con l'orario; toccandolo: invia ora, cambia ora, elimina. Server: collezione `scheduled`, `POST /api/scheduled`, `GET /api/scheduled/{chat}`, `PUT/DELETE /api/scheduled/{id}`, `POST /api/scheduled/{id}/send-now`; un ciclo ogni 15 secondi invia quelli scaduti (tolti prima di partire, quindi mai due volte; non parte in `APP_ENV=test`). Massimo 20 in attesa a persona. La traduzione avviene alla partenza. Se nel frattempo si è bloccati o fuori dal gruppo, il messaggio viene scartato e chi l'ha scritto riceve un avviso. Eliminando l'account si cancellano anche quelli in attesa.

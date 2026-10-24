@@ -227,5 +227,18 @@
  "{time} local time": "{time} paikallista aikaa",
  "Local time": "Paikallinen aika",
  "Show my local time": "Näytä paikallinen aikani",
- "People you chat with see what time it is for you": "Keskustelukumppanisi näkevät, paljonko kello on sinulla"
+ "People you chat with see what time it is for you": "Keskustelukumppanisi näkevät, paljonko kello on sinulla",
+ "Schedule message": "Ajasta viesti",
+ "In 1 hour": "Tunnin kuluttua",
+ "Tonight at {time}": "Tänä iltana klo {time}",
+ "Tomorrow at {time}": "Huomenna klo {time}",
+ "Other date and time": "Muu päivä ja aika",
+ "For {name} it will be {time}": "Henkilöllä {name} kello on silloin {time}",
+ "Schedule": "Ajasta",
+ "Message scheduled": "Viesti ajastettu",
+ "Will be sent {when}": "Lähetetään {when}",
+ "Scheduled message": "Ajastettu viesti",
+ "Send now": "Lähetä nyt",
+ "Change time": "Vaihda aika",
+ "A scheduled message could not be sent": "Ajastettua viestiä ei voitu lähettää"
 }

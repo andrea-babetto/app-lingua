@@ -227,5 +227,18 @@
  "{time} local time": "{time} lokal na oras",
  "Local time": "Lokal na oras",
  "Show my local time": "Ipakita ang lokal kong oras",
- "People you chat with see what time it is for you": "Makikita ng mga kausap mo kung anong oras na sa iyo"
+ "People you chat with see what time it is for you": "Makikita ng mga kausap mo kung anong oras na sa iyo",
+ "Schedule message": "I-iskedyul ang mensahe",
+ "In 1 hour": "Sa loob ng 1 oras",
+ "Tonight at {time}": "Mamayang gabi nang {time}",
+ "Tomorrow at {time}": "Bukas nang {time}",
+ "Other date and time": "Ibang petsa at oras",
+ "For {name} it will be {time}": "Kay {name}, {time} na noon",
+ "Schedule": "I-iskedyul",
+ "Message scheduled": "Naka-iskedyul na ang mensahe",
+ "Will be sent {when}": "Ipapadala {when}",
+ "Scheduled message": "Naka-iskedyul na mensahe",
+ "Send now": "Ipadala ngayon",
+ "Change time": "Palitan ang oras",
+ "A scheduled message could not be sent": "Hindi naipadala ang isang naka-iskedyul na mensahe"
 }

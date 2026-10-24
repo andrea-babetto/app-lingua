@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react
 import { ArrowUp, Smile, Plus, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil, Check } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { api } from "@/lib/api";
+import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -12,6 +12,7 @@ import MessageBubble from "@/components/chat/MessageBubble";
 import { avatarClass } from "@/lib/avatar";
 import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 import MessageActions from "@/components/chat/MessageActions";
+import { ScheduleDialog, ScheduledList, ScheduledActions } from "@/components/chat/Scheduled";
 import { useI18n } from "@/i18n";
 
 const EMOJIS = ["😀","😂","😍","🥰","😎","🤔","😢","😡","👍","👎","🙏","👏","🔥","❤️","🎉","✅","💯","😅","🤝","👋","💪","🌍","☕","🚀"];
@@ -132,6 +133,54 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     if (!isTouchDevice()) taRef.current?.focus();
   };
 
+  // ---- scheduled messages: hold the send button (or right-click it) to choose when the message leaves
+  const [scheduled, setScheduled] = useState([]);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [schedAction, setSchedAction] = useState(null);
+  const [rescheduling, setRescheduling] = useState(null);
+  const holdTimer = useRef(null);
+  const held = useRef(false);
+  useEffect(() => {
+    let live = true;
+    setScheduled([]);
+    api.get(`/scheduled/${chat.id}`).then(({ data }) => { if (live) setScheduled(data); }).catch(() => {});
+    const onSent = (e) => { if (e.detail?.chat_id === chat.id) setScheduled((list) => list.filter((x) => x.id !== e.detail.id)); };
+    window.addEventListener("glott:scheduled-sent", onSent);
+    return () => { live = false; window.removeEventListener("glott:scheduled-sent", onSent); };
+  }, [chat.id]);
+  const canSchedule = () => !!text.trim() && !editing;
+  const holdStart = () => {
+    held.current = false;
+    clearTimeout(holdTimer.current);
+    holdTimer.current = setTimeout(() => { if (canSchedule()) { held.current = true; navigator.vibrate?.(10); setScheduleOpen(true); } }, 450);
+  };
+  const holdEnd = () => clearTimeout(holdTimer.current);
+  const schedErr = (e) => toast.error(t(errText(e.response?.data?.detail)));
+  const pickTime = async (when) => {
+    setScheduleOpen(false);
+    try {
+      if (rescheduling) {
+        const { data } = await api.put(`/scheduled/${rescheduling.id}`, { send_at: when.toISOString() });
+        setScheduled((list) => list.map((x) => (x.id === data.id ? data : x)).sort((a, b) => a.send_at.localeCompare(b.send_at)));
+        setRescheduling(null);
+      } else {
+        const { data } = await api.post("/scheduled", { chat_id: chat.id, text: text.trim(), send_at: when.toISOString(), reply_to: reply?.id || null });
+        setScheduled((list) => [...list, data].sort((a, b) => a.send_at.localeCompare(b.send_at)));
+        setText(""); writeDraft(chat.id, ""); setReply(null);
+        setTimeout(() => scrollToBottom(true), 50);  // show the new waiting message
+      }
+      toast.success(t("Message scheduled"));
+    } catch (e) { schedErr(e); setRescheduling(null); }
+  };
+  const sendNow = async (s) => {
+    setSchedAction(null);
+    try { await api.post(`/scheduled/${s.id}/send-now`); setScheduled((list) => list.filter((x) => x.id !== s.id)); } catch (e) { schedErr(e); }
+  };
+  const deleteScheduled = async (s) => {
+    setSchedAction(null);
+    try { await api.delete(`/scheduled/${s.id}`); setScheduled((list) => list.filter((x) => x.id !== s.id)); } catch (e) { schedErr(e); }
+  };
+
   const startReply = (msg) => { setEditing(null); setReply(msg); taRef.current?.focus(); };
   const startEdit = (msg) => { setReply(null); setEditing(msg); setText(msg.original_text); setTimeout(() => taRef.current?.focus(), 50); };
   const cancelEdit = () => { setEditing(null); setText(readDraft(chat.id)); };
@@ -240,6 +289,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
             </div>
           );
         })}
+        <ScheduledList items={scheduled} onOpen={setSchedAction} />
         {typingUser && (
           <div data-testid="typing-indicator" className="flex items-center gap-2 px-3 mt-1">
             <div className="flex items-center gap-1 px-3 py-2 rounded-[18px] rounded-es-[6px] bg-bubble-in shadow-[0_1px_1px_rgba(0,0,0,0.06)]">
@@ -305,12 +355,19 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
             </PopoverContent>
           </Popover>
         </div>
-        <button data-testid="send-message-button" aria-label={editing ? t("Save") : t("Send")} onClick={send} disabled={!text.trim()}
+        <button data-testid="send-message-button" aria-label={editing ? t("Save") : t("Send")} disabled={!text.trim()}
+          onClick={() => { if (held.current) { held.current = false; return; } send(); }}
+          onPointerDown={holdStart} onPointerUp={holdEnd} onPointerLeave={holdEnd} onPointerCancel={holdEnd}
+          onContextMenu={(e) => { e.preventDefault(); if (canSchedule()) setScheduleOpen(true); }}
           className="w-10 h-10 mb-0.5 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 transition active:scale-95 disabled:opacity-40">
           {editing ? <Check className="w-5 h-5" /> : <ArrowUp className="w-5 h-5" strokeWidth={2.6} />}
         </button>
       </div>
 
+      <ScheduleDialog open={scheduleOpen} onClose={() => { setScheduleOpen(false); setRescheduling(null); }} onPick={pickTime}
+        other={!isGroup && user.settings?.local_time_enabled !== false ? other : null} initial={rescheduling?.send_at} />
+      <ScheduledActions item={schedAction} onClose={() => setSchedAction(null)} onSendNow={sendNow} onDelete={deleteScheduled}
+        onChangeTime={(s) => { setSchedAction(null); setRescheduling(s); setScheduleOpen(true); }} />
       <MessageActions msg={actionMsg} mine={actionMsg?.sender_id === user.id} userId={user.id} onClose={() => setActionMsg(null)}
         onReply={startReply} onEdit={startEdit} onReact={onReact}
         onShowOriginal={(m) => toggleOriginal(m.id)} showingOriginal={!!(actionMsg && originals[actionMsg.id])} />

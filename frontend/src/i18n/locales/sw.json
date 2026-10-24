@@ -227,5 +227,18 @@
  "{time} local time": "saa {time} kwa saa za huko",
  "Local time": "Saa za huko",
  "Show my local time": "Onyesha saa yangu ya hapa",
- "People you chat with see what time it is for you": "Unaozungumza nao wanaona ni saa ngapi kwako"
+ "People you chat with see what time it is for you": "Unaozungumza nao wanaona ni saa ngapi kwako",
+ "Schedule message": "Panga ujumbe",
+ "In 1 hour": "Baada ya saa 1",
+ "Tonight at {time}": "Leo usiku saa {time}",
+ "Tomorrow at {time}": "Kesho saa {time}",
+ "Other date and time": "Tarehe na saa nyingine",
+ "For {name} it will be {time}": "Kwa {name} itakuwa saa {time}",
+ "Schedule": "Panga",
+ "Message scheduled": "Ujumbe umepangwa",
+ "Will be sent {when}": "Utatumwa {when}",
+ "Scheduled message": "Ujumbe uliopangwa",
+ "Send now": "Tuma sasa",
+ "Change time": "Badilisha saa",
+ "A scheduled message could not be sent": "Ujumbe uliopangwa haukuweza kutumwa"
 }

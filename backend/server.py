@@ -450,6 +450,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
     await db.files.delete_many({"owner_id": uid})
     await db.push_subs.delete_many({"user_id": uid})
     await db.usage.delete_many({"user_id": uid})
+    await db.scheduled.delete_many({"sender_id": uid})
     await db.contacts.delete_many({"$or": [{"user_id": uid}, {"contact_id": uid}]})
     await db.users.update_many({"blocked": uid}, {"$pull": {"blocked": uid}})
     await db.users.delete_one({"id": uid})
@@ -991,13 +992,8 @@ def new_message_doc(chat_id, user, text, lang, attachment, reply_to, status):
     }
 
 
-@api.post("/messages")
-async def send_message(body: MessageIn, user=Depends(get_current_user)):
-    limiter.check(f"msg:{user['id']}", 60, 60, "You are sending messages too fast.")
-    text = body.text.strip()
-    if not text and not body.attachment:
-        raise HTTPException(status_code=400, detail="Message is empty")
-    chat = await get_chat_for(body.chat_id, user)
+async def post_message(user, chat, text, reply_to=None, attachment_ref=None):
+    """Write a message in a chat the user belongs to, send it to everyone and start its translation."""
     if chat["type"] == "direct":
         other_id = next((m for m in chat["members"] if m != user["id"]), None)
         if other_id:
@@ -1005,18 +1001,162 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
             me_full = await db.users.find_one({"id": user["id"]}, {"_id": 0})
             if other and (user["id"] in other.get("blocked", []) or other_id in me_full.get("blocked", [])):
                 raise HTTPException(status_code=403, detail="You cannot message this user")
-    if body.reply_to and not await db.messages.find_one({"id": body.reply_to, "chat_id": body.chat_id}, {"_id": 0, "id": 1}):
+    if reply_to and not await db.messages.find_one({"id": reply_to, "chat_id": chat["id"]}, {"_id": 0, "id": 1}):
         raise HTTPException(status_code=400, detail="Reply target not found in this chat")
-    attachment = await resolve_attachment(body.attachment, user)
+    attachment = await resolve_attachment(attachment_ref, user)
     sender_lang = user.get("language") or "en"
-    msg = new_message_doc(body.chat_id, user, text, sender_lang, attachment, body.reply_to, "translating" if text else "sent")
+    msg = new_message_doc(chat["id"], user, text, sender_lang, attachment, reply_to, "translating" if text else "sent")
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)  # instant broadcast of the original
     if text:
-        spawn(translate_message_async(msg["id"], body.chat_id, sender_lang, text, DEFAULT_TONE, notify=True))
+        spawn(translate_message_async(msg["id"], chat["id"], sender_lang, text, DEFAULT_TONE, notify=True))
     else:
         spawn(notify_offline(msg, chat))
-    return message_view(msg, sender_lang, user["id"])
+    return msg
+
+
+@api.post("/messages")
+async def send_message(body: MessageIn, user=Depends(get_current_user)):
+    limiter.check(f"msg:{user['id']}", 60, 60, "You are sending messages too fast.")
+    text = body.text.strip()
+    if not text and not body.attachment:
+        raise HTTPException(status_code=400, detail="Message is empty")
+    chat = await get_chat_for(body.chat_id, user)
+    msg = await post_message(user, chat, text, body.reply_to, body.attachment)
+    return message_view(msg, user.get("language") or "en", user["id"])
+
+
+# ---------------- Scheduled messages ----------------
+# Written now, sent at a chosen time. Only the writer sees them until they leave; the text is translated when it is sent.
+MAX_SCHEDULED = 20                      # waiting messages per person
+SCHEDULE_AHEAD = timedelta(days=30)
+
+
+class ScheduleIn(BaseModel):
+    chat_id: str = Field(max_length=64)
+    text: str = Field(max_length=4000)
+    send_at: str = Field(max_length=40)  # ISO date and time with its zone
+    reply_to: Optional[str] = Field(default=None, max_length=64)
+
+
+class RescheduleIn(BaseModel):
+    send_at: str = Field(max_length=40)
+
+
+def parse_send_at(value):
+    try:
+        when = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid date")
+    if when.tzinfo is None:
+        raise HTTPException(status_code=400, detail="Invalid date")
+    when = when.astimezone(timezone.utc)
+    now = datetime.now(timezone.utc)
+    if when <= now + timedelta(seconds=30):
+        raise HTTPException(status_code=400, detail="Choose a time in the future")
+    if when > now + SCHEDULE_AHEAD:
+        raise HTTPException(status_code=400, detail="You can schedule up to 30 days ahead")
+    return when
+
+
+def scheduled_view(doc):
+    return {k: doc.get(k) for k in ("id", "chat_id", "text", "send_at", "reply_to", "created_at")}
+
+
+@api.post("/scheduled")
+async def schedule_message(body: ScheduleIn, user=Depends(get_current_user)):
+    limiter.check(f"sched:{user['id']}", 30, 60)
+    text = body.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Message is empty")
+    await get_chat_for(body.chat_id, user)
+    when = parse_send_at(body.send_at)
+    if await db.scheduled.count_documents({"sender_id": user["id"]}) >= MAX_SCHEDULED:
+        raise HTTPException(status_code=400, detail="Too many scheduled messages")
+    if body.reply_to and not await db.messages.find_one({"id": body.reply_to, "chat_id": body.chat_id}, {"_id": 0, "id": 1}):
+        raise HTTPException(status_code=400, detail="Reply target not found in this chat")
+    doc = {"id": str(uuid.uuid4()), "chat_id": body.chat_id, "sender_id": user["id"], "text": text,
+           "send_at": when.isoformat(), "reply_to": body.reply_to, "created_at": now_iso()}
+    await db.scheduled.insert_one(dict(doc))
+    return scheduled_view(doc)
+
+
+@api.get("/scheduled/{chat_id}")
+async def list_scheduled(chat_id: str, user=Depends(get_current_user)):
+    await get_chat_for(chat_id, user)
+    rows = await db.scheduled.find({"chat_id": chat_id, "sender_id": user["id"]}, {"_id": 0}).sort("send_at", 1).to_list(MAX_SCHEDULED)
+    return [scheduled_view(r) for r in rows]
+
+
+async def own_scheduled(sid, user):
+    doc = await db.scheduled.find_one({"id": sid, "sender_id": user["id"]}, {"_id": 0})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Not found")
+    return doc
+
+
+@api.put("/scheduled/{sid}")
+async def reschedule(sid: str, body: RescheduleIn, user=Depends(get_current_user)):
+    await own_scheduled(sid, user)
+    when = parse_send_at(body.send_at)
+    await db.scheduled.update_one({"id": sid}, {"$set": {"send_at": when.isoformat()}})
+    return scheduled_view(await own_scheduled(sid, user))
+
+
+@api.delete("/scheduled/{sid}")
+async def cancel_scheduled(sid: str, user=Depends(get_current_user)):
+    await own_scheduled(sid, user)
+    await db.scheduled.delete_one({"id": sid})
+    return {"ok": True}
+
+
+async def send_scheduled(doc):
+    """Send one waiting message (it is removed first, so it can never leave twice). Returns the message or None."""
+    if not await db.scheduled.find_one_and_delete({"id": doc["id"]}):
+        return None
+    user = await db.users.find_one({"id": doc["sender_id"]}, {"_id": 0})
+    chat = await db.chats.find_one({"id": doc["chat_id"]}, {"_id": 0})
+    try:
+        if not user or not chat or user["id"] not in chat["members"]:
+            raise HTTPException(status_code=403, detail="Not a member")
+        msg = await post_message(user, chat, doc["text"], doc.get("reply_to"))
+    except HTTPException as e:  # blocked, left the group, reply deleted...: the message is dropped
+        logger.info("scheduled message %s not sent: %s", doc["id"], e.detail)
+        msg = None
+    if user:
+        await ws_manager.send(user["id"], {"type": "scheduled_sent", "id": doc["id"], "chat_id": doc["chat_id"], "sent": bool(msg)})
+    return msg
+
+
+@api.post("/scheduled/{sid}/send-now")
+async def send_scheduled_now(sid: str, user=Depends(get_current_user)):
+    doc = await own_scheduled(sid, user)
+    msg = await send_scheduled(doc)
+    if not msg:
+        raise HTTPException(status_code=400, detail="This message could not be sent")
+    return message_view(msg, user.get("language") or "en", user["id"])
+
+
+async def dispatch_due_scheduled(now=None):
+    """Send every waiting message whose time has come. Returns how many left."""
+    now = (now or datetime.now(timezone.utc)).isoformat()
+    sent = 0
+    for doc in await db.scheduled.find({"send_at": {"$lte": now}}, {"_id": 0}).sort("send_at", 1).to_list(200):
+        try:
+            if await send_scheduled(doc):
+                sent += 1
+        except Exception:
+            logger.exception("scheduled message %s failed", doc.get("id"))
+    return sent
+
+
+async def scheduled_loop():
+    while True:
+        await asyncio.sleep(15)
+        try:
+            await dispatch_due_scheduled()
+        except Exception:
+            logger.exception("scheduled messages loop")
 
 
 @api.post("/voice")
@@ -1519,6 +1659,9 @@ async def startup():
     await db.translation_cache.create_index("key", unique=True)
     await db.usage.create_index("key", unique=True)
     await db.usage.create_index("month")
+    await db.scheduled.create_index("send_at")
+    if os.environ.get("APP_ENV") != "test":
+        spawn(scheduled_loop())
     # Cached translations expire after 30 days so the database does not grow forever.
     await db.translation_cache.create_index("created_at_dt", expireAfterSeconds=30 * 24 * 3600)
     storage.get_storage()  # fail early (and log) if storage is misconfigured

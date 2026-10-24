@@ -227,5 +227,18 @@
  "{time} local time": "{time} lokal tid",
  "Local time": "Lokal tid",
  "Show my local time": "Vis min lokale tid",
- "People you chat with see what time it is for you": "De du chatter med ser hva klokka er hos deg"
+ "People you chat with see what time it is for you": "De du chatter med ser hva klokka er hos deg",
+ "Schedule message": "Planlegg melding",
+ "In 1 hour": "Om 1 time",
+ "Tonight at {time}": "I kveld kl. {time}",
+ "Tomorrow at {time}": "I morgen kl. {time}",
+ "Other date and time": "Annen dato og tid",
+ "For {name} it will be {time}": "For {name} blir klokka {time}",
+ "Schedule": "Planlegg",
+ "Message scheduled": "Melding planlagt",
+ "Will be sent {when}": "Sendes {when}",
+ "Scheduled message": "Planlagt melding",
+ "Send now": "Send nå",
+ "Change time": "Endre tid",
+ "A scheduled message could not be sent": "En planlagt melding kunne ikke sendes"
 }

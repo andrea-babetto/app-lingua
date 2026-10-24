@@ -227,5 +227,18 @@
  "{time} local time": "{time} بالتوقيت المحلي",
  "Local time": "الوقت المحلي",
  "Show my local time": "إظهار وقتي المحلي",
- "People you chat with see what time it is for you": "يرى من تتحدث معهم كم الساعة عندك"
+ "People you chat with see what time it is for you": "يرى من تتحدث معهم كم الساعة عندك",
+ "Schedule message": "جدولة الرسالة",
+ "In 1 hour": "بعد ساعة",
+ "Tonight at {time}": "الليلة الساعة {time}",
+ "Tomorrow at {time}": "غدًا الساعة {time}",
+ "Other date and time": "تاريخ ووقت آخر",
+ "For {name} it will be {time}": "ستكون الساعة {time} عند {name}",
+ "Schedule": "جدولة",
+ "Message scheduled": "تمت جدولة الرسالة",
+ "Will be sent {when}": "ستُرسل {when}",
+ "Scheduled message": "رسالة مجدولة",
+ "Send now": "إرسال الآن",
+ "Change time": "تغيير الوقت",
+ "A scheduled message could not be sent": "تعذّر إرسال رسالة مجدولة"
 }

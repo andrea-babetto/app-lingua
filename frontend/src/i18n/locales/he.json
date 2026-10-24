@@ -227,5 +227,18 @@
  "{time} local time": "{time} שעון מקומי",
  "Local time": "שעה מקומית",
  "Show my local time": "הצגת השעה המקומית שלי",
- "People you chat with see what time it is for you": "מי שמשוחח איתך רואה מה השעה אצלך"
+ "People you chat with see what time it is for you": "מי שמשוחח איתך רואה מה השעה אצלך",
+ "Schedule message": "תזמון הודעה",
+ "In 1 hour": "בעוד שעה",
+ "Tonight at {time}": "הערב ב־{time}",
+ "Tomorrow at {time}": "מחר ב־{time}",
+ "Other date and time": "תאריך ושעה אחרים",
+ "For {name} it will be {time}": "אצל {name} השעה תהיה {time}",
+ "Schedule": "תזמון",
+ "Message scheduled": "ההודעה תוזמנה",
+ "Will be sent {when}": "תישלח {when}",
+ "Scheduled message": "הודעה מתוזמנת",
+ "Send now": "שליחה עכשיו",
+ "Change time": "שינוי שעה",
+ "A scheduled message could not be sent": "לא ניתן היה לשלוח הודעה מתוזמנת"
 }

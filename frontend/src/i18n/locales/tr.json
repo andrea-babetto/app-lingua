@@ -227,5 +227,18 @@
  "{time} local time": "yerel saatle {time}",
  "Local time": "Yerel saat",
  "Show my local time": "Yerel saatimi göster",
- "People you chat with see what time it is for you": "Sohbet ettiğin kişiler senin orada saatin kaç olduğunu görür"
+ "People you chat with see what time it is for you": "Sohbet ettiğin kişiler senin orada saatin kaç olduğunu görür",
+ "Schedule message": "Mesajı zamanla",
+ "In 1 hour": "1 saat sonra",
+ "Tonight at {time}": "Bu akşam {time}",
+ "Tomorrow at {time}": "Yarın {time}",
+ "Other date and time": "Başka tarih ve saat",
+ "For {name} it will be {time}": "{name} için saat {time} olacak",
+ "Schedule": "Zamanla",
+ "Message scheduled": "Mesaj zamanlandı",
+ "Will be sent {when}": "Gönderilecek: {when}",
+ "Scheduled message": "Zamanlanmış mesaj",
+ "Send now": "Şimdi gönder",
+ "Change time": "Saati değiştir",
+ "A scheduled message could not be sent": "Zamanlanmış bir mesaj gönderilemedi"
 }

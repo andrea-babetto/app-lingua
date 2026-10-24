@@ -227,5 +227,18 @@
  "{time} local time": "உள்ளூர் நேரம் {time}",
  "Local time": "உள்ளூர் நேரம்",
  "Show my local time": "என் உள்ளூர் நேரத்தைக் காட்டு",
- "People you chat with see what time it is for you": "நீங்கள் உரையாடுபவர்கள் உங்கள் பக்கம் இப்போது மணி என்ன என்று பார்க்கலாம்"
+ "People you chat with see what time it is for you": "நீங்கள் உரையாடுபவர்கள் உங்கள் பக்கம் இப்போது மணி என்ன என்று பார்க்கலாம்",
+ "Schedule message": "செய்தியைத் திட்டமிடு",
+ "In 1 hour": "1 மணி நேரத்தில்",
+ "Tonight at {time}": "இன்று இரவு {time}க்கு",
+ "Tomorrow at {time}": "நாளை {time}க்கு",
+ "Other date and time": "வேறு தேதியும் நேரமும்",
+ "For {name} it will be {time}": "{name} இடத்தில் அப்போது {time}",
+ "Schedule": "திட்டமிடு",
+ "Message scheduled": "செய்தி திட்டமிடப்பட்டது",
+ "Will be sent {when}": "{when} அனுப்பப்படும்",
+ "Scheduled message": "திட்டமிட்ட செய்தி",
+ "Send now": "இப்போதே அனுப்பு",
+ "Change time": "நேரத்தை மாற்று",
+ "A scheduled message could not be sent": "திட்டமிட்ட ஒரு செய்தியை அனுப்ப முடியவில்லை"
 }

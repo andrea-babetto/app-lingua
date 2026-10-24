@@ -227,5 +227,18 @@
  "{time} local time": "{time} lokalno vrijeme",
  "Local time": "Lokalno vrijeme",
  "Show my local time": "Prikaži moje lokalno vrijeme",
- "People you chat with see what time it is for you": "Osobe s kojima se dopisuješ vide koliko je sati kod tebe"
+ "People you chat with see what time it is for you": "Osobe s kojima se dopisuješ vide koliko je sati kod tebe",
+ "Schedule message": "Zakaži poruku",
+ "In 1 hour": "Za 1 sat",
+ "Tonight at {time}": "Večeras u {time}",
+ "Tomorrow at {time}": "Sutra u {time}",
+ "Other date and time": "Drugi datum i vrijeme",
+ "For {name} it will be {time}": "Kod osobe {name} bit će {time}",
+ "Schedule": "Zakaži",
+ "Message scheduled": "Poruka je zakazana",
+ "Will be sent {when}": "Bit će poslana {when}",
+ "Scheduled message": "Zakazana poruka",
+ "Send now": "Pošalji sada",
+ "Change time": "Promijeni vrijeme",
+ "A scheduled message could not be sent": "Zakazanu poruku nije bilo moguće poslati"
 }

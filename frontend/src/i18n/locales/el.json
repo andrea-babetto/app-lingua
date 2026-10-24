@@ -227,5 +227,18 @@
  "{time} local time": "{time} τοπική ώρα",
  "Local time": "Τοπική ώρα",
  "Show my local time": "Εμφάνιση της τοπικής μου ώρας",
- "People you chat with see what time it is for you": "Όσοι συνομιλούν μαζί σου βλέπουν τι ώρα είναι για σένα"
+ "People you chat with see what time it is for you": "Όσοι συνομιλούν μαζί σου βλέπουν τι ώρα είναι για σένα",
+ "Schedule message": "Προγραμματισμός μηνύματος",
+ "In 1 hour": "Σε 1 ώρα",
+ "Tonight at {time}": "Απόψε στις {time}",
+ "Tomorrow at {time}": "Αύριο στις {time}",
+ "Other date and time": "Άλλη ημερομηνία και ώρα",
+ "For {name} it will be {time}": "Για τον/την {name} θα είναι {time}",
+ "Schedule": "Προγραμματισμός",
+ "Message scheduled": "Το μήνυμα προγραμματίστηκε",
+ "Will be sent {when}": "Θα σταλεί {when}",
+ "Scheduled message": "Προγραμματισμένο μήνυμα",
+ "Send now": "Αποστολή τώρα",
+ "Change time": "Αλλαγή ώρας",
+ "A scheduled message could not be sent": "Ένα προγραμματισμένο μήνυμα δεν στάλθηκε"
 }

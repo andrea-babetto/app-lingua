@@ -227,5 +227,18 @@
  "{time} local time": "{time} miestneho času",
  "Local time": "Miestny čas",
  "Show my local time": "Zobrazovať môj miestny čas",
- "People you chat with see what time it is for you": "Ľudia, s ktorými píšete, vidia, koľko je u vás hodín"
+ "People you chat with see what time it is for you": "Ľudia, s ktorými píšete, vidia, koľko je u vás hodín",
+ "Schedule message": "Naplánovať správu",
+ "In 1 hour": "O 1 hodinu",
+ "Tonight at {time}": "Dnes večer o {time}",
+ "Tomorrow at {time}": "Zajtra o {time}",
+ "Other date and time": "Iný dátum a čas",
+ "For {name} it will be {time}": "U {name} bude {time}",
+ "Schedule": "Naplánovať",
+ "Message scheduled": "Správa naplánovaná",
+ "Will be sent {when}": "Odošle sa {when}",
+ "Scheduled message": "Naplánovaná správa",
+ "Send now": "Odoslať hneď",
+ "Change time": "Zmeniť čas",
+ "A scheduled message could not be sent": "Naplánovanú správu sa nepodarilo odoslať"
 }

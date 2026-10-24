@@ -227,5 +227,18 @@
  "{time} local time": "{time} czasu lokalnego",
  "Local time": "Czas lokalny",
  "Show my local time": "Pokazuj mój czas lokalny",
- "People you chat with see what time it is for you": "Osoby, z którymi piszesz, widzą, która jest u ciebie godzina"
+ "People you chat with see what time it is for you": "Osoby, z którymi piszesz, widzą, która jest u ciebie godzina",
+ "Schedule message": "Zaplanuj wiadomość",
+ "In 1 hour": "Za godzinę",
+ "Tonight at {time}": "Dziś wieczorem o {time}",
+ "Tomorrow at {time}": "Jutro o {time}",
+ "Other date and time": "Inna data i godzina",
+ "For {name} it will be {time}": "U {name} będzie wtedy {time}",
+ "Schedule": "Zaplanuj",
+ "Message scheduled": "Wiadomość zaplanowana",
+ "Will be sent {when}": "Zostanie wysłana {when}",
+ "Scheduled message": "Zaplanowana wiadomość",
+ "Send now": "Wyślij teraz",
+ "Change time": "Zmień godzinę",
+ "A scheduled message could not be sent": "Nie udało się wysłać zaplanowanej wiadomości"
 }

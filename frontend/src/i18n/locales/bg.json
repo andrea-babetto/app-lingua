@@ -227,5 +227,18 @@
  "{time} local time": "{time} местно време",
  "Local time": "Местно време",
  "Show my local time": "Показвай местното ми време",
- "People you chat with see what time it is for you": "Хората, с които пишеш, виждат колко е часът при теб"
+ "People you chat with see what time it is for you": "Хората, с които пишеш, виждат колко е часът при теб",
+ "Schedule message": "Планирай съобщение",
+ "In 1 hour": "След 1 час",
+ "Tonight at {time}": "Довечера в {time}",
+ "Tomorrow at {time}": "Утре в {time}",
+ "Other date and time": "Друга дата и час",
+ "For {name} it will be {time}": "За {name} ще бъде {time}",
+ "Schedule": "Планирай",
+ "Message scheduled": "Съобщението е планирано",
+ "Will be sent {when}": "Ще бъде изпратено {when}",
+ "Scheduled message": "Планирано съобщение",
+ "Send now": "Изпрати сега",
+ "Change time": "Промени часа",
+ "A scheduled message could not be sent": "Планирано съобщение не можа да бъде изпратено"
 }

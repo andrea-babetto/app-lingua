@@ -227,5 +227,18 @@
  "{time} local time": "स्थानिक वेळ {time}",
  "Local time": "स्थानिक वेळ",
  "Show my local time": "माझी स्थानिक वेळ दाखवा",
- "People you chat with see what time it is for you": "तुम्ही ज्यांच्याशी चॅट करता त्यांना तुमच्याकडे किती वाजले ते दिसते"
+ "People you chat with see what time it is for you": "तुम्ही ज्यांच्याशी चॅट करता त्यांना तुमच्याकडे किती वाजले ते दिसते",
+ "Schedule message": "संदेश वेळापत्रकात ठेवा",
+ "In 1 hour": "1 तासाने",
+ "Tonight at {time}": "आज रात्री {time} वाजता",
+ "Tomorrow at {time}": "उद्या {time} वाजता",
+ "Other date and time": "दुसरी तारीख आणि वेळ",
+ "For {name} it will be {time}": "{name} यांच्याकडे तेव्हा {time} वाजतील",
+ "Schedule": "वेळ ठरवा",
+ "Message scheduled": "संदेशाची वेळ ठरली",
+ "Will be sent {when}": "{when} ला पाठवला जाईल",
+ "Scheduled message": "वेळ ठरवलेला संदेश",
+ "Send now": "आत्ता पाठवा",
+ "Change time": "वेळ बदला",
+ "A scheduled message could not be sent": "वेळ ठरवलेला एक संदेश पाठवता आला नाही"
 }

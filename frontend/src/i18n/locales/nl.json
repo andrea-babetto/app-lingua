@@ -227,5 +227,18 @@
  "{time} local time": "{time} lokale tijd",
  "Local time": "Lokale tijd",
  "Show my local time": "Mijn lokale tijd tonen",
- "People you chat with see what time it is for you": "Mensen met wie je chat zien hoe laat het bij jou is"
+ "People you chat with see what time it is for you": "Mensen met wie je chat zien hoe laat het bij jou is",
+ "Schedule message": "Bericht inplannen",
+ "In 1 hour": "Over 1 uur",
+ "Tonight at {time}": "Vanavond om {time}",
+ "Tomorrow at {time}": "Morgen om {time}",
+ "Other date and time": "Andere datum en tijd",
+ "For {name} it will be {time}": "Bij {name} is het dan {time}",
+ "Schedule": "Inplannen",
+ "Message scheduled": "Bericht ingepland",
+ "Will be sent {when}": "Wordt verstuurd {when}",
+ "Scheduled message": "Ingepland bericht",
+ "Send now": "Nu versturen",
+ "Change time": "Tijd wijzigen",
+ "A scheduled message could not be sent": "Een ingepland bericht kon niet worden verstuurd"
 }

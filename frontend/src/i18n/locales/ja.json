@@ -227,5 +227,18 @@
  "{time} local time": "現地時間 {time}",
  "Local time": "現地時間",
  "Show my local time": "自分の現地時間を表示",
- "People you chat with see what time it is for you": "チャット相手にあなたの現地時間が表示されます"
+ "People you chat with see what time it is for you": "チャット相手にあなたの現地時間が表示されます",
+ "Schedule message": "メッセージを予約",
+ "In 1 hour": "1時間後",
+ "Tonight at {time}": "今夜{time}",
+ "Tomorrow at {time}": "明日{time}",
+ "Other date and time": "ほかの日時",
+ "For {name} it will be {time}": "{name}さんのところでは{time}です",
+ "Schedule": "予約する",
+ "Message scheduled": "メッセージを予約しました",
+ "Will be sent {when}": "{when}に送信",
+ "Scheduled message": "予約済みメッセージ",
+ "Send now": "今すぐ送信",
+ "Change time": "時間を変更",
+ "A scheduled message could not be sent": "予約したメッセージを送信できませんでした"
 }

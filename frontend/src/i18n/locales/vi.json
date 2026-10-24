@@ -227,5 +227,18 @@
  "{time} local time": "{time} giờ địa phương",
  "Local time": "Giờ địa phương",
  "Show my local time": "Hiện giờ địa phương của tôi",
- "People you chat with see what time it is for you": "Người trò chuyện với bạn sẽ thấy chỗ bạn đang là mấy giờ"
+ "People you chat with see what time it is for you": "Người trò chuyện với bạn sẽ thấy chỗ bạn đang là mấy giờ",
+ "Schedule message": "Hẹn giờ gửi tin nhắn",
+ "In 1 hour": "Sau 1 giờ",
+ "Tonight at {time}": "Tối nay lúc {time}",
+ "Tomorrow at {time}": "Ngày mai lúc {time}",
+ "Other date and time": "Ngày và giờ khác",
+ "For {name} it will be {time}": "Bên {name} lúc đó là {time}",
+ "Schedule": "Hẹn giờ",
+ "Message scheduled": "Đã hẹn giờ tin nhắn",
+ "Will be sent {when}": "Sẽ gửi {when}",
+ "Scheduled message": "Tin nhắn hẹn giờ",
+ "Send now": "Gửi ngay",
+ "Change time": "Đổi giờ",
+ "A scheduled message could not be sent": "Không gửi được một tin nhắn hẹn giờ"
 }

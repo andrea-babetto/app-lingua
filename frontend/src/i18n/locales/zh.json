@@ -227,5 +227,18 @@
  "{time} local time": "当地时间 {time}",
  "Local time": "当地时间",
  "Show my local time": "显示我的当地时间",
- "People you chat with see what time it is for you": "与你聊天的人可以看到你那边几点了"
+ "People you chat with see what time it is for you": "与你聊天的人可以看到你那边几点了",
+ "Schedule message": "定时发送消息",
+ "In 1 hour": "1小时后",
+ "Tonight at {time}": "今晚{time}",
+ "Tomorrow at {time}": "明天{time}",
+ "Other date and time": "其他日期和时间",
+ "For {name} it will be {time}": "{name}那边将是{time}",
+ "Schedule": "定时",
+ "Message scheduled": "消息已定时",
+ "Will be sent {when}": "将于{when}发送",
+ "Scheduled message": "定时消息",
+ "Send now": "立即发送",
+ "Change time": "更改时间",
+ "A scheduled message could not be sent": "一条定时消息未能发送"
 }

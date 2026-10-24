@@ -850,3 +850,84 @@ def test_local_time_zone_is_shared_only_with_chat_partners_and_can_be_hidden(cli
     other = next(c for c in client.get("/api/chats", headers=b.h).json() if c["type"] == "direct")["other_user"]
     assert other["timezone"] == ""
     assert client.get("/api/auth/me", headers=a.h).json()["settings"]["local_time_enabled"] is False
+
+
+def _iso(delta):
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    return (_dt.now(_tz.utc) + _td(seconds=delta)).isoformat()
+
+
+def test_scheduled_messages_wait_and_then_leave(client, make_person):
+    a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
+    chat = direct(client, a, b)
+    body = {"chat_id": chat["id"], "text": "  buongiorno  ", "send_at": _iso(3600)}
+    assert client.post("/api/scheduled", json={**body, "send_at": _iso(-60)}, headers=a.h).status_code == 400     # past
+    assert client.post("/api/scheduled", json={**body, "send_at": _iso(31 * 86400)}, headers=a.h).status_code == 400  # too far
+    assert client.post("/api/scheduled", json={**body, "send_at": "2026-10-24T09:00"}, headers=a.h).status_code == 400  # no time zone
+    assert client.post("/api/scheduled", json={**body, "text": "   "}, headers=a.h).status_code == 400
+    assert client.post("/api/scheduled", json=body, headers=c.h).status_code == 403    # not in the chat
+    s = client.post("/api/scheduled", json=body, headers=a.h).json()
+    assert s["text"] == "buongiorno"
+    # only Anna sees it; Bob gets nothing yet
+    assert [x["id"] for x in client.get(f"/api/scheduled/{chat['id']}", headers=a.h).json()] == [s["id"]]
+    assert client.get(f"/api/scheduled/{chat['id']}", headers=b.h).json() == []
+    assert client.get(f"/api/messages/{chat['id']}", headers=b.h).json() == []
+    assert client.delete(f"/api/scheduled/{s['id']}", headers=b.h).status_code == 404
+    # change the time, then its time comes
+    assert client.put(f"/api/scheduled/{s['id']}", json={"send_at": _iso(7200)}, headers=a.h).status_code == 200
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    assert asyncio.run(server.dispatch_due_scheduled(_dt.now(_tz.utc) + _td(minutes=30))) == 0   # not yet
+    assert asyncio.run(server.dispatch_due_scheduled(_dt.now(_tz.utc) + _td(hours=3))) == 1
+    got = client.get(f"/api/messages/{chat['id']}", headers=b.h).json()
+    assert len(got) == 1 and got[0]["original_text"] == "buongiorno" and got[0]["sender_id"] == a.id
+    assert client.get(f"/api/scheduled/{chat['id']}", headers=a.h).json() == []
+    assert asyncio.run(server.dispatch_due_scheduled(_dt.now(_tz.utc) + _td(hours=3))) == 0   # never twice
+
+
+def test_scheduled_send_now_cancel_limit_and_blocking(client, make_person):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    chat = direct(client, a, b)
+    s1 = client.post("/api/scheduled", json={"chat_id": chat["id"], "text": "uno", "send_at": _iso(3600)}, headers=a.h).json()
+    s2 = client.post("/api/scheduled", json={"chat_id": chat["id"], "text": "due", "send_at": _iso(3600)}, headers=a.h).json()
+    m = client.post(f"/api/scheduled/{s1['id']}/send-now", headers=a.h)
+    assert m.status_code == 200 and m.json()["original_text"] == "uno"
+    assert client.post(f"/api/scheduled/{s1['id']}/send-now", headers=a.h).status_code == 404   # already gone
+    assert client.delete(f"/api/scheduled/{s2['id']}", headers=a.h).json() == {"ok": True}
+    assert [x["original_text"] for x in client.get(f"/api/messages/{chat['id']}", headers=b.h).json()] == ["uno"]
+    # if Bob blocks Anna before the time, the message is dropped, not sent
+    s3 = client.post("/api/scheduled", json={"chat_id": chat["id"], "text": "tre", "send_at": _iso(3600)}, headers=a.h).json()
+    client.post(f"/api/users/{a.id}/block", headers=b.h)
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    assert asyncio.run(server.dispatch_due_scheduled(_dt.now(_tz.utc) + _td(hours=2))) == 0
+    assert client.get(f"/api/scheduled/{chat['id']}", headers=a.h).json() == []
+    assert asyncio.run(server.db.messages.count_documents({"original_text": "tre"})) == 0
+    client.post(f"/api/users/{a.id}/unblock", headers=b.h)
+    # at most 20 waiting per person
+    for i in range(20):
+        assert client.post("/api/scheduled", json={"chat_id": chat["id"], "text": f"m{i}", "send_at": _iso(3600)}, headers=a.h).status_code == 200
+    assert client.post("/api/scheduled", json={"chat_id": chat["id"], "text": "one more", "send_at": _iso(3600)}, headers=a.h).status_code == 400
+    # deleting the account removes them
+    assert client.post("/api/auth/delete-account", json={"password": "correct-horse-1"}, headers=a.h).status_code == 200
+    assert asyncio.run(server.db.scheduled.count_documents({"sender_id": a.id})) == 0
+
+
+def test_scheduled_loop_sends_what_is_due(client, make_person, monkeypatch):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    chat = direct(client, a, b)
+    asyncio.run(server.db.scheduled.insert_one({"id": "due-1", "chat_id": chat["id"], "sender_id": a.id, "text": "è ora",
+                                                "send_at": _iso(-5), "reply_to": None, "created_at": _iso(-60)}))
+    real_sleep, calls = asyncio.sleep, {"n": 0}
+
+    async def one_round(_seconds):
+        calls["n"] += 1
+        if calls["n"] > 1:
+            raise asyncio.CancelledError
+        await real_sleep(0)
+
+    monkeypatch.setattr(server.asyncio, "sleep", one_round)
+    try:
+        asyncio.run(server.scheduled_loop())
+    except asyncio.CancelledError:
+        pass
+    monkeypatch.setattr(server.asyncio, "sleep", real_sleep)
+    assert [m["original_text"] for m in client.get(f"/api/messages/{chat['id']}", headers=b.h).json()] == ["è ora"]

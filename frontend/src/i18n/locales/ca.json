@@ -227,5 +227,18 @@
  "{time} local time": "{time} hora local",
  "Local time": "Hora local",
  "Show my local time": "Mostra la meva hora local",
- "People you chat with see what time it is for you": "Les persones amb qui xerres veuen quina hora és per a tu"
+ "People you chat with see what time it is for you": "Les persones amb qui xerres veuen quina hora és per a tu",
+ "Schedule message": "Programa el missatge",
+ "In 1 hour": "D'aquí a 1 hora",
+ "Tonight at {time}": "Aquesta nit a les {time}",
+ "Tomorrow at {time}": "Demà a les {time}",
+ "Other date and time": "Una altra data i hora",
+ "For {name} it will be {time}": "Per a {name} seran les {time}",
+ "Schedule": "Programa",
+ "Message scheduled": "Missatge programat",
+ "Will be sent {when}": "S'enviarà {when}",
+ "Scheduled message": "Missatge programat",
+ "Send now": "Envia ara",
+ "Change time": "Canvia l'hora",
+ "A scheduled message could not be sent": "No s'ha pogut enviar un missatge programat"
 }

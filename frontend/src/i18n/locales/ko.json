@@ -227,5 +227,18 @@
  "{time} local time": "현지 시간 {time}",
  "Local time": "현지 시간",
  "Show my local time": "내 현지 시간 표시",
- "People you chat with see what time it is for you": "대화 상대가 내 쪽 현재 시간을 볼 수 있습니다"
+ "People you chat with see what time it is for you": "대화 상대가 내 쪽 현재 시간을 볼 수 있습니다",
+ "Schedule message": "메시지 예약",
+ "In 1 hour": "1시간 후",
+ "Tonight at {time}": "오늘 밤 {time}",
+ "Tomorrow at {time}": "내일 {time}",
+ "Other date and time": "다른 날짜와 시간",
+ "For {name} it will be {time}": "{name} 님 쪽은 {time}입니다",
+ "Schedule": "예약",
+ "Message scheduled": "메시지가 예약되었습니다",
+ "Will be sent {when}": "{when}에 전송",
+ "Scheduled message": "예약된 메시지",
+ "Send now": "지금 보내기",
+ "Change time": "시간 변경",
+ "A scheduled message could not be sent": "예약된 메시지를 보내지 못했습니다"
 }

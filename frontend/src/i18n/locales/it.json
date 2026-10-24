@@ -227,5 +227,18 @@
  "{time} local time": "ore {time} locali",
  "Local time": "Ora locale",
  "Show my local time": "Mostra la mia ora locale",
- "People you chat with see what time it is for you": "Chi chatta con te vede che ore sono da te"
+ "People you chat with see what time it is for you": "Chi chatta con te vede che ore sono da te",
+ "Schedule message": "Programma il messaggio",
+ "In 1 hour": "Tra 1 ora",
+ "Tonight at {time}": "Stasera alle {time}",
+ "Tomorrow at {time}": "Domani alle {time}",
+ "Other date and time": "Altra data e ora",
+ "For {name} it will be {time}": "Per {name} saranno le {time}",
+ "Schedule": "Programma",
+ "Message scheduled": "Messaggio programmato",
+ "Will be sent {when}": "Partirà {when}",
+ "Scheduled message": "Messaggio programmato",
+ "Send now": "Invia ora",
+ "Change time": "Cambia ora",
+ "A scheduled message could not be sent": "Un messaggio programmato non è potuto partire"
 }

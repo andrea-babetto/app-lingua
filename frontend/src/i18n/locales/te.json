@@ -227,5 +227,18 @@
  "{time} local time": "స్థానిక సమయం {time}",
  "Local time": "స్థానిక సమయం",
  "Show my local time": "నా స్థానిక సమయం చూపించు",
- "People you chat with see what time it is for you": "మీరు చాట్ చేసేవారికి మీ దగ్గర ఇప్పుడు సమయం ఎంతో కనిపిస్తుంది"
+ "People you chat with see what time it is for you": "మీరు చాట్ చేసేవారికి మీ దగ్గర ఇప్పుడు సమయం ఎంతో కనిపిస్తుంది",
+ "Schedule message": "సందేశాన్ని షెడ్యూల్ చేయండి",
+ "In 1 hour": "1 గంటలో",
+ "Tonight at {time}": "ఈ రాత్రి {time}కి",
+ "Tomorrow at {time}": "రేపు {time}కి",
+ "Other date and time": "వేరే తేదీ మరియు సమయం",
+ "For {name} it will be {time}": "{name} దగ్గర అప్పుడు {time} అవుతుంది",
+ "Schedule": "షెడ్యూల్ చేయండి",
+ "Message scheduled": "సందేశం షెడ్యూల్ అయింది",
+ "Will be sent {when}": "{when}కి పంపబడుతుంది",
+ "Scheduled message": "షెడ్యూల్ చేసిన సందేశం",
+ "Send now": "ఇప్పుడే పంపండి",
+ "Change time": "సమయం మార్చండి",
+ "A scheduled message could not be sent": "షెడ్యూల్ చేసిన ఒక సందేశాన్ని పంపలేకపోయాం"
 }
