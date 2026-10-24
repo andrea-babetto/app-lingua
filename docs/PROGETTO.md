@@ -88,13 +88,29 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 9. Da fare (in ordine)
 
-1. (Fatto sul ramo) Interfaccia nella lingua di ciascuno.
-2. Backup del database (piano Atlas con backup); revisione legale di privacy e termini; "scarica i miei dati".
-3. Ricerca ufficiale sul marchio e scelta del nome definitivo; dominio proprio (`.app`/`.chat`/`.com`).
-4. Ingresso da link senza account; recupero password autonomo (serve un servizio email).
-5. Vocali: chiave OpenAI + `VOICE_MESSAGES=true` + rimettere il pulsante del microfono (è stato tolto dal sito).
-6. Accesso con Google (`GOOGLE_CLIENT_ID`). Regolazione (sposta/ingrandisci) della foto profilo.
-7. App negli store (Capacitor): serve il nome definitivo, Apple Developer 99 $/anno, Google Play 25 $ una tantum; le notifiche push native vanno aggiunte.
+**Prima di aprire la beta a più persone**
+1. Scarica i miei dati: file con tutti i dati della persona (obbligo europeo). Lavoro medio.
+2. Recupero password da soli: serve un servizio di posta per le email. Lavoro medio, costo fisso piccolo.
+3. Contatti senza chat: la scheda Contatti mostra anche le persone con cui non hai ancora scritto (serve un endpoint nuovo). Lavoro piccolo.
+4. Ingresso da link: chi riceve l'invito arriva direttamente alla chat con chi l'ha invitato. Lavoro medio.
+5. Backup del database (piano Atlas con backup) e revisione legale di Termini, Privacy e contatore d'uso.
+6. Nuovo codice d'invito prima di condividerlo largamente.
+
+**Durante la beta (gratis o quasi)**
+7. Ora locale dell'altra persona nella scheda contatto. Lavoro piccolo.
+8. Tocca una parola per tradurla. Costo minimo.
+9. Modalità studio: l'originale resta visibile accanto alla traduzione.
+10. Glossario automatico: suggerire i termini che si ripetono.
+11. Condividi o esporta una conversazione (testo tradotto e originale).
+
+**Dopo la beta, se i dati lo dicono**
+12. Messaggi vocali: il codice c'è, serve la chiave OpenAI e `VOICE_MESSAGES=true`. Costo per ogni trascrizione.
+13. Traduzione del testo nelle foto: costo più alto di un messaggio.
+14. Sondaggi e descrizione/regole dei gruppi.
+15. Posizione condivisa per un momento.
+16. Piano gratuito con limite e pagamenti (vedi sezione Pagamenti): solo con utenti reali e commercialista.
+17. App negli store: serve il nome definitivo, un account Apple (99 $/anno) e Google Play (25 $ una tantum).
+18. Verifica del marchio e del dominio con un consulente.
 
 ## 10. Come lavorare sul progetto
 
