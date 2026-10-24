@@ -352,6 +352,12 @@ function PrivacyPage({ onBack, onOpen }) {
           <Switch data-testid="last-seen-switch" checked={!!user.settings?.last_seen_enabled} onCheckedChange={(v) => save({ settings: { ...user.settings, last_seen_enabled: v } })} />
         </div>
       </Section>
+      <Section>
+        <div className="flex items-center justify-between gap-3">
+          <div><div className="text-sm font-medium">{t("Show my local time")}</div><div className="text-xs text-muted-foreground">{t("People you chat with see what time it is for you")}</div></div>
+          <Switch data-testid="local-time-switch" checked={user.settings?.local_time_enabled !== false} onCheckedChange={(v) => save({ settings: { ...user.settings, local_time_enabled: v } })} />
+        </div>
+      </Section>
       <Group><Row icon={Ban} label={t("Blocked users")} testId="profile-row-blocked" onClick={() => onOpen("blocked")} /></Group>
       <Section>
         <div className="flex flex-col gap-2 text-sm">

@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Увійдіть, щоб продовжити розмови.",
  "It takes 30 seconds.": "Це займе 30 секунд.",
  "We read every message. Tell us what is not working or what you would like to see.": "Ми читаємо кожне повідомлення. Напишіть, що не працює або чого вам бракує.",
- "Write to us": "Написати нам"
+ "Write to us": "Написати нам",
+ "{time} local time": "{time} за місцевим часом",
+ "Local time": "Місцевий час",
+ "Show my local time": "Показувати мій місцевий час",
+ "People you chat with see what time it is for you": "Співрозмовники бачать, котра у вас година"
 }

@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Đăng nhập để tiếp tục các cuộc trò chuyện của bạn.",
  "It takes 30 seconds.": "Chỉ mất 30 giây.",
  "We read every message. Tell us what is not working or what you would like to see.": "Chúng tôi đọc mọi tin nhắn. Hãy cho chúng tôi biết điều gì chưa ổn hoặc bạn muốn thấy gì.",
- "Write to us": "Viết cho chúng tôi"
+ "Write to us": "Viết cho chúng tôi",
+ "{time} local time": "{time} giờ địa phương",
+ "Local time": "Giờ địa phương",
+ "Show my local time": "Hiện giờ địa phương của tôi",
+ "People you chat with see what time it is for you": "Người trò chuyện với bạn sẽ thấy chỗ bạn đang là mấy giờ"
 }

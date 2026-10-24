@@ -831,3 +831,22 @@ def test_admin_usage_report_and_account_deletion(client, make_person):
     assert asyncio.run(server.db.usage.count_documents({"user_id": b.id})) == 0
     after = client.get("/api/admin/usage", headers=admin.h).json()
     assert after["active_people"] == 1 and after["people"][0]["name"] == "Anna"
+
+
+def test_local_time_zone_is_shared_only_with_chat_partners_and_can_be_hidden(client, make_person):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    assert client.put("/api/auth/profile", json={"timezone": "Mars/Olympus"}, headers=a.h).status_code == 400
+    me = client.put("/api/auth/profile", json={"timezone": "Europe/Rome"}, headers=a.h).json()
+    assert me["timezone"] == "Europe/Rome"
+    # a stranger who finds Anna in search does not see her time zone
+    found = client.get("/api/users/search", params={"q": a.username}, headers=b.h).json()
+    assert found and "timezone" not in found[0]
+    # in a chat, Bob sees it
+    direct(client, a, b)
+    other = next(c for c in client.get("/api/chats", headers=b.h).json() if c["type"] == "direct")["other_user"]
+    assert other["timezone"] == "Europe/Rome"
+    # Anna hides it from Profile > Privacy
+    client.put("/api/auth/profile", json={"settings": {"local_time_enabled": False}}, headers=a.h)
+    other = next(c for c in client.get("/api/chats", headers=b.h).json() if c["type"] == "direct")["other_user"]
+    assert other["timezone"] == ""
+    assert client.get("/api/auth/me", headers=a.h).json()["settings"]["local_time_enabled"] is False

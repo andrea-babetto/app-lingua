@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Přihlaste se a pokračujte ve svých konverzacích.",
  "It takes 30 seconds.": "Zabere to 30 sekund.",
  "We read every message. Tell us what is not working or what you would like to see.": "Čteme každou zprávu. Napište nám, co nefunguje nebo co byste chtěli vidět.",
- "Write to us": "Napište nám"
+ "Write to us": "Napište nám",
+ "{time} local time": "{time} místního času",
+ "Local time": "Místní čas",
+ "Show my local time": "Zobrazovat můj místní čas",
+ "People you chat with see what time it is for you": "Lidé, se kterými píšete, vidí, kolik je u vás hodin"
 }

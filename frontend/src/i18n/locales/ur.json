@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "اپنی گفتگو جاری رکھنے کے لیے سائن اِن کریں۔",
  "It takes 30 seconds.": "اس میں صرف 30 سیکنڈ لگتے ہیں۔",
  "We read every message. Tell us what is not working or what you would like to see.": "ہم ہر پیغام پڑھتے ہیں۔ ہمیں بتائیں کیا ٹھیک کام نہیں کر رہا یا آپ کیا دیکھنا چاہتے ہیں۔",
- "Write to us": "ہمیں لکھیں"
+ "Write to us": "ہمیں لکھیں",
+ "{time} local time": "مقامی وقت {time}",
+ "Local time": "مقامی وقت",
+ "Show my local time": "میرا مقامی وقت دکھائیں",
+ "People you chat with see what time it is for you": "جن سے آپ بات کرتے ہیں وہ دیکھ سکتے ہیں کہ آپ کے ہاں کیا وقت ہے"
 }

@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Logga in för att fortsätta dina samtal.",
  "It takes 30 seconds.": "Det tar 30 sekunder.",
  "We read every message. Tell us what is not working or what you would like to see.": "Vi läser varje meddelande. Berätta vad som inte fungerar eller vad du skulle vilja se.",
- "Write to us": "Skriv till oss"
+ "Write to us": "Skriv till oss",
+ "{time} local time": "{time} lokal tid",
+ "Local time": "Lokal tid",
+ "Show my local time": "Visa min lokala tid",
+ "People you chat with see what time it is for you": "De du chattar med ser vad klockan är hos dig"
 }

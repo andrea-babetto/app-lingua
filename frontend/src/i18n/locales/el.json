@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Συνδέσου για να συνεχίσεις τις συζητήσεις σου.",
  "It takes 30 seconds.": "Χρειάζονται 30 δευτερόλεπτα.",
  "We read every message. Tell us what is not working or what you would like to see.": "Διαβάζουμε κάθε μήνυμα. Πες μας τι δεν λειτουργεί ή τι θα ήθελες να δεις.",
- "Write to us": "Γράψε μας"
+ "Write to us": "Γράψε μας",
+ "{time} local time": "{time} τοπική ώρα",
+ "Local time": "Τοπική ώρα",
+ "Show my local time": "Εμφάνιση της τοπικής μου ώρας",
+ "People you chat with see what time it is for you": "Όσοι συνομιλούν μαζί σου βλέπουν τι ώρα είναι για σένα"
 }

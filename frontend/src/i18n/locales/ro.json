@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Autentifică-te ca să continui conversațiile.",
  "It takes 30 seconds.": "Durează 30 de secunde.",
  "We read every message. Tell us what is not working or what you would like to see.": "Citim fiecare mesaj. Spune-ne ce nu funcționează sau ce ți-ar plăcea să vezi.",
- "Write to us": "Scrie-ne"
+ "Write to us": "Scrie-ne",
+ "{time} local time": "{time} ora locală",
+ "Local time": "Ora locală",
+ "Show my local time": "Arată ora mea locală",
+ "People you chat with see what time it is for you": "Persoanele cu care vorbești văd cât e ceasul la tine"
 }

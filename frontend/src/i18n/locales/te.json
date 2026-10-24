@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "మీ సంభాషణలను కొనసాగించడానికి సైన్ ఇన్ చేయండి.",
  "It takes 30 seconds.": "దీనికి 30 సెకన్లు మాత్రమే పడుతుంది.",
  "We read every message. Tell us what is not working or what you would like to see.": "మేము ప్రతి సందేశాన్ని చదువుతాం. ఏది పనిచేయడం లేదో లేదా మీరు ఏం చూడాలనుకుంటున్నారో చెప్పండి.",
- "Write to us": "మాకు రాయండి"
+ "Write to us": "మాకు రాయండి",
+ "{time} local time": "స్థానిక సమయం {time}",
+ "Local time": "స్థానిక సమయం",
+ "Show my local time": "నా స్థానిక సమయం చూపించు",
+ "People you chat with see what time it is for you": "మీరు చాట్ చేసేవారికి మీ దగ్గర ఇప్పుడు సమయం ఎంతో కనిపిస్తుంది"
 }

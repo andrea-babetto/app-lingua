@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Prijavi se i nastavi svoje razgovore.",
  "It takes 30 seconds.": "Traje 30 sekundi.",
  "We read every message. Tell us what is not working or what you would like to see.": "Čitamo svaku poruku. Reci nam šta ne radi ili šta bi želeo da vidiš.",
- "Write to us": "Piši nam"
+ "Write to us": "Piši nam",
+ "{time} local time": "{time} lokalno vreme",
+ "Local time": "Lokalno vreme",
+ "Show my local time": "Prikaži moje lokalno vreme",
+ "People you chat with see what time it is for you": "Osobe sa kojima se dopisuješ vide koliko je sati kod tebe"
 }

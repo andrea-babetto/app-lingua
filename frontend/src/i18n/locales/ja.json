@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "ログインして会話の続きをしましょう。",
  "It takes 30 seconds.": "所要時間は30秒です。",
  "We read every message. Tell us what is not working or what you would like to see.": "すべてのメッセージに目を通しています。うまく動かないことや、ほしい機能をお知らせください。",
- "Write to us": "メールを送る"
+ "Write to us": "メールを送る",
+ "{time} local time": "現地時間 {time}",
+ "Local time": "現地時間",
+ "Show my local time": "自分の現地時間を表示",
+ "People you chat with see what time it is for you": "チャット相手にあなたの現地時間が表示されます"
 }

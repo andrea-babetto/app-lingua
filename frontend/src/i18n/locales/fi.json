@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Kirjaudu sisään jatkaaksesi keskusteluja.",
  "It takes 30 seconds.": "Se vie 30 sekuntia.",
  "We read every message. Tell us what is not working or what you would like to see.": "Luemme jokaisen viestin. Kerro, mikä ei toimi tai mitä haluaisit nähdä.",
- "Write to us": "Kirjoita meille"
+ "Write to us": "Kirjoita meille",
+ "{time} local time": "{time} paikallista aikaa",
+ "Local time": "Paikallinen aika",
+ "Show my local time": "Näytä paikallinen aikani",
+ "People you chat with see what time it is for you": "Keskustelukumppanisi näkevät, paljonko kello on sinulla"
 }

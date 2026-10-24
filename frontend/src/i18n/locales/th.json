@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "เข้าสู่ระบบเพื่อคุยต่อจากเดิม",
  "It takes 30 seconds.": "ใช้เวลาแค่ 30 วินาที",
  "We read every message. Tell us what is not working or what you would like to see.": "เราอ่านทุกข้อความ บอกเราว่าอะไรใช้ไม่ได้ หรืออยากเห็นอะไรเพิ่ม",
- "Write to us": "เขียนถึงเรา"
+ "Write to us": "เขียนถึงเรา",
+ "{time} local time": "เวลาท้องถิ่น {time}",
+ "Local time": "เวลาท้องถิ่น",
+ "Show my local time": "แสดงเวลาท้องถิ่นของฉัน",
+ "People you chat with see what time it is for you": "คนที่คุยด้วยจะเห็นว่าที่คุณตอนนี้กี่โมง"
 }

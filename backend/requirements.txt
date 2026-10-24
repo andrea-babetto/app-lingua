@@ -15,3 +15,4 @@ boto3~=1.43                  # S3-compatible storage (Cloudflare R2)
 anthropic~=1.12              # translation (Claude)
 openai~=3.26                 # voice-message transcription (optional, needs OPENAI_API_KEY)
 google-auth~=2.60            # "Continue with Google" (optional, needs GOOGLE_CLIENT_ID)
+tzdata==2025.2               # time zones for "local time", also where the system has none

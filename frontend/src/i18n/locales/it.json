@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Accedi per riprendere le tue conversazioni.",
  "It takes 30 seconds.": "Ci vogliono 30 secondi.",
  "We read every message. Tell us what is not working or what you would like to see.": "Leggiamo ogni messaggio. Dicci cosa non funziona o cosa vorresti vedere.",
- "Write to us": "Scrivici"
+ "Write to us": "Scrivici",
+ "{time} local time": "ore {time} locali",
+ "Local time": "Ora locale",
+ "Show my local time": "Mostra la mia ora locale",
+ "People you chat with see what time it is for you": "Chi chatta con te vede che ore sono da te"
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check, Trash2 } from "lucide-react";
+import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check, Trash2, Clock } from "lucide-react";
 import { api, API, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { avatarClass } from "@/lib/avatar";
 import EmojiPick from "@/components/chat/EmojiPick";
 import { useI18n } from "@/i18n";
+import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 
 // Round action button with its label underneath (search, block, report).
 function ActionButton({ icon: Icon, label, onClick, testId, danger }) {
@@ -78,7 +79,8 @@ function SharedTabs({ messages }) {
 
 export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, onBlocked, onDelete, onSearch }) {
   const { user, reload } = useAuth();
-  const { t, langName } = useI18n();
+  const { t, lang, langName } = useI18n();
+  useMinuteTick();
   const isGroup = chat.type === "group";
   const meAdmin = (chat.admins || []).includes(user.id);
   const [adding, setAdding] = useState(false);
@@ -190,6 +192,12 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
             <>
               <div className="text-xl font-bold">{chat.display_name}</div>
               {!isGroup && other && <div className="text-sm text-muted-foreground">@{other.username} · {langByCode(other.language).flag} {t("reads & writes in {language}", { language: langName(other.language) })}</div>}
+              {!isGroup && other?.timezone && user.settings?.local_time_enabled !== false && (
+                <div data-testid="contact-local-time" className="text-sm text-muted-foreground inline-flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" aria-hidden="true" /> {t("Local time")}: <span className="font-semibold text-foreground tabular-nums">{timeIn(other.timezone, lang)}</span>
+                  {offsetFromHere(other.timezone) && <span dir="ltr" className="tabular-nums">({offsetFromHere(other.timezone)})</span>}
+                </div>
+              )}
               {!isGroup && other?.bio && <p data-testid="contact-bio" className="text-sm text-foreground/80 max-w-xs">{other.bio}</p>}
               {isGroup && <div className="text-sm text-muted-foreground">{t("{count} members", { count: members.length })}</div>}
               {isGroup && chat.description && <p className="text-sm text-muted-foreground mt-1">{chat.description}</p>}

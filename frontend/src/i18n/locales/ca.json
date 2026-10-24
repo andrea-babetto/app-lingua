@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Inicia la sessió per continuar les teves converses.",
  "It takes 30 seconds.": "Només triga 30 segons.",
  "We read every message. Tell us what is not working or what you would like to see.": "Llegim tots els missatges. Explica'ns què no funciona o què t'agradaria veure.",
- "Write to us": "Escriu-nos"
+ "Write to us": "Escriu-nos",
+ "{time} local time": "{time} hora local",
+ "Local time": "Hora local",
+ "Show my local time": "Mostra la meva hora local",
+ "People you chat with see what time it is for you": "Les persones amb qui xerres veuen quina hora és per a tu"
 }

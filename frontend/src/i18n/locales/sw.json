@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Ingia ili uendelee na mazungumzo yako.",
  "It takes 30 seconds.": "Inachukua sekunde 30 tu.",
  "We read every message. Tell us what is not working or what you would like to see.": "Tunasoma kila ujumbe. Tuambie kipi hakifanyi kazi au ungependa kuona nini.",
- "Write to us": "Tuandikie"
+ "Write to us": "Tuandikie",
+ "{time} local time": "saa {time} kwa saa za huko",
+ "Local time": "Saa za huko",
+ "Show my local time": "Onyesha saa yangu ya hapa",
+ "People you chat with see what time it is for you": "Unaozungumza nao wanaona ni saa ngapi kwako"
 }

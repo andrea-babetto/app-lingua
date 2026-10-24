@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "உங்கள் உரையாடல்களைத் தொடர உள்நுழையுங்கள்.",
  "It takes 30 seconds.": "இதற்கு 30 வினாடிகள் மட்டுமே ஆகும்.",
  "We read every message. Tell us what is not working or what you would like to see.": "ஒவ்வொரு செய்தியையும் நாங்கள் படிக்கிறோம். எது வேலை செய்யவில்லை அல்லது நீங்கள் என்ன காண விரும்புகிறீர்கள் என்று சொல்லுங்கள்.",
- "Write to us": "எங்களுக்கு எழுதுங்கள்"
+ "Write to us": "எங்களுக்கு எழுதுங்கள்",
+ "{time} local time": "உள்ளூர் நேரம் {time}",
+ "Local time": "உள்ளூர் நேரம்",
+ "Show my local time": "என் உள்ளூர் நேரத்தைக் காட்டு",
+ "People you chat with see what time it is for you": "நீங்கள் உரையாடுபவர்கள் உங்கள் பக்கம் இப்போது மணி என்ன என்று பார்க்கலாம்"
 }

@@ -17,7 +17,7 @@ const canNotify = () => typeof Notification !== "undefined";
 const PING_MS = 20000;
 
 export default function Chat() {
-  const { user, token } = useAuth();
+  const { user, token, updateUser } = useAuth();
   // long-lived socket handlers read the current language through a ref, never a stale copy
   const { t: tNow } = useI18n();
   const tRef = useRef(tNow);
@@ -269,6 +269,14 @@ export default function Chat() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   });
+
+  // Keep the person's time zone up to date (it moves when they travel), so others can see their local time.
+  useEffect(() => {
+    let tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { /* old browser */ }
+    if (!tz || !user || tz === user.timezone) return;
+    api.put("/auth/profile", { timezone: tz }).then(({ data }) => updateUser(data)).catch(() => {});
+  }, [user?.timezone]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const togglePin = async (chat) => {
     try {

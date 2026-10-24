@@ -13,6 +13,7 @@ import json
 import asyncio
 import logging
 from datetime import datetime, timezone, timedelta
+from zoneinfo import ZoneInfo
 from typing import List, Optional
 
 import bcrypt
@@ -117,19 +118,26 @@ def public_user(u: dict) -> dict:
     """The user's OWN profile (includes private fields). Never send this to other users."""
     if not u:
         return u
-    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "phone", "settings", "role", "created_at", "online", "last_seen", "blocked", "bio"]}
+    return {k: u.get(k) for k in ["id", "name", "username", "email", "avatar", "language", "phone", "settings", "role", "created_at", "online", "last_seen", "blocked", "bio", "timezone"]}
 
 
 def public_profile(u: dict) -> dict:
     """What OTHER users may see: no email, phone, settings, role or block list."""
     if not u:
         return u
-    show_seen = (u.get("settings") or {}).get("last_seen_enabled", True)
+    settings = u.get("settings") or {}
+    show_seen = settings.get("last_seen_enabled", True)
     return {
         "id": u.get("id"), "name": u.get("name"), "username": u.get("username"), "avatar": u.get("avatar", ""),
         "language": u.get("language", ""), "online": bool(u.get("online")), "bio": u.get("bio", ""),
         "last_seen": u.get("last_seen") if show_seen else None,
+        "timezone": (u.get("timezone") or "") if settings.get("local_time_enabled", True) else "",
     }
+
+
+def stranger_profile(u: dict) -> dict:
+    """What someone who has no chat with the person sees (search results, contact requests): no local time."""
+    return {k: v for k, v in public_profile(u).items() if k != "timezone"}
 
 
 async def user_from_token(token: str) -> Optional[dict]:
@@ -196,6 +204,7 @@ class ProfileIn(BaseModel):
     phone: Optional[str] = Field(default=None, max_length=32)
     settings: Optional[dict] = None
     bio: Optional[str] = Field(default=None, max_length=140)
+    timezone: Optional[str] = Field(default=None, max_length=64)  # the phone's time zone, e.g. "Asia/Kolkata"
 
 
 class MessageIn(BaseModel):
@@ -309,7 +318,7 @@ def new_user_doc(email, name, password_hash="", avatar="", provider=None):
     doc = {
         "id": str(uuid.uuid4()), "email": email, "password_hash": password_hash,
         "name": name, "username": make_username(email.split("@")[0]), "avatar": avatar, "language": "",
-        "settings": {"show_original": True, "last_seen_enabled": True}, "glossary": [],
+        "settings": {"show_original": True, "last_seen_enabled": True, "local_time_enabled": True}, "glossary": [],
         "role": "user", "online": False, "last_seen": None, "created_at": now_iso(),
     }
     if provider:
@@ -483,8 +492,15 @@ async def update_profile(body: ProfileIn, user=Depends(get_current_user)):
         updates["username"] = username
     if "bio" in raw:
         updates["bio"] = " ".join(raw["bio"].split())  # one line, no stray spaces
+    if "timezone" in raw:
+        tz = raw["timezone"].strip()
+        try:
+            ZoneInfo(tz)
+        except Exception:
+            raise HTTPException(status_code=400, detail="Unknown time zone")
+        updates["timezone"] = tz
     if raw.get("settings"):
-        for k in ("show_original", "last_seen_enabled"):
+        for k in ("show_original", "last_seen_enabled", "local_time_enabled"):
             if k in raw["settings"]:
                 updates[f"settings.{k}"] = bool(raw["settings"][k])
     if updates:
@@ -510,7 +526,7 @@ async def search_users(q: str, user=Depends(get_current_user)):
     me_full = await db.users.find_one({"id": user["id"]}, {"_id": 0, "blocked": 1}) or {}
     exclude = [user["id"]] + list(me_full.get("blocked", []))
     cur = db.users.find({"id": {"$nin": exclude}, "role": {"$ne": "admin"}, "blocked": {"$ne": user["id"]}, "$or": conds}, {"_id": 0}).limit(20)
-    return [public_profile(u) for u in await cur.to_list(20)]
+    return [stranger_profile(u) for u in await cur.to_list(20)]
 
 
 @api.post("/contacts/request/{target_id}")
@@ -528,7 +544,7 @@ async def contact_request(target_id: str, user=Depends(get_current_user)):
     now = now_iso()
     await db.contacts.insert_one({"id": str(uuid.uuid4()), "user_id": user["id"], "contact_id": target_id, "status": "pending_out", "created_at": now})
     await db.contacts.insert_one({"id": str(uuid.uuid4()), "user_id": target_id, "contact_id": user["id"], "status": "pending_in", "created_at": now})
-    await ws_manager.send(target_id, {"type": "contact_request", "from": public_profile(user)})
+    await ws_manager.send(target_id, {"type": "contact_request", "from": stranger_profile(user)})
     return {"status": "pending_out"}
 
 
@@ -560,7 +576,7 @@ async def pending_requests(user=Depends(get_current_user)):
     for c in await cur.to_list(100):
         u = await db.users.find_one({"id": c["contact_id"]}, {"_id": 0})
         if u:
-            out.append(public_profile(u))
+            out.append(stranger_profile(u))
     return out
 
 

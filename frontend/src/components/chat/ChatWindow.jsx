@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import MessageBubble from "@/components/chat/MessageBubble";
 import { avatarClass } from "@/lib/avatar";
+import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 import MessageActions from "@/components/chat/MessageActions";
 import { useI18n } from "@/i18n";
 
@@ -155,9 +156,12 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   };
 
   const other = chat.other_user;
-  const subtitle = isGroup
+  useMinuteTick();
+  const showTime = !isGroup && other?.timezone && user.settings?.local_time_enabled !== false && offsetFromHere(other.timezone);
+  const status = isGroup
     ? t("{count} members", { count: chat.members_info.length })
     : other?.online ? t("online") : (other?.last_seen ? t("last seen recently") : langName(other?.language));
+  const subtitle = showTime ? `${status} · ${t("{time} local time", { time: timeIn(other.timezone, lang) })}` : status;
 
   const latestMineId = [...messages].reverse().find((m) => m.sender_id === user.id)?.id;
 

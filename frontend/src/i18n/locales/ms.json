@@ -223,5 +223,9 @@
  "Sign in to pick up your conversations.": "Log masuk untuk menyambung perbualan anda.",
  "It takes 30 seconds.": "Ia hanya mengambil masa 30 saat.",
  "We read every message. Tell us what is not working or what you would like to see.": "Kami membaca setiap mesej. Beritahu kami apa yang tidak berfungsi atau apa yang anda mahu lihat.",
- "Write to us": "Tulis kepada kami"
+ "Write to us": "Tulis kepada kami",
+ "{time} local time": "{time} waktu tempatan",
+ "Local time": "Waktu tempatan",
+ "Show my local time": "Tunjukkan waktu tempatan saya",
+ "People you chat with see what time it is for you": "Orang yang berbual dengan anda dapat melihat pukul berapa di tempat anda"
 }
