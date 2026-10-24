@@ -200,3 +200,14 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Tema che segue l'ora (chiaro di giorno, scuro di sera): quasi gratis.
 - Feedback tattile su messaggio tradotto (dove il telefono lo permette): quasi gratis.
 - Icona alternativa dell'app scelta dalle impostazioni: lavoro piccolo.
+
+## Funzioni di livello alto e complesso (23/10/2026, da pianificare dopo la beta)
+Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingua dentro la chat, 3) conversazione dal vivo tradotta a voce. Le funzioni che leggono le conversazioni (memoria, assistente di scrittura, dizionario culturale) vanno per ultime, con parere legale e scelta chiara dell'utente.
+- Traduzione di foto e documenti: fotografi un menu o un cartello, il testo tradotto appare sopra l'immagine nella posizione giusta. Serve riconoscimento del testo (OCR), traduzione e resa grafica. Costo per immagine più alto di un messaggio; avviso chiaro che per documenti importanti serve un controllo umano.
+- Apprendimento della lingua dentro la chat: segnala gli errori nei messaggi scritti nella lingua che si sta imparando, con la correzione. Richiede livelli per persona e test con chi studia davvero.
+- Conversazione dal vivo tradotta a voce: due persone parlano al telefono, ognuna nella propria lingua. Richiede latenza sotto il secondo, voci sintetiche naturali, servizi di voce in tempo reale: costi per minuto molto più alti. Da decidere: chiamate dentro l'app e chi paga.
+- Traduzione di chiamate e video con sottotitoli: un prodotto a sé (infrastruttura di chiamate, WebRTC).
+- Memoria personale delle conversazioni: ricerca per significato in tutte le chat. Rischio privacy alto: va progettata con cancellazione chiara.
+- Assistente di scrittura: aiuta a rendere una bozza adatta al destinatario (cortese, chiara, formule locali). Richiede di capire il contesto della relazione e di non sostituire la voce della persona.
+- Dizionario e contesto culturale: spiega modi di dire e termini locali. Le spiegazioni sbagliate fanno danni: scelta chiara su quando mostrarle.
+- Rete di traduttori umani per messaggi importanti (contratti, sanità, legale): un'organizzazione e una responsabilità a sé.
