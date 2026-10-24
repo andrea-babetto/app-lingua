@@ -150,8 +150,12 @@
 @keyframes gl-msg-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
 .gl-msg-in { animation: gl-msg-in 250ms ease-out; }
 
+/* a tick under my message draws itself (sent), the second one when the message is read */
+@keyframes gl-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.gl-tick-draw { stroke-dasharray: 1; stroke-dashoffset: 0; animation: gl-draw 380ms cubic-bezier(.3,.7,.4,1) both; }
+
 @media (prefers-reduced-motion: reduce) {
-  .gl-pulse, .gl-msg-in, .typing-dot, .animate-slide-in { animation: none; }
+  .gl-pulse, .gl-msg-in, .typing-dot, .animate-slide-in, .gl-tick-draw { animation: none; }
 }
 
 

@@ -165,6 +165,9 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const subtitle = showTime ? `${status} · ${t("{time} local time", { time: timeIn(other.timezone, lang) })}` : status;
 
   const latestMineId = [...messages].reverse().find((m) => m.sender_id === user.id)?.id;
+  // Read = everyone else in the chat has read it (the server keeps who read each message; a live receipt sets m.read).
+  const others = Math.max(1, (chat.members_info?.length || 2) - 1);
+  const isRead = (m) => !!m.read || (m.read_by || []).filter((id) => id !== m.sender_id).length >= others;
 
   const sameBlock = (a, b) => a && b && a.sender_id === b.sender_id && !a.deleted_for_all && !b.deleted_for_all
     && new Date(a.created_at).toDateString() === new Date(b.created_at).toDateString()
@@ -231,7 +234,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
                   <span className="text-xs font-semibold text-muted-foreground bg-card/90 rounded-full px-3 py-1 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">{dayLabel(m.created_at, t, lang)}</span>
                 </div>
               )}
-              <MessageBubble msg={m} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
+              <MessageBubble msg={m} read={isRead(m)} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
                 showOriginal={!!originals[m.id]} onToggleOriginal={() => toggleOriginal(m.id)}
                 onOpenActions={setActionMsg} onReact={onReact} onReply={startReply} />
             </div>

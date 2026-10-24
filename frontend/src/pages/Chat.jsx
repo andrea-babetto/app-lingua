@@ -95,7 +95,9 @@ export default function Chat() {
       }
     } else if (d.type === "read_receipt") {
       if (cur && d.chat_id === cur.id && d.reader !== user.id) {
-        setMessages((prev) => prev.map((m) => (m.sender_id === user.id ? { ...m, read: true } : m)));
+        // add the reader to each of my messages: in a group the ticks turn green only when everyone has read
+        setMessages((prev) => prev.map((m) => (m.sender_id === user.id && !(m.read_by || []).includes(d.reader)
+          ? { ...m, read_by: [...(m.read_by || []), d.reader] } : m)));
       }
     } else if (d.type === "message_deleted") {
       if (cur && d.chat_id === cur.id) setMessages((prev) => prev.map((m) => (m.id === d.message_id ? { ...m, deleted_for_all: true } : m)));
