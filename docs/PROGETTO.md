@@ -155,3 +155,21 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Da decidere con commercialista e legale: IVA/GST/sales tax nei vari paesi (valutare un "merchant of record" come Paddle o Lemon Squeezy, che incassa e gestisce le imposte), diritto di recesso, termini di servizio con prezzi e rinnovo.
 - Da verificare: commissioni fisse sui prezzi molto bassi (pesano molto sotto i 4 €), pagamenti ricorrenti con carta in India (regole RBI), metodi di pagamento locali (UPI).
 - **Contatore dei messaggi tradotti** (23/10/2026): per ogni persona e ogni mese il server conta `received` (messaggi tradotti per lei: è quello che conterebbe un tetto gratuito) e `sent` (suoi messaggi che hanno avuto bisogno di una traduzione), nella collezione `usage` (chiave `utente|AAAA-MM`; nessun testo dei messaggi). Non conta se la lingua è la stessa, né le modifiche dello stesso messaggio; un nuovo tentativo dopo un errore conta di nuovo solo ciò che è stato consegnato. `GET /api/usage` (i propri numeri; nessun limite applicato per ora), `GET /api/admin/usage?month=AAAA-MM` (solo admin: totali, mediana, 90° percentile, elenco per persona) e sezione "Messages translated per person" in `/admin`. L'eliminazione dell'account cancella anche i contatori. Da ricordare: citare i contatori d'uso nell'informativa sulla privacy prima di aprire al pubblico.
+
+## Idee da valutare (23/10/2026, non ancora decise)
+**Chat**
+- Risposta rapida con anteprima della citazione (lavoro piccolo).
+- Messaggi programmati: scrivi ora, parte all'ora scelta (lavoro medio, nessun costo).
+- Traduzione mentre scrivi: anteprima di come arriva all'altra persona (lavoro medio; ogni anteprima costa una traduzione).
+- Frasi salvate: una lista personale di traduzioni utili da riusare (lavoro piccolo, nessun costo).
+- Ricerca anche nelle traduzioni, non solo nell'originale (lavoro piccolo).
+- Silenzioso e orari: nessuna notifica di notte, con orario scelto (lavoro piccolo, nessun costo).
+- Messaggi a tempo: scompaiono dopo un tempo scelto (lavoro medio).
+
+**Sociali**
+- Stato personale: una frase breve visibile agli altri (lavoro piccolo, nessun costo).
+- Gruppi per tema con descrizione e immagine (lavoro piccolo).
+- Inviti a gruppi con link, anche senza essere in rubrica (lavoro medio).
+- Lingue in comune nella scheda contatto (lavoro piccolo).
+- Profilo pubblico per chi fa scambio linguistico (lavoro grande; richiede moderazione e un parere legale).
+- Gruppi di scambio linguistico con un argomento del giorno (lavoro grande; è la funzione che sfrutta la beta con le comunità di studenti).
