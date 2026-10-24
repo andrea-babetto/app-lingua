@@ -88,11 +88,22 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 9. Da completare
 
-Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista. Scartate: silenzioso e orari (24/10/2026). Stato personale: unito alla frase di presentazione già esistente (24/10/2026). Fatte: ora locale dell'altra persona; risposta rapida scorrendo il messaggio; animazioni di consegna e di lettura; messaggi programmati (24/10/2026). Rimandate (ci torniamo): anteprima del link, contatore degli inviti.
+Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista e va in "Già fatte".
 
-### Costo zero, complessità piccola
-- [ ] Anteprima del link quando viene incollato
-- [ ] Contatore degli inviti
+### Già fatte (24/10/2026, sul ramo `design-refresh`)
+- [x] Ora locale dell'altra persona (in alto nella chat e nella scheda contatto, disattivabile dalla Privacy)
+- [x] Risposta rapida scorrendo il messaggio verso destra (a sinistra in arabo ed ebraico)
+- [x] Animazione di consegna (la spunta che si disegna)
+- [x] Animazione di lettura (la seconda spunta che si disegna e diventa verde)
+- [x] Messaggi programmati (tieni premuto invio)
+
+### Scartate o unite
+- Silenzioso e orari: scartata (24/10/2026)
+- Stato personale: unito alla frase di presentazione già esistente (24/10/2026)
+
+### Rimandate (ci torniamo)
+- [ ] Anteprima del link quando viene incollato (da decidere: dentro la chat, nel link d'invito, o tutte e due)
+- [ ] Contatore degli inviti (da decidere: solo admin o anche l'utente). Nota: oggi il link `/?invite=nome` non registra niente.
 
 ### Costo zero, complessità media
 - [ ] Scarica i miei dati (obbligo europeo) — **prima della beta allargata**
