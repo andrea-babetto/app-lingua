@@ -173,3 +173,15 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Lingue in comune nella scheda contatto (lavoro piccolo).
 - Profilo pubblico per chi fa scambio linguistico (lavoro grande; richiede moderazione e un parere legale).
 - Gruppi di scambio linguistico con un argomento del giorno (lavoro grande; è la funzione che sfrutta la beta con le comunità di studenti).
+
+## Crescita: idee per farla arrivare a più persone (23/10/2026, da provare)
+- Il link d'invito apre direttamente la chat con chi invita, risposta possibile senza account; la registrazione arriva dopo la prima risposta (lavoro medio; è il punto 4 della lista da fare).
+- Anteprima del link quando viene incollato (nome di chi invita, logo, slogan): lavoro piccolo, nessun costo.
+- Premio per chi invita e per chi entra (messaggi in più, o un mese in più con il piano a pagamento): da introdurre insieme al limite gratuito.
+- Pagine pubbliche per lingua ("chatta con parlanti hindi"), per farsi trovare su Google: lavoro medio, serve contenuto scritto bene.
+- Immagine di una conversazione tradotta da condividere, solo con il consenso di tutti i partecipanti: lavoro medio, attenzione alla privacy.
+- Gruppi con link di invito: lavoro medio.
+- Sezione per le comunità di chi impara lingue, con esempi reali di conversazioni: lavoro piccolo.
+- Ambasciatori (poche persone entusiaste con il proprio link): nessun costo, ma si fa parlando con le persone.
+- Contatore degli inviti (aperti, registrati, primo messaggio, ritorno dopo una settimana): lavoro piccolo, da fare per primo.
+- Da evitare: accesso alla rubrica senza parere legale; inviti automatici o in massa; premi che chiedono di invitare molte persone.
