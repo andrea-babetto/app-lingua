@@ -88,10 +88,9 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 9. Da completare
 
-Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta.
+Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista. Scartate: silenzioso e orari (24/10/2026).
 
 ### Costo zero, complessità piccola
-- [ ] Silenzioso e orari (niente notifiche di notte)
 - [ ] Stato personale (una frase visibile ai contatti)
 - [ ] Ora locale dell'altra persona
 - [ ] Risposta rapida con citazione
