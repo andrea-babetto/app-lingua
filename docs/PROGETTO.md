@@ -185,3 +185,17 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Ambasciatori (poche persone entusiaste con il proprio link): nessun costo, ma si fa parlando con le persone.
 - Contatore degli inviti (aperti, registrati, primo messaggio, ritorno dopo una settimana): lavoro piccolo, da fare per primo.
 - Da evitare: accesso alla rubrica senza parere legale; inviti automatici o in massa; premi che chiedono di invitare molte persone.
+
+## Effetto "wow" (tecnologia che si percepisce; 23/10/2026, da valutare)
+- **Ricezione in voce** (tieni premuto, parli nella tua lingua; l'altra persona legge la trascrizione tradotta e può ascoltare la voce originale): il server c'è già (`POST /api/voice`, trascrizione con OpenAI, traduzione); mancano la registrazione nell'app e il lettore audio. Vedi il piano dettagliato sotto.
+- Traduzione che appare mentre l'altro scrive (lettera per lettera): costa una traduzione per pausa, da fare con cautela.
+- Tono che si adatta (formale/informale): il motore lo sa fare; lavoro medio, costo uguale.
+- Glossario che impara: propone da solo di tenere i termini che si ripetono; lavoro piccolo.
+- Traduzione con spiegazione (tocchi una parola e vedi una frase d'esempio): costo di una chiamata in più.
+- Riassunto della conversazione nella tua lingua: pochi token; richiede una scelta esplicita, perché legge messaggi di altri.
+- Risposte suggerite già tradotte: costo più alto per conversazione.
+- Sincronizzazione istantanea su più dispositivi (come WhatsApp Web): il server lo fa già; da rifinire offline.
+- Animazione di consegna (spunta che si disegna quando letto): quasi gratis.
+- Tema che segue l'ora (chiaro di giorno, scuro di sera): quasi gratis.
+- Feedback tattile su messaggio tradotto (dove il telefono lo permette): quasi gratis.
+- Icona alternativa dell'app scelta dalle impostazioni: lavoro piccolo.
