@@ -111,6 +111,7 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 16. Piano gratuito con limite e pagamenti (vedi sezione Pagamenti): solo con utenti reali e commercialista.
 17. App negli store: serve il nome definitivo, un account Apple (99 $/anno) e Google Play (25 $ una tantum).
 18. Verifica del marchio e del dominio con un consulente.
+19. Ricezione in voce (priorità alta): registrazione tenendo premuto il microfono, lettore nel messaggio con la trascrizione tradotta sotto e la voce originale ascoltabile. Il server c'è (`/api/voice`); mancano frontend e prove sul telefono. Da decidere prima: durata massima (proposta 2 min), chi ascolta l'audio (solo i destinatari), conservazione (proposta 30 giorni), cosa si mostra se la trascrizione fallisce. Serve anche un parere legale sull'invio dell'audio a OpenAI. Costi: pochi centesimi al minuto di trascrizione (verificare il prezzo attuale).
 
 ## 10. Come lavorare sul progetto
 
