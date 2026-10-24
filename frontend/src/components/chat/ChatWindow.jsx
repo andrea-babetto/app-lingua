@@ -132,6 +132,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     if (!isTouchDevice()) taRef.current?.focus();
   };
 
+  const startReply = (msg) => { setEditing(null); setReply(msg); taRef.current?.focus(); };
   const startEdit = (msg) => { setReply(null); setEditing(msg); setText(msg.original_text); setTimeout(() => taRef.current?.focus(), 50); };
   const cancelEdit = () => { setEditing(null); setText(readDraft(chat.id)); };
 
@@ -232,7 +233,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
               )}
               <MessageBubble msg={m} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
                 showOriginal={!!originals[m.id]} onToggleOriginal={() => toggleOriginal(m.id)}
-                onOpenActions={setActionMsg} onReact={onReact} />
+                onOpenActions={setActionMsg} onReact={onReact} onReply={startReply} />
             </div>
           );
         })}
@@ -308,7 +309,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
       </div>
 
       <MessageActions msg={actionMsg} mine={actionMsg?.sender_id === user.id} userId={user.id} onClose={() => setActionMsg(null)}
-        onReply={(m) => { setEditing(null); setReply(m); taRef.current?.focus(); }} onEdit={startEdit} onReact={onReact}
+        onReply={startReply} onEdit={startEdit} onReact={onReact}
         onShowOriginal={(m) => toggleOriginal(m.id)} showingOriginal={!!(actionMsg && originals[actionMsg.id])} />
     </div>
   );

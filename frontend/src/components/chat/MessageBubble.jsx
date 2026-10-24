@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, CheckCheck, RotateCw, X } from "lucide-react";
+import { Check, CheckCheck, Reply, RotateCw, X } from "lucide-react";
 import { toast } from "sonner";
 import { api, API } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -25,7 +25,40 @@ function Lightbox({ src, alt, onClose }) {
   );
 }
 
-export default function MessageBubble({ msg, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact }) {
+// Swiping a message towards the reading direction's end (to the right; to the left in Arabic and Hebrew) replies to it, as in WhatsApp.
+const SWIPE_MAX = 72, SWIPE_REPLY = 56;
+export const EDGE = 28;  // px from the start edge of the screen where a swipe means "back"
+export const fromEdge = (x) => (document.documentElement.dir === "rtl" ? x > window.innerWidth - EDGE : x < EDGE);
+
+function useSwipeToReply(onReply) {
+  const start = useRef(null);
+  const [dx, setDx] = useState(0);
+  const sign = () => (document.documentElement.dir === "rtl" ? -1 : 1);
+  const onTouchStart = (e) => {
+    if (!onReply || e.touches.length !== 1) return;
+    if (fromEdge(e.touches[0].clientX)) return;  // a swipe from the screen edge closes the chat instead
+    start.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, on: null };
+  };
+  const onTouchMove = (e) => {
+    const s = start.current;
+    if (!s) return;
+    const mx = (e.touches[0].clientX - s.x) * sign(), my = e.touches[0].clientY - s.y;
+    if (s.on === null) {
+      if (Math.abs(mx) < 8 && Math.abs(my) < 8) return;
+      s.on = mx > 0 && Math.abs(mx) > Math.abs(my) * 1.5;  // a clear sideways pull, not a scroll
+      if (!s.on) { start.current = null; return; }
+    }
+    setDx(Math.max(0, Math.min(SWIPE_MAX, mx)));
+  };
+  const onTouchEnd = () => {
+    if (start.current?.on && dx >= SWIPE_REPLY) { navigator.vibrate?.(10); onReply(); }
+    start.current = null;
+    setDx(0);
+  };
+  return { dx, sign, handlers: { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel: onTouchEnd } };
+}
+
+export default function MessageBubble({ msg, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();
   const [zoom, setZoom] = useState(false);
@@ -40,6 +73,8 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
   const rtl = showOriginal ? isRTL(msg.original_language) : (msg.is_translated ? isRTL(user.language) : isRTL(msg.original_language));
   const time = new Date(msg.created_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
   const reactions = Object.entries(msg.reactions || {});
+
+  const swipe = useSwipeToReply(onReply && !msg.deleted_for_all ? () => onReply(msg) : null);
 
   const retry = async (e) => { e.stopPropagation(); await api.post(`/messages/${msg.id}/retry`); toast(t("Retrying translation...")); };
 
@@ -56,7 +91,15 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
     : `rounded-[18px] ${last ? "rounded-es-[6px]" : ""}`;
 
   return (
-    <div className={`gl-msg-in flex items-end gap-2 px-3 ${mine ? "justify-end" : "justify-start"} ${last ? "mb-1.5" : "mb-0.5"}`} data-testid={`message-bubble-${msg.id}`}>
+    <div className="relative" data-swipe-reply="" style={{ touchAction: "pan-y" }} {...swipe.handlers}>
+    {swipe.dx > 0 && (
+      <span aria-hidden="true" data-testid="swipe-reply-icon" className="absolute start-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-card shadow flex items-center justify-center text-muted-foreground"
+        style={{ opacity: Math.min(1, swipe.dx / SWIPE_REPLY), transform: `translateY(-50%) scale(${swipe.dx >= SWIPE_REPLY ? 1.1 : 0.85})` }}>
+        <Reply className="w-4 h-4 rtl:-scale-x-100" />
+      </span>
+    )}
+    <div className={`gl-msg-in flex items-end gap-2 px-3 ${mine ? "justify-end" : "justify-start"} ${last ? "mb-1.5" : "mb-0.5"}`} data-testid={`message-bubble-${msg.id}`}
+      style={swipe.dx ? { transform: `translateX(${swipe.dx * swipe.sign()}px)` } : { transition: "transform 180ms ease-out" }}>
       {!mine && isGroup && (
         <div className="w-8 shrink-0">
           {last && (
@@ -159,6 +202,7 @@ export default function MessageBubble({ msg, mine, isGroup, first, last, other, 
       </div>
 
       {zoom && <Lightbox src={`${API}/files/${msg.attachment.id}`} alt={msg.attachment.filename} onClose={() => setZoom(false)} />}
+    </div>
     </div>
   );
 }

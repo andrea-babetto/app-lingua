@@ -88,10 +88,9 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 9. Da completare
 
-Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista. Scartate: silenzioso e orari (24/10/2026). Stato personale: unito alla frase di presentazione già esistente (24/10/2026). Fatte: ora locale dell'altra persona (24/10/2026).
+Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista. Scartate: silenzioso e orari (24/10/2026). Stato personale: unito alla frase di presentazione già esistente (24/10/2026). Fatte: ora locale dell'altra persona; risposta rapida scorrendo il messaggio (24/10/2026).
 
 ### Costo zero, complessità piccola
-- [ ] Risposta rapida con citazione
 - [ ] Animazione di consegna (la spunta che si disegna)
 - [ ] Animazione di lettura (la spunta che si colora)
 - [ ] Anteprima del link quando viene incollato
@@ -231,3 +230,4 @@ Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingu
 
 ## Novità del 24/10/2026
 - **Ora locale dell'altra persona:** il telefono manda il suo fuso orario (`timezone`, nome IANA come "Asia/Kolkata", controllato dal server con `zoneinfo`; pacchetto `tzdata` aggiunto) e lo aggiorna quando cambia. Nelle chat a due si vede in alto ("online · ore 22:32 locali", solo se l'ora è diversa) e nella scheda contatto ("Ora locale: 22:32 (+3:30)"). Solo chi ha una chat con la persona la vede (non nella ricerca né nelle richieste di contatto: `stranger_profile`). Interruttore "Mostra la mia ora locale" in Profilo › Privacy (`settings.local_time_enabled`, acceso di default): chi lo spegne non mostra la sua ora e non vede quella degli altri.
+- **Risposta scorrendo il messaggio** (come WhatsApp): sul telefono si trascina un messaggio verso destra (verso sinistra in arabo/ebraico); oltre 56 px compare l'icona e, lasciando, si apre la risposta con la citazione (breve vibrazione dove il telefono la supporta). Un trascinamento corto o verticale non fa niente. Lo scorrimento che parte dal bordo dello schermo (28 px) chiude sempre la chat, anche sopra un messaggio.

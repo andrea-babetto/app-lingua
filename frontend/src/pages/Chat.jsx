@@ -9,6 +9,7 @@ import { useI18n } from "@/i18n";
 import Logo, { LogoMark } from "@/components/Logo";
 import Sidebar from "@/components/chat/Sidebar";
 import ChatWindow from "@/components/chat/ChatWindow";
+import { fromEdge } from "@/components/chat/MessageBubble";
 import NewChatDialog from "@/components/chat/NewChatDialog";
 import InfoPanel from "@/components/chat/InfoPanel";
 
@@ -248,7 +249,10 @@ export default function Chat() {
   const overlayOpen = () => !!document.querySelector('[role="dialog"], [data-testid="lightbox"]'); // a menu or a photo is open on top
   const onSwipeStart = (e) => {
     // checked now, not at the end: touching outside a menu closes it, and that touch must not also close the chat
-    swipe.current = e.touches.length === 1 && !overlayOpen() ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+    // a swipe that starts on a message is "reply to it"; from the screen edge it is always "close the chat"
+    const t0 = e.touches[0];
+    const onMessage = e.target.closest?.("[data-swipe-reply]") && !fromEdge(t0.clientX);
+    swipe.current = e.touches.length === 1 && !overlayOpen() && !onMessage ? { x: t0.clientX, y: t0.clientY } : null;
   };
   const onSwipeEnd = (e) => {
     const s = swipe.current; swipe.current = null;
