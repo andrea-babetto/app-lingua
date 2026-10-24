@@ -86,32 +86,52 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Per ora: **uso interno tra Andrea e Hamad**; strategia e crescita in pausa fino a nuova decisione.
 - Soldi (ipotesi): gratis con tetto di messaggi, piano per team a pagamento (5-10 $ a persona al mese).
 
-## 9. Da fare (in ordine)
+## 9. Da completare
 
-**Prima di aprire la beta a più persone**
-1. Scarica i miei dati: file con tutti i dati della persona (obbligo europeo). Lavoro medio.
-2. Recupero password da soli: serve un servizio di posta per le email. Lavoro medio, costo fisso piccolo.
-3. Contatti senza chat: la scheda Contatti mostra anche le persone con cui non hai ancora scritto (serve un endpoint nuovo). Lavoro piccolo.
-4. Ingresso da link: chi riceve l'invito arriva direttamente alla chat con chi l'ha invitato. Lavoro medio.
-5. Backup del database (piano Atlas con backup) e revisione legale di Termini, Privacy e contatore d'uso.
-6. Nuovo codice d'invito prima di condividerlo largamente.
+Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta.
 
-**Durante la beta (gratis o quasi)**
-7. Ora locale dell'altra persona nella scheda contatto. Lavoro piccolo.
-8. Tocca una parola per tradurla. Costo minimo.
-9. Modalità studio: l'originale resta visibile accanto alla traduzione.
-10. Glossario automatico: suggerire i termini che si ripetono.
-11. Condividi o esporta una conversazione (testo tradotto e originale).
+### Costo zero, complessità piccola
+- [ ] Silenzioso e orari (niente notifiche di notte)
+- [ ] Stato personale (una frase visibile ai contatti)
+- [ ] Ora locale dell'altra persona
+- [ ] Risposta rapida con citazione
+- [ ] Animazione di consegna (la spunta che si disegna)
+- [ ] Animazione di lettura (la spunta che si colora)
+- [ ] Anteprima del link quando viene incollato
+- [ ] Contatore degli inviti
 
-**Dopo la beta, se i dati lo dicono**
-12. Messaggi vocali: il codice c'è, serve la chiave OpenAI e `VOICE_MESSAGES=true`. Costo per ogni trascrizione.
-13. Traduzione del testo nelle foto: costo più alto di un messaggio.
-14. Sondaggi e descrizione/regole dei gruppi.
-15. Posizione condivisa per un momento.
-16. Piano gratuito con limite e pagamenti (vedi sezione Pagamenti): solo con utenti reali e commercialista.
-17. App negli store: serve il nome definitivo, un account Apple (99 $/anno) e Google Play (25 $ una tantum).
-18. Verifica del marchio e del dominio con un consulente.
-19. Ricezione in voce (priorità alta): registrazione tenendo premuto il microfono, lettore nel messaggio con la trascrizione tradotta sotto e la voce originale ascoltabile. Il server c'è (`/api/voice`); mancano frontend e prove sul telefono. Da decidere prima: durata massima (proposta 2 min), chi ascolta l'audio (solo i destinatari), conservazione (proposta 30 giorni), cosa si mostra se la trascrizione fallisce. Serve anche un parere legale sull'invio dell'audio a OpenAI. Costi: pochi centesimi al minuto di trascrizione (verificare il prezzo attuale).
+### Costo zero, complessità media
+- [ ] Messaggi programmati (partono all'ora scelta)
+- [ ] Scarica i miei dati (obbligo europeo) — **prima della beta allargata**
+- [ ] Contatti senza chat (la scheda Contatti mostra anche chi non hai ancora sentito, ma devi averlo salvato)
+- [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
+- [ ] Inviti a gruppi con link
+- [ ] Sondaggi nei gruppi
+- [ ] Descrizione e regole del gruppo
+- [ ] Posizione condivisa per un momento
+- [ ] Pagine pubbliche per lingua (per farsi trovare su Google)
+- [ ] Sincronizzazione su più dispositivi (come WhatsApp Web)
+
+### Costo basso (centesimi al mese per utente)
+- [ ] Recupero password da soli (serve un servizio di email, costo fisso piccolo) — **prima della beta allargata**
+- [ ] Messaggi vocali: trascrizione con OpenAI, pochi centesimi al minuto di audio (complessità media, frontend incluso). Serve la chiave OpenAI e `VOICE_MESSAGES=true`. Da decidere: durata massima (proposta 2 minuti), chi ascolta l'audio (solo i destinatari), conservazione (proposta 30 giorni), cosa si mostra se la trascrizione fallisce. Parere legale sull'invio dell'audio a OpenAI.
+
+### Costo medio (si paga a ogni uso, va misurato)
+- [ ] Tono che si adatta (amichevole o professionale; dai del tu o del lei): stesso costo dei messaggi
+
+### Costo alto
+- [ ] Traduzione di foto e documenti (complessità media-grande; costo per immagine)
+- [ ] Conversazione dal vivo tradotta a voce (complessità grande; costo per minuto molto più alto)
+- [ ] Traduzione di chiamate e video con sottotitoli (complessità molto grande; prodotto a sé)
+
+### Prima di aprire al pubblico (non sono funzioni, ma vanno fatte)
+- [ ] Revisione legale di Termini, Privacy e regole della comunità, con il contatore d'uso e la voce citati nell'informativa
+- [ ] Backup del database (piano Atlas con backup)
+- [ ] Nuovo codice d'invito prima di condividerlo largamente
+- [ ] Traduzioni delle frasi nuove da far rivedere a madrelingua (almeno hindi, arabo, spagnolo)
+- [ ] Verifica del marchio "Glotter" e del dominio con un consulente
+- [ ] Pagamenti (vedi sezione Pagamenti): solo con utenti reali e commercialista
+- [ ] App negli store (costi: circa 99 $ l'anno Apple, 25 $ una tantum Google): dopo la beta
 
 ## 10. Come lavorare sul progetto
 
@@ -201,7 +221,7 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 - Feedback tattile su messaggio tradotto (dove il telefono lo permette): quasi gratis.
 - Icona alternativa dell'app scelta dalle impostazioni: lavoro piccolo.
 
-## Funzioni di livello alto e complesso (23/10/2026, da pianificare dopo la beta)
+## Funzioni di livello alto e complesso (23/10/2026, da pianificare dopo la beta; in lista da completare sopra)
 Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingua dentro la chat, 3) conversazione dal vivo tradotta a voce. Le funzioni che leggono le conversazioni (memoria, assistente di scrittura, dizionario culturale) vanno per ultime, con parere legale e scelta chiara dell'utente.
 - Traduzione di foto e documenti: fotografi un menu o un cartello, il testo tradotto appare sopra l'immagine nella posizione giusta. Serve riconoscimento del testo (OCR), traduzione e resa grafica. Costo per immagine più alto di un messaggio; avviso chiaro che per documenti importanti serve un controllo umano.
 - Apprendimento della lingua dentro la chat: segnala gli errori nei messaggi scritti nella lingua che si sta imparando, con la correzione. Richiede livelli per persona e test con chi studia davvero.
