@@ -1007,6 +1007,7 @@ def test_forgot_password_sends_a_one_time_link(client, make_person):
     token = link.split("token=")[1]
     assert client.post("/api/auth/reset", json={"token": "x" * 30, "new_password": "brand-new-pass-1"}).status_code == 400
     assert client.post("/api/auth/reset", json={"token": token, "new_password": "short"}).status_code == 422
+    time.sleep(1.1)  # sessions are compared by the second: the old one must be older than the reset
     r = client.post("/api/auth/reset", json={"token": token, "new_password": "brand-new-pass-1"})
     assert r.status_code == 200 and r.json()["user"]["email"] == "a@x.com"
     assert client.get("/api/auth/me", headers={"Authorization": f"Bearer {r.json()['token']}"}).status_code == 200   # signed in
