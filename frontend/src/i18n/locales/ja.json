@@ -255,5 +255,6 @@
  "New password": "新しいパスワード",
  "Save and sign in": "保存してログイン",
  "This link is no longer valid. Ask for a new one.": "このリンクは無効になりました。新しいリンクをリクエストしてください。",
- "Back to sign in": "ログインに戻る"
+ "Back to sign in": "ログインに戻る",
+ "Request sent": "リクエスト送信済み"
 }

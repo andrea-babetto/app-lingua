@@ -255,5 +255,6 @@
  "New password": "รหัสผ่านใหม่",
  "Save and sign in": "บันทึกและเข้าสู่ระบบ",
  "This link is no longer valid. Ask for a new one.": "ลิงก์นี้ใช้ไม่ได้แล้ว ขอลิงก์ใหม่",
- "Back to sign in": "กลับไปหน้าเข้าสู่ระบบ"
+ "Back to sign in": "กลับไปหน้าเข้าสู่ระบบ",
+ "Request sent": "ส่งคำขอแล้ว"
 }

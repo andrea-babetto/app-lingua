@@ -1021,3 +1021,23 @@ def test_forgot_password_sends_a_one_time_link(client, make_person):
     # at most 3 requests an hour for the same email
     assert client.post("/api/auth/forgot", json={"email": "a@x.com"}).status_code == 200
     assert client.post("/api/auth/forgot", json={"email": "a@x.com"}).status_code == 429
+
+
+def test_my_contacts_include_people_without_a_chat(client, make_person):
+    a, b, c, d = (make_person(f"{x}@x.com", n, "it") for x, n in (("a", "Anna"), ("b", "Bob"), ("c", "Carl"), ("d", "Dora")))
+    assert client.get("/api/contacts", headers=a.h).json() == []
+    client.post(f"/api/contacts/request/{b.id}", headers=a.h)          # Anna asks Bob: waiting
+    client.post(f"/api/contacts/request/{c.id}", headers=a.h)          # Anna asks Carl, Carl accepts
+    client.post(f"/api/contacts/accept/{a.id}", headers=c.h)
+    rows = client.get("/api/contacts", headers=a.h).json()
+    assert [(r["name"], r["status"]) for r in rows] == [("Bob", "pending_out"), ("Carl", "accepted")]
+    assert "email" not in rows[0] and "timezone" not in rows[0]       # a pending contact sees no local time
+    # Anna deletes her chat with Carl: Carl is still in her contacts
+    chat = next(x for x in client.get("/api/chats", headers=a.h).json() if x["type"] == "direct")
+    client.post(f"/api/chats/{chat['id']}/delete", headers=a.h)
+    assert [r["name"] for r in client.get("/api/contacts", headers=a.h).json()] == ["Bob", "Carl"]
+    # people who were never saved and blocked people are not there
+    assert "Dora" not in [r["name"] for r in client.get("/api/contacts", headers=a.h).json()]
+    client.post(f"/api/users/{b.id}/block", headers=a.h)
+    assert [r["name"] for r in client.get("/api/contacts", headers=a.h).json()] == ["Carl"]
+    assert client.get("/api/contacts").status_code == 401

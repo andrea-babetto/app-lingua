@@ -255,5 +255,6 @@
  "New password": "Новий пароль",
  "Save and sign in": "Зберегти й увійти",
  "This link is no longer valid. Ask for a new one.": "Це посилання більше не дійсне. Попросіть нове.",
- "Back to sign in": "Повернутися до входу"
+ "Back to sign in": "Повернутися до входу",
+ "Request sent": "Запит надіслано"
 }

@@ -255,5 +255,6 @@
  "New password": "كلمة المرور الجديدة",
  "Save and sign in": "حفظ وتسجيل الدخول",
  "This link is no longer valid. Ask for a new one.": "لم يعد هذا الرابط صالحًا. اطلب رابطًا جديدًا.",
- "Back to sign in": "العودة إلى تسجيل الدخول"
+ "Back to sign in": "العودة إلى تسجيل الدخول",
+ "Request sent": "تم إرسال الطلب"
 }

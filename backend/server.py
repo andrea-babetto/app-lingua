@@ -688,6 +688,26 @@ async def contact_decline(requester_id: str, user=Depends(get_current_user)):
     return {"status": "declined"}
 
 
+@api.get("/contacts")
+async def my_contacts(user=Depends(get_current_user)):
+    """The people I saved (accepted, or asked and still waiting), also the ones I have no chat with
+    (I never wrote, or I deleted the chat). Blocked people are left out."""
+    me = await db.users.find_one({"id": user["id"]}, {"_id": 0, "blocked": 1}) or {}
+    rows = await db.contacts.find({"user_id": user["id"], "status": {"$in": ["accepted", "pending_out"]}}, {"_id": 0}).to_list(1000)
+    ids = [r["contact_id"] for r in rows if r["contact_id"] not in (me.get("blocked") or [])]
+    status = {r["contact_id"]: r["status"] for r in rows}
+    people = {u["id"]: u async for u in db.users.find({"id": {"$in": ids}}, {"_id": 0})}
+    out = []
+    for cid in ids:
+        u = people.get(cid)
+        if not u or user["id"] in (u.get("blocked") or []):
+            continue
+        p = public_profile(u) if status[cid] == "accepted" else stranger_profile(u)
+        p["online"] = ws_manager.is_online(cid)
+        out.append({**p, "status": status[cid]})
+    return sorted(out, key=lambda p: (p.get("name") or "").lower())
+
+
 @api.get("/contacts/requests")
 async def pending_requests(user=Depends(get_current_user)):
     cur = db.contacts.find({"user_id": user["id"], "status": "pending_in"}, {"_id": 0})

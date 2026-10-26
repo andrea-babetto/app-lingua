@@ -255,5 +255,6 @@
  "New password": "Yeni şifre",
  "Save and sign in": "Kaydet ve giriş yap",
  "This link is no longer valid. Ask for a new one.": "Bu bağlantı artık geçerli değil. Yenisini iste.",
- "Back to sign in": "Girişe dön"
+ "Back to sign in": "Girişe dön",
+ "Request sent": "İstek gönderildi"
 }

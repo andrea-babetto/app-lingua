@@ -255,5 +255,6 @@
  "New password": "Nouveau mot de passe",
  "Save and sign in": "Enregistrer et se connecter",
  "This link is no longer valid. Ask for a new one.": "Ce lien n'est plus valide. Demandez-en un nouveau.",
- "Back to sign in": "Retour à la connexion"
+ "Back to sign in": "Retour à la connexion",
+ "Request sent": "Demande envoyée"
 }

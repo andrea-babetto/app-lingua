@@ -255,5 +255,6 @@
  "New password": "Нова парола",
  "Save and sign in": "Запази и влез",
  "This link is no longer valid. Ask for a new one.": "Тази връзка вече не е валидна. Поискай нова.",
- "Back to sign in": "Обратно към входа"
+ "Back to sign in": "Обратно към входа",
+ "Request sent": "Поканата е изпратена"
 }

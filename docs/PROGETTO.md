@@ -99,6 +99,7 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [x] Citazione nelle risposte visibile a tutti (correzione, 26/10/2026)
 - [x] Scarica i miei dati (Profilo › Account, 26/10/2026)
 - [x] Recupero password da soli (link via email; serve un servizio SMTP su Render, 26/10/2026)
+- [x] Contatti senza chat (26/10/2026)
 
 ### Scartate o unite
 - Silenzioso e orari: scartata (24/10/2026)
@@ -109,7 +110,6 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [ ] Contatore degli inviti (da decidere: solo admin o anche l'utente). Nota: oggi il link `/?invite=nome` non registra niente.
 
 ### Costo zero, complessità media
-- [ ] Contatti senza chat (la scheda Contatti mostra anche chi non hai ancora sentito, ma devi averlo salvato)
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
 - [ ] Inviti a gruppi con link
 - [ ] Sondaggi nei gruppi
@@ -245,3 +245,4 @@ Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingu
 - **Citazione nelle risposte (corretto 26/10/2026):** prima la citazione era solo un'aggiunta temporanea sul telefono di chi scriveva (chi riceveva non la vedeva mai, e spariva riaprendo la chat). Ora il server salva con la risposta una copia di ciò che si cita (`reply_quote`: nome, testo originale fino a 300 caratteri, se era una foto); l'app mostra il messaggio citato nella lingua di chi legge quando è caricato, altrimenti la copia. La citazione sta dentro il fumetto (come WhatsApp), con il nome ("Tu" se eri tu); toccandola si va al messaggio originale, che lampeggia. La copia segue le modifiche del messaggio citato e si svuota se viene eliminato per tutti o se chi l'ha scritto elimina l'account.
 - **Scarica i miei dati** (26/10/2026): in Profilo › Account il tasto "Scarica i miei dati" scarica un file JSON (`GET /api/auth/export`, massimo 5 volte l'ora) con profilo e impostazioni, messaggi scritti (originale e traduzioni fatte per chi li ha letti; esclusi quelli eliminati per tutti), chat (con nome e username degli altri membri, mai la loro email), contatti, persone bloccate, glossario, messaggi programmati, file inviati (nome e tipo), dispositivi per le notifiche (solo la data) e messaggi tradotti al mese. Non contiene i messaggi scritti dagli altri. Il server ora permette al sito di leggere il nome del file scaricato (`expose_headers`).
 - **Recupero password da soli** (26/10/2026): nella pagina di accesso "Password dimenticata?" (compare solo se il server può mandare email: `password_reset` in `/api/config`). Si scrive l'email; la risposta è sempre la stessa, che l'account esista o no. Se esiste parte un'email (italiano o inglese secondo la lingua del profilo) con un link `…/reset?token=…` valido 1 ora e una sola volta; nel database c'è solo l'impronta del codice (`password_resets.token_hash`). Dalla pagina `/reset` si sceglie la nuova password e si entra; le altre sessioni si chiudono. Limiti: 3 richieste l'ora per email, 10 per indirizzo. Email via SMTP (`backend/mailer.py`), variabili su `lingua-api`: `SMTP_HOST`, `SMTP_PORT` (587 o 465), `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FROM`. In prova (`APP_ENV=test`) le email non partono e il link compare nel registro del server.
+- **Contatti senza chat** (26/10/2026): la scheda Contatti mostra le persone con cui hai una chat più quelle salvate senza chat nell'elenco (`GET /api/contacts`: contatti accettati o richiesta inviata; mai le persone bloccate o che ti hanno bloccato). Chi ha la richiesta ancora in attesa ha la scritta "Richiesta inviata" e non mostra l'ora locale. Toccandole si apre (o si riapre) la chat. Ordine alfabetico.

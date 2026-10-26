@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Search, MessageCircle, Users, User, Contact, Plus, UserPlus, Check, X, WifiOff, Pin, PinOff, Trash2 } from "lucide-react";
 import { format, isToday, isYesterday } from "date-fns";
 import { useAuth } from "@/context/AuthContext";
+import { api } from "@/lib/api";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -120,7 +121,30 @@ function ContactRow({ chat, onSelect }) {
   );
 }
 
-export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat, onOpenAdmin, onDeleteChat, onTogglePin, requests, onAccept, onDecline }) {
+// A saved contact with no chat in the list (never written to, or the chat was deleted): tapping opens a chat.
+function SavedContactRow({ person, onOpen }) {
+  const { t } = useI18n();
+  return (
+    <button data-testid={`contact-item-${person.id}`} onClick={() => onOpen(person)}
+      className="w-full flex items-center gap-3.5 px-5 py-3 text-start hover:bg-muted/60 active:bg-muted transition-colors">
+      <div className="relative shrink-0">
+        <Avatar style={{ width: "2.75rem", height: "2.75rem" }}>
+          <AvatarImage src={person.avatar} />
+          <AvatarFallback className={`font-semibold ${avatarClass(person.name)}`}>{initials(person.name || "?")}</AvatarFallback>
+        </Avatar>
+        {person.online && <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-online border-2 border-card" />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-base font-semibold truncate">{person.name}</div>
+        <div className="text-xs text-subtle">
+          {person.language?.toUpperCase()}{person.status === "pending_out" && <> · {t("Request sent")}</>}
+        </div>
+      </div>
+    </button>
+  );
+}
+
+export default function Sidebar({ chats, loading, activeId, onSelect, onOpenContact, onNewChat, onOpenAdmin, onDeleteChat, onTogglePin, requests, onAccept, onDecline }) {
   const { user } = useAuth();
   const { t } = useI18n();
   const [tab, setTab] = useState(() => (returnTarget().startsWith("profile") ? "profile" : "chats"));
@@ -136,7 +160,15 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
   const base = tab === "groups" ? groups : chats;
   const sorted = tab === "chats" ? [...base].sort((x, y) => Number(!!y.pinned) - Number(!!x.pinned)) : base; // pinned first, order kept otherwise
   const list = sorted.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()) && (tab !== "chats" || filter === "all" || (c.unread || 0) > 0));
+  // Contacts: the people I have a chat with, plus the people I saved with no chat in the list
+  const [saved, setSaved] = useState([]);
+  useEffect(() => {
+    if (tab !== "contacts") return;
+    api.get("/contacts").then(({ data }) => setSaved(data)).catch(() => {});
+  }, [tab, chats.length]);
+  const inChats = new Set(direct.map((c) => c.other_user?.id));
   const contactsList = direct.filter((c) => c.display_name.toLowerCase().includes(q.toLowerCase()));
+  const savedOnly = saved.filter((p) => !inChats.has(p.id) && (p.name || "").toLowerCase().includes(q.toLowerCase()));
   const unread = { chats: chats.reduce((n, c) => n + (c.unread || 0), 0), groups: groups.reduce((n, c) => n + (c.unread || 0), 0) };
 
   const confirmDelete = async () => {
@@ -223,10 +255,13 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onNewChat,
                 ))}
               </div>
             )}
-            {tab === "contacts" && !loading && contactsList.length === 0 && (
+            {tab === "contacts" && !loading && contactsList.length === 0 && savedOnly.length === 0 && (
               <div className="px-8 pt-14 text-center text-[15px] text-muted-foreground" data-testid="empty-contacts">{t("No contacts yet.")}</div>
             )}
-            {tab === "contacts" && contactsList.map((c) => <ContactRow key={c.id} chat={c} onSelect={onSelect} />)}
+            {tab === "contacts" && [
+              ...contactsList.map((c) => ({ key: c.id, name: c.display_name, el: <ContactRow key={c.id} chat={c} onSelect={onSelect} /> })),
+              ...savedOnly.map((p) => ({ key: p.id, name: p.name || "", el: <SavedContactRow key={p.id} person={p} onOpen={onOpenContact} /> })),
+            ].sort((x, y) => x.name.localeCompare(y.name)).map((x) => x.el)}
             {tab !== "contacts" && !loading && list.length === 0 && (
               <div className="px-8 pt-14 text-center" data-testid="empty-list">
                 <div className="w-[104px] h-[104px] rounded-full bg-surface mx-auto mb-5 flex items-center justify-center">

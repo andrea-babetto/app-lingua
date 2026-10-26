@@ -255,5 +255,6 @@
  "New password": "Uusi salasana",
  "Save and sign in": "Tallenna ja kirjaudu",
  "This link is no longer valid. Ask for a new one.": "Tämä linkki ei ole enää voimassa. Pyydä uusi.",
- "Back to sign in": "Takaisin kirjautumiseen"
+ "Back to sign in": "Takaisin kirjautumiseen",
+ "Request sent": "Pyyntö lähetetty"
 }

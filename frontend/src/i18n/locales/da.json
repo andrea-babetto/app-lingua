@@ -255,5 +255,6 @@
  "New password": "Ny adgangskode",
  "Save and sign in": "Gem og log ind",
  "This link is no longer valid. Ask for a new one.": "Dette link er ikke længere gyldigt. Bed om et nyt.",
- "Back to sign in": "Tilbage til log ind"
+ "Back to sign in": "Tilbage til log ind",
+ "Request sent": "Anmodning sendt"
 }

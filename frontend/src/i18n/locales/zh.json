@@ -255,5 +255,6 @@
  "New password": "新密码",
  "Save and sign in": "保存并登录",
  "This link is no longer valid. Ask for a new one.": "此链接已失效，请重新申请。",
- "Back to sign in": "返回登录"
+ "Back to sign in": "返回登录",
+ "Request sent": "已发送请求"
 }
