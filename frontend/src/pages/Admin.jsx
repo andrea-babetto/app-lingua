@@ -66,7 +66,7 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {cards.map((c) => (
             <div key={c.label} className="bg-card border border-border rounded-xl p-5">
               <c.icon className="w-5 h-5 text-primary mb-2" />
