@@ -95,7 +95,7 @@ async def main():
         await jp.screenshot(path=f"{SH}/voice-james.png")
         await jp.get_by_test_id("back-button").click() if await jp.get_by_test_id("back-button").count() else None
         side = await jp.get_by_test_id(f"sidebar-chat-item-{cid}").inner_text()
-        check("chat list preview with 🎤", "🎤" in side)
+        check("chat list preview says voice message, not the text", "🎤 Voice message · 0:0" in side and "see you" not in side)
         check("no page errors", not errors); print(errors)
         await b.close()
     print(f"{sum(res)}/{len(res)}")

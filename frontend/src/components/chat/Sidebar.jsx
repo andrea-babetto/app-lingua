@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
 import { LogoArrows } from "@/components/Logo";
+import { clock } from "@/components/chat/VoiceRecorder";
 import { avatarClass } from "@/lib/avatar";
 import { returnTarget } from "@/lib/returnTarget";
 import { useI18n } from "@/i18n";
@@ -33,7 +34,7 @@ function preview(c, myId, t) {
   if (!m) return t("Say hello 👋");
   if (m.deleted_for_all) return t("🚫 Message deleted");
   const text = m.poll ? `📊 ${m.display_text || ""}`
-    : m.attachment?.is_voice ? (m.display_text?.trim() ? `🎤 ${m.display_text}` : t("🎤 Voice message"))
+    : m.attachment?.is_voice ? (m.attachment.duration ? `${t("🎤 Voice message")} · ${clock(m.attachment.duration)}` : t("🎤 Voice message"))
     : (m.display_text?.trim() ? m.display_text : t("📎 Attachment"));
   if (c.type === "group") return `${m.sender_id === myId ? t("You") : (m.sender_name || "").split(" ")[0]}: ${text}`;
   return text;
