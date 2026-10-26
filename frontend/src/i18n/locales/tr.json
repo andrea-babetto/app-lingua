@@ -244,5 +244,16 @@
  "Download my data": "Verilerimi indir",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Profilini, yazdığın mesajları, sohbetlerini, kişilerini ve sözlüğünü içeren bir dosya.",
  "Your file is ready": "Dosyan hazır",
- "Could not prepare the file. Try again later.": "Dosya hazırlanamadı. Daha sonra tekrar dene."
+ "Could not prepare the file. Try again later.": "Dosya hazırlanamadı. Daha sonra tekrar dene.",
+ "Forgot password?": "Şifreni mi unuttun?",
+ "Forgot your password?": "Şifreni mi unuttun?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Hesabının e-postasını yaz: yeni bir şifre seçmen için bir bağlantı göndereceğiz.",
+ "Send link": "Bağlantı gönder",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Bu e-postayla bir hesap varsa bağlantı yolda. Gelen kutunu ve istenmeyen klasörünü de kontrol et.",
+ "Choose a new password": "Yeni bir şifre seç",
+ "At least 8 characters.": "En az 8 karakter.",
+ "New password": "Yeni şifre",
+ "Save and sign in": "Kaydet ve giriş yap",
+ "This link is no longer valid. Ask for a new one.": "Bu bağlantı artık geçerli değil. Yenisini iste.",
+ "Back to sign in": "Girişe dön"
 }

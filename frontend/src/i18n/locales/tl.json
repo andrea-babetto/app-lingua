@@ -244,5 +244,16 @@
  "Download my data": "I-download ang aking data",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Isang file na may profile mo, mga mensaheng isinulat mo, mga chat, contact at glossary mo.",
  "Your file is ready": "Handa na ang file mo",
- "Could not prepare the file. Try again later.": "Hindi maihanda ang file. Subukan ulit mamaya."
+ "Could not prepare the file. Try again later.": "Hindi maihanda ang file. Subukan ulit mamaya.",
+ "Forgot password?": "Nakalimutan ang password?",
+ "Forgot your password?": "Nakalimutan mo ang password mo?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Isulat ang email ng account mo: magpapadala kami ng link para pumili ng bagong password.",
+ "Send link": "Ipadala ang link",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Kung may account na may ganitong email, papunta na ang link. Tingnan ang inbox mo at pati ang spam folder.",
+ "Choose a new password": "Pumili ng bagong password",
+ "At least 8 characters.": "Hindi bababa sa 8 character.",
+ "New password": "Bagong password",
+ "Save and sign in": "I-save at mag-sign in",
+ "This link is no longer valid. Ask for a new one.": "Hindi na valid ang link na ito. Humingi ng bago.",
+ "Back to sign in": "Bumalik sa pag-sign in"
 }

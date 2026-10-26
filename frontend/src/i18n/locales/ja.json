@@ -244,5 +244,16 @@
  "Download my data": "データをダウンロード",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "プロフィール、送信したメッセージ、チャット、連絡先、用語集を含むファイルです。",
  "Your file is ready": "ファイルの準備ができました",
- "Could not prepare the file. Try again later.": "ファイルを準備できませんでした。しばらくしてからもう一度お試しください。"
+ "Could not prepare the file. Try again later.": "ファイルを準備できませんでした。しばらくしてからもう一度お試しください。",
+ "Forgot password?": "パスワードをお忘れですか？",
+ "Forgot your password?": "パスワードをお忘れですか？",
+ "Write the email of your account: we will send you a link to choose a new password.": "アカウントのメールアドレスを入力してください。新しいパスワードを設定するリンクをお送りします。",
+ "Send link": "リンクを送信",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "このメールアドレスのアカウントがあれば、リンクをお送りしました。受信トレイと迷惑メールフォルダをご確認ください。",
+ "Choose a new password": "新しいパスワードを設定",
+ "At least 8 characters.": "8文字以上。",
+ "New password": "新しいパスワード",
+ "Save and sign in": "保存してログイン",
+ "This link is no longer valid. Ask for a new one.": "このリンクは無効になりました。新しいリンクをリクエストしてください。",
+ "Back to sign in": "ログインに戻る"
 }

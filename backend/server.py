@@ -6,6 +6,7 @@ load_dotenv(ROOT_DIR / ".env")
 import os
 import re
 import hmac
+import hashlib
 import time
 import secrets
 import uuid
@@ -25,6 +26,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 import stt
+import mailer
 import push
 import storage
 from translation import TranslationEngine
@@ -300,7 +302,8 @@ def check_invite_code(given: str):
 @api.get("/config")
 async def public_config():
     return {"google_client_id": GOOGLE_CLIENT_ID, "voice_transcription": stt.enabled(),
-            "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required()}
+            "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required(),
+            "password_reset": mailer.enabled() or APP_ENV == "test"}
 
 
 @api.get("/languages")
@@ -462,6 +465,64 @@ async def export_my_data(user=Depends(get_current_user)):
                     headers={"Content-Disposition": f'attachment; filename="{filename}"', "Cache-Control": "no-store"})
 
 
+# ---------------- Forgot password: a one-time link by email ----------------
+RESET_VALID = timedelta(hours=1)
+RESET_MAIL = {
+    "it": ("Reimposta la password di Glotter",
+           "Ciao {name},\n\nhai chiesto di reimpostare la password di Glotter. Apri questo link (vale 1 ora e si usa una volta sola):\n\n{link}\n\n"
+           "Se non sei stato tu, ignora questa email: la tua password resta quella di prima.\n\nGlotter"),
+    "en": ("Reset your Glotter password",
+           "Hi {name},\n\nyou asked to reset your Glotter password. Open this link (it works for 1 hour, and only once):\n\n{link}\n\n"
+           "If it wasn't you, ignore this email: your password stays as it is.\n\nGlotter"),
+}
+
+
+class ForgotIn(BaseModel):
+    email: EmailStr
+
+
+class ResetIn(BaseModel):
+    token: str = Field(min_length=20, max_length=200)
+    new_password: str = Field(min_length=8, max_length=72)
+
+
+def reset_hash(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()  # only the hash is stored: a database leak gives no working links
+
+
+@api.post("/auth/forgot")
+async def forgot_password(body: ForgotIn, request: Request):
+    """Always the same answer, whether or not the email has an account (nobody can test which emails are registered)."""
+    limiter.check(f"forgot-ip:{client_ip(request)}", 10, 3600, "Too many attempts. Try again later.")
+    email = body.email.lower().strip()
+    limiter.check(f"forgot-mail:{email}", 3, 3600, "Too many attempts. Try again later.")
+    origin = (request.headers.get("origin") or "").rstrip("/")
+    app_url = origin if origin in ALLOWED_ORIGINS else (ALLOWED_ORIGINS[0] if ALLOWED_ORIGINS else "")
+    u = await db.users.find_one({"email": email}, {"_id": 0})
+    if u and app_url:
+        token = secrets.token_urlsafe(32)
+        await db.password_resets.delete_many({"user_id": u["id"]})
+        await db.password_resets.insert_one({"user_id": u["id"], "token_hash": reset_hash(token),
+                                             "expires_at": (datetime.now(timezone.utc) + RESET_VALID).isoformat(), "created_at": now_iso()})
+        subject, text = RESET_MAIL.get(u.get("language"), RESET_MAIL["en"])
+        await mailer.send(email, subject, text.format(name=u.get("name") or "", link=f"{app_url}/reset?token={token}"))
+    return {"ok": True}
+
+
+@api.post("/auth/reset")
+async def reset_password(body: ResetIn, request: Request):
+    limiter.check(f"reset-ip:{client_ip(request)}", 20, 3600, "Too many attempts. Try again later.")
+    row = await db.password_resets.find_one_and_delete({"token_hash": reset_hash(body.token)})  # a link works only once
+    if not row or datetime.fromisoformat(row["expires_at"]) < datetime.now(timezone.utc):
+        raise HTTPException(status_code=400, detail="This link is no longer valid. Ask for a new one.")
+    await db.users.update_one({"id": row["user_id"]}, {"$set": {
+        "password_hash": await hash_password_async(body.new_password), "password_changed_at": now_iso()}})  # other sessions end
+    fresh = await db.users.find_one({"id": row["user_id"]}, {"_id": 0})
+    if not fresh:
+        raise HTTPException(status_code=400, detail="This link is no longer valid. Ask for a new one.")
+    return {"token": create_token(fresh["id"]), "user": public_user(fresh)}
+
+
 class DeleteAccountIn(BaseModel):
     password: str = Field(default="", max_length=72)
 
@@ -507,6 +568,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
     await db.push_subs.delete_many({"user_id": uid})
     await db.usage.delete_many({"user_id": uid})
     await db.scheduled.delete_many({"sender_id": uid})
+    await db.password_resets.delete_many({"user_id": uid})
     await db.contacts.delete_many({"$or": [{"user_id": uid}, {"contact_id": uid}]})
     await db.users.update_many({"blocked": uid}, {"$pull": {"blocked": uid}})
     await db.users.delete_one({"id": uid})
@@ -1723,6 +1785,7 @@ async def startup():
     await db.usage.create_index("key", unique=True)
     await db.usage.create_index("month")
     await db.scheduled.create_index("send_at")
+    await db.password_resets.create_index("token_hash")
     if os.environ.get("APP_ENV") != "test":
         spawn(scheduled_loop())
     # Cached translations expire after 30 days so the database does not grow forever.

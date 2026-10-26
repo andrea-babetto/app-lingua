@@ -244,5 +244,16 @@
  "Download my data": "دانلود داده‌های من",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "فایلی شامل نمایه، پیام‌هایی که نوشته‌اید، گفتگوها، مخاطبان و واژه‌نامهٔ شما.",
  "Your file is ready": "فایل شما آماده است",
- "Could not prepare the file. Try again later.": "فایل آماده نشد. بعداً دوباره امتحان کنید."
+ "Could not prepare the file. Try again later.": "فایل آماده نشد. بعداً دوباره امتحان کنید.",
+ "Forgot password?": "رمز عبور را فراموش کرده‌اید؟",
+ "Forgot your password?": "رمز عبورتان را فراموش کرده‌اید؟",
+ "Write the email of your account: we will send you a link to choose a new password.": "ایمیل حسابتان را بنویسید: پیوندی برای انتخاب رمز جدید برایتان می‌فرستیم.",
+ "Send link": "ارسال پیوند",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "اگر حسابی با این ایمیل وجود داشته باشد، پیوند در راه است. صندوق ورودی و پوشهٔ هرزنامه را هم ببینید.",
+ "Choose a new password": "رمز عبور جدید انتخاب کنید",
+ "At least 8 characters.": "دست‌کم ۸ نویسه.",
+ "New password": "رمز عبور جدید",
+ "Save and sign in": "ذخیره و ورود",
+ "This link is no longer valid. Ask for a new one.": "این پیوند دیگر معتبر نیست. پیوند تازه بخواهید.",
+ "Back to sign in": "بازگشت به ورود"
 }

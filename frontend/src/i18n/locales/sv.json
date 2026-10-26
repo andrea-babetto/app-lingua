@@ -244,5 +244,16 @@
  "Download my data": "Ladda ner mina data",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "En fil med din profil, meddelandena du har skrivit, dina chattar, kontakter och ordlista.",
  "Your file is ready": "Din fil är klar",
- "Could not prepare the file. Try again later.": "Filen kunde inte förberedas. Försök igen senare."
+ "Could not prepare the file. Try again later.": "Filen kunde inte förberedas. Försök igen senare.",
+ "Forgot password?": "Glömt lösenordet?",
+ "Forgot your password?": "Har du glömt ditt lösenord?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Skriv e-postadressen till ditt konto: vi skickar en länk för att välja ett nytt lösenord.",
+ "Send link": "Skicka länk",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Om det finns ett konto med den här e-postadressen är länken på väg. Kolla inkorgen och även skräpposten.",
+ "Choose a new password": "Välj ett nytt lösenord",
+ "At least 8 characters.": "Minst 8 tecken.",
+ "New password": "Nytt lösenord",
+ "Save and sign in": "Spara och logga in",
+ "This link is no longer valid. Ask for a new one.": "Den här länken gäller inte längre. Be om en ny.",
+ "Back to sign in": "Tillbaka till inloggning"
 }

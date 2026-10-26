@@ -244,5 +244,16 @@
  "Download my data": "Завантажити мої дані",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Файл із вашим профілем, написаними вами повідомленнями, чатами, контактами та глосарієм.",
  "Your file is ready": "Файл готовий",
- "Could not prepare the file. Try again later.": "Не вдалося підготувати файл. Спробуйте пізніше."
+ "Could not prepare the file. Try again later.": "Не вдалося підготувати файл. Спробуйте пізніше.",
+ "Forgot password?": "Забули пароль?",
+ "Forgot your password?": "Забули пароль?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Введіть email свого акаунта: ми надішлемо посилання для нового пароля.",
+ "Send link": "Надіслати посилання",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Якщо акаунт із цим email існує, посилання вже в дорозі. Перевірте вхідні та папку «Спам».",
+ "Choose a new password": "Придумайте новий пароль",
+ "At least 8 characters.": "Щонайменше 8 символів.",
+ "New password": "Новий пароль",
+ "Save and sign in": "Зберегти й увійти",
+ "This link is no longer valid. Ask for a new one.": "Це посилання більше не дійсне. Попросіть нове.",
+ "Back to sign in": "Повернутися до входу"
 }

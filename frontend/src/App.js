@@ -8,6 +8,7 @@ import Onboarding from "@/pages/Onboarding";
 import Chat from "@/pages/Chat";
 import Admin from "@/pages/Admin";
 import Legal from "@/pages/Legal";
+import ResetPassword from "@/pages/ResetPassword";
 import "@/App.css";
 
 function Gate() {
@@ -22,6 +23,7 @@ function Gate() {
       </Routes>
     );
   }
+  if (path === "/reset") return <ResetPassword />;  // the link from the "forgot password" email: works signed in or not
   if (user === null) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-background">

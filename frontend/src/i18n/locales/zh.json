@@ -244,5 +244,16 @@
  "Download my data": "下载我的数据",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "包含你的个人资料、你写的消息、聊天、联系人和词汇表的文件。",
  "Your file is ready": "你的文件已准备好",
- "Could not prepare the file. Try again later.": "无法准备文件，请稍后再试。"
+ "Could not prepare the file. Try again later.": "无法准备文件，请稍后再试。",
+ "Forgot password?": "忘记密码？",
+ "Forgot your password?": "忘记密码了？",
+ "Write the email of your account: we will send you a link to choose a new password.": "输入你账号的邮箱：我们会发送一个设置新密码的链接。",
+ "Send link": "发送链接",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "如果这个邮箱有账号，链接正在发送中。请查看收件箱，以及垃圾邮件文件夹。",
+ "Choose a new password": "设置新密码",
+ "At least 8 characters.": "至少 8 个字符。",
+ "New password": "新密码",
+ "Save and sign in": "保存并登录",
+ "This link is no longer valid. Ask for a new one.": "此链接已失效，请重新申请。",
+ "Back to sign in": "返回登录"
 }

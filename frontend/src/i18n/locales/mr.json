@@ -244,5 +244,16 @@
  "Download my data": "माझा डेटा डाउनलोड करा",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "तुमची प्रोफाइल, तुम्ही लिहिलेले संदेश, चॅट, संपर्क आणि शब्दकोश असलेली फाइल.",
  "Your file is ready": "तुमची फाइल तयार आहे",
- "Could not prepare the file. Try again later.": "फाइल तयार करता आली नाही. नंतर पुन्हा प्रयत्न करा."
+ "Could not prepare the file. Try again later.": "फाइल तयार करता आली नाही. नंतर पुन्हा प्रयत्न करा.",
+ "Forgot password?": "पासवर्ड विसरलात?",
+ "Forgot your password?": "तुमचा पासवर्ड विसरलात?",
+ "Write the email of your account: we will send you a link to choose a new password.": "तुमच्या खात्याचा ईमेल लिहा: नवीन पासवर्ड निवडण्यासाठी आम्ही लिंक पाठवू.",
+ "Send link": "लिंक पाठवा",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "या ईमेलचे खाते असल्यास लिंक येत आहे. इनबॉक्स आणि स्पॅम फोल्डरही तपासा.",
+ "Choose a new password": "नवीन पासवर्ड निवडा",
+ "At least 8 characters.": "किमान 8 अक्षरे.",
+ "New password": "नवीन पासवर्ड",
+ "Save and sign in": "जतन करा आणि साइन इन करा",
+ "This link is no longer valid. Ask for a new one.": "ही लिंक आता वैध नाही. नवीन लिंक मागा.",
+ "Back to sign in": "साइन इनवर परत जा"
 }

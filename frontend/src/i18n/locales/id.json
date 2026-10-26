@@ -244,5 +244,16 @@
  "Download my data": "Unduh data saya",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "File berisi profil, pesan yang kamu tulis, obrolan, kontak, dan glosariummu.",
  "Your file is ready": "File-mu sudah siap",
- "Could not prepare the file. Try again later.": "File tidak dapat disiapkan. Coba lagi nanti."
+ "Could not prepare the file. Try again later.": "File tidak dapat disiapkan. Coba lagi nanti.",
+ "Forgot password?": "Lupa kata sandi?",
+ "Forgot your password?": "Lupa kata sandimu?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Tulis email akunmu: kami akan mengirim tautan untuk memilih kata sandi baru.",
+ "Send link": "Kirim tautan",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Jika ada akun dengan email ini, tautannya sedang dikirim. Periksa kotak masuk dan juga folder spam.",
+ "Choose a new password": "Pilih kata sandi baru",
+ "At least 8 characters.": "Minimal 8 karakter.",
+ "New password": "Kata sandi baru",
+ "Save and sign in": "Simpan dan masuk",
+ "This link is no longer valid. Ask for a new one.": "Tautan ini sudah tidak berlaku. Minta yang baru.",
+ "Back to sign in": "Kembali ke halaman masuk"
 }

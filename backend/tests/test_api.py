@@ -991,3 +991,33 @@ def test_download_my_data_contains_my_things_and_not_other_peoples_words(client,
     assert d["glossary"] == [{"term": "ACOS", "rule": "keep"}]
     assert [x["text"] for x in d["scheduled_messages"]] == ["domani"]
     assert d["translation_usage_by_month"][0]["my_messages_translated"] == 2   # "oops" was translated before being deleted
+
+
+def test_forgot_password_sends_a_one_time_link(client, make_person):
+    import mailer
+    a = make_person("a@x.com", "Anna", "it")
+    mailer.sent.clear()
+    assert client.get("/api/config").json()["password_reset"] is True
+    # the answer is the same for unknown emails, and no mail leaves
+    assert client.post("/api/auth/forgot", json={"email": "nobody@x.com"}).json() == {"ok": True}
+    assert mailer.sent == []
+    assert client.post("/api/auth/forgot", json={"email": "A@x.com"}, headers={"Origin": "http://localhost:3000"}).json() == {"ok": True}
+    assert len(mailer.sent) == 1 and mailer.sent[0]["to"] == "a@x.com" and "Reimposta" in mailer.sent[0]["subject"]   # in her language
+    link = next(w for w in mailer.sent[0]["text"].split() if w.startswith("http://localhost:3000/reset?token="))
+    token = link.split("token=")[1]
+    assert client.post("/api/auth/reset", json={"token": "x" * 30, "new_password": "brand-new-pass-1"}).status_code == 400
+    assert client.post("/api/auth/reset", json={"token": token, "new_password": "short"}).status_code == 422
+    r = client.post("/api/auth/reset", json={"token": token, "new_password": "brand-new-pass-1"})
+    assert r.status_code == 200 and r.json()["user"]["email"] == "a@x.com"
+    assert client.get("/api/auth/me", headers={"Authorization": f"Bearer {r.json()['token']}"}).status_code == 200   # signed in
+    assert client.get("/api/auth/me", headers=a.h).status_code == 401                                                # old sessions closed
+    assert client.post("/api/auth/login", json={"email": "a@x.com", "password": "brand-new-pass-1"}).status_code == 200
+    assert client.post("/api/auth/reset", json={"token": token, "new_password": "again-new-pass-2"}).status_code == 400  # only once
+    # an expired link does not work
+    client.post("/api/auth/forgot", json={"email": "a@x.com"}, headers={"Origin": "http://localhost:3000"})
+    token2 = mailer.sent[-1]["text"].split("token=")[1].split()[0]
+    asyncio.run(server.db.password_resets.update_many({}, {"$set": {"expires_at": _iso(-10)}}))
+    assert client.post("/api/auth/reset", json={"token": token2, "new_password": "again-new-pass-2"}).status_code == 400
+    # at most 3 requests an hour for the same email
+    assert client.post("/api/auth/forgot", json={"email": "a@x.com"}).status_code == 200
+    assert client.post("/api/auth/forgot", json={"email": "a@x.com"}).status_code == 429

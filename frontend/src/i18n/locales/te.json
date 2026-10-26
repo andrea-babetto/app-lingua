@@ -244,5 +244,16 @@
  "Download my data": "నా డేటాను డౌన్‌లోడ్ చేయండి",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "మీ ప్రొఫైల్, మీరు రాసిన సందేశాలు, చాట్‌లు, పరిచయాలు, పదకోశం ఉన్న ఫైల్.",
  "Your file is ready": "మీ ఫైల్ సిద్ధంగా ఉంది",
- "Could not prepare the file. Try again later.": "ఫైల్‌ను సిద్ధం చేయలేకపోయాం. తర్వాత మళ్లీ ప్రయత్నించండి."
+ "Could not prepare the file. Try again later.": "ఫైల్‌ను సిద్ధం చేయలేకపోయాం. తర్వాత మళ్లీ ప్రయత్నించండి.",
+ "Forgot password?": "పాస్‌వర్డ్ మర్చిపోయారా?",
+ "Forgot your password?": "మీ పాస్‌వర్డ్ మర్చిపోయారా?",
+ "Write the email of your account: we will send you a link to choose a new password.": "మీ ఖాతా ఇమెయిల్ రాయండి: కొత్త పాస్‌వర్డ్ ఎంచుకోవడానికి లింక్ పంపుతాం.",
+ "Send link": "లింక్ పంపండి",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "ఈ ఇమెయిల్‌తో ఖాతా ఉంటే లింక్ వస్తోంది. ఇన్‌బాక్స్‌తో పాటు స్పామ్ ఫోల్డర్ కూడా చూడండి.",
+ "Choose a new password": "కొత్త పాస్‌వర్డ్ ఎంచుకోండి",
+ "At least 8 characters.": "కనీసం 8 అక్షరాలు.",
+ "New password": "కొత్త పాస్‌వర్డ్",
+ "Save and sign in": "సేవ్ చేసి సైన్ ఇన్ చేయండి",
+ "This link is no longer valid. Ask for a new one.": "ఈ లింక్ ఇక చెల్లదు. కొత్తది అడగండి.",
+ "Back to sign in": "సైన్ ఇన్‌కి తిరిగి వెళ్లండి"
 }

@@ -244,5 +244,16 @@
  "Download my data": "Изтегли данните ми",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Файл с профила ти, съобщенията, които си написал, чатовете, контактите и речника ти.",
  "Your file is ready": "Файлът ти е готов",
- "Could not prepare the file. Try again later.": "Файлът не можа да бъде подготвен. Опитай по-късно."
+ "Could not prepare the file. Try again later.": "Файлът не можа да бъде подготвен. Опитай по-късно.",
+ "Forgot password?": "Забравена парола?",
+ "Forgot your password?": "Забрави паролата си?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Напиши имейла на профила си: ще ти изпратим връзка за нова парола.",
+ "Send link": "Изпрати връзка",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Ако има профил с този имейл, връзката е на път. Провери пощата си, включително папката за спам.",
+ "Choose a new password": "Избери нова парола",
+ "At least 8 characters.": "Поне 8 знака.",
+ "New password": "Нова парола",
+ "Save and sign in": "Запази и влез",
+ "This link is no longer valid. Ask for a new one.": "Тази връзка вече не е валидна. Поискай нова.",
+ "Back to sign in": "Обратно към входа"
 }

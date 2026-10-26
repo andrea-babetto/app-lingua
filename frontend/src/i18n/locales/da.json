@@ -244,5 +244,16 @@
  "Download my data": "Download mine data",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "En fil med din profil, de beskeder, du har skrevet, dine chats, kontakter og ordliste.",
  "Your file is ready": "Din fil er klar",
- "Could not prepare the file. Try again later.": "Filen kunne ikke klargøres. Prøv igen senere."
+ "Could not prepare the file. Try again later.": "Filen kunne ikke klargøres. Prøv igen senere.",
+ "Forgot password?": "Glemt adgangskode?",
+ "Forgot your password?": "Har du glemt din adgangskode?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Skriv e-mailen til din konto: vi sender dig et link til at vælge en ny adgangskode.",
+ "Send link": "Send link",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Hvis der findes en konto med denne e-mail, er linket på vej. Tjek din indbakke og også spam-mappen.",
+ "Choose a new password": "Vælg en ny adgangskode",
+ "At least 8 characters.": "Mindst 8 tegn.",
+ "New password": "Ny adgangskode",
+ "Save and sign in": "Gem og log ind",
+ "This link is no longer valid. Ask for a new one.": "Dette link er ikke længere gyldigt. Bed om et nyt.",
+ "Back to sign in": "Tilbage til log ind"
 }

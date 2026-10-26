@@ -244,5 +244,16 @@
  "Download my data": "আমার ডেটা ডাউনলোড করুন",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "আপনার প্রোফাইল, আপনার লেখা বার্তা, চ্যাট, পরিচিতি ও শব্দকোষসহ একটি ফাইল।",
  "Your file is ready": "আপনার ফাইল তৈরি",
- "Could not prepare the file. Try again later.": "ফাইল তৈরি করা যায়নি। পরে আবার চেষ্টা করুন।"
+ "Could not prepare the file. Try again later.": "ফাইল তৈরি করা যায়নি। পরে আবার চেষ্টা করুন।",
+ "Forgot password?": "পাসওয়ার্ড ভুলে গেছেন?",
+ "Forgot your password?": "আপনার পাসওয়ার্ড ভুলে গেছেন?",
+ "Write the email of your account: we will send you a link to choose a new password.": "আপনার অ্যাকাউন্টের ইমেল লিখুন: নতুন পাসওয়ার্ড বেছে নেওয়ার লিঙ্ক পাঠাব।",
+ "Send link": "লিঙ্ক পাঠান",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "এই ইমেলে কোনো অ্যাকাউন্ট থাকলে লিঙ্কটি আসছে। ইনবক্স এবং স্প্যাম ফোল্ডারও দেখুন।",
+ "Choose a new password": "নতুন পাসওয়ার্ড বেছে নিন",
+ "At least 8 characters.": "কমপক্ষে ৮টি অক্ষর।",
+ "New password": "নতুন পাসওয়ার্ড",
+ "Save and sign in": "সংরক্ষণ করে সাইন ইন করুন",
+ "This link is no longer valid. Ask for a new one.": "এই লিঙ্কটি আর বৈধ নয়। নতুন একটি চান।",
+ "Back to sign in": "সাইন ইনে ফিরে যান"
 }

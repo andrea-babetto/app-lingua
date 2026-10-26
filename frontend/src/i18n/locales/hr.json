@@ -244,5 +244,16 @@
  "Download my data": "Preuzmi moje podatke",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Datoteka s tvojim profilom, porukama koje si napisao, razgovorima, kontaktima i pojmovnikom.",
  "Your file is ready": "Datoteka je spremna",
- "Could not prepare the file. Try again later.": "Datoteku nije bilo moguće pripremiti. Pokušaj kasnije."
+ "Could not prepare the file. Try again later.": "Datoteku nije bilo moguće pripremiti. Pokušaj kasnije.",
+ "Forgot password?": "Zaboravljena lozinka?",
+ "Forgot your password?": "Zaboravio si lozinku?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Upiši e-poštu svog računa: poslat ćemo ti poveznicu za novu lozinku.",
+ "Send link": "Pošalji poveznicu",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Ako postoji račun s ovom e-poštom, poveznica je na putu. Provjeri pristiglu poštu i mapu neželjene pošte.",
+ "Choose a new password": "Odaberi novu lozinku",
+ "At least 8 characters.": "Najmanje 8 znakova.",
+ "New password": "Nova lozinka",
+ "Save and sign in": "Spremi i prijavi se",
+ "This link is no longer valid. Ask for a new one.": "Ova poveznica više ne vrijedi. Zatraži novu.",
+ "Back to sign in": "Natrag na prijavu"
 }

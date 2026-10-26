@@ -244,5 +244,16 @@
  "Download my data": "Pakua data yangu",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Faili lenye wasifu wako, ujumbe uliouandika, mazungumzo, anwani na kamusi yako.",
  "Your file is ready": "Faili lako liko tayari",
- "Could not prepare the file. Try again later.": "Faili halikuweza kuandaliwa. Jaribu tena baadaye."
+ "Could not prepare the file. Try again later.": "Faili halikuweza kuandaliwa. Jaribu tena baadaye.",
+ "Forgot password?": "Umesahau nenosiri?",
+ "Forgot your password?": "Umesahau nenosiri lako?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Andika barua pepe ya akaunti yako: tutakutumia kiungo cha kuchagua nenosiri jipya.",
+ "Send link": "Tuma kiungo",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Ikiwa kuna akaunti yenye barua pepe hii, kiungo kiko njiani. Angalia kikasha na pia folda ya barua taka.",
+ "Choose a new password": "Chagua nenosiri jipya",
+ "At least 8 characters.": "Angalau herufi 8.",
+ "New password": "Nenosiri jipya",
+ "Save and sign in": "Hifadhi na uingie",
+ "This link is no longer valid. Ask for a new one.": "Kiungo hiki hakifanyi kazi tena. Omba kingine.",
+ "Back to sign in": "Rudi kwenye kuingia"
 }

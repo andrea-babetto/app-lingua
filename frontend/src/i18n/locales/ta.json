@@ -244,5 +244,16 @@
  "Download my data": "என் தரவைப் பதிவிறக்கு",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "உங்கள் சுயவிவரம், நீங்கள் எழுதிய செய்திகள், உரையாடல்கள், தொடர்புகள் மற்றும் சொற்களஞ்சியம் கொண்ட கோப்பு.",
  "Your file is ready": "உங்கள் கோப்பு தயார்",
- "Could not prepare the file. Try again later.": "கோப்பைத் தயாரிக்க முடியவில்லை. பிறகு மீண்டும் முயலவும்."
+ "Could not prepare the file. Try again later.": "கோப்பைத் தயாரிக்க முடியவில்லை. பிறகு மீண்டும் முயலவும்.",
+ "Forgot password?": "கடவுச்சொல் மறந்துவிட்டதா?",
+ "Forgot your password?": "உங்கள் கடவுச்சொல் மறந்துவிட்டதா?",
+ "Write the email of your account: we will send you a link to choose a new password.": "உங்கள் கணக்கின் மின்னஞ்சலை எழுதுங்கள்: புதிய கடவுச்சொல்லைத் தேர்வு செய்ய இணைப்பை அனுப்புவோம்.",
+ "Send link": "இணைப்பை அனுப்பு",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "இந்த மின்னஞ்சலில் கணக்கு இருந்தால், இணைப்பு வந்துகொண்டிருக்கிறது. இன்பாக்ஸையும் ஸ்பேம் கோப்புறையையும் பாருங்கள்.",
+ "Choose a new password": "புதிய கடவுச்சொல்லைத் தேர்வுசெய்",
+ "At least 8 characters.": "குறைந்தது 8 எழுத்துகள்.",
+ "New password": "புதிய கடவுச்சொல்",
+ "Save and sign in": "சேமித்து உள்நுழை",
+ "This link is no longer valid. Ask for a new one.": "இந்த இணைப்பு இனி செல்லாது. புதியதைக் கேளுங்கள்.",
+ "Back to sign in": "உள்நுழைவுக்குத் திரும்பு"
 }

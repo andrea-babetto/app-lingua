@@ -244,5 +244,16 @@
  "Download my data": "تنزيل بياناتي",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "ملف يحتوي على ملفك الشخصي والرسائل التي كتبتها ومحادثاتك وجهات اتصالك ومسرد مصطلحاتك.",
  "Your file is ready": "ملفك جاهز",
- "Could not prepare the file. Try again later.": "تعذّر تجهيز الملف. حاول مرة أخرى لاحقًا."
+ "Could not prepare the file. Try again later.": "تعذّر تجهيز الملف. حاول مرة أخرى لاحقًا.",
+ "Forgot password?": "نسيت كلمة المرور؟",
+ "Forgot your password?": "هل نسيت كلمة المرور؟",
+ "Write the email of your account: we will send you a link to choose a new password.": "اكتب البريد الإلكتروني لحسابك: سنرسل لك رابطًا لاختيار كلمة مرور جديدة.",
+ "Send link": "إرسال الرابط",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "إذا كان هناك حساب بهذا البريد، فالرابط في الطريق. تحقّق من صندوق الوارد ومجلد الرسائل غير المرغوب فيها أيضًا.",
+ "Choose a new password": "اختر كلمة مرور جديدة",
+ "At least 8 characters.": "8 أحرف على الأقل.",
+ "New password": "كلمة المرور الجديدة",
+ "Save and sign in": "حفظ وتسجيل الدخول",
+ "This link is no longer valid. Ask for a new one.": "لم يعد هذا الرابط صالحًا. اطلب رابطًا جديدًا.",
+ "Back to sign in": "العودة إلى تسجيل الدخول"
 }

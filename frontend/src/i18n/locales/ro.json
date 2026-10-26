@@ -244,5 +244,16 @@
  "Download my data": "Descarcă datele mele",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Un fișier cu profilul tău, mesajele pe care le-ai scris, conversațiile, contactele și glosarul.",
  "Your file is ready": "Fișierul tău este gata",
- "Could not prepare the file. Try again later.": "Fișierul nu a putut fi pregătit. Încearcă mai târziu."
+ "Could not prepare the file. Try again later.": "Fișierul nu a putut fi pregătit. Încearcă mai târziu.",
+ "Forgot password?": "Ai uitat parola?",
+ "Forgot your password?": "Ți-ai uitat parola?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Scrie e-mailul contului tău: îți trimitem un link pentru a alege o parolă nouă.",
+ "Send link": "Trimite linkul",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Dacă există un cont cu acest e-mail, linkul este pe drum. Verifică inboxul și folderul de spam.",
+ "Choose a new password": "Alege o parolă nouă",
+ "At least 8 characters.": "Cel puțin 8 caractere.",
+ "New password": "Parolă nouă",
+ "Save and sign in": "Salvează și conectează-te",
+ "This link is no longer valid. Ask for a new one.": "Linkul nu mai este valabil. Cere unul nou.",
+ "Back to sign in": "Înapoi la conectare"
 }

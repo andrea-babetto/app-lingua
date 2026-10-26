@@ -244,5 +244,16 @@
  "Download my data": "Mijn gegevens downloaden",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Een bestand met je profiel, de berichten die je schreef, je chats, contacten en woordenlijst.",
  "Your file is ready": "Je bestand is klaar",
- "Could not prepare the file. Try again later.": "Het bestand kon niet worden gemaakt. Probeer het later opnieuw."
+ "Could not prepare the file. Try again later.": "Het bestand kon niet worden gemaakt. Probeer het later opnieuw.",
+ "Forgot password?": "Wachtwoord vergeten?",
+ "Forgot your password?": "Wachtwoord vergeten?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Vul het e-mailadres van je account in: we sturen je een link om een nieuw wachtwoord te kiezen.",
+ "Send link": "Link versturen",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Als er een account met dit e-mailadres is, is de link onderweg. Kijk in je inbox en ook in de spammap.",
+ "Choose a new password": "Kies een nieuw wachtwoord",
+ "At least 8 characters.": "Minstens 8 tekens.",
+ "New password": "Nieuw wachtwoord",
+ "Save and sign in": "Opslaan en inloggen",
+ "This link is no longer valid. Ask for a new one.": "Deze link is niet meer geldig. Vraag een nieuwe aan.",
+ "Back to sign in": "Terug naar inloggen"
 }

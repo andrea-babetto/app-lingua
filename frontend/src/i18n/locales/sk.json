@@ -244,5 +244,16 @@
  "Download my data": "Stiahnuť moje údaje",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Súbor s vaším profilom, správami, ktoré ste napísali, četmi, kontaktmi a slovníkom.",
  "Your file is ready": "Súbor je pripravený",
- "Could not prepare the file. Try again later.": "Súbor sa nepodarilo pripraviť. Skúste to neskôr."
+ "Could not prepare the file. Try again later.": "Súbor sa nepodarilo pripraviť. Skúste to neskôr.",
+ "Forgot password?": "Zabudnuté heslo?",
+ "Forgot your password?": "Zabudli ste heslo?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Napíšte e-mail svojho účtu: pošleme vám odkaz na nastavenie nového hesla.",
+ "Send link": "Poslať odkaz",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Ak existuje účet s týmto e-mailom, odkaz je na ceste. Skontrolujte doručenú poštu aj priečinok spam.",
+ "Choose a new password": "Zvoľte nové heslo",
+ "At least 8 characters.": "Aspoň 8 znakov.",
+ "New password": "Nové heslo",
+ "Save and sign in": "Uložiť a prihlásiť sa",
+ "This link is no longer valid. Ask for a new one.": "Tento odkaz už neplatí. Požiadajte o nový.",
+ "Back to sign in": "Späť na prihlásenie"
 }

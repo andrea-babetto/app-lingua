@@ -244,5 +244,16 @@
  "Download my data": "Baixa les meves dades",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Un fitxer amb el teu perfil, els missatges que has escrit, els teus xats, contactes i glossari.",
  "Your file is ready": "El fitxer està a punt",
- "Could not prepare the file. Try again later.": "No s'ha pogut preparar el fitxer. Torna-ho a provar més tard."
+ "Could not prepare the file. Try again later.": "No s'ha pogut preparar el fitxer. Torna-ho a provar més tard.",
+ "Forgot password?": "Has oblidat la contrasenya?",
+ "Forgot your password?": "Has oblidat la contrasenya?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Escriu el correu del teu compte: t'enviarem un enllaç per triar una contrasenya nova.",
+ "Send link": "Envia l'enllaç",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Si hi ha un compte amb aquest correu, l'enllaç ja és de camí. Revisa la safata d'entrada i també el correu brossa.",
+ "Choose a new password": "Tria una contrasenya nova",
+ "At least 8 characters.": "Almenys 8 caràcters.",
+ "New password": "Contrasenya nova",
+ "Save and sign in": "Desa i inicia la sessió",
+ "This link is no longer valid. Ask for a new one.": "Aquest enllaç ja no és vàlid. Demana'n un de nou.",
+ "Back to sign in": "Torna a l'inici de sessió"
 }

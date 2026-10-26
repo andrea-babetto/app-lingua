@@ -244,5 +244,16 @@
  "Download my data": "ดาวน์โหลดข้อมูลของฉัน",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "ไฟล์ที่มีโปรไฟล์ ข้อความที่คุณเขียน แชต รายชื่อติดต่อ และอภิธานศัพท์ของคุณ",
  "Your file is ready": "ไฟล์ของคุณพร้อมแล้ว",
- "Could not prepare the file. Try again later.": "เตรียมไฟล์ไม่ได้ ลองใหม่ภายหลัง"
+ "Could not prepare the file. Try again later.": "เตรียมไฟล์ไม่ได้ ลองใหม่ภายหลัง",
+ "Forgot password?": "ลืมรหัสผ่าน?",
+ "Forgot your password?": "ลืมรหัสผ่านใช่ไหม",
+ "Write the email of your account: we will send you a link to choose a new password.": "กรอกอีเมลของบัญชี แล้วเราจะส่งลิงก์ให้ตั้งรหัสผ่านใหม่",
+ "Send link": "ส่งลิงก์",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "หากมีบัญชีที่ใช้อีเมลนี้ ลิงก์กำลังส่งไป ตรวจสอบกล่องจดหมายและโฟลเดอร์สแปมด้วย",
+ "Choose a new password": "ตั้งรหัสผ่านใหม่",
+ "At least 8 characters.": "อย่างน้อย 8 ตัวอักษร",
+ "New password": "รหัสผ่านใหม่",
+ "Save and sign in": "บันทึกและเข้าสู่ระบบ",
+ "This link is no longer valid. Ask for a new one.": "ลิงก์นี้ใช้ไม่ได้แล้ว ขอลิงก์ใหม่",
+ "Back to sign in": "กลับไปหน้าเข้าสู่ระบบ"
 }

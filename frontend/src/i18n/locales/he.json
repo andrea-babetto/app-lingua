@@ -244,5 +244,16 @@
  "Download my data": "הורדת הנתונים שלי",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "קובץ עם הפרופיל שלך, ההודעות שכתבת, הצ'אטים, אנשי הקשר ומילון המונחים שלך.",
  "Your file is ready": "הקובץ שלך מוכן",
- "Could not prepare the file. Try again later.": "לא ניתן היה להכין את הקובץ. נסו שוב מאוחר יותר."
+ "Could not prepare the file. Try again later.": "לא ניתן היה להכין את הקובץ. נסו שוב מאוחר יותר.",
+ "Forgot password?": "שכחת סיסמה?",
+ "Forgot your password?": "שכחת את הסיסמה?",
+ "Write the email of your account: we will send you a link to choose a new password.": "כתבו את האימייל של החשבון: נשלח לכם קישור לבחירת סיסמה חדשה.",
+ "Send link": "שליחת קישור",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "אם יש חשבון עם האימייל הזה, הקישור בדרך. בדקו את תיבת הדואר וגם את תיקיית הספאם.",
+ "Choose a new password": "בחרו סיסמה חדשה",
+ "At least 8 characters.": "לפחות 8 תווים.",
+ "New password": "סיסמה חדשה",
+ "Save and sign in": "שמירה וכניסה",
+ "This link is no longer valid. Ask for a new one.": "הקישור הזה כבר לא תקף. בקשו קישור חדש.",
+ "Back to sign in": "חזרה לכניסה"
 }

@@ -244,5 +244,16 @@
  "Download my data": "میرا ڈیٹا ڈاؤن لوڈ کریں",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "ایک فائل جس میں آپ کی پروفائل، آپ کے لکھے پیغامات، چیٹس، رابطے اور فرہنگ ہیں۔",
  "Your file is ready": "آپ کی فائل تیار ہے",
- "Could not prepare the file. Try again later.": "فائل تیار نہیں ہو سکی۔ بعد میں دوبارہ کوشش کریں۔"
+ "Could not prepare the file. Try again later.": "فائل تیار نہیں ہو سکی۔ بعد میں دوبارہ کوشش کریں۔",
+ "Forgot password?": "پاس ورڈ بھول گئے؟",
+ "Forgot your password?": "اپنا پاس ورڈ بھول گئے؟",
+ "Write the email of your account: we will send you a link to choose a new password.": "اپنے اکاؤنٹ کی ای میل لکھیں: ہم نیا پاس ورڈ چننے کے لیے لنک بھیجیں گے۔",
+ "Send link": "لنک بھیجیں",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "اگر اس ای میل سے کوئی اکاؤنٹ ہے تو لنک آ رہا ہے۔ ان باکس اور اسپام فولڈر بھی دیکھیں۔",
+ "Choose a new password": "نیا پاس ورڈ چنیں",
+ "At least 8 characters.": "کم از کم 8 حروف۔",
+ "New password": "نیا پاس ورڈ",
+ "Save and sign in": "محفوظ کریں اور سائن اِن کریں",
+ "This link is no longer valid. Ask for a new one.": "یہ لنک اب درست نہیں۔ نیا لنک مانگیں۔",
+ "Back to sign in": "سائن اِن پر واپس جائیں"
 }

@@ -244,5 +244,16 @@
  "Download my data": "Adataim letöltése",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Egy fájl a profiloddal, az általad írt üzenetekkel, a csevegéseiddel, névjegyeiddel és a szójegyzékeddel.",
  "Your file is ready": "Elkészült a fájl",
- "Could not prepare the file. Try again later.": "Nem sikerült elkészíteni a fájlt. Próbáld újra később."
+ "Could not prepare the file. Try again later.": "Nem sikerült elkészíteni a fájlt. Próbáld újra később.",
+ "Forgot password?": "Elfelejtett jelszó?",
+ "Forgot your password?": "Elfelejtetted a jelszavad?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Írd be a fiókod e-mail-címét: küldünk egy linket az új jelszó megadásához.",
+ "Send link": "Link küldése",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Ha van fiók ezzel az e-maillel, a link úton van. Nézd meg a beérkező leveleket és a spam mappát is.",
+ "Choose a new password": "Válassz új jelszót",
+ "At least 8 characters.": "Legalább 8 karakter.",
+ "New password": "Új jelszó",
+ "Save and sign in": "Mentés és belépés",
+ "This link is no longer valid. Ask for a new one.": "Ez a link már nem érvényes. Kérj újat.",
+ "Back to sign in": "Vissza a belépéshez"
 }

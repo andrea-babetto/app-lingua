@@ -244,5 +244,16 @@
  "Download my data": "Tải xuống dữ liệu của tôi",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Một tệp gồm hồ sơ, các tin nhắn bạn đã viết, cuộc trò chuyện, danh bạ và bảng thuật ngữ của bạn.",
  "Your file is ready": "Tệp của bạn đã sẵn sàng",
- "Could not prepare the file. Try again later.": "Không thể chuẩn bị tệp. Hãy thử lại sau."
+ "Could not prepare the file. Try again later.": "Không thể chuẩn bị tệp. Hãy thử lại sau.",
+ "Forgot password?": "Quên mật khẩu?",
+ "Forgot your password?": "Bạn quên mật khẩu?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Nhập email tài khoản của bạn: chúng tôi sẽ gửi liên kết để chọn mật khẩu mới.",
+ "Send link": "Gửi liên kết",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Nếu có tài khoản dùng email này, liên kết đang được gửi. Hãy kiểm tra hộp thư đến và cả thư mục spam.",
+ "Choose a new password": "Chọn mật khẩu mới",
+ "At least 8 characters.": "Ít nhất 8 ký tự.",
+ "New password": "Mật khẩu mới",
+ "Save and sign in": "Lưu và đăng nhập",
+ "This link is no longer valid. Ask for a new one.": "Liên kết này không còn hiệu lực. Hãy yêu cầu liên kết mới.",
+ "Back to sign in": "Quay lại đăng nhập"
 }

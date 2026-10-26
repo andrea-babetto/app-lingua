@@ -244,5 +244,16 @@
  "Download my data": "Скачать мои данные",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Файл с вашим профилем, написанными вами сообщениями, чатами, контактами и глоссарием.",
  "Your file is ready": "Файл готов",
- "Could not prepare the file. Try again later.": "Не удалось подготовить файл. Попробуйте позже."
+ "Could not prepare the file. Try again later.": "Не удалось подготовить файл. Попробуйте позже.",
+ "Forgot password?": "Забыли пароль?",
+ "Forgot your password?": "Забыли пароль?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Введите email своего аккаунта: мы пришлём ссылку для нового пароля.",
+ "Send link": "Отправить ссылку",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Если аккаунт с этим email существует, ссылка уже в пути. Проверьте входящие и папку «Спам».",
+ "Choose a new password": "Придумайте новый пароль",
+ "At least 8 characters.": "Не менее 8 символов.",
+ "New password": "Новый пароль",
+ "Save and sign in": "Сохранить и войти",
+ "This link is no longer valid. Ask for a new one.": "Эта ссылка больше не действует. Запросите новую.",
+ "Back to sign in": "Вернуться ко входу"
 }

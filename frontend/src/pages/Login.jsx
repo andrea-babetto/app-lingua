@@ -31,6 +31,8 @@ export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [googleClientId, setGoogleClientId] = useState("");
   const [inviteRequired, setInviteRequired] = useState(false);
+  const [passwordReset, setPasswordReset] = useState(false);  // "Forgot password?" only when the server can send emails
+  const [resetSent, setResetSent] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
   const { auth } = useAuth();
   const nav = useNavigate();
@@ -58,6 +60,7 @@ export default function Login() {
     api.get("/config").then(({ data }) => {
       setGoogleClientId(data.google_client_id || "");
       setInviteRequired(!!data.invite_required);
+      setPasswordReset(!!data.password_reset);
     }).catch(() => {});
   }, []);
 
@@ -92,6 +95,45 @@ export default function Login() {
       {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.flag} {l.native}</option>)}
     </select>
   );
+
+  const askReset = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await api.post("/auth/forgot", { email: form.email });
+      setResetSent(true);
+    } catch (err) {
+      toast.error(errText(err.response?.data?.detail) || t("Failed"));
+    } finally { setLoading(false); }
+  };
+
+  if (view === "forgot") {
+    return (
+      <div className="min-h-dvh bg-background flex justify-center px-6 pt-5 pb-8">
+        <div className="w-full max-w-sm flex flex-col" data-testid="forgot-page">
+          <div className="flex items-center justify-between">
+            <button type="button" data-testid="forgot-back" onClick={() => { setView("login"); setResetSent(false); }} className="h-9 -ms-2 px-2 inline-flex items-center gap-1.5 text-[15px] font-semibold"><ArrowLeft className="w-5 h-5 rtl:rotate-180" /> {t("Back")}</button>
+            {languageMenu}
+          </div>
+          <h1 className="mt-6 text-[25px] leading-snug font-semibold tracking-tight">{t("Forgot your password?")}</h1>
+          {resetSent ? (
+            <p data-testid="forgot-sent" className="mt-3 text-[15px] leading-relaxed">{t("If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.")}</p>
+          ) : (
+            <form onSubmit={askReset} className="flex-1 flex flex-col">
+              <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Write the email of your account: we will send you a link to choose a new password.")}</p>
+              <label className="block mt-7"><span className={label}>{t("Email")}</span>
+                <Input data-testid="forgot-email" className={field} type="email" value={form.email} required autoComplete="email" onChange={set("email")} /></label>
+              <div className="mt-auto pt-10">
+                <Button data-testid="forgot-send" type="submit" className="w-full h-[52px] rounded-2xl text-base font-semibold" disabled={loading}>
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Send link")}
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (view === "welcome") {
     return (
@@ -152,6 +194,11 @@ export default function Login() {
                   {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </span></label>
+            {mode === "login" && passwordReset && (
+              <button type="button" data-testid="forgot-link" onClick={() => setView("forgot")} className="-mt-1 text-sm text-muted-foreground font-semibold hover:text-foreground">
+                {t("Forgot password?")}
+              </button>
+            )}
             {mode === "register" && !inviteRequired && !showInvite && (
               <button type="button" data-testid="show-invite-button" onClick={() => setShowInvite(true)} className="text-sm text-primary font-semibold">
                 {t("Have an invite code?")}

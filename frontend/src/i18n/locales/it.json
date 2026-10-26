@@ -244,5 +244,16 @@
  "Download my data": "Scarica i miei dati",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Un file con il tuo profilo, i messaggi che hai scritto, le chat, i contatti e il glossario.",
  "Your file is ready": "Il tuo file è pronto",
- "Could not prepare the file. Try again later.": "Non è stato possibile preparare il file. Riprova più tardi."
+ "Could not prepare the file. Try again later.": "Non è stato possibile preparare il file. Riprova più tardi.",
+ "Forgot password?": "Password dimenticata?",
+ "Forgot your password?": "Hai dimenticato la password?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Scrivi l'email del tuo account: ti mandiamo un link per scegliere una nuova password.",
+ "Send link": "Invia link",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Se esiste un account con questa email, il link sta arrivando. Controlla la posta in arrivo, e anche lo spam.",
+ "Choose a new password": "Scegli una nuova password",
+ "At least 8 characters.": "Almeno 8 caratteri.",
+ "New password": "Nuova password",
+ "Save and sign in": "Salva e accedi",
+ "This link is no longer valid. Ask for a new one.": "Questo link non è più valido. Chiedine uno nuovo.",
+ "Back to sign in": "Torna all'accesso"
 }

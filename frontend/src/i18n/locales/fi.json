@@ -244,5 +244,16 @@
  "Download my data": "Lataa tietoni",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Tiedosto, jossa on profiilisi, kirjoittamasi viestit, keskustelusi, yhteystietosi ja sanastosi.",
  "Your file is ready": "Tiedostosi on valmis",
- "Could not prepare the file. Try again later.": "Tiedostoa ei voitu valmistella. Yritä myöhemmin uudelleen."
+ "Could not prepare the file. Try again later.": "Tiedostoa ei voitu valmistella. Yritä myöhemmin uudelleen.",
+ "Forgot password?": "Unohtuiko salasana?",
+ "Forgot your password?": "Unohditko salasanasi?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Kirjoita tilisi sähköpostiosoite: lähetämme linkin uuden salasanan valitsemiseen.",
+ "Send link": "Lähetä linkki",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Jos tällä sähköpostilla on tili, linkki on tulossa. Tarkista saapuneet viestit ja myös roskapostikansio.",
+ "Choose a new password": "Valitse uusi salasana",
+ "At least 8 characters.": "Vähintään 8 merkkiä.",
+ "New password": "Uusi salasana",
+ "Save and sign in": "Tallenna ja kirjaudu",
+ "This link is no longer valid. Ask for a new one.": "Tämä linkki ei ole enää voimassa. Pyydä uusi.",
+ "Back to sign in": "Takaisin kirjautumiseen"
 }

@@ -244,5 +244,16 @@
  "Download my data": "Λήψη των δεδομένων μου",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Ένα αρχείο με το προφίλ σου, τα μηνύματα που έγραψες, τις συνομιλίες, τις επαφές και το γλωσσάρι σου.",
  "Your file is ready": "Το αρχείο σου είναι έτοιμο",
- "Could not prepare the file. Try again later.": "Δεν ήταν δυνατή η προετοιμασία του αρχείου. Δοκίμασε ξανά αργότερα."
+ "Could not prepare the file. Try again later.": "Δεν ήταν δυνατή η προετοιμασία του αρχείου. Δοκίμασε ξανά αργότερα.",
+ "Forgot password?": "Ξέχασες τον κωδικό;",
+ "Forgot your password?": "Ξέχασες τον κωδικό σου;",
+ "Write the email of your account: we will send you a link to choose a new password.": "Γράψε το email του λογαριασμού σου: θα σου στείλουμε σύνδεσμο για νέο κωδικό.",
+ "Send link": "Αποστολή συνδέσμου",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Αν υπάρχει λογαριασμός με αυτό το email, ο σύνδεσμος έρχεται. Έλεγξε τα εισερχόμενα και τον φάκελο ανεπιθύμητης αλληλογραφίας.",
+ "Choose a new password": "Διάλεξε νέο κωδικό",
+ "At least 8 characters.": "Τουλάχιστον 8 χαρακτήρες.",
+ "New password": "Νέος κωδικός",
+ "Save and sign in": "Αποθήκευση και σύνδεση",
+ "This link is no longer valid. Ask for a new one.": "Αυτός ο σύνδεσμος δεν ισχύει πια. Ζήτησε νέο.",
+ "Back to sign in": "Πίσω στη σύνδεση"
 }

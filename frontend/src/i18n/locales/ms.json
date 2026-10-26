@@ -244,5 +244,16 @@
  "Download my data": "Muat turun data saya",
  "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Fail yang mengandungi profil, mesej yang anda tulis, sembang, kenalan dan glosari anda.",
  "Your file is ready": "Fail anda sudah sedia",
- "Could not prepare the file. Try again later.": "Fail tidak dapat disediakan. Cuba lagi kemudian."
+ "Could not prepare the file. Try again later.": "Fail tidak dapat disediakan. Cuba lagi kemudian.",
+ "Forgot password?": "Lupa kata laluan?",
+ "Forgot your password?": "Lupa kata laluan anda?",
+ "Write the email of your account: we will send you a link to choose a new password.": "Tulis e-mel akaun anda: kami akan menghantar pautan untuk memilih kata laluan baharu.",
+ "Send link": "Hantar pautan",
+ "If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.": "Jika ada akaun dengan e-mel ini, pautan sedang dihantar. Semak peti masuk dan juga folder spam.",
+ "Choose a new password": "Pilih kata laluan baharu",
+ "At least 8 characters.": "Sekurang-kurangnya 8 aksara.",
+ "New password": "Kata laluan baharu",
+ "Save and sign in": "Simpan dan log masuk",
+ "This link is no longer valid. Ask for a new one.": "Pautan ini tidak sah lagi. Minta pautan baharu.",
+ "Back to sign in": "Kembali ke log masuk"
 }
