@@ -271,5 +271,7 @@
  "{count} people voted": "{count} henkilöä äänesti",
  "Photo or file": "Kuva tai tiedosto",
  "Poll": "Kysely",
- "1 person voted": "1 henkilö äänesti"
+ "1 person voted": "1 henkilö äänesti",
+ "Group rules": "Ryhmän säännöt",
+ "Group rules (optional)": "Ryhmän säännöt (valinnainen)"
 }

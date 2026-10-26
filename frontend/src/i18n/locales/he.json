@@ -271,5 +271,7 @@
  "{count} people voted": "{count} אנשים הצביעו",
  "Photo or file": "תמונה או קובץ",
  "Poll": "סקר",
- "1 person voted": "אדם אחד הצביע"
+ "1 person voted": "אדם אחד הצביע",
+ "Group rules": "כללי הקבוצה",
+ "Group rules (optional)": "כללי הקבוצה (לא חובה)"
 }

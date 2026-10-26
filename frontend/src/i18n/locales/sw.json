@@ -271,5 +271,7 @@
  "{count} people voted": "Watu {count} wamepiga kura",
  "Photo or file": "Picha au faili",
  "Poll": "Kura",
- "1 person voted": "Mtu 1 amepiga kura"
+ "1 person voted": "Mtu 1 amepiga kura",
+ "Group rules": "Kanuni za kikundi",
+ "Group rules (optional)": "Kanuni za kikundi (si lazima)"
 }

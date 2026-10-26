@@ -1079,3 +1079,32 @@ def test_group_polls_are_translated_and_counted(client, make_person):
     assert client.put(f"/api/messages/{p['id']}", json={"text": "altro"}, headers=a.h).status_code == 400
     client.delete(f"/api/messages/{p['id']}?for_all=true", headers=a.h)
     assert client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": [opt[0]]}, headers=b.h).status_code == 404
+
+
+def test_group_description_and_rules_are_translated_for_each_member(client, make_person):
+    a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carla", "it")
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id]}, headers=a.h).json()
+    assert client.put(f"/api/chats/{g['id']}/info", json={"rules": "x" * 1001}, headers=a.h).status_code == 422
+    assert client.put(f"/api/chats/{g['id']}/info", json={"rules": "niente spam"}, headers=b.h).status_code == 403   # admins only
+    r = client.put(f"/api/chats/{g['id']}/info", json={"description": "Il gruppo del lavoro", "rules": " Niente spam, siate gentili "}, headers=a.h).json()
+    assert r["rules"] == "Niente spam, siate gentili" and r["texts_translated_from"] is None
+    def bobs():
+        return next(x for x in client.get("/api/chats", headers=b.h).json() if x["id"] == g["id"])
+    end = time.time() + 5
+    while time.time() < end and not bobs()["texts_translated_from"]:
+        time.sleep(0.05)
+    seen = bobs()
+    assert seen["description"] == "[en] Il gruppo del lavoro" and seen["rules"] == "[en] Niente spam, siate gentili"
+    assert seen["texts_translated_from"] == "it" and seen["rules_original"] == "Niente spam, siate gentili"
+    assert "group_texts_translations" not in seen
+    # Anna (who wrote them) sees the originals
+    mine = next(x for x in client.get("/api/chats", headers=a.h).json() if x["id"] == g["id"])
+    assert mine["rules"] == "Niente spam, siate gentili" and mine["texts_translated_from"] is None
+    # a new Italian member reads the original; changing the rules drops the old translations
+    client.post(f"/api/chats/{g['id']}/members", json={"member_ids": [c.id]}, headers=a.h)
+    assert next(x for x in client.get("/api/chats", headers=c.h).json() if x["id"] == g["id"])["rules"] == "Niente spam, siate gentili"
+    client.put(f"/api/chats/{g['id']}/info", json={"rules": "Solo lavoro"}, headers=a.h)
+    end = time.time() + 5
+    while time.time() < end and bobs()["rules"] != "[en] Solo lavoro":
+        time.sleep(0.05)
+    assert bobs()["rules"] == "[en] Solo lavoro"

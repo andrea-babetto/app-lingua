@@ -271,5 +271,7 @@
  "{count} people voted": "Hlasovalo ľudí: {count}",
  "Photo or file": "Fotka alebo súbor",
  "Poll": "Anketa",
- "1 person voted": "Hlasoval 1 človek"
+ "1 person voted": "Hlasoval 1 človek",
+ "Group rules": "Pravidlá skupiny",
+ "Group rules (optional)": "Pravidlá skupiny (nepovinné)"
 }

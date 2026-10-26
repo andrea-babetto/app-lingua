@@ -271,5 +271,7 @@
  "{count} people voted": "Ψήφισαν {count} άτομα",
  "Photo or file": "Φωτογραφία ή αρχείο",
  "Poll": "Δημοσκόπηση",
- "1 person voted": "Ψήφισε 1 άτομο"
+ "1 person voted": "Ψήφισε 1 άτομο",
+ "Group rules": "Κανόνες της ομάδας",
+ "Group rules (optional)": "Κανόνες της ομάδας (προαιρετικά)"
 }

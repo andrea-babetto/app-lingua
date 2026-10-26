@@ -271,5 +271,7 @@
  "{count} people voted": "{count} लोगों ने वोट किया",
  "Photo or file": "फ़ोटो या फ़ाइल",
  "Poll": "पोल",
- "1 person voted": "1 व्यक्ति ने वोट किया"
+ "1 person voted": "1 व्यक्ति ने वोट किया",
+ "Group rules": "ग्रुप के नियम",
+ "Group rules (optional)": "ग्रुप के नियम (वैकल्पिक)"
 }

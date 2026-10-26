@@ -271,5 +271,7 @@
  "{count} people voted": "{count}명 투표함",
  "Photo or file": "사진 또는 파일",
  "Poll": "투표",
- "1 person voted": "1명 투표함"
+ "1 person voted": "1명 투표함",
+ "Group rules": "그룹 규칙",
+ "Group rules (optional)": "그룹 규칙(선택)"
 }

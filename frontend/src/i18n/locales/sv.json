@@ -271,5 +271,7 @@
  "{count} people voted": "{count} har röstat",
  "Photo or file": "Foto eller fil",
  "Poll": "Omröstning",
- "1 person voted": "1 person har röstat"
+ "1 person voted": "1 person har röstat",
+ "Group rules": "Gruppens regler",
+ "Group rules (optional)": "Gruppens regler (valfritt)"
 }

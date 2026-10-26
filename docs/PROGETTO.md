@@ -101,6 +101,7 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [x] Recupero password da soli (link via email; serve un servizio SMTP su Render, 26/10/2026)
 - [x] Contatti senza chat (26/10/2026)
 - [x] Sondaggi nei gruppi, tradotti per ciascuno (26/10/2026)
+- [x] Descrizione e regole del gruppo, tradotte per ciascuno (26/10/2026)
 
 ### Scartate o unite
 - Silenzioso e orari: scartata (24/10/2026)
@@ -113,7 +114,6 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 ### Costo zero, complessità media
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
 - [ ] Inviti a gruppi con link
-- [ ] Descrizione e regole del gruppo
 - [ ] Posizione condivisa per un momento
 - [ ] Pagine pubbliche per lingua (per farsi trovare su Google)
 - [ ] Sincronizzazione su più dispositivi (come WhatsApp Web)
@@ -247,3 +247,4 @@ Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingu
 - **Recupero password da soli** (26/10/2026): nella pagina di accesso "Password dimenticata?" (compare solo se il server può mandare email: `password_reset` in `/api/config`). Si scrive l'email; la risposta è sempre la stessa, che l'account esista o no. Se esiste parte un'email (italiano o inglese secondo la lingua del profilo) con un link `…/reset?token=…` valido 1 ora e una sola volta; nel database c'è solo l'impronta del codice (`password_resets.token_hash`). Dalla pagina `/reset` si sceglie la nuova password e si entra; le altre sessioni si chiudono. Limiti: 3 richieste l'ora per email, 10 per indirizzo. Email via SMTP (`backend/mailer.py`), variabili su `lingua-api`: `SMTP_HOST`, `SMTP_PORT` (587 o 465), `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FROM`. In prova (`APP_ENV=test`) le email non partono e il link compare nel registro del server.
 - **Contatti senza chat** (26/10/2026): la scheda Contatti mostra le persone con cui hai una chat più quelle salvate senza chat nell'elenco (`GET /api/contacts`: contatti accettati o richiesta inviata; mai le persone bloccate o che ti hanno bloccato). Chi ha la richiesta ancora in attesa ha la scritta "Richiesta inviata" e non mostra l'ora locale. Toccandole si apre (o si riapre) la chat. Ordine alfabetico.
 - **Sondaggi nei gruppi** (26/10/2026): nei gruppi il "+" offre "Foto o file" e "Sondaggio". Una domanda (max 200 caratteri), da 2 a 10 risposte (max 100, non uguali), "Consenti più di una risposta". Il sondaggio è un messaggio: la domanda è il testo (tradotta come un messaggio, conta nel contatore), le risposte vengono tradotte per ogni lingua del gruppo (`poll.translations`). Si vota toccando una risposta (ritoccandola si toglie); il conteggio si aggiorna in diretta per tutti. Chi ha votato cosa non viene mandato agli altri (solo i numeri e la propria scelta). Non si modifica; se eliminato per tutti non si vota più. `POST /api/polls`, `POST /api/messages/{id}/vote`. Nell'elenco chat compare "📊 domanda".
+- **Descrizione e regole del gruppo** (26/10/2026): gli amministratori scrivono descrizione (max 500) e regole (max 1000, facoltative) nella modifica del gruppo. Sono salvate nella lingua di chi le scrive (`texts_language`) e tradotte per ogni lingua del gruppo (`group_texts_translations`, ritradotte quando cambiano o quando entra qualcuno con un'altra lingua). Nella scheda del gruppo ciascuno le legge nella propria lingua, con "Tradotto da …" sotto le regole; chi modifica parte sempre dagli originali (`description_original`, `rules_original`).

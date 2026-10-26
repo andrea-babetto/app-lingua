@@ -114,7 +114,7 @@ export default function Chat() {
       const c = activeRef.current;
       if (c) {
         const f = fresh.find((x) => x.id === c.id);
-        if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description }));
+        if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description, rules: f.rules, description_original: f.description_original, rules_original: f.rules_original, texts_translated_from: f.texts_translated_from }));
       }
     }
   };
@@ -328,7 +328,7 @@ export default function Chat() {
         <InfoPanel chat={active} messages={messages} onSearch={() => { setInfoOpen(false); setSearchSignal((n) => n + 1); }} onClose={() => setInfoOpen(false)} onChanged={async () => {
           const fresh = await loadChats();
           const f = fresh.find((x) => x.id === active.id);
-          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description }));
+          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description, rules: f.rules, description_original: f.description_original, rules_original: f.rules_original, texts_translated_from: f.texts_translated_from }));
         }} onLeft={() => { closeActive(); loadChats(); }}
         onBlocked={() => { closeActive(); loadChats(); }}
         onDelete={() => deleteChat(active)} />

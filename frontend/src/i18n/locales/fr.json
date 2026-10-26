@@ -271,5 +271,7 @@
  "{count} people voted": "{count} personnes ont voté",
  "Photo or file": "Photo ou fichier",
  "Poll": "Sondage",
- "1 person voted": "1 personne a voté"
+ "1 person voted": "1 personne a voté",
+ "Group rules": "Règles du groupe",
+ "Group rules (optional)": "Règles du groupe (facultatif)"
 }

@@ -271,5 +271,7 @@
  "{count} people voted": "{count} ember szavazott",
  "Photo or file": "Fotó vagy fájl",
  "Poll": "Szavazás",
- "1 person voted": "1 ember szavazott"
+ "1 person voted": "1 ember szavazott",
+ "Group rules": "A csoport szabályai",
+ "Group rules (optional)": "A csoport szabályai (nem kötelező)"
 }

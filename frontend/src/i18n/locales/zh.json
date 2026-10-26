@@ -271,5 +271,7 @@
  "{count} people voted": "{count} 人已投票",
  "Photo or file": "照片或文件",
  "Poll": "投票",
- "1 person voted": "1 人已投票"
+ "1 person voted": "1 人已投票",
+ "Group rules": "群规",
+ "Group rules (optional)": "群规（可选）"
 }

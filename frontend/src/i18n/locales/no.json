@@ -271,5 +271,7 @@
  "{count} people voted": "{count} har stemt",
  "Photo or file": "Bilde eller fil",
  "Poll": "Avstemning",
- "1 person voted": "1 person har stemt"
+ "1 person voted": "1 person har stemt",
+ "Group rules": "Gruppens regler",
+ "Group rules (optional)": "Gruppens regler (valgfritt)"
 }

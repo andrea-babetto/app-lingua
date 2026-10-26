@@ -271,5 +271,7 @@
  "{count} people voted": "{count} பேர் வாக்களித்தனர்",
  "Photo or file": "படம் அல்லது கோப்பு",
  "Poll": "வாக்கெடுப்பு",
- "1 person voted": "1 நபர் வாக்களித்தார்"
+ "1 person voted": "1 நபர் வாக்களித்தார்",
+ "Group rules": "குழு விதிகள்",
+ "Group rules (optional)": "குழு விதிகள் (விருப்பத்தேர்வு)"
 }

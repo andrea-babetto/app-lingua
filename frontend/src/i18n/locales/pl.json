@@ -271,5 +271,7 @@
  "{count} people voted": "Głosowało osób: {count}",
  "Photo or file": "Zdjęcie lub plik",
  "Poll": "Ankieta",
- "1 person voted": "Głosowała 1 osoba"
+ "1 person voted": "Głosowała 1 osoba",
+ "Group rules": "Zasady grupy",
+ "Group rules (optional)": "Zasady grupy (opcjonalnie)"
 }

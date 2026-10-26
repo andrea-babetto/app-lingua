@@ -271,5 +271,7 @@
  "{count} people voted": "{count}人が投票",
  "Photo or file": "写真またはファイル",
  "Poll": "アンケート",
- "1 person voted": "1人が投票"
+ "1 person voted": "1人が投票",
+ "Group rules": "グループのルール",
+ "Group rules (optional)": "グループのルール（任意）"
 }

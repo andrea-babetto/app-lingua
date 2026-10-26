@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check, Trash2, Clock } from "lucide-react";
+import { X, LogOut, UserPlus, Crown, Search, Loader2, Shield, Ban, Flag, Pencil, Camera, Check, Trash2, Clock, ScrollText } from "lucide-react";
 import { api, API, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
@@ -89,7 +89,8 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
   const [gName, setGName] = useState(chat.display_name);
-  const [gDesc, setGDesc] = useState(chat.description || "");
+  const [gDesc, setGDesc] = useState(chat.description_original ?? chat.description ?? "");
+  const [gRules, setGRules] = useState(chat.rules_original ?? "");
   const [gAvatar, setGAvatar] = useState(chat.display_avatar || "");
   const [gEmoji, setGEmoji] = useState(chat.emoji || "");
   const [reportOpen, setReportOpen] = useState(false);
@@ -137,7 +138,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
 
   const saveGroup = async () => {
     try {
-      await api.put(`/chats/${chat.id}/info`, { name: gName, description: gDesc, avatar: gAvatar, emoji: gEmoji });
+      await api.put(`/chats/${chat.id}/info`, { name: gName, description: gDesc, rules: gRules, avatar: gAvatar, emoji: gEmoji });
       toast.success(t("Group updated"));
       setEditing(false);
       onChanged();
@@ -183,8 +184,9 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
               <Input data-testid="edit-group-name" value={gName} onChange={(e) => setGName(e.target.value)} placeholder={t("Group name")} />
               <EmojiPick value={gEmoji} onChange={setGEmoji} />
               <Textarea data-testid="edit-group-desc" value={gDesc} onChange={(e) => setGDesc(e.target.value)} placeholder={t("Group description")} rows={2} />
+              <Textarea data-testid="edit-group-rules" value={gRules} maxLength={1000} onChange={(e) => setGRules(e.target.value)} placeholder={t("Group rules (optional)")} rows={3} />
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1" onClick={() => { setEditing(false); setGName(chat.display_name); setGDesc(chat.description || ""); setGAvatar(chat.display_avatar || ""); setGEmoji(chat.emoji || ""); }}>{t("Cancel")}</Button>
+                <Button variant="outline" className="flex-1" onClick={() => { setEditing(false); setGName(chat.display_name); setGDesc(chat.description_original ?? chat.description ?? ""); setGRules(chat.rules_original ?? ""); setGAvatar(chat.display_avatar || ""); setGEmoji(chat.emoji || ""); }}>{t("Cancel")}</Button>
                 <Button className="flex-1" onClick={saveGroup} data-testid="save-group-button"><Check className="w-4 h-4 me-1" /> {t("Save")}</Button>
               </div>
             </div>
@@ -200,10 +202,20 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
               )}
               {!isGroup && other?.bio && <p data-testid="contact-bio" className="text-sm text-foreground/80 max-w-xs">{other.bio}</p>}
               {isGroup && <div className="text-sm text-muted-foreground">{t("{count} members", { count: members.length })}</div>}
-              {isGroup && chat.description && <p className="text-sm text-muted-foreground mt-1">{chat.description}</p>}
+              {isGroup && chat.description && <p data-testid="group-description" className="text-sm text-muted-foreground mt-1 whitespace-pre-wrap">{chat.description}</p>}
             </>
           )}
         </div>
+
+        {isGroup && !editing && chat.rules && (
+          <div data-testid="group-rules" className="rounded-2xl bg-surface border border-border px-4 py-3">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground flex items-center gap-1.5"><ScrollText className="w-3.5 h-3.5" /> {t("Group rules")}</div>
+            <p className="mt-1.5 text-sm whitespace-pre-wrap break-words">{chat.rules}</p>
+            {chat.texts_translated_from && (
+              <div className="mt-2 w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-label text-label-foreground">{t("Translated from {language}", { language: langName(chat.texts_translated_from) })}</div>
+            )}
+          </div>
+        )}
 
         {isGroup && !editing && (
           <div className="space-y-2">

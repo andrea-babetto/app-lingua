@@ -271,5 +271,7 @@
  "{count} people voted": "صوّت {count} أشخاص",
  "Photo or file": "صورة أو ملف",
  "Poll": "استطلاع",
- "1 person voted": "صوّت شخص واحد"
+ "1 person voted": "صوّت شخص واحد",
+ "Group rules": "قواعد المجموعة",
+ "Group rules (optional)": "قواعد المجموعة (اختياري)"
 }

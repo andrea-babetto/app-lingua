@@ -271,5 +271,7 @@
  "{count} people voted": "Проголосовали: {count}",
  "Photo or file": "Фото или файл",
  "Poll": "Опрос",
- "1 person voted": "Проголосовал 1 человек"
+ "1 person voted": "Проголосовал 1 человек",
+ "Group rules": "Правила группы",
+ "Group rules (optional)": "Правила группы (необязательно)"
 }

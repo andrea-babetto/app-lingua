@@ -271,5 +271,7 @@
  "{count} people voted": "{count} জন ভোট দিয়েছেন",
  "Photo or file": "ছবি বা ফাইল",
  "Poll": "জরিপ",
- "1 person voted": "১ জন ভোট দিয়েছেন"
+ "1 person voted": "১ জন ভোট দিয়েছেন",
+ "Group rules": "গ্রুপের নিয়ম",
+ "Group rules (optional)": "গ্রুপের নিয়ম (ঐচ্ছিক)"
 }

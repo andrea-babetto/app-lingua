@@ -271,5 +271,7 @@
  "{count} people voted": "Glasalo je {count} osoba",
  "Photo or file": "Fotografija ili datoteka",
  "Poll": "Anketa",
- "1 person voted": "Glasala je 1 osoba"
+ "1 person voted": "Glasala je 1 osoba",
+ "Group rules": "Pravila grupe",
+ "Group rules (optional)": "Pravila grupe (neobavezno)"
 }

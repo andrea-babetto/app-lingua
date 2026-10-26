@@ -271,5 +271,7 @@
  "{count} people voted": "{count} kişi oy verdi",
  "Photo or file": "Fotoğraf veya dosya",
  "Poll": "Anket",
- "1 person voted": "1 kişi oy verdi"
+ "1 person voted": "1 kişi oy verdi",
+ "Group rules": "Grup kuralları",
+ "Group rules (optional)": "Grup kuralları (isteğe bağlı)"
 }

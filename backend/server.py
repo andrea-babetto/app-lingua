@@ -781,8 +781,43 @@ async def enrich_chat(chat, me_id):
     else:
         out["display_name"] = chat.get("name", "Group")
         out["display_avatar"] = chat.get("avatar", "")
-        out["description"] = chat.get("description", "")
+        # description and rules in my language when translated; the originals are kept for the admins who edit them
+        out.pop("group_texts_translations", None)
+        src = chat.get("texts_language") or ""
+        tr = (chat.get("group_texts_translations") or {}).get(me_lang) if src and me_lang != src else None
+        out["description_original"], out["rules_original"] = chat.get("description", ""), chat.get("rules", "")
+        out["description"] = (tr or {}).get("description") or chat.get("description", "")
+        out["rules"] = (tr or {}).get("rules") or chat.get("rules", "")
+        out["texts_translated_from"] = src if tr else None
     return out
+
+
+async def translate_group_texts(chat_id):
+    """Translate a group's description and rules into the language of each member."""
+    try:
+        chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+        if not chat or chat.get("type") != "group":
+            return
+        src = chat.get("texts_language") or ""
+        texts = {k: chat.get(k, "") for k in ("description", "rules") if chat.get(k)}
+        if not src or not texts:
+            return
+        done = chat.get("group_texts_translations") or {}
+        langs = set()
+        for mid in chat["members"]:
+            u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1}) or {}
+            if u.get("language") and u["language"] != src and u["language"] not in done:
+                langs.add(u["language"])
+        for lang in langs:
+            keys = list(texts)
+            res = await asyncio.gather(*[engine.translate(texts[k], src, lang, tone=DEFAULT_TONE) for k in keys], return_exceptions=True)
+            entry = {k: r["text"] for k, r in zip(keys, res) if isinstance(r, dict)}
+            await db.chats.update_one({"id": chat_id}, {"$set": {f"group_texts_translations.{lang}": entry}})
+        if langs:
+            for mid in chat["members"]:
+                await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
+    except Exception:
+        logger.exception("group texts translation failed for %s", chat_id)
 
 
 # ---------------- Block & report ----------------
@@ -934,6 +969,7 @@ async def add_members(chat_id: str, body: AddMembersIn, user=Depends(get_current
     chat["members"] = new_members
     for mid in new_members:
         await ws_manager.send(mid, {"type": "new_chat", "chat": await enrich_chat(chat, mid)})
+    spawn(translate_group_texts(chat_id))  # new members may read another language
     return await enrich_chat(chat, user["id"])
 
 
@@ -987,6 +1023,7 @@ class GroupInfoIn(BaseModel):
     name: Optional[str] = Field(default=None, min_length=1, max_length=60)
     avatar: Optional[str] = Field(default=None, max_length=600)
     description: Optional[str] = Field(default=None, max_length=500)
+    rules: Optional[str] = Field(default=None, max_length=1000)
     emoji: Optional[str] = Field(default=None, max_length=16)  # "" removes it
 
 
@@ -1002,11 +1039,20 @@ async def update_group_info(chat_id: str, body: GroupInfoIn, user=Depends(get_cu
         updates["avatar"] = await validate_avatar_ref(updates["avatar"])
     if "emoji" in updates:
         updates["emoji"] = clean_group_emoji(updates["emoji"])
+    for k in ("description", "rules"):
+        if k in updates:
+            updates[k] = updates[k].strip()
+    texts_changed = any(k in updates and updates[k] != chat.get(k, "") for k in ("description", "rules"))
+    if texts_changed:  # written in the editor's language; the old translations are no longer right
+        updates["texts_language"] = user.get("language") or "en"
+        updates["group_texts_translations"] = {}
     if updates:
         await db.chats.update_one({"id": chat_id}, {"$set": updates})
         chat.update(updates)
     for mid in chat["members"]:
         await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
+    if texts_changed:
+        spawn(translate_group_texts(chat_id))
     return await enrich_chat(chat, user["id"])
 
 
