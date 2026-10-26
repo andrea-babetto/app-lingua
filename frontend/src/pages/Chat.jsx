@@ -85,7 +85,7 @@ export default function Chat() {
       }
       loadChats();
       if (d.type === "new_message" && d.message.sender_id !== user.id && (!cur || cur.id !== d.chat_id)) {
-        if (canNotify() && Notification.permission === "granted") try { new Notification(d.message.sender_name, { body: d.message.display_text }); } catch { /* some mobile browsers refuse the constructor */ }
+        if (canNotify() && Notification.permission === "granted") try { new Notification(d.message.sender_name, { body: d.message.display_text || (d.message.attachment?.is_voice ? t("🎤 Voice message") : "") }); } catch { /* some mobile browsers refuse the constructor */ }
       }
     } else if (d.type === "typing") {
       if (cur && d.chat_id === cur.id) {
@@ -320,7 +320,7 @@ export default function Chat() {
 
       <div className={`${mobileView === "chat" ? "flex animate-slide-in" : "hidden"} md:flex flex-1 min-w-0`} onKeyDown={handleTyping} onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
         {active ? (
-          <ChatWindow key={active.id} chat={active} messages={messages} loading={messagesLoading} onSend={send} onEdit={edit} onReact={react}
+          <ChatWindow key={active.id} chat={active} messages={messages} loading={messagesLoading} onSend={send} onSentMessage={(m) => { setMessages((prev) => (prev.some((x) => x.id === m.id) ? prev : [...prev, m])); loadChats(); }} onEdit={edit} onReact={react}
             onBack={closeActive} openSearchSignal={searchSignal} typingUser={typing} onToggleInfo={() => setInfoOpen((v) => !v)} bottomRef={bottomRef} />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 chat-wallpaper">

@@ -283,5 +283,22 @@
  "Not delivered yet": "Още не е доставено",
  "Sent {when}": "Изпратено {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Изключил си „последно видян“, затова не виждаш кога другите четат съобщенията ти.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Другите виждат кога си онлайн и кога четеш съобщенията им. Ако го изключиш, и ти няма да виждаш техните."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Другите виждат кога си онлайн и кога четеш съобщенията им. Ако го изключиш, и ти няма да виждаш техните.",
+ "Allow the microphone to record voice messages": "Разрешете микрофона, за да записвате гласови съобщения",
+ "Audio no longer available": "Аудиото вече не е налично",
+ "Could not create the voice. Try again.": "Гласът не можа да бъде създаден. Опитайте отново.",
+ "Hide text": "Скрий текста",
+ "Hold to record a voice message": "Задръжте, за да запишете гласово съобщение",
+ "Hold to record, release to send": "Задръжте, за да записвате, пуснете, за да изпратите",
+ "Original voice": "Оригинален глас",
+ "Pause": "Пауза",
+ "Play": "Пусни",
+ "Slide to cancel": "Плъзнете за отказ",
+ "This device cannot record voice messages": "Това устройство не може да записва гласови съобщения",
+ "Transcribing…": "Преписване…",
+ "Transcription failed": "Преписването не бе успешно",
+ "Translated voice": "Преведен глас",
+ "Voice message not sent": "Гласовото съобщение не е изпратено",
+ "Write it": "Напиши го",
+ "🎤 Voice message": "🎤 Гласово съобщение"
 }

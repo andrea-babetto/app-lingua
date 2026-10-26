@@ -283,5 +283,22 @@
  "Not delivered yet": "এখনও পৌঁছায়নি",
  "Sent {when}": "পাঠানো হয়েছে {when}",
  "You turned off last seen, so you don't see when others read your messages.": "আপনি শেষ দেখা বন্ধ রেখেছেন, তাই অন্যরা কখন আপনার বার্তা পড়েন তা দেখতে পাবেন না।",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "অন্যরা দেখতে পান আপনি কখন অনলাইন এবং কখন তাঁদের বার্তা পড়েন। বন্ধ করলে আপনিও তাঁদেরটা দেখতে পাবেন না।"
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "অন্যরা দেখতে পান আপনি কখন অনলাইন এবং কখন তাঁদের বার্তা পড়েন। বন্ধ করলে আপনিও তাঁদেরটা দেখতে পাবেন না।",
+ "Allow the microphone to record voice messages": "ভয়েস মেসেজ রেকর্ড করতে মাইক্রোফোনের অনুমতি দিন",
+ "Audio no longer available": "অডিও আর পাওয়া যাচ্ছে না",
+ "Could not create the voice. Try again.": "ভয়েস তৈরি করা যায়নি। আবার চেষ্টা করুন।",
+ "Hide text": "লেখা লুকান",
+ "Hold to record a voice message": "ভয়েস মেসেজ রেকর্ড করতে চেপে ধরুন",
+ "Hold to record, release to send": "রেকর্ড করতে চেপে ধরুন, পাঠাতে ছেড়ে দিন",
+ "Original voice": "আসল কণ্ঠ",
+ "Pause": "বিরতি",
+ "Play": "চালান",
+ "Slide to cancel": "বাতিল করতে সরান",
+ "This device cannot record voice messages": "এই ডিভাইসে ভয়েস মেসেজ রেকর্ড করা যায় না",
+ "Transcribing…": "লেখায় রূপান্তর হচ্ছে…",
+ "Transcription failed": "লেখায় রূপান্তর ব্যর্থ হয়েছে",
+ "Translated voice": "অনূদিত কণ্ঠ",
+ "Voice message not sent": "ভয়েস মেসেজ পাঠানো হয়নি",
+ "Write it": "লিখে দেখাও",
+ "🎤 Voice message": "🎤 ভয়েস মেসেজ"
 }

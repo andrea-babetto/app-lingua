@@ -283,5 +283,22 @@
  "Not delivered yet": "Encara no entregat",
  "Sent {when}": "Enviat {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Has desactivat l'última connexió, així que no veus quan els altres llegeixen els teus missatges.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Els altres veuen quan estàs connectat i quan llegeixes els seus missatges. Si ho desactives, tampoc no veuràs els seus."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Els altres veuen quan estàs connectat i quan llegeixes els seus missatges. Si ho desactives, tampoc no veuràs els seus.",
+ "Allow the microphone to record voice messages": "Permet el micròfon per gravar missatges de veu",
+ "Audio no longer available": "L'àudio ja no està disponible",
+ "Could not create the voice. Try again.": "No s'ha pogut crear la veu. Torna-ho a provar.",
+ "Hide text": "Amaga el text",
+ "Hold to record a voice message": "Mantén premut per gravar un missatge de veu",
+ "Hold to record, release to send": "Mantén premut per gravar, deixa anar per enviar",
+ "Original voice": "Veu original",
+ "Pause": "Pausa",
+ "Play": "Reprodueix",
+ "Slide to cancel": "Llisca per cancel·lar",
+ "This device cannot record voice messages": "Aquest dispositiu no pot gravar missatges de veu",
+ "Transcribing…": "Transcrivint…",
+ "Transcription failed": "No s'ha pogut transcriure",
+ "Translated voice": "Veu traduïda",
+ "Voice message not sent": "No s'ha enviat el missatge de veu",
+ "Write it": "Escriu-ho",
+ "🎤 Voice message": "🎤 Missatge de veu"
 }

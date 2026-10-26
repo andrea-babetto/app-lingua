@@ -26,6 +26,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 import stt
+import tts
 import mailer
 import push
 import storage
@@ -52,7 +53,10 @@ if len(JWT_SECRET) < 32:
 JWT_ALG = "HS256"
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "").strip()
 MAX_UPLOAD_BYTES = int(float(os.environ.get("MAX_UPLOAD_MB", "15")) * 1024 * 1024)
-MAX_VOICE_BYTES = 25 * 1024 * 1024
+MAX_VOICE_BYTES = 8 * 1024 * 1024  # 2 minutes take well under 3MB, even on iPhone
+MAX_VOICE_SECONDS = 120
+VOICE_KEEP_DAYS = 30  # then the audio (and its spoken translations) is deleted; the text stays
+STT_COST_PER_MIN, TTS_COST_PER_MIN = 0.003, 0.015  # OpenAI list prices (estimates) for the cost dashboard
 ALLOWED_ORIGINS = [o.strip().rstrip("/") for o in os.environ.get("CORS_ORIGINS", "http://localhost:3000").split(",") if o.strip()]
 LANG_CODES = {l["code"] for l in LANGUAGES}
 
@@ -297,6 +301,10 @@ async def health():
     return {"ok": True}
 
 
+def voice_messages_on() -> bool:
+    return os.environ.get("VOICE_MESSAGES", "").strip().lower() == "true"
+
+
 def invite_code_required() -> bool:
     return bool(os.environ.get("INVITE_CODE", "").strip())
 
@@ -310,7 +318,8 @@ def check_invite_code(given: str):
 
 @api.get("/config")
 async def public_config():
-    return {"google_client_id": GOOGLE_CLIENT_ID, "voice_transcription": stt.enabled(),
+    return {"google_client_id": GOOGLE_CLIENT_ID, "voice_messages": voice_messages_on(), "voice_transcription": stt.enabled(),
+            "voice_speech": tts.enabled(), "voice_max_seconds": MAX_VOICE_SECONDS,
             "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required(),
             "password_reset": mailer.enabled() or APP_ENV == "test"}
 
@@ -733,7 +742,7 @@ async def pending_requests(user=Depends(get_current_user)):
 # ---------------- Messages: views ----------------
 def message_view(msg, user_lang, uid=None):
     """Return the message with the text the given user should see."""
-    out = {k: v for k, v in msg.items() if k not in ("translations_by_user", "deleted_for")}
+    out = {k: v for k, v in msg.items() if k not in ("translations_by_user", "deleted_for", "speech")}
     tr = msg.get("translations", {})
     mine = (msg.get("translations_by_user") or {}).get(uid) if uid else None
     entry = mine or tr.get(user_lang)
@@ -745,6 +754,9 @@ def message_view(msg, user_lang, uid=None):
         out["display_text"] = entry["text"]
         out["is_translated"] = True
         out["translated_from"] = msg["original_language"]
+    if (msg.get("attachment") or {}).get("is_voice") and out["is_translated"]:
+        fid = (msg.get("speech") or {}).get(speech_key(out["display_text"]))
+        out["speech_url"] = f"/api/files/{fid}" if fid else None  # the translation read aloud, once someone asked for it
     if msg.get("poll"):
         out["poll"] = poll_view(msg["poll"], msg["original_language"], user_lang, uid)
     # Delivered / read, with the time: only the sender sees them, and nobody's reading shows when either side hides it.
@@ -756,6 +768,11 @@ def message_view(msg, user_lang, uid=None):
     else:
         out["read_by"], out["read_at"], out["delivered_to"] = [], {}, {}
     return out
+
+
+def speech_key(text):
+    """Spoken translations are kept per text: everyone who reads the same translation hears the same audio."""
+    return hashlib.sha256(text.encode()).hexdigest()[:16]
 
 
 def poll_view(poll, original_lang, user_lang, uid):
@@ -1151,9 +1168,11 @@ PUSH_CONTACT = "mailto:" + (os.environ.get("ADMIN_EMAIL", "").strip() or "admin@
 
 def push_preview(view):
     t = (view.get("display_text") or "").strip()
+    att = view.get("attachment")
+    if att and att.get("is_voice"):
+        return f"🎤 {t[:138]}" if t else "🎤 Voice message"
     if t:
         return t[:140]
-    att = view.get("attachment")
     if att:
         return "📷 Photo" if att.get("is_image") else "📎 Attachment"
     return "New message"
@@ -1233,8 +1252,9 @@ def new_message_doc(chat_id, user, text, lang, attachment, reply_to, status):
     }
 
 
-async def post_message(user, chat, text, reply_to=None, attachment_ref=None):
-    """Write a message in a chat the user belongs to, send it to everyone and start its translation."""
+async def post_message(user, chat, text, reply_to=None, attachment_ref=None, voice=None):
+    """Write a message in a chat the user belongs to, send it to everyone and start its translation.
+    voice: {"data", "content_type", "duration"} for a voice message (its transcript becomes the text)."""
     if chat["type"] == "direct":
         other_id = next((m for m in chat["members"] if m != user["id"]), None)
         if other_id:
@@ -1247,17 +1267,50 @@ async def post_message(user, chat, text, reply_to=None, attachment_ref=None):
         raise HTTPException(status_code=400, detail="Reply target not found in this chat")
     attachment = await resolve_attachment(attachment_ref, user)
     sender_lang = user.get("language") or "en"
-    msg = new_message_doc(chat["id"], user, text, sender_lang, attachment, reply_to, "translating" if text else "sent")
+    transcribe = bool(voice) and stt.enabled()
+    if voice:
+        attachment["duration"] = voice["duration"]
+    msg = new_message_doc(chat["id"], user, text, sender_lang, attachment, reply_to,
+                          "transcribing" if transcribe else ("translating" if text else "sent"))
     if target:  # a copy of what is being answered, so everyone sees the quote even if the original is not loaded
         msg["reply_quote"] = {"sender_id": target["sender_id"], "sender_name": target.get("sender_name", ""),
                               "text": (target.get("original_text") or "")[:300], "is_image": bool((target.get("attachment") or {}).get("is_image"))}
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)  # instant broadcast of the original
-    if text:
+    if transcribe:
+        spawn(transcribe_voice(msg["id"], chat["id"], voice, sender_lang))
+    elif text:
         spawn(translate_message_async(msg["id"], chat["id"], sender_lang, text, DEFAULT_TONE, notify=True))
     else:
         spawn(notify_offline(msg, chat))
     return msg
+
+
+async def transcribe_voice(msg_id, chat_id, voice, lang):
+    """Voice message: the transcript becomes the message text and is translated like any message.
+    If it fails, the audio stays and the message says so."""
+    ext = AUDIO_TYPES.get(voice["content_type"], "webm")
+    transcript = await stt.transcribe(voice["data"], f"audio.{ext}", voice["content_type"], lang)
+    await log_voice_cost("transcription", voice["duration"], STT_COST_PER_MIN)
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    if not msg or msg.get("deleted_for_all"):
+        return
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if transcript:
+        await db.messages.update_one({"id": msg_id}, {"$set": {"original_text": transcript, "status": "translating"}})
+        await translate_message_async(msg_id, chat_id, lang, transcript, DEFAULT_TONE, notify=True)
+    else:
+        await db.messages.update_one({"id": msg_id}, {"$set": {"status": "transcription_failed"}})
+        await broadcast_message(msg_id, chat_id)
+        await notify_offline(await db.messages.find_one({"id": msg_id}, {"_id": 0}), chat)
+
+
+async def log_voice_cost(kind, seconds, per_minute):
+    try:
+        await db.voice_logs.insert_one({"kind": kind, "seconds": round(float(seconds or 0), 1),
+                                        "est_cost": round((seconds or 0) / 60 * per_minute, 6), "created_at": now_iso()})
+    except Exception:
+        logger.exception("could not log voice cost")
 
 
 @api.post("/messages")
@@ -1488,34 +1541,101 @@ async def scheduled_loop():
 
 
 @api.post("/voice")
-async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), user=Depends(get_current_user)):
-    if os.environ.get("VOICE_MESSAGES", "").strip().lower() != "true":
+async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), duration: float = Form(0),
+                     reply_to: Optional[str] = Form(None), user=Depends(get_current_user)):
+    if not voice_messages_on():
         raise HTTPException(status_code=404, detail="Voice messages are not available")
     limiter.check(f"voice:{user['id']}", 20, 60)
     chat = await get_chat_for(chat_id, user)
     ct = normalize_content_type(file.content_type)
     if ct not in AUDIO_TYPES:
         raise HTTPException(status_code=415, detail="Unsupported audio format")
+    if not 0 < duration <= MAX_VOICE_SECONDS + 3:  # a little slack for the recorder stopping late
+        raise HTTPException(status_code=400, detail="Voice messages last up to 2 minutes")
     data = await file.read(MAX_VOICE_BYTES + 1)
     if len(data) > MAX_VOICE_BYTES:
-        raise HTTPException(status_code=413, detail="Voice message too large (max 25MB)")
+        raise HTTPException(status_code=413, detail="Voice message too large")
     ext = AUDIO_TYPES[ct]
-    filename = clean_filename(file.filename, f"voice.{ext}")
     stored = await storage.put_object(f"lingua/voice/{user['id']}/{uuid.uuid4()}.{ext}", data, ct)
     fid = str(uuid.uuid4())
-    await db.files.insert_one({"id": fid, "storage_path": stored["path"], "original_filename": filename, "content_type": ct,
+    await db.files.insert_one({"id": fid, "storage_path": stored["path"], "original_filename": f"voice.{ext}", "content_type": ct,
                                "size": stored.get("size", len(data)), "owner_id": user["id"], "is_voice": True,
                                "is_deleted": False, "created_at": now_iso()})
-    sender_lang = user.get("language") or "en"
-    transcript = await stt.transcribe(data, f"audio.{ext}", ct, sender_lang)
-    attachment = {"id": fid, "url": f"/api/files/{fid}", "filename": filename, "content_type": ct, "is_image": False, "is_voice": True}
-    status = "translating" if transcript else ("transcription_failed" if stt.enabled() else "sent")
-    msg = new_message_doc(chat_id, user, transcript, sender_lang, attachment, None, status)
-    await db.messages.insert_one(dict(msg))
-    await deliver(msg, chat)
-    if transcript:
-        spawn(translate_message_async(msg["id"], chat_id, sender_lang, transcript, DEFAULT_TONE))
-    return message_view(msg, sender_lang, user["id"])
+    voice = {"data": data, "content_type": ct, "duration": round(min(duration, MAX_VOICE_SECONDS), 1)}
+    msg = await post_message(user, chat, "", reply_to or None, {"id": fid}, voice=voice)
+    return message_view(msg, user.get("language") or "en", user["id"])
+
+
+SPEECH_LOCKS = {}
+
+
+@api.post("/messages/{msg_id}/speech")
+async def message_speech(msg_id: str, user=Depends(get_current_user)):
+    """The translation of a voice message read aloud in the listener's language. Made the first time someone asks, then kept."""
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    if not msg or msg.get("deleted_for_all") or not (msg.get("attachment") or {}).get("is_voice"):
+        raise HTTPException(status_code=404, detail="Not found")
+    await get_chat_for(msg["chat_id"], user)
+    if msg["attachment"].get("expired"):
+        raise HTTPException(status_code=410, detail="This audio is no longer available")
+    if not tts.enabled():
+        raise HTTPException(status_code=404, detail="Spoken translation is not available")
+    view = message_view(msg, user.get("language") or "en", user["id"])
+    if not view["is_translated"]:
+        raise HTTPException(status_code=409, detail="There is no translation to read yet")
+    if view.get("speech_url"):
+        return {"url": view["speech_url"]}
+    key = speech_key(view["display_text"])
+    lock = SPEECH_LOCKS.setdefault(f"{msg_id}:{key}", asyncio.Lock())
+    async with lock:  # two people of the same language pressing play together: the audio is made once
+        fresh = await db.messages.find_one({"id": msg_id}, {"_id": 0, "speech": 1})
+        fid = ((fresh or {}).get("speech") or {}).get(key)
+        if not fid:
+            limiter.check(f"speech:{user['id']}", 60, 3600)
+            audio = await tts.synthesize(view["display_text"])
+            if not audio:
+                raise HTTPException(status_code=502, detail="Could not create the voice. Try again.")
+            await log_voice_cost("speech", msg["attachment"].get("duration") or 0, TTS_COST_PER_MIN)
+            stored = await storage.put_object(f"lingua/voice/{msg['sender_id']}/{uuid.uuid4()}.mp3", audio, "audio/mpeg")
+            fid = str(uuid.uuid4())
+            await db.files.insert_one({"id": fid, "storage_path": stored["path"], "original_filename": "voice.mp3",
+                                       "content_type": "audio/mpeg", "size": stored.get("size", len(audio)),
+                                       "owner_id": msg["sender_id"], "is_voice": True, "is_speech": True,
+                                       "is_deleted": False, "created_at": now_iso()})
+            await db.messages.update_one({"id": msg_id}, {"$set": {f"speech.{key}": fid}})
+    SPEECH_LOCKS.pop(f"{msg_id}:{key}", None)
+    return {"url": f"/api/files/{fid}"}
+
+
+async def drop_voice_audio(msg):
+    """Delete a voice message's audio and its spoken translations from storage."""
+    ids = [(msg.get("attachment") or {}).get("id")] + list((msg.get("speech") or {}).values())
+    for f in await db.files.find({"id": {"$in": [i for i in ids if i]}}, {"_id": 0}).to_list(100):
+        try:
+            await storage.delete_object(f["storage_path"])
+        except Exception:
+            logger.warning("could not delete stored file %s", f.get("id"))
+    await db.files.delete_many({"id": {"$in": [i for i in ids if i]}})
+
+
+async def expire_old_voice(now=None):
+    """After VOICE_KEEP_DAYS the audio goes; the transcript and its translations stay in the chat."""
+    cutoff = ((now or datetime.now(timezone.utc)) - timedelta(days=VOICE_KEEP_DAYS)).isoformat()
+    rows = await db.messages.find({"attachment.is_voice": True, "attachment.expired": {"$ne": True}, "created_at": {"$lt": cutoff}},
+                                  {"_id": 0}).to_list(500)
+    for m in rows:
+        await drop_voice_audio(m)
+        await db.messages.update_one({"id": m["id"]}, {"$set": {"attachment.expired": True, "attachment.url": None, "speech": {}}})
+    return len(rows)
+
+
+async def voice_cleanup_loop():
+    while True:
+        try:
+            await expire_old_voice()
+        except Exception:
+            logger.exception("voice cleanup loop")
+        await asyncio.sleep(3600)
 
 
 @api.get("/messages/{chat_id}")
@@ -1586,7 +1706,9 @@ async def delete_message(msg_id: str, for_all: bool = False, user=Depends(get_cu
     if for_all:
         if msg["sender_id"] != user["id"]:
             raise HTTPException(status_code=403, detail="Only the sender can delete a message for everyone")
-        await db.messages.update_one({"id": msg_id}, {"$set": {"deleted_for_all": True, "original_text": "", "translations": {}, "translations_by_user": {}, "attachment": None, "poll": None}})
+        if (msg.get("attachment") or {}).get("is_voice"):
+            await drop_voice_audio(msg)
+        await db.messages.update_one({"id": msg_id}, {"$set": {"deleted_for_all": True, "original_text": "", "translations": {}, "translations_by_user": {}, "attachment": None, "poll": None, "speech": {}}})
         await db.messages.update_many({"reply_to": msg_id}, {"$set": {"reply_quote.text": "", "reply_quote.deleted": True, "reply_quote.is_image": False}})
         for mid in chat["members"]:
             await ws_manager.send(mid, {"type": "message_deleted", "message_id": msg_id, "chat_id": msg["chat_id"]})
@@ -1791,7 +1913,9 @@ async def admin_stats(user=Depends(get_current_user)):
     daily = await db.translation_logs.aggregate(pipeline).to_list(30)
     total = await db.translation_logs.count_documents({})
     cost_agg = await db.translation_logs.aggregate([{"$group": {"_id": None, "cost": {"$sum": "$est_cost"}, "chars": {"$sum": "$chars"}}}]).to_list(1)
+    voice = await db.voice_logs.aggregate([{"$group": {"_id": "$kind", "cost": {"$sum": "$est_cost"}, "seconds": {"$sum": "$seconds"}}}]).to_list(10)
     return {"total_translations": total,
+            "voice": {v["_id"]: {"minutes": round(v["seconds"] / 60, 1), "cost": round(v["cost"], 4)} for v in voice},
             "total_cost": round(cost_agg[0]["cost"], 4) if cost_agg else 0,
             "total_chars": cost_agg[0]["chars"] if cost_agg else 0,
             "daily": [{"date": d["_id"], "count": d["count"], "cost": round(d["cost"], 4), "chars": d["chars"]} for d in daily]}
@@ -1999,10 +2123,13 @@ async def startup():
     await db.usage.create_index("month")
     await db.scheduled.create_index("send_at")
     await db.password_resets.create_index("token_hash")
+    # a restart in the middle of a transcription: the audio is there, the text will not come
+    await db.messages.update_many({"status": "transcribing"}, {"$set": {"status": "transcription_failed"}})
     RECEIPTS_HIDDEN.clear()
     RECEIPTS_HIDDEN.update([u["id"] async for u in db.users.find({"settings.last_seen_enabled": False}, {"_id": 0, "id": 1})])
     if os.environ.get("APP_ENV") != "test":
         spawn(scheduled_loop())
+        spawn(voice_cleanup_loop())
     # Cached translations expire after 30 days so the database does not grow forever.
     await db.translation_cache.create_index("created_at_dt", expireAfterSeconds=30 * 24 * 3600)
     storage.get_storage()  # fail early (and log) if storage is misconfigured

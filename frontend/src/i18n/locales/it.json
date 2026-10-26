@@ -283,5 +283,22 @@
  "Not delivered yet": "Non ancora consegnato",
  "Sent {when}": "Inviato {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Hai disattivato l'ultimo accesso, quindi non vedi quando gli altri leggono i tuoi messaggi.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Gli altri vedono quando sei online e quando leggi i loro messaggi. Se lo disattivi, non vedi nemmeno i loro."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Gli altri vedono quando sei online e quando leggi i loro messaggi. Se lo disattivi, non vedi nemmeno i loro.",
+ "Allow the microphone to record voice messages": "Consenti l'uso del microfono per registrare i vocali",
+ "Audio no longer available": "Audio non più disponibile",
+ "Could not create the voice. Try again.": "Non sono riuscito a creare la voce. Riprova.",
+ "Hide text": "Nascondi testo",
+ "Hold to record a voice message": "Tieni premuto per registrare un vocale",
+ "Hold to record, release to send": "Tieni premuto per registrare, lascia per inviare",
+ "Original voice": "Voce originale",
+ "Pause": "Pausa",
+ "Play": "Ascolta",
+ "Slide to cancel": "Scorri per annullare",
+ "This device cannot record voice messages": "Questo dispositivo non può registrare vocali",
+ "Transcribing…": "Trascrizione…",
+ "Transcription failed": "Trascrizione non riuscita",
+ "Translated voice": "Voce tradotta",
+ "Voice message not sent": "Vocale non inviato",
+ "Write it": "Scrivilo",
+ "🎤 Voice message": "🎤 Vocale"
 }

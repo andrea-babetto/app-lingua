@@ -283,5 +283,22 @@
  "Not delivered yet": "未配信",
  "Sent {when}": "送信 {when}",
  "You turned off last seen, so you don't see when others read your messages.": "最終ログインをオフにしているため、相手がいつメッセージを読んだかは表示されません。",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "オンライン中やメッセージを読んだタイミングが相手に表示されます。オフにすると、相手のものも表示されません。"
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "オンライン中やメッセージを読んだタイミングが相手に表示されます。オフにすると、相手のものも表示されません。",
+ "Allow the microphone to record voice messages": "ボイスメッセージを録音するにはマイクを許可してください",
+ "Audio no longer available": "音声はもう利用できません",
+ "Could not create the voice. Try again.": "音声を作成できませんでした。もう一度お試しください。",
+ "Hide text": "テキストを隠す",
+ "Hold to record a voice message": "長押しでボイスメッセージを録音",
+ "Hold to record, release to send": "長押しで録音、指を離すと送信",
+ "Original voice": "元の声",
+ "Pause": "一時停止",
+ "Play": "再生",
+ "Slide to cancel": "スライドしてキャンセル",
+ "This device cannot record voice messages": "このデバイスではボイスメッセージを録音できません",
+ "Transcribing…": "文字起こし中…",
+ "Transcription failed": "文字起こしに失敗しました",
+ "Translated voice": "翻訳された音声",
+ "Voice message not sent": "ボイスメッセージを送信できませんでした",
+ "Write it": "文字で見る",
+ "🎤 Voice message": "🎤 ボイスメッセージ"
 }

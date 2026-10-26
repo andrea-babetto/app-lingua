@@ -283,5 +283,22 @@
  "Not delivered yet": "Henüz iletilmedi",
  "Sent {when}": "Gönderildi {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Son görülmeyi kapattığın için başkalarının mesajlarını ne zaman okuduğunu göremezsin.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Başkaları ne zaman çevrimiçi olduğunu ve mesajlarını ne zaman okuduğunu görür. Kapatırsan sen de onlarınkini göremezsin."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Başkaları ne zaman çevrimiçi olduğunu ve mesajlarını ne zaman okuduğunu görür. Kapatırsan sen de onlarınkini göremezsin.",
+ "Allow the microphone to record voice messages": "Sesli mesaj kaydetmek için mikrofona izin verin",
+ "Audio no longer available": "Ses artık kullanılamıyor",
+ "Could not create the voice. Try again.": "Ses oluşturulamadı. Tekrar deneyin.",
+ "Hide text": "Metni gizle",
+ "Hold to record a voice message": "Sesli mesaj kaydetmek için basılı tutun",
+ "Hold to record, release to send": "Kaydetmek için basılı tutun, göndermek için bırakın",
+ "Original voice": "Orijinal ses",
+ "Pause": "Duraklat",
+ "Play": "Oynat",
+ "Slide to cancel": "İptal için kaydırın",
+ "This device cannot record voice messages": "Bu cihaz sesli mesaj kaydedemiyor",
+ "Transcribing…": "Yazıya dökülüyor…",
+ "Transcription failed": "Yazıya dökülemedi",
+ "Translated voice": "Çevrilmiş ses",
+ "Voice message not sent": "Sesli mesaj gönderilmedi",
+ "Write it": "Yazıya dök",
+ "🎤 Voice message": "🎤 Sesli mesaj"
 }

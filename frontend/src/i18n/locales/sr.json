@@ -283,5 +283,22 @@
  "Not delivered yet": "Još nije isporučeno",
  "Sent {when}": "Poslato {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Isključio si „poslednji put viđen“, pa ne vidiš kad drugi čitaju tvoje poruke.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Drugi vide kad si na mreži i kad čitaš njihove poruke. Ako to isključiš, ni ti nećeš videti njihovo."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Drugi vide kad si na mreži i kad čitaš njihove poruke. Ako to isključiš, ni ti nećeš videti njihovo.",
+ "Allow the microphone to record voice messages": "Дозволите микрофон да бисте снимали гласовне поруке",
+ "Audio no longer available": "Звук више није доступан",
+ "Could not create the voice. Try again.": "Глас није могао да се направи. Покушајте поново.",
+ "Hide text": "Сакриј текст",
+ "Hold to record a voice message": "Држите да снимите гласовну поруку",
+ "Hold to record, release to send": "Држите да снимате, пустите да пошаљете",
+ "Original voice": "Оригинални глас",
+ "Pause": "Пауза",
+ "Play": "Пусти",
+ "Slide to cancel": "Превуците да откажете",
+ "This device cannot record voice messages": "Овај уређај не може да снима гласовне поруке",
+ "Transcribing…": "Претварање у текст…",
+ "Transcription failed": "Претварање у текст није успело",
+ "Translated voice": "Преведени глас",
+ "Voice message not sent": "Гласовна порука није послата",
+ "Write it": "Напиши то",
+ "🎤 Voice message": "🎤 Гласовна порука"
 }

@@ -283,5 +283,22 @@
  "Not delivered yet": "Δεν έχει παραδοθεί ακόμα",
  "Sent {when}": "Στάλθηκε {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Απενεργοποίησες το «τελευταία σύνδεση», οπότε δεν βλέπεις πότε οι άλλοι διαβάζουν τα μηνύματά σου.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Οι άλλοι βλέπουν πότε είσαι online και πότε διαβάζεις τα μηνύματά τους. Αν το απενεργοποιήσεις, δεν θα βλέπεις ούτε εσύ τα δικά τους."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Οι άλλοι βλέπουν πότε είσαι online και πότε διαβάζεις τα μηνύματά τους. Αν το απενεργοποιήσεις, δεν θα βλέπεις ούτε εσύ τα δικά τους.",
+ "Allow the microphone to record voice messages": "Επιτρέψτε το μικρόφωνο για να ηχογραφείτε φωνητικά μηνύματα",
+ "Audio no longer available": "Ο ήχος δεν είναι πλέον διαθέσιμος",
+ "Could not create the voice. Try again.": "Δεν ήταν δυνατή η δημιουργία της φωνής. Δοκιμάστε ξανά.",
+ "Hide text": "Απόκρυψη κειμένου",
+ "Hold to record a voice message": "Πατήστε παρατεταμένα για φωνητικό μήνυμα",
+ "Hold to record, release to send": "Κρατήστε πατημένο για ηχογράφηση, αφήστε για αποστολή",
+ "Original voice": "Αρχική φωνή",
+ "Pause": "Παύση",
+ "Play": "Αναπαραγωγή",
+ "Slide to cancel": "Σύρετε για ακύρωση",
+ "This device cannot record voice messages": "Αυτή η συσκευή δεν μπορεί να ηχογραφήσει φωνητικά μηνύματα",
+ "Transcribing…": "Απομαγνητοφώνηση…",
+ "Transcription failed": "Η απομαγνητοφώνηση απέτυχε",
+ "Translated voice": "Μεταφρασμένη φωνή",
+ "Voice message not sent": "Το φωνητικό μήνυμα δεν στάλθηκε",
+ "Write it": "Γράψ' το",
+ "🎤 Voice message": "🎤 Φωνητικό μήνυμα"
 }

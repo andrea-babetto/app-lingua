@@ -283,5 +283,22 @@
  "Not delivered yet": "Chưa gửi đến",
  "Sent {when}": "Đã gửi {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Bạn đã tắt lần truy cập cuối, nên không thấy khi nào người khác đọc tin nhắn của bạn.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Người khác thấy khi nào bạn trực tuyến và khi nào bạn đọc tin nhắn của họ. Nếu tắt, bạn cũng không thấy của họ."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Người khác thấy khi nào bạn trực tuyến và khi nào bạn đọc tin nhắn của họ. Nếu tắt, bạn cũng không thấy của họ.",
+ "Allow the microphone to record voice messages": "Cho phép micrô để ghi tin nhắn thoại",
+ "Audio no longer available": "Âm thanh không còn nữa",
+ "Could not create the voice. Try again.": "Không thể tạo giọng nói. Hãy thử lại.",
+ "Hide text": "Ẩn văn bản",
+ "Hold to record a voice message": "Nhấn giữ để ghi tin nhắn thoại",
+ "Hold to record, release to send": "Nhấn giữ để ghi, thả ra để gửi",
+ "Original voice": "Giọng gốc",
+ "Pause": "Tạm dừng",
+ "Play": "Phát",
+ "Slide to cancel": "Trượt để hủy",
+ "This device cannot record voice messages": "Thiết bị này không thể ghi tin nhắn thoại",
+ "Transcribing…": "Đang chuyển thành văn bản…",
+ "Transcription failed": "Không chuyển được thành văn bản",
+ "Translated voice": "Giọng đã dịch",
+ "Voice message not sent": "Chưa gửi được tin nhắn thoại",
+ "Write it": "Viết ra",
+ "🎤 Voice message": "🎤 Tin nhắn thoại"
 }

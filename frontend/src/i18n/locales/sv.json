@@ -283,5 +283,22 @@
  "Not delivered yet": "Inte levererat än",
  "Sent {when}": "Skickat {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Du har stängt av ”senast sedd”, så du ser inte när andra läser dina meddelanden.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andra ser när du är online och när du läser deras meddelanden. Stänger du av det ser du inte heller deras."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andra ser när du är online och när du läser deras meddelanden. Stänger du av det ser du inte heller deras.",
+ "Allow the microphone to record voice messages": "Tillåt mikrofonen för att spela in röstmeddelanden",
+ "Audio no longer available": "Ljudet är inte längre tillgängligt",
+ "Could not create the voice. Try again.": "Rösten kunde inte skapas. Försök igen.",
+ "Hide text": "Dölj text",
+ "Hold to record a voice message": "Håll ned för att spela in ett röstmeddelande",
+ "Hold to record, release to send": "Håll ned för att spela in, släpp för att skicka",
+ "Original voice": "Originalröst",
+ "Pause": "Paus",
+ "Play": "Spela upp",
+ "Slide to cancel": "Svep för att avbryta",
+ "This device cannot record voice messages": "Den här enheten kan inte spela in röstmeddelanden",
+ "Transcribing…": "Transkriberar…",
+ "Transcription failed": "Transkriberingen misslyckades",
+ "Translated voice": "Översatt röst",
+ "Voice message not sent": "Röstmeddelandet skickades inte",
+ "Write it": "Skriv ut det",
+ "🎤 Voice message": "🎤 Röstmeddelande"
 }

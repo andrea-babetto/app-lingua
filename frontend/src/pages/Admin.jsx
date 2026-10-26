@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, BarChart3, DollarSign, Languages as LangIcon, Hash, KeyRound, Copy } from "lucide-react";
+import { ArrowLeft, BarChart3, DollarSign, Languages as LangIcon, Hash, KeyRound, Copy, Mic } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -51,6 +51,7 @@ export default function Admin() {
     { icon: Hash, label: "Translations", value: stats?.total_translations ?? "—" },
     { icon: LangIcon, label: "Characters", value: (stats?.total_chars ?? 0).toLocaleString() },
     { icon: DollarSign, label: "Est. cost", value: `$${stats?.total_cost ?? 0}` },
+    { icon: Mic, label: "Voice (est.)", value: `$${(Object.values(stats?.voice || {}).reduce((n, v) => n + v.cost, 0)).toFixed(2)}` },
   ];
   const max = Math.max(1, ...(stats?.daily || []).map((d) => d.count));
 

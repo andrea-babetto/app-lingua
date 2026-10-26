@@ -283,5 +283,22 @@
  "Not delivered yet": "لم تصل بعد",
  "Sent {when}": "أُرسلت {when}",
  "You turned off last seen, so you don't see when others read your messages.": "أوقفت «آخر ظهور»، لذلك لا ترى متى يقرأ الآخرون رسائلك.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "يرى الآخرون متى تكون متصلًا ومتى تقرأ رسائلهم. إذا أوقفت ذلك، فلن ترى ذلك عنهم أيضًا."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "يرى الآخرون متى تكون متصلًا ومتى تقرأ رسائلهم. إذا أوقفت ذلك، فلن ترى ذلك عنهم أيضًا.",
+ "Allow the microphone to record voice messages": "اسمح باستخدام الميكروفون لتسجيل الرسائل الصوتية",
+ "Audio no longer available": "لم يعد الصوت متاحًا",
+ "Could not create the voice. Try again.": "تعذّر إنشاء الصوت. حاول مرة أخرى.",
+ "Hide text": "إخفاء النص",
+ "Hold to record a voice message": "اضغط مطولًا لتسجيل رسالة صوتية",
+ "Hold to record, release to send": "اضغط مطولًا للتسجيل، وارفع إصبعك للإرسال",
+ "Original voice": "الصوت الأصلي",
+ "Pause": "إيقاف مؤقت",
+ "Play": "تشغيل",
+ "Slide to cancel": "اسحب للإلغاء",
+ "This device cannot record voice messages": "لا يمكن لهذا الجهاز تسجيل رسائل صوتية",
+ "Transcribing…": "جارٍ التفريغ النصي…",
+ "Transcription failed": "تعذّر التفريغ النصي",
+ "Translated voice": "الصوت المترجم",
+ "Voice message not sent": "لم تُرسل الرسالة الصوتية",
+ "Write it": "اكتبها",
+ "🎤 Voice message": "🎤 رسالة صوتية"
 }

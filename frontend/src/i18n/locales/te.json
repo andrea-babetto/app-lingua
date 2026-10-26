@@ -283,5 +283,22 @@
  "Not delivered yet": "ఇంకా చేరలేదు",
  "Sent {when}": "పంపబడింది {when}",
  "You turned off last seen, so you don't see when others read your messages.": "మీరు చివరిగా చూసింది ఆఫ్ చేశారు, కాబట్టి ఇతరులు మీ సందేశాలను ఎప్పుడు చదివారో మీకు కనిపించదు.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "మీరు ఎప్పుడు ఆన్‌లైన్‌లో ఉన్నారో, వారి సందేశాలు ఎప్పుడు చదివారో ఇతరులకు కనిపిస్తుంది. ఆఫ్ చేస్తే, మీకూ వారిది కనిపించదు."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "మీరు ఎప్పుడు ఆన్‌లైన్‌లో ఉన్నారో, వారి సందేశాలు ఎప్పుడు చదివారో ఇతరులకు కనిపిస్తుంది. ఆఫ్ చేస్తే, మీకూ వారిది కనిపించదు.",
+ "Allow the microphone to record voice messages": "వాయిస్ మెసేజ్‌లు రికార్డ్ చేయడానికి మైక్రోఫోన్‌ను అనుమతించండి",
+ "Audio no longer available": "ఆడియో ఇకపై అందుబాటులో లేదు",
+ "Could not create the voice. Try again.": "వాయిస్‌ను సృష్టించలేకపోయాం. మళ్లీ ప్రయత్నించండి.",
+ "Hide text": "వచనాన్ని దాచు",
+ "Hold to record a voice message": "వాయిస్ మెసేజ్ రికార్డ్ చేయడానికి నొక్కి పట్టుకోండి",
+ "Hold to record, release to send": "రికార్డ్ చేయడానికి నొక్కి పట్టుకోండి, పంపడానికి వదలండి",
+ "Original voice": "అసలు గొంతు",
+ "Pause": "పాజ్",
+ "Play": "ప్లే",
+ "Slide to cancel": "రద్దు చేయడానికి జరపండి",
+ "This device cannot record voice messages": "ఈ పరికరం వాయిస్ మెసేజ్‌లను రికార్డ్ చేయలేదు",
+ "Transcribing…": "వచనంగా మారుస్తోంది…",
+ "Transcription failed": "వచనంగా మార్చడం విఫలమైంది",
+ "Translated voice": "అనువదించిన గొంతు",
+ "Voice message not sent": "వాయిస్ మెసేజ్ పంపబడలేదు",
+ "Write it": "రాసి చూపించు",
+ "🎤 Voice message": "🎤 వాయిస్ మెసేజ్"
 }

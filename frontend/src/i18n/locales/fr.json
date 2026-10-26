@@ -283,5 +283,22 @@
  "Not delivered yet": "Pas encore distribué",
  "Sent {when}": "Envoyé {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Vous avez désactivé « vu à », vous ne voyez donc pas quand les autres lisent vos messages.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Les autres voient quand vous êtes en ligne et quand vous lisez leurs messages. Si vous désactivez cette option, vous ne verrez pas non plus les leurs."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Les autres voient quand vous êtes en ligne et quand vous lisez leurs messages. Si vous désactivez cette option, vous ne verrez pas non plus les leurs.",
+ "Allow the microphone to record voice messages": "Autorisez le micro pour enregistrer des messages vocaux",
+ "Audio no longer available": "L'audio n'est plus disponible",
+ "Could not create the voice. Try again.": "Impossible de créer la voix. Réessayez.",
+ "Hide text": "Masquer le texte",
+ "Hold to record a voice message": "Maintenez pour enregistrer un message vocal",
+ "Hold to record, release to send": "Maintenez pour enregistrer, relâchez pour envoyer",
+ "Original voice": "Voix originale",
+ "Pause": "Pause",
+ "Play": "Lire",
+ "Slide to cancel": "Glissez pour annuler",
+ "This device cannot record voice messages": "Cet appareil ne peut pas enregistrer de messages vocaux",
+ "Transcribing…": "Transcription…",
+ "Transcription failed": "Échec de la transcription",
+ "Translated voice": "Voix traduite",
+ "Voice message not sent": "Message vocal non envoyé",
+ "Write it": "Écris-le",
+ "🎤 Voice message": "🎤 Message vocal"
 }

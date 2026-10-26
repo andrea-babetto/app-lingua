@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogoArrows } from "@/components/Logo";
 import { avatarClass } from "@/lib/avatar";
 import { PollCard } from "@/components/chat/Poll";
+import VoiceMessage from "@/components/chat/VoiceMessage";
 
 function Lightbox({ src, alt, onClose }) {
   useEffect(() => {
@@ -82,7 +83,8 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
   const { t, langName } = useI18n();
   const [zoom, setZoom] = useState(false);
   const [showTheirs, setShowTheirs] = useState(false);
-  const translating = msg.status === "translating" && !msg.is_translated && !mine;
+  const voice = !!msg.attachment?.is_voice;
+  const translating = msg.status === "translating" && !msg.is_translated && !mine && !voice;
   // In a one-to-one chat the sender can see what the other person reads.
   const theirLang = mine && latestMine && !isGroup && other?.language && other.language !== msg.original_language ? other.language : null;
   const theirText = theirLang ? msg.translations?.[theirLang]?.text : null;
@@ -169,6 +171,8 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
               <LogoArrows animate className="w-4 h-4 shrink-0" />
               <span className="text-sm italic">{msg.original_text}</span>
             </div>
+          ) : voice ? (
+            <VoiceMessage msg={msg} mine={mine} text={bodyText} rtl={rtl} />
           ) : msg.poll ? (
             <PollCard msg={msg} question={bodyText} mine={mine} onVote={onVote} />
           ) : (bodyText ? (

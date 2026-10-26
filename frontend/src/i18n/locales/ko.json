@@ -283,5 +283,22 @@
  "Not delivered yet": "아직 전달되지 않음",
  "Sent {when}": "보냄 {when}",
  "You turned off last seen, so you don't see when others read your messages.": "마지막 접속을 꺼 두어서 다른 사람이 언제 메시지를 읽었는지 볼 수 없습니다.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "다른 사람이 내가 언제 온라인인지, 언제 메시지를 읽었는지 볼 수 있습니다. 끄면 나도 다른 사람의 정보를 볼 수 없습니다."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "다른 사람이 내가 언제 온라인인지, 언제 메시지를 읽었는지 볼 수 있습니다. 끄면 나도 다른 사람의 정보를 볼 수 없습니다.",
+ "Allow the microphone to record voice messages": "음성 메시지를 녹음하려면 마이크를 허용하세요",
+ "Audio no longer available": "오디오를 더 이상 사용할 수 없습니다",
+ "Could not create the voice. Try again.": "음성을 만들 수 없습니다. 다시 시도하세요.",
+ "Hide text": "텍스트 숨기기",
+ "Hold to record a voice message": "길게 눌러 음성 메시지 녹음",
+ "Hold to record, release to send": "길게 눌러 녹음하고, 손을 떼면 전송",
+ "Original voice": "원래 목소리",
+ "Pause": "일시정지",
+ "Play": "재생",
+ "Slide to cancel": "밀어서 취소",
+ "This device cannot record voice messages": "이 기기에서는 음성 메시지를 녹음할 수 없습니다",
+ "Transcribing…": "받아쓰는 중…",
+ "Transcription failed": "받아쓰기 실패",
+ "Translated voice": "번역된 음성",
+ "Voice message not sent": "음성 메시지를 보내지 못했습니다",
+ "Write it": "글로 보기",
+ "🎤 Voice message": "🎤 음성 메시지"
 }

@@ -283,5 +283,22 @@
  "Not delivered yet": "Ещё не доставлено",
  "Sent {when}": "Отправлено {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Вы отключили «был(а) в сети», поэтому не видите, когда другие читают ваши сообщения.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Другие видят, когда вы в сети и когда читаете их сообщения. Если отключить, вы тоже не будете видеть их."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Другие видят, когда вы в сети и когда читаете их сообщения. Если отключить, вы тоже не будете видеть их.",
+ "Allow the microphone to record voice messages": "Разрешите доступ к микрофону, чтобы записывать голосовые сообщения",
+ "Audio no longer available": "Аудио больше недоступно",
+ "Could not create the voice. Try again.": "Не удалось создать голос. Попробуйте ещё раз.",
+ "Hide text": "Скрыть текст",
+ "Hold to record a voice message": "Удерживайте, чтобы записать голосовое сообщение",
+ "Hold to record, release to send": "Удерживайте для записи, отпустите для отправки",
+ "Original voice": "Оригинальный голос",
+ "Pause": "Пауза",
+ "Play": "Воспроизвести",
+ "Slide to cancel": "Проведите для отмены",
+ "This device cannot record voice messages": "Это устройство не может записывать голосовые сообщения",
+ "Transcribing…": "Расшифровка…",
+ "Transcription failed": "Не удалось расшифровать",
+ "Translated voice": "Переведённый голос",
+ "Voice message not sent": "Голосовое сообщение не отправлено",
+ "Write it": "Текстом",
+ "🎤 Voice message": "🎤 Голосовое сообщение"
 }

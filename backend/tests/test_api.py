@@ -6,6 +6,7 @@ import pytest
 
 import server
 import stt
+import tts
 from conftest import PNG, FakeProvider
 
 
@@ -441,7 +442,7 @@ def test_attachment_must_be_your_own_upload(client, make_person):
 def test_voice_messages_are_off_by_default(client, make_person):
     a, b = make_person("a@x.com"), make_person("b@x.com")
     chat = direct(client, a, b)
-    r = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=a.h)
+    r = client.post("/api/voice", data={"chat_id": chat["id"], "duration": "4"}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=a.h)
     assert r.status_code == 404
 
 
@@ -449,7 +450,7 @@ def test_voice_message_without_transcription_service(client, make_person, monkey
     monkeypatch.setenv("VOICE_MESSAGES", "true")
     a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
     chat = direct(client, a, b)
-    r = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.webm", b"\x1a\x45\xdf\xa3" * 500, "audio/webm;codecs=opus")}, headers=a.h)
+    r = client.post("/api/voice", data={"chat_id": chat["id"], "duration": "4"}, files={"file": ("v.webm", b"\x1a\x45\xdf\xa3" * 500, "audio/webm;codecs=opus")}, headers=a.h)
     assert r.status_code == 200
     msg = r.json()
     assert msg["attachment"]["is_voice"] is True and msg["status"] == "sent" and msg["original_text"] == ""
@@ -465,7 +466,7 @@ def test_voice_message_is_transcribed_and_translated(client, make_person, monkey
     monkeypatch.setenv("OPENAI_API_KEY", "test")
     a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
     chat = direct(client, a, b)
-    r = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=a.h).json()
+    r = client.post("/api/voice", data={"chat_id": chat["id"], "duration": "4"}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=a.h).json()
     got = wait_for(client, b, chat["id"], r["id"], lambda x: x["status"] == "sent")
     assert got["display_text"] == "[en] Come stai oggi?" and got["attachment"]["is_voice"]
 
@@ -474,15 +475,117 @@ def test_voice_rejects_wrong_type_and_outsiders(client, make_person, monkeypatch
     monkeypatch.setenv("VOICE_MESSAGES", "true")
     a, b, evil = make_person("a@x.com"), make_person("b@x.com"), make_person("e@x.com")
     chat = direct(client, a, b)
-    bad = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.html", b"<script>", "text/html")}, headers=a.h)
+    bad = client.post("/api/voice", data={"chat_id": chat["id"], "duration": "4"}, files={"file": ("v.html", b"<script>", "text/html")}, headers=a.h)
     assert bad.status_code == 415
-    out = client.post("/api/voice", data={"chat_id": chat["id"]}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=evil.h)
+    out = client.post("/api/voice", data={"chat_id": chat["id"], "duration": "4"}, files={"file": ("v.webm", b"\x00" * 6000, "audio/webm")}, headers=evil.h)
     assert out.status_code == 403
 
 
 def test_short_clips_are_not_sent_to_the_speech_model():
     import asyncio
     assert asyncio.run(stt.transcribe(b"\x00" * 100, "a.webm", "audio/webm")) == ""
+
+
+def _voice(client, person, chat_id, **extra):
+    data = {"chat_id": chat_id, "duration": "6.5", **extra}
+    return client.post("/api/voice", data=data, files={"file": ("v.webm", b"\x1a\x45\xdf\xa3" * 2000, "audio/webm")}, headers=person.h)
+
+
+def _voice_on(monkeypatch, transcript="Come stai oggi?", speech=b"ID3fake-mp3"):
+    monkeypatch.setenv("VOICE_MESSAGES", "true")
+    monkeypatch.setenv("OPENAI_API_KEY", "test")
+    calls = {"speech": []}
+    async def fake_transcribe(data, filename, content_type, language=""):
+        return transcript
+    async def fake_speech(text):
+        calls["speech"].append(text)
+        return speech
+    monkeypatch.setattr(stt, "transcribe", fake_transcribe)
+    monkeypatch.setattr(tts, "synthesize", fake_speech)
+    return calls
+
+
+def test_voice_duration_is_checked_and_kept(client, make_person, monkeypatch):
+    _voice_on(monkeypatch)
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    assert _voice(client, a, chat["id"], duration="200").status_code == 400  # longer than 2 minutes
+    assert _voice(client, a, chat["id"], duration="0").status_code == 400
+    msg = _voice(client, a, chat["id"]).json()
+    assert msg["attachment"]["duration"] == 6.5 and msg["status"] == "transcribing"
+    cfg = client.get("/api/config").json()
+    assert cfg["voice_messages"] and cfg["voice_speech"] and cfg["voice_max_seconds"] == 120
+
+
+def test_failed_transcription_keeps_the_audio(client, make_person, monkeypatch):
+    _voice_on(monkeypatch, transcript="")
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    msg = _voice(client, a, chat["id"]).json()
+    got = wait_for(client, b, chat["id"], msg["id"], lambda x: x["status"] == "transcription_failed")
+    assert got["original_text"] == "" and client.get(got["attachment"]["url"]).status_code == 200
+
+
+def test_voice_reply_keeps_the_quote(client, make_person, monkeypatch):
+    _voice_on(monkeypatch)
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    first = client.post("/api/messages", json={"chat_id": chat["id"], "text": "Hello"}, headers=b.h).json()
+    msg = _voice(client, a, chat["id"], reply_to=first["id"]).json()
+    assert msg["reply_to"] == first["id"] and msg["reply_quote"]["text"] == "Hello"
+
+
+def test_spoken_translation_is_made_once_per_language(client, make_person, monkeypatch):
+    calls = _voice_on(monkeypatch)
+    a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
+    group = client.post("/api/chats/group", json={"name": "G", "member_ids": [b.id, c.id]}, headers=a.h).json()
+    msg = _voice(client, a, group["id"]).json()
+    got = wait_for(client, b, group["id"], msg["id"], lambda x: x["status"] == "sent")
+    assert got["speech_url"] is None  # nobody listened yet: nothing made, nothing paid
+    r1 = client.post(f"/api/messages/{msg['id']}/speech", headers=b.h)
+    assert r1.status_code == 200 and client.get(r1.json()["url"]).content == b"ID3fake-mp3"
+    r2 = client.post(f"/api/messages/{msg['id']}/speech", headers=c.h)
+    assert r2.json()["url"] == r1.json()["url"] and calls["speech"] == ["[en] Come stai oggi?"]
+    assert _mine(client, c, group["id"], msg["id"])["speech_url"] == r1.json()["url"]
+    assert "speech" not in _mine(client, c, group["id"], msg["id"])
+    # the writer hears their own voice: there is no translation to read
+    assert client.post(f"/api/messages/{msg['id']}/speech", headers=a.h).status_code == 409
+    outsider = make_person("o@x.com", lang="en")
+    assert client.post(f"/api/messages/{msg['id']}/speech", headers=outsider.h).status_code == 403
+    text = client.post("/api/messages", json={"chat_id": group["id"], "text": "Ciao"}, headers=a.h).json()
+    assert client.post(f"/api/messages/{text['id']}/speech", headers=b.h).status_code == 404
+
+
+def test_old_voice_audio_is_deleted_but_text_stays(client, make_person, monkeypatch):
+    _voice_on(monkeypatch)
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    msg = _voice(client, a, chat["id"]).json()
+    wait_for(client, b, chat["id"], msg["id"], lambda x: x["status"] == "sent")
+    speech = client.post(f"/api/messages/{msg['id']}/speech", headers=b.h).json()["url"]
+    assert asyncio.run(server.expire_old_voice()) == 0  # still young
+    asyncio.run(server.db.messages.update_one({"id": msg["id"]}, {"$set": {"created_at": _iso(-31 * 86400)}}))
+    assert asyncio.run(server.expire_old_voice()) == 1
+    got = _mine(client, b, chat["id"], msg["id"])
+    assert got["attachment"]["expired"] and got["attachment"]["url"] is None and got["display_text"] == "[en] Come stai oggi?"
+    assert client.get(msg["attachment"]["url"]).status_code == 404 and client.get(speech).status_code == 404
+    assert client.post(f"/api/messages/{msg['id']}/speech", headers=b.h).status_code == 410
+
+
+def test_deleting_a_voice_for_everyone_deletes_the_audio(client, make_person, monkeypatch):
+    _voice_on(monkeypatch)
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    msg = _voice(client, a, chat["id"]).json()
+    wait_for(client, b, chat["id"], msg["id"], lambda x: x["status"] == "sent")
+    speech = client.post(f"/api/messages/{msg['id']}/speech", headers=b.h).json()["url"]
+    assert client.delete(f"/api/messages/{msg['id']}?for_all=true", headers=a.h).status_code == 200
+    assert client.get(msg["attachment"]["url"]).status_code == 404 and client.get(speech).status_code == 404
+
+
+def test_voice_push_preview():
+    assert server.push_preview({"display_text": "Hi", "attachment": {"is_voice": True}}) == "🎤 Hi"
+    assert server.push_preview({"display_text": "", "attachment": {"is_voice": True}}) == "🎤 Voice message"
 
 
 # ---------------------------------------------------------------- websocket

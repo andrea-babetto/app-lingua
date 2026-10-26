@@ -283,5 +283,22 @@
  "Not delivered yet": "Belum sampai",
  "Sent {when}": "Dihantar {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Anda mematikan kali terakhir dilihat, jadi anda tidak nampak bila orang lain membaca mesej anda.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Orang lain nampak bila anda dalam talian dan bila anda membaca mesej mereka. Jika anda mematikannya, anda juga tidak nampak milik mereka."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Orang lain nampak bila anda dalam talian dan bila anda membaca mesej mereka. Jika anda mematikannya, anda juga tidak nampak milik mereka.",
+ "Allow the microphone to record voice messages": "Benarkan mikrofon untuk merakam mesej suara",
+ "Audio no longer available": "Audio tidak lagi tersedia",
+ "Could not create the voice. Try again.": "Suara tidak dapat dihasilkan. Cuba lagi.",
+ "Hide text": "Sembunyikan teks",
+ "Hold to record a voice message": "Tekan lama untuk merakam mesej suara",
+ "Hold to record, release to send": "Tekan lama untuk merakam, lepaskan untuk menghantar",
+ "Original voice": "Suara asal",
+ "Pause": "Jeda",
+ "Play": "Main",
+ "Slide to cancel": "Leret untuk membatalkan",
+ "This device cannot record voice messages": "Peranti ini tidak dapat merakam mesej suara",
+ "Transcribing…": "Sedang menyalin…",
+ "Transcription failed": "Salinan gagal",
+ "Translated voice": "Suara terjemahan",
+ "Voice message not sent": "Mesej suara tidak dihantar",
+ "Write it": "Tuliskan",
+ "🎤 Voice message": "🎤 Mesej suara"
 }

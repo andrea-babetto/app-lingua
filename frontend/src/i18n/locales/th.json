@@ -283,5 +283,22 @@
  "Not delivered yet": "ยังไม่ส่งถึง",
  "Sent {when}": "ส่งแล้ว {when}",
  "You turned off last seen, so you don't see when others read your messages.": "คุณปิดการแสดงเวลาใช้งานล่าสุด จึงไม่เห็นว่าคนอื่นอ่านข้อความของคุณเมื่อไร",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "คนอื่นจะเห็นว่าคุณออนไลน์เมื่อไรและอ่านข้อความของเขาเมื่อไร ถ้าปิด คุณก็จะไม่เห็นของเขาเช่นกัน"
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "คนอื่นจะเห็นว่าคุณออนไลน์เมื่อไรและอ่านข้อความของเขาเมื่อไร ถ้าปิด คุณก็จะไม่เห็นของเขาเช่นกัน",
+ "Allow the microphone to record voice messages": "อนุญาตไมโครโฟนเพื่ออัดข้อความเสียง",
+ "Audio no longer available": "ไม่มีเสียงนี้แล้ว",
+ "Could not create the voice. Try again.": "สร้างเสียงไม่ได้ ลองอีกครั้ง",
+ "Hide text": "ซ่อนข้อความ",
+ "Hold to record a voice message": "กดค้างเพื่ออัดข้อความเสียง",
+ "Hold to record, release to send": "กดค้างเพื่ออัด ปล่อยเพื่อส่ง",
+ "Original voice": "เสียงต้นฉบับ",
+ "Pause": "หยุดชั่วคราว",
+ "Play": "เล่น",
+ "Slide to cancel": "เลื่อนเพื่อยกเลิก",
+ "This device cannot record voice messages": "อุปกรณ์นี้อัดข้อความเสียงไม่ได้",
+ "Transcribing…": "กำลังถอดความ…",
+ "Transcription failed": "ถอดความไม่สำเร็จ",
+ "Translated voice": "เสียงที่แปลแล้ว",
+ "Voice message not sent": "ส่งข้อความเสียงไม่สำเร็จ",
+ "Write it": "ดูเป็นข้อความ",
+ "🎤 Voice message": "🎤 ข้อความเสียง"
 }

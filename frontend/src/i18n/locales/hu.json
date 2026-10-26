@@ -283,5 +283,22 @@
  "Not delivered yet": "Még nincs kézbesítve",
  "Sent {when}": "Elküldve: {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Kikapcsoltad az utoljára látva funkciót, ezért nem látod, mikor olvassák mások az üzeneteidet.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Mások látják, mikor vagy elérhető és mikor olvasod az üzeneteiket. Ha kikapcsolod, te sem látod az övékét."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Mások látják, mikor vagy elérhető és mikor olvasod az üzeneteiket. Ha kikapcsolod, te sem látod az övékét.",
+ "Allow the microphone to record voice messages": "Engedélyezd a mikrofont hangüzenetek felvételéhez",
+ "Audio no longer available": "A hang már nem érhető el",
+ "Could not create the voice. Try again.": "Nem sikerült létrehozni a hangot. Próbáld újra.",
+ "Hide text": "Szöveg elrejtése",
+ "Hold to record a voice message": "Tartsd lenyomva hangüzenet felvételéhez",
+ "Hold to record, release to send": "Tartsd lenyomva a felvételhez, engedd el a küldéshez",
+ "Original voice": "Eredeti hang",
+ "Pause": "Szünet",
+ "Play": "Lejátszás",
+ "Slide to cancel": "Húzd el a megszakításhoz",
+ "This device cannot record voice messages": "Ez az eszköz nem tud hangüzenetet felvenni",
+ "Transcribing…": "Átírás…",
+ "Transcription failed": "Az átírás nem sikerült",
+ "Translated voice": "Lefordított hang",
+ "Voice message not sent": "A hangüzenet nem lett elküldve",
+ "Write it": "Írd le",
+ "🎤 Voice message": "🎤 Hangüzenet"
 }

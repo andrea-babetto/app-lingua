@@ -48,7 +48,8 @@ services:
       - key: CLIENT_IP_HEADER
         value: cf-connecting-ip
       # Optional: add these later from the dashboard when you want the feature
-      #   OPENAI_API_KEY (voice transcription), GOOGLE_CLIENT_ID (Google sign-in)
+      #   VOICE_MESSAGES=true (voice messages), OPENAI_API_KEY (their transcript and the translation read aloud;
+      #   optional TTS_VOICE, default alloy), GOOGLE_CLIENT_ID (Google sign-in)
       #   "Forgot password?" by email (any SMTP provider): SMTP_HOST, SMTP_PORT (587 or 465),
       #   SMTP_USER, SMTP_PASSWORD, MAIL_FROM (e.g. "Glotter <no-reply@your-domain>"). Without them the link stays hidden.
 

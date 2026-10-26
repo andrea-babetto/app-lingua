@@ -30,6 +30,19 @@ class Fake(translation.TranslationProvider):
     def supported_languages(self): return []
 translation._PROVIDERS["fake"] = Fake
 translation._FALLBACK["fake"] = []
+if os.environ.get("VOICE_DEMO"):  # voice messages with a scripted transcript and a beep instead of OpenAI
+    import io, math, struct, wave, stt, tts
+    os.environ.update(VOICE_MESSAGES="true", OPENAI_API_KEY="demo-not-a-key")
+    async def fake_transcribe(data, filename, content_type, language=""):
+        return {"it": "Ciao James, ci vediamo domani alle dieci?"}.get(language, "See you tomorrow at ten")
+    async def fake_speech(text):
+        buf = io.BytesIO()
+        with wave.open(buf, "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000)
+            w.writeframes(b"".join(struct.pack("<h", int(8000 * math.sin(i / 8000 * 2 * math.pi * 440))) for i in range(12000)))
+        return buf.getvalue()
+    stt.transcribe, tts.synthesize = fake_transcribe, fake_speech
+    DEMO["Ciao James, ci vediamo domani alle dieci?"] = "Hi James, see you tomorrow at ten?"
 db = AsyncMongoMockClient()["e2e"]
 server.db = db; server.engine.db = db
 import uvicorn

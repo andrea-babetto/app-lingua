@@ -283,5 +283,22 @@
  "Not delivered yet": "Ikke leveret endnu",
  "Sent {when}": "Sendt {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Du har slået \"sidst set\" fra, så du kan ikke se, hvornår andre læser dine beskeder.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andre kan se, hvornår du er online, og hvornår du læser deres beskeder. Hvis du slår det fra, kan du heller ikke se deres."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andre kan se, hvornår du er online, og hvornår du læser deres beskeder. Hvis du slår det fra, kan du heller ikke se deres.",
+ "Allow the microphone to record voice messages": "Giv adgang til mikrofonen for at optage talebeskeder",
+ "Audio no longer available": "Lyden er ikke længere tilgængelig",
+ "Could not create the voice. Try again.": "Stemmen kunne ikke oprettes. Prøv igen.",
+ "Hide text": "Skjul tekst",
+ "Hold to record a voice message": "Hold nede for at optage en talebesked",
+ "Hold to record, release to send": "Hold nede for at optage, slip for at sende",
+ "Original voice": "Original stemme",
+ "Pause": "Pause",
+ "Play": "Afspil",
+ "Slide to cancel": "Stryg for at annullere",
+ "This device cannot record voice messages": "Denne enhed kan ikke optage talebeskeder",
+ "Transcribing…": "Transskriberer…",
+ "Transcription failed": "Transskription mislykkedes",
+ "Translated voice": "Oversat stemme",
+ "Voice message not sent": "Talebeskeden blev ikke sendt",
+ "Write it": "Skriv det",
+ "🎤 Voice message": "🎤 Talebesked"
 }

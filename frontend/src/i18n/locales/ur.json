@@ -283,5 +283,22 @@
  "Not delivered yet": "ابھی نہیں پہنچا",
  "Sent {when}": "بھیجا گیا {when}",
  "You turned off last seen, so you don't see when others read your messages.": "آپ نے آخری بار دیکھا گیا بند کیا ہے، اس لیے آپ نہیں دیکھ سکتے کہ دوسرے آپ کے پیغام کب پڑھتے ہیں۔",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "دوسرے دیکھتے ہیں کہ آپ کب آن لائن ہیں اور کب ان کے پیغام پڑھتے ہیں۔ اگر آپ اسے بند کریں تو آپ بھی ان کا نہیں دیکھ سکیں گے۔"
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "دوسرے دیکھتے ہیں کہ آپ کب آن لائن ہیں اور کب ان کے پیغام پڑھتے ہیں۔ اگر آپ اسے بند کریں تو آپ بھی ان کا نہیں دیکھ سکیں گے۔",
+ "Allow the microphone to record voice messages": "صوتی پیغام ریکارڈ کرنے کے لیے مائیکروفون کی اجازت دیں",
+ "Audio no longer available": "آڈیو اب دستیاب نہیں",
+ "Could not create the voice. Try again.": "آواز نہیں بن سکی۔ دوبارہ کوشش کریں۔",
+ "Hide text": "متن چھپائیں",
+ "Hold to record a voice message": "صوتی پیغام ریکارڈ کرنے کے لیے دبائے رکھیں",
+ "Hold to record, release to send": "ریکارڈ کرنے کے لیے دبائے رکھیں، بھیجنے کے لیے چھوڑ دیں",
+ "Original voice": "اصل آواز",
+ "Pause": "روکیں",
+ "Play": "چلائیں",
+ "Slide to cancel": "منسوخ کرنے کے لیے سرکائیں",
+ "This device cannot record voice messages": "یہ ڈیوائس صوتی پیغام ریکارڈ نہیں کر سکتی",
+ "Transcribing…": "تحریر میں بدلا جا رہا ہے…",
+ "Transcription failed": "تحریر میں بدلنا ناکام رہا",
+ "Translated voice": "ترجمہ شدہ آواز",
+ "Voice message not sent": "صوتی پیغام نہیں بھیجا گیا",
+ "Write it": "لکھ کر دکھاؤ",
+ "🎤 Voice message": "🎤 صوتی پیغام"
 }

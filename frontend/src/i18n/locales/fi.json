@@ -283,5 +283,22 @@
  "Not delivered yet": "Ei vielä toimitettu",
  "Sent {when}": "Lähetetty {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Olet poistanut viimeksi nähty -tiedon käytöstä, joten et näe, milloin muut lukevat viestisi.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Muut näkevät, milloin olet paikalla ja milloin luet heidän viestinsä. Jos poistat tämän käytöstä, et näe myöskään heidän tietojaan."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Muut näkevät, milloin olet paikalla ja milloin luet heidän viestinsä. Jos poistat tämän käytöstä, et näe myöskään heidän tietojaan.",
+ "Allow the microphone to record voice messages": "Salli mikrofoni ääniviestien tallentamiseen",
+ "Audio no longer available": "Ääni ei ole enää saatavilla",
+ "Could not create the voice. Try again.": "Ääntä ei voitu luoda. Yritä uudelleen.",
+ "Hide text": "Piilota teksti",
+ "Hold to record a voice message": "Tallenna ääniviesti pitämällä painettuna",
+ "Hold to record, release to send": "Tallenna pitämällä painettuna, lähetä päästämällä irti",
+ "Original voice": "Alkuperäinen ääni",
+ "Pause": "Tauko",
+ "Play": "Toista",
+ "Slide to cancel": "Peru pyyhkäisemällä",
+ "This device cannot record voice messages": "Tällä laitteella ei voi tallentaa ääniviestejä",
+ "Transcribing…": "Litteroidaan…",
+ "Transcription failed": "Litterointi epäonnistui",
+ "Translated voice": "Käännetty ääni",
+ "Voice message not sent": "Ääniviestiä ei lähetetty",
+ "Write it": "Kirjoita se",
+ "🎤 Voice message": "🎤 Ääniviesti"
 }

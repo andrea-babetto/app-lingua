@@ -283,5 +283,22 @@
  "Not delivered yet": "Noch nicht zugestellt",
  "Sent {when}": "Gesendet {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Du hast „Zuletzt online“ ausgeschaltet, deshalb siehst du nicht, wann andere deine Nachrichten lesen.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andere sehen, wann du online bist und wann du ihre Nachrichten liest. Schaltest du es aus, siehst du ihres auch nicht."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andere sehen, wann du online bist und wann du ihre Nachrichten liest. Schaltest du es aus, siehst du ihres auch nicht.",
+ "Allow the microphone to record voice messages": "Erlaube das Mikrofon, um Sprachnachrichten aufzunehmen",
+ "Audio no longer available": "Audio nicht mehr verfügbar",
+ "Could not create the voice. Try again.": "Die Stimme konnte nicht erstellt werden. Versuche es erneut.",
+ "Hide text": "Text ausblenden",
+ "Hold to record a voice message": "Gedrückt halten, um eine Sprachnachricht aufzunehmen",
+ "Hold to record, release to send": "Zum Aufnehmen gedrückt halten, zum Senden loslassen",
+ "Original voice": "Originalstimme",
+ "Pause": "Pause",
+ "Play": "Abspielen",
+ "Slide to cancel": "Zum Abbrechen wischen",
+ "This device cannot record voice messages": "Dieses Gerät kann keine Sprachnachrichten aufnehmen",
+ "Transcribing…": "Wird transkribiert…",
+ "Transcription failed": "Transkription fehlgeschlagen",
+ "Translated voice": "Übersetzte Stimme",
+ "Voice message not sent": "Sprachnachricht nicht gesendet",
+ "Write it": "Als Text",
+ "🎤 Voice message": "🎤 Sprachnachricht"
 }

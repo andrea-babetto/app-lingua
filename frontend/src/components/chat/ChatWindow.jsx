@@ -16,6 +16,8 @@ import { PollDialog } from "@/components/chat/Poll";
 import MessageInfo from "@/components/chat/MessageInfo";
 import { ScheduleDialog, ScheduledList, ScheduledActions } from "@/components/chat/Scheduled";
 import { useI18n } from "@/i18n";
+import VoiceRecorder, { canRecord } from "@/components/chat/VoiceRecorder";
+import { useConfig } from "@/lib/config";
 
 const EMOJIS = ["😀","😂","😍","🥰","😎","🤔","😢","😡","👍","👎","🙏","👏","🔥","❤️","🎉","✅","💯","😅","🤝","👋","💪","🌍","☕","🚀"];
 const GROUP_GAP_MS = 5 * 60 * 1000;
@@ -47,7 +49,7 @@ function MessageSkeleton() {
   );
 }
 
-export default function ChatWindow({ chat, messages, loading, onSend, onEdit, onReact, onBack, typingUser, onToggleInfo, bottomRef, openSearchSignal = 0 }) {
+export default function ChatWindow({ chat, messages, loading, onSend, onSentMessage, onEdit, onReact, onBack, typingUser, onToggleInfo, bottomRef, openSearchSignal = 0 }) {
   const { user } = useAuth();
   const { t, lang, langName } = useI18n();
   const [text, setText] = useState(() => readDraft(chat.id));
@@ -69,6 +71,9 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
   const lastCount = useRef(0);
   const atBottomRef = useRef(true);
   const isGroup = chat.type === "group";
+  const cfg = useConfig();
+  const voiceOn = !!cfg.voice_messages && canRecord();
+  const [sendingVoice, setSendingVoice] = useState(false);
 
   // each conversation keeps its own unsent text (this component is re-created for every chat)
   useEffect(() => { if (!editing) writeDraft(chat.id, text); }, [text, chat.id, editing]);
@@ -116,6 +121,21 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     atBottomRef.current = near;
     setAtBottom(near);
     if (near) setNewBelow(0);
+  };
+
+  const sendVoice = async (blob, secs, type) => {
+    const replyId = reply?.id;
+    setReply(null);
+    const ext = type.includes("mp4") ? "m4a" : type.includes("ogg") ? "ogg" : "webm";
+    const form = new FormData();
+    form.append("chat_id", chat.id);
+    form.append("duration", Math.max(0.1, secs).toFixed(1));
+    if (replyId) form.append("reply_to", replyId);
+    form.append("file", blob, `voice.${ext}`);
+    setSendingVoice(true);
+    try { const { data } = await api.post("/voice", form); onSentMessage?.(data); }
+    catch { toast.error(t("Voice message not sent")); }
+    finally { setSendingVoice(false); }
   };
 
   const send = async () => {
@@ -362,7 +382,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         </div>
       )}
 
-      <div className="px-2.5 py-2 flex items-end gap-1.5 bg-card border-t border-border shrink-0">
+      <div className="relative px-2.5 py-2 flex items-end gap-1.5 bg-card border-t border-border shrink-0">
         {!editing && !isGroup && (
           <button data-testid="attach-button" aria-label={t("Attach a file")} onClick={() => fileRef.current?.click()} disabled={uploading}
             className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0">
@@ -410,6 +430,9 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
             </PopoverContent>
           </Popover>
         </div>
+        {voiceOn && !editing && !text.trim() ? (
+          <VoiceRecorder maxSeconds={cfg.voice_max_seconds || 120} rtl={document.documentElement.dir === "rtl"} busy={sendingVoice} onRecorded={sendVoice} />
+        ) : (
         <button data-testid="send-message-button" aria-label={editing ? t("Save") : t("Send")} disabled={!text.trim()}
           onClick={() => { if (held.current) { held.current = false; return; } send(); }}
           onPointerDown={holdStart} onPointerUp={holdEnd} onPointerLeave={holdEnd} onPointerCancel={holdEnd}
@@ -417,6 +440,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
           className="w-10 h-10 mb-0.5 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 transition active:scale-95 disabled:opacity-40">
           {editing ? <Check className="w-5 h-5" /> : <ArrowUp className="w-5 h-5" strokeWidth={2.6} />}
         </button>
+        )}
       </div>
 
       {infoMsg && <MessageInfo msg={messages.find((x) => x.id === infoMsg.id) || infoMsg} chat={chat} onClose={() => setInfoMsg(null)} />}

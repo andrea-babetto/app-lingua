@@ -283,5 +283,22 @@
  "Not delivered yet": "Aún no entregado",
  "Sent {when}": "Enviado {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Desactivaste la última conexión, así que no ves cuándo los demás leen tus mensajes.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Los demás ven cuándo estás en línea y cuándo lees sus mensajes. Si lo desactivas, tampoco verás los suyos."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Los demás ven cuándo estás en línea y cuándo lees sus mensajes. Si lo desactivas, tampoco verás los suyos.",
+ "Allow the microphone to record voice messages": "Permite el micrófono para grabar mensajes de voz",
+ "Audio no longer available": "El audio ya no está disponible",
+ "Could not create the voice. Try again.": "No se pudo crear la voz. Inténtalo de nuevo.",
+ "Hide text": "Ocultar texto",
+ "Hold to record a voice message": "Mantén pulsado para grabar un mensaje de voz",
+ "Hold to record, release to send": "Mantén pulsado para grabar, suelta para enviar",
+ "Original voice": "Voz original",
+ "Pause": "Pausa",
+ "Play": "Reproducir",
+ "Slide to cancel": "Desliza para cancelar",
+ "This device cannot record voice messages": "Este dispositivo no puede grabar mensajes de voz",
+ "Transcribing…": "Transcribiendo…",
+ "Transcription failed": "No se pudo transcribir",
+ "Translated voice": "Voz traducida",
+ "Voice message not sent": "Mensaje de voz no enviado",
+ "Write it": "Escríbelo",
+ "🎤 Voice message": "🎤 Mensaje de voz"
 }

@@ -283,5 +283,22 @@
  "Not delivered yet": "இன்னும் சென்றடையவில்லை",
  "Sent {when}": "அனுப்பப்பட்டது {when}",
  "You turned off last seen, so you don't see when others read your messages.": "கடைசியாகப் பார்த்ததை முடக்கியுள்ளீர்கள், எனவே மற்றவர்கள் உங்கள் செய்திகளை எப்போது படிக்கிறார்கள் என்று தெரியாது.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "நீங்கள் எப்போது ஆன்லைனில் இருக்கிறீர்கள், அவர்களின் செய்திகளை எப்போது படிக்கிறீர்கள் என்பதை மற்றவர்கள் பார்க்கலாம். முடக்கினால், அவர்களுடையதும் உங்களுக்குத் தெரியாது."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "நீங்கள் எப்போது ஆன்லைனில் இருக்கிறீர்கள், அவர்களின் செய்திகளை எப்போது படிக்கிறீர்கள் என்பதை மற்றவர்கள் பார்க்கலாம். முடக்கினால், அவர்களுடையதும் உங்களுக்குத் தெரியாது.",
+ "Allow the microphone to record voice messages": "குரல் செய்திகளைப் பதிவுசெய்ய மைக்ரோஃபோனை அனுமதிக்கவும்",
+ "Audio no longer available": "ஒலி இனி கிடைக்காது",
+ "Could not create the voice. Try again.": "குரலை உருவாக்க முடியவில்லை. மீண்டும் முயலவும்.",
+ "Hide text": "உரையை மறை",
+ "Hold to record a voice message": "குரல் செய்தியைப் பதிவுசெய்ய அழுத்திப் பிடிக்கவும்",
+ "Hold to record, release to send": "பதிவுசெய்ய அழுத்திப் பிடிக்கவும், அனுப்ப விடுவிக்கவும்",
+ "Original voice": "அசல் குரல்",
+ "Pause": "இடைநிறுத்து",
+ "Play": "இயக்கு",
+ "Slide to cancel": "ரத்துசெய்ய நகர்த்தவும்",
+ "This device cannot record voice messages": "இந்தச் சாதனத்தால் குரல் செய்திகளைப் பதிவுசெய்ய முடியாது",
+ "Transcribing…": "எழுத்தாக்கம் நடக்கிறது…",
+ "Transcription failed": "எழுத்தாக்கம் தோல்வியடைந்தது",
+ "Translated voice": "மொழிபெயர்க்கப்பட்ட குரல்",
+ "Voice message not sent": "குரல் செய்தி அனுப்பப்படவில்லை",
+ "Write it": "எழுதிக் காட்டு",
+ "🎤 Voice message": "🎤 குரல் செய்தி"
 }

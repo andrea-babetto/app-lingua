@@ -283,5 +283,22 @@
  "Not delivered yet": "Hindi pa naihahatid",
  "Sent {when}": "Naipadala {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Pinatay mo ang huling nakita, kaya hindi mo makikita kung kailan binabasa ng iba ang mga mensahe mo.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Nakikita ng iba kung kailan ka online at kung kailan mo binabasa ang mga mensahe nila. Kapag pinatay mo, hindi mo rin makikita ang sa kanila."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Nakikita ng iba kung kailan ka online at kung kailan mo binabasa ang mga mensahe nila. Kapag pinatay mo, hindi mo rin makikita ang sa kanila.",
+ "Allow the microphone to record voice messages": "Payagan ang mikropono para mag-record ng voice message",
+ "Audio no longer available": "Hindi na available ang audio",
+ "Could not create the voice. Try again.": "Hindi magawa ang boses. Subukan ulit.",
+ "Hide text": "Itago ang teksto",
+ "Hold to record a voice message": "Pindutin nang matagal para mag-record ng voice message",
+ "Hold to record, release to send": "Pindutin nang matagal para mag-record, bitawan para ipadala",
+ "Original voice": "Orihinal na boses",
+ "Pause": "I-pause",
+ "Play": "I-play",
+ "Slide to cancel": "I-slide para kanselahin",
+ "This device cannot record voice messages": "Hindi makapag-record ng voice message ang device na ito",
+ "Transcribing…": "Isinusulat…",
+ "Transcription failed": "Hindi naisulat",
+ "Translated voice": "Isinaling boses",
+ "Voice message not sent": "Hindi naipadala ang voice message",
+ "Write it": "Isulat ito",
+ "🎤 Voice message": "🎤 Voice message"
 }

@@ -283,5 +283,22 @@
  "Not delivered yet": "Ikke levert ennå",
  "Sent {when}": "Sendt {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Du har slått av «sist sett», så du ser ikke når andre leser meldingene dine.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andre ser når du er pålogget og når du leser meldingene deres. Slår du det av, ser du heller ikke deres."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andre ser når du er pålogget og når du leser meldingene deres. Slår du det av, ser du heller ikke deres.",
+ "Allow the microphone to record voice messages": "Gi tilgang til mikrofonen for å ta opp talemeldinger",
+ "Audio no longer available": "Lyden er ikke lenger tilgjengelig",
+ "Could not create the voice. Try again.": "Kunne ikke lage stemmen. Prøv igjen.",
+ "Hide text": "Skjul tekst",
+ "Hold to record a voice message": "Hold inne for å ta opp en talemelding",
+ "Hold to record, release to send": "Hold inne for å ta opp, slipp for å sende",
+ "Original voice": "Original stemme",
+ "Pause": "Pause",
+ "Play": "Spill av",
+ "Slide to cancel": "Sveip for å avbryte",
+ "This device cannot record voice messages": "Denne enheten kan ikke ta opp talemeldinger",
+ "Transcribing…": "Transkriberer…",
+ "Transcription failed": "Transkripsjon mislyktes",
+ "Translated voice": "Oversatt stemme",
+ "Voice message not sent": "Talemeldingen ble ikke sendt",
+ "Write it": "Skriv det",
+ "🎤 Voice message": "🎤 Talemelding"
 }

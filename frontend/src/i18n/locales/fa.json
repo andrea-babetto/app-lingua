@@ -283,5 +283,22 @@
  "Not delivered yet": "هنوز تحویل نشده",
  "Sent {when}": "ارسال شد {when}",
  "You turned off last seen, so you don't see when others read your messages.": "«آخرین بازدید» را خاموش کرده‌اید، پس نمی‌بینید دیگران کی پیام‌هایتان را می‌خوانند.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "دیگران می‌بینند کی آنلاین هستید و کی پیام‌هایشان را می‌خوانید. اگر خاموشش کنید، شما هم مال آن‌ها را نمی‌بینید."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "دیگران می‌بینند کی آنلاین هستید و کی پیام‌هایشان را می‌خوانید. اگر خاموشش کنید، شما هم مال آن‌ها را نمی‌بینید.",
+ "Allow the microphone to record voice messages": "برای ضبط پیام صوتی به میکروفون اجازه دهید",
+ "Audio no longer available": "صدا دیگر در دسترس نیست",
+ "Could not create the voice. Try again.": "ساخت صدا ممکن نشد. دوباره تلاش کنید.",
+ "Hide text": "پنهان کردن متن",
+ "Hold to record a voice message": "برای ضبط پیام صوتی نگه دارید",
+ "Hold to record, release to send": "برای ضبط نگه دارید، برای ارسال رها کنید",
+ "Original voice": "صدای اصلی",
+ "Pause": "توقف",
+ "Play": "پخش",
+ "Slide to cancel": "برای لغو بکشید",
+ "This device cannot record voice messages": "این دستگاه نمی‌تواند پیام صوتی ضبط کند",
+ "Transcribing…": "در حال تبدیل به متن…",
+ "Transcription failed": "تبدیل به متن ناموفق بود",
+ "Translated voice": "صدای ترجمه‌شده",
+ "Voice message not sent": "پیام صوتی ارسال نشد",
+ "Write it": "بنویسش",
+ "🎤 Voice message": "🎤 پیام صوتی"
 }

@@ -26,12 +26,13 @@ const PRIVACY = {
       ]],
       ["Automatic translation", [
         "To translate a message, we send its text to Anthropic (USA), our translation provider, which processes it on our behalf. We send only the text to translate and the languages involved, not your email or profile.",
+        "Voice messages: the recording is sent to OpenAI (USA), which turns it into text on our behalf; the text is then translated like any message. When someone listens to the translation, its text is sent to OpenAI to be read aloud by a synthetic voice (never a copy of your voice). The audio of voice messages and their spoken translations are deleted after 30 days; the text stays in the chat.",
         "Messages are not end-to-end encrypted. The service operator can technically access stored messages, and does so only to handle abuse reports, keep the service secure, or comply with the law.",
         "Translations are automatic and can contain mistakes.",
       ]],
       ["Who else handles your data", [
         "Hosting and storage providers: Render (server, Frankfurt), MongoDB Atlas (database, Frankfurt) and Cloudflare (network protection and file storage). They act as our processors.",
-        "Some providers, such as Anthropic, are located outside the European Union. Transfers are covered by the safeguards required by data protection law.",
+        "Some providers, such as Anthropic and OpenAI, are located outside the European Union. Transfers are covered by the safeguards required by data protection law.",
         "We do not sell your data and we do not show advertising.",
       ]],
       ["How long we keep it", [
@@ -63,12 +64,13 @@ const PRIVACY = {
       ]],
       ["Traduzione automatica", [
         "Per tradurre un messaggio inviamo il testo ad Anthropic (USA), il nostro fornitore di traduzione, che lo tratta per nostro conto. Inviamo solo il testo da tradurre e le lingue coinvolte, non la tua email né il tuo profilo.",
+        "Messaggi vocali: la registrazione viene inviata a OpenAI (USA), che la trasforma in testo per nostro conto; il testo viene poi tradotto come ogni messaggio. Quando qualcuno ascolta la traduzione, il suo testo viene inviato a OpenAI per essere letto da una voce sintetica (mai una copia della tua voce). L'audio dei vocali e delle traduzioni lette viene cancellato dopo 30 giorni; il testo resta nella chat.",
         "I messaggi non sono cifrati end-to-end. Chi gestisce il servizio può tecnicamente accedere ai messaggi conservati, e lo fa solo per gestire segnalazioni di abuso, mantenere il servizio sicuro o rispettare la legge.",
         "Le traduzioni sono automatiche e possono contenere errori.",
       ]],
       ["Chi altro tratta i tuoi dati", [
         "Fornitori di hosting e archiviazione: Render (server, Francoforte), MongoDB Atlas (database, Francoforte) e Cloudflare (protezione della rete e archiviazione dei file). Agiscono come nostri responsabili del trattamento.",
-        "Alcuni fornitori, come Anthropic, si trovano fuori dall'Unione Europea. I trasferimenti sono coperti dalle garanzie previste dalla normativa sulla protezione dei dati.",
+        "Alcuni fornitori, come Anthropic e OpenAI, si trovano fuori dall'Unione Europea. I trasferimenti sono coperti dalle garanzie previste dalla normativa sulla protezione dei dati.",
         "Non vendiamo i tuoi dati e non mostriamo pubblicità.",
       ]],
       ["Per quanto tempo li conserviamo", [

@@ -283,5 +283,22 @@
  "Not delivered yet": "עדיין לא נמסרה",
  "Sent {when}": "נשלחה {when}",
  "You turned off last seen, so you don't see when others read your messages.": "כיבית את \"נראה לאחרונה\", לכן לא תראו מתי אחרים קוראים את ההודעות שלך.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "אחרים רואים מתי את/ה מחובר/ת ומתי את/ה קורא/ת את ההודעות שלהם. אם תכבו, גם אתם לא תראו את שלהם."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "אחרים רואים מתי את/ה מחובר/ת ומתי את/ה קורא/ת את ההודעות שלהם. אם תכבו, גם אתם לא תראו את שלהם.",
+ "Allow the microphone to record voice messages": "אפשרו גישה למיקרופון כדי להקליט הודעות קוליות",
+ "Audio no longer available": "השמע כבר לא זמין",
+ "Could not create the voice. Try again.": "לא ניתן היה ליצור את הקול. נסו שוב.",
+ "Hide text": "הסתרת הטקסט",
+ "Hold to record a voice message": "לחצו לחיצה ארוכה כדי להקליט הודעה קולית",
+ "Hold to record, release to send": "החזיקו כדי להקליט, שחררו כדי לשלוח",
+ "Original voice": "הקול המקורי",
+ "Pause": "השהיה",
+ "Play": "הפעלה",
+ "Slide to cancel": "החליקו לביטול",
+ "This device cannot record voice messages": "המכשיר הזה לא יכול להקליט הודעות קוליות",
+ "Transcribing…": "מתמללים…",
+ "Transcription failed": "התמלול נכשל",
+ "Translated voice": "קול מתורגם",
+ "Voice message not sent": "ההודעה הקולית לא נשלחה",
+ "Write it": "כתוב את זה",
+ "🎤 Voice message": "🎤 הודעה קולית"
 }

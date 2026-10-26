@@ -283,5 +283,22 @@
  "Not delivered yet": "Ще не доставлено",
  "Sent {when}": "Надіслано {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Ви вимкнули «був(-ла) у мережі», тому не бачите, коли інші читають ваші повідомлення.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Інші бачать, коли ви в мережі й коли читаєте їхні повідомлення. Якщо вимкнете, ви теж не бачитимете їхнього."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Інші бачать, коли ви в мережі й коли читаєте їхні повідомлення. Якщо вимкнете, ви теж не бачитимете їхнього.",
+ "Allow the microphone to record voice messages": "Дозвольте мікрофон, щоб записувати голосові повідомлення",
+ "Audio no longer available": "Аудіо більше недоступне",
+ "Could not create the voice. Try again.": "Не вдалося створити голос. Спробуйте ще раз.",
+ "Hide text": "Сховати текст",
+ "Hold to record a voice message": "Утримуйте, щоб записати голосове повідомлення",
+ "Hold to record, release to send": "Утримуйте для запису, відпустіть для надсилання",
+ "Original voice": "Оригінальний голос",
+ "Pause": "Пауза",
+ "Play": "Відтворити",
+ "Slide to cancel": "Проведіть, щоб скасувати",
+ "This device cannot record voice messages": "Цей пристрій не може записувати голосові повідомлення",
+ "Transcribing…": "Розшифровка…",
+ "Transcription failed": "Не вдалося розшифрувати",
+ "Translated voice": "Перекладений голос",
+ "Voice message not sent": "Голосове повідомлення не надіслано",
+ "Write it": "Текстом",
+ "🎤 Voice message": "🎤 Голосове повідомлення"
 }

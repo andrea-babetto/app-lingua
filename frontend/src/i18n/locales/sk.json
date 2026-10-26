@@ -283,5 +283,22 @@
  "Not delivered yet": "Zatiaľ nedoručené",
  "Sent {when}": "Odoslané {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Vypli ste „naposledy online“, preto nevidíte, kedy si ostatní čítajú vaše správy.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Ostatní vidia, kedy ste online a kedy čítate ich správy. Ak to vypnete, neuvidíte to ani vy u nich."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Ostatní vidia, kedy ste online a kedy čítate ich správy. Ak to vypnete, neuvidíte to ani vy u nich.",
+ "Allow the microphone to record voice messages": "Povoľte mikrofón na nahrávanie hlasových správ",
+ "Audio no longer available": "Zvuk už nie je dostupný",
+ "Could not create the voice. Try again.": "Hlas sa nepodarilo vytvoriť. Skúste to znova.",
+ "Hide text": "Skryť text",
+ "Hold to record a voice message": "Podržaním nahráte hlasovú správu",
+ "Hold to record, release to send": "Podržaním nahrávajte, uvoľnením odošlite",
+ "Original voice": "Pôvodný hlas",
+ "Pause": "Pozastaviť",
+ "Play": "Prehrať",
+ "Slide to cancel": "Potiahnutím zrušíte",
+ "This device cannot record voice messages": "Toto zariadenie nevie nahrávať hlasové správy",
+ "Transcribing…": "Prepisujem…",
+ "Transcription failed": "Prepis sa nepodaril",
+ "Translated voice": "Preložený hlas",
+ "Voice message not sent": "Hlasová správa nebola odoslaná",
+ "Write it": "Napíš to",
+ "🎤 Voice message": "🎤 Hlasová správa"
 }

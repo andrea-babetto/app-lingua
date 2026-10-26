@@ -283,5 +283,22 @@
  "Not delivered yet": "अजून पोहोचला नाही",
  "Sent {when}": "पाठवला {when}",
  "You turned off last seen, so you don't see when others read your messages.": "तुम्ही शेवटचे पाहिले बंद केले आहे, म्हणून इतर तुमचे संदेश कधी वाचतात ते तुम्हाला दिसत नाही.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "तुम्ही कधी ऑनलाइन आहात आणि त्यांचे संदेश कधी वाचता हे इतरांना दिसते. बंद केल्यास तुम्हालाही त्यांचे दिसणार नाही."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "तुम्ही कधी ऑनलाइन आहात आणि त्यांचे संदेश कधी वाचता हे इतरांना दिसते. बंद केल्यास तुम्हालाही त्यांचे दिसणार नाही.",
+ "Allow the microphone to record voice messages": "व्हॉइस मेसेज रेकॉर्ड करण्यासाठी मायक्रोफोनला परवानगी द्या",
+ "Audio no longer available": "ऑडिओ आता उपलब्ध नाही",
+ "Could not create the voice. Try again.": "आवाज तयार करता आला नाही. पुन्हा प्रयत्न करा.",
+ "Hide text": "मजकूर लपवा",
+ "Hold to record a voice message": "व्हॉइस मेसेज रेकॉर्ड करण्यासाठी दाबून ठेवा",
+ "Hold to record, release to send": "रेकॉर्ड करण्यासाठी दाबून ठेवा, पाठवण्यासाठी सोडा",
+ "Original voice": "मूळ आवाज",
+ "Pause": "थांबवा",
+ "Play": "ऐका",
+ "Slide to cancel": "रद्द करण्यासाठी सरकवा",
+ "This device cannot record voice messages": "हे डिव्हाइस व्हॉइस मेसेज रेकॉर्ड करू शकत नाही",
+ "Transcribing…": "लिहिले जात आहे…",
+ "Transcription failed": "लेखन अयशस्वी झाले",
+ "Translated voice": "अनुवादित आवाज",
+ "Voice message not sent": "व्हॉइस मेसेज पाठवला नाही",
+ "Write it": "लिहून दाखवा",
+ "🎤 Voice message": "🎤 व्हॉइस मेसेज"
 }

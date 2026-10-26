@@ -283,5 +283,22 @@
  "Not delivered yet": "Încă nelivrat",
  "Sent {when}": "Trimis {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Ai dezactivat „văzut ultima dată”, așa că nu vezi când citesc ceilalți mesajele tale.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Ceilalți văd când ești online și când le citești mesajele. Dacă dezactivezi, nici tu nu vei vedea ale lor."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Ceilalți văd când ești online și când le citești mesajele. Dacă dezactivezi, nici tu nu vei vedea ale lor.",
+ "Allow the microphone to record voice messages": "Permite microfonul pentru a înregistra mesaje vocale",
+ "Audio no longer available": "Audio nu mai este disponibil",
+ "Could not create the voice. Try again.": "Vocea nu a putut fi creată. Încearcă din nou.",
+ "Hide text": "Ascunde textul",
+ "Hold to record a voice message": "Ține apăsat pentru a înregistra un mesaj vocal",
+ "Hold to record, release to send": "Ține apăsat pentru a înregistra, eliberează pentru a trimite",
+ "Original voice": "Vocea originală",
+ "Pause": "Pauză",
+ "Play": "Redă",
+ "Slide to cancel": "Glisează pentru a anula",
+ "This device cannot record voice messages": "Acest dispozitiv nu poate înregistra mesaje vocale",
+ "Transcribing…": "Se transcrie…",
+ "Transcription failed": "Transcrierea a eșuat",
+ "Translated voice": "Voce tradusă",
+ "Voice message not sent": "Mesajul vocal nu a fost trimis",
+ "Write it": "Scrie-l",
+ "🎤 Voice message": "🎤 Mesaj vocal"
 }

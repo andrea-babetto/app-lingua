@@ -283,5 +283,22 @@
  "Not delivered yet": "Bado haujafika",
  "Sent {when}": "Umetumwa {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Umezima mara ya mwisho kuonekana, kwa hiyo huoni wengine wanaposoma ujumbe wako.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Wengine wanaona ukiwa mtandaoni na unaposoma ujumbe wao. Ukikizima, nawe hutaona chao."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Wengine wanaona ukiwa mtandaoni na unaposoma ujumbe wao. Ukikizima, nawe hutaona chao.",
+ "Allow the microphone to record voice messages": "Ruhusu maikrofoni ili kurekodi ujumbe wa sauti",
+ "Audio no longer available": "Sauti haipatikani tena",
+ "Could not create the voice. Try again.": "Imeshindwa kutengeneza sauti. Jaribu tena.",
+ "Hide text": "Ficha maandishi",
+ "Hold to record a voice message": "Shikilia ili kurekodi ujumbe wa sauti",
+ "Hold to record, release to send": "Shikilia kurekodi, achilia kutuma",
+ "Original voice": "Sauti asili",
+ "Pause": "Sitisha",
+ "Play": "Cheza",
+ "Slide to cancel": "Telezesha ili kughairi",
+ "This device cannot record voice messages": "Kifaa hiki hakiwezi kurekodi ujumbe wa sauti",
+ "Transcribing…": "Inaandika maandishi…",
+ "Transcription failed": "Imeshindwa kuandika maandishi",
+ "Translated voice": "Sauti iliyotafsiriwa",
+ "Voice message not sent": "Ujumbe wa sauti haukutumwa",
+ "Write it": "Iandike",
+ "🎤 Voice message": "🎤 Ujumbe wa sauti"
 }

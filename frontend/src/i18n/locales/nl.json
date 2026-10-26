@@ -283,5 +283,22 @@
  "Not delivered yet": "Nog niet bezorgd",
  "Sent {when}": "Verstuurd {when}",
  "You turned off last seen, so you don't see when others read your messages.": "Je hebt 'laatst gezien' uitgezet, dus je ziet niet wanneer anderen je berichten lezen.",
- "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Anderen zien wanneer je online bent en wanneer je hun berichten leest. Zet je het uit, dan zie je dat van hen ook niet."
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Anderen zien wanneer je online bent en wanneer je hun berichten leest. Zet je het uit, dan zie je dat van hen ook niet.",
+ "Allow the microphone to record voice messages": "Sta de microfoon toe om spraakberichten op te nemen",
+ "Audio no longer available": "Audio niet meer beschikbaar",
+ "Could not create the voice. Try again.": "De stem kon niet worden gemaakt. Probeer het opnieuw.",
+ "Hide text": "Tekst verbergen",
+ "Hold to record a voice message": "Houd ingedrukt om een spraakbericht op te nemen",
+ "Hold to record, release to send": "Houd ingedrukt om op te nemen, laat los om te versturen",
+ "Original voice": "Originele stem",
+ "Pause": "Pauze",
+ "Play": "Afspelen",
+ "Slide to cancel": "Veeg om te annuleren",
+ "This device cannot record voice messages": "Dit apparaat kan geen spraakberichten opnemen",
+ "Transcribing…": "Transcriberen…",
+ "Transcription failed": "Transcriptie mislukt",
+ "Translated voice": "Vertaalde stem",
+ "Voice message not sent": "Spraakbericht niet verzonden",
+ "Write it": "Schrijf het uit",
+ "🎤 Voice message": "🎤 Spraakbericht"
 }

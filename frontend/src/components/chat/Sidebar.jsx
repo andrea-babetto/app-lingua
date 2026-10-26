@@ -32,7 +32,9 @@ function preview(c, myId, t) {
   const m = c.last_message;
   if (!m) return t("Say hello 👋");
   if (m.deleted_for_all) return t("🚫 Message deleted");
-  const text = m.poll ? `📊 ${m.display_text || ""}` : (m.display_text?.trim() ? m.display_text : t("📎 Attachment"));
+  const text = m.poll ? `📊 ${m.display_text || ""}`
+    : m.attachment?.is_voice ? (m.display_text?.trim() ? `🎤 ${m.display_text}` : t("🎤 Voice message"))
+    : (m.display_text?.trim() ? m.display_text : t("📎 Attachment"));
   if (c.type === "group") return `${m.sender_id === myId ? t("You") : (m.sender_name || "").split(" ")[0]}: ${text}`;
   return text;
 }
