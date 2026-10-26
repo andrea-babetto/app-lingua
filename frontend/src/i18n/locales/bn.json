@@ -69,7 +69,6 @@
  "Invite code": "আমন্ত্রণ কোড",
  "Invite link copied": "আমন্ত্রণ লিঙ্ক কপি হয়েছে",
  "Leave group": "গ্রুপ ছাড়ুন",
- "Let others see your status": "অন্যদের আপনার স্ট্যাটাস দেখতে দিন",
  "Log out": "লগ আউট",
  "Make admin": "অ্যাডমিন করুন",
  "Members": "সদস্য",
@@ -273,5 +272,16 @@
  "Poll": "জরিপ",
  "1 person voted": "১ জন ভোট দিয়েছেন",
  "Group rules": "গ্রুপের নিয়ম",
- "Group rules (optional)": "গ্রুপের নিয়ম (ঐচ্ছিক)"
+ "Group rules (optional)": "গ্রুপের নিয়ম (ঐচ্ছিক)",
+ "Info": "তথ্য",
+ "Message info": "বার্তার তথ্য",
+ "Read by": "যাঁরা পড়েছেন",
+ "Read": "পড়া হয়েছে",
+ "Read {when}": "পড়া হয়েছে {when}",
+ "Delivered to": "যাঁদের কাছে পৌঁছেছে",
+ "Delivered {when}": "পৌঁছেছে {when}",
+ "Not delivered yet": "এখনও পৌঁছায়নি",
+ "Sent {when}": "পাঠানো হয়েছে {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "আপনি শেষ দেখা বন্ধ রেখেছেন, তাই অন্যরা কখন আপনার বার্তা পড়েন তা দেখতে পাবেন না।",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "অন্যরা দেখতে পান আপনি কখন অনলাইন এবং কখন তাঁদের বার্তা পড়েন। বন্ধ করলে আপনিও তাঁদেরটা দেখতে পাবেন না।"
 }

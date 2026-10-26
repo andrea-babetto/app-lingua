@@ -69,7 +69,6 @@
  "Invite code": "Код за покана",
  "Invite link copied": "Линкът за покана е копиран",
  "Leave group": "Напусни групата",
- "Let others see your status": "Показвайте статуса си на другите",
  "Log out": "Изход",
  "Make admin": "Направи админ",
  "Members": "Участници",
@@ -273,5 +272,16 @@
  "Poll": "Анкета",
  "1 person voted": "Гласува 1 човек",
  "Group rules": "Правила на групата",
- "Group rules (optional)": "Правила на групата (по избор)"
+ "Group rules (optional)": "Правила на групата (по избор)",
+ "Info": "Информация",
+ "Message info": "Информация за съобщението",
+ "Read by": "Прочетено от",
+ "Read": "Прочетено",
+ "Read {when}": "Прочетено {when}",
+ "Delivered to": "Доставено до",
+ "Delivered {when}": "Доставено {when}",
+ "Not delivered yet": "Още не е доставено",
+ "Sent {when}": "Изпратено {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Изключил си „последно видян“, затова не виждаш кога другите четат съобщенията ти.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Другите виждат кога си онлайн и кога четеш съобщенията им. Ако го изключиш, и ти няма да виждаш техните."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Código de invitación",
  "Invite link copied": "Enlace de invitación copiado",
  "Leave group": "Salir del grupo",
- "Let others see your status": "Deja que otros vean tu estado",
  "Log out": "Cerrar sesión",
  "Make admin": "Hacer admin",
  "Members": "Miembros",
@@ -273,5 +272,16 @@
  "Poll": "Encuesta",
  "1 person voted": "Ha votado 1 persona",
  "Group rules": "Normas del grupo",
- "Group rules (optional)": "Normas del grupo (opcional)"
+ "Group rules (optional)": "Normas del grupo (opcional)",
+ "Info": "Info",
+ "Message info": "Info del mensaje",
+ "Read by": "Leído por",
+ "Read": "Leído",
+ "Read {when}": "Leído {when}",
+ "Delivered to": "Entregado a",
+ "Delivered {when}": "Entregado {when}",
+ "Not delivered yet": "Aún no entregado",
+ "Sent {when}": "Enviado {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Desactivaste la última conexión, así que no ves cuándo los demás leen tus mensajes.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Los demás ven cuándo estás en línea y cuándo lees sus mensajes. Si lo desactivas, tampoco verás los suyos."
 }

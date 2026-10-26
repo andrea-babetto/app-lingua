@@ -69,7 +69,6 @@
  "Invite code": "邀请码",
  "Invite link copied": "邀请链接已复制",
  "Leave group": "退出群组",
- "Let others see your status": "让其他人看到您的状态",
  "Log out": "退出登录",
  "Make admin": "设为管理员",
  "Members": "成员",
@@ -273,5 +272,16 @@
  "Poll": "投票",
  "1 person voted": "1 人已投票",
  "Group rules": "群规",
- "Group rules (optional)": "群规（可选）"
+ "Group rules (optional)": "群规（可选）",
+ "Info": "信息",
+ "Message info": "消息信息",
+ "Read by": "已读",
+ "Read": "已读",
+ "Read {when}": "已读 {when}",
+ "Delivered to": "已送达",
+ "Delivered {when}": "已送达 {when}",
+ "Not delivered yet": "尚未送达",
+ "Sent {when}": "已发送 {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "你已关闭\"最后上线时间\"，所以看不到别人何时阅读你的消息。",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "别人可以看到你何时在线、何时阅读他们的消息。关闭后，你也看不到他们的。"
 }

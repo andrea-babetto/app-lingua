@@ -69,7 +69,6 @@
  "Invite code": "Kod zaproszenia",
  "Invite link copied": "Skopiowano link z zaproszeniem",
  "Leave group": "Opuść grupę",
- "Let others see your status": "Pokazuj innym swój status",
  "Log out": "Wyloguj się",
  "Make admin": "Nadaj uprawnienia administratora",
  "Members": "Członkowie",
@@ -273,5 +272,16 @@
  "Poll": "Ankieta",
  "1 person voted": "Głosowała 1 osoba",
  "Group rules": "Zasady grupy",
- "Group rules (optional)": "Zasady grupy (opcjonalnie)"
+ "Group rules (optional)": "Zasady grupy (opcjonalnie)",
+ "Info": "Informacje",
+ "Message info": "Informacje o wiadomości",
+ "Read by": "Przeczytali",
+ "Read": "Przeczytano",
+ "Read {when}": "Przeczytano {when}",
+ "Delivered to": "Dostarczono do",
+ "Delivered {when}": "Dostarczono {when}",
+ "Not delivered yet": "Jeszcze nie dostarczono",
+ "Sent {when}": "Wysłano {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Wyłączyłeś „ostatnio widziany”, więc nie widzisz, kiedy inni czytają twoje wiadomości.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Inni widzą, kiedy jesteś online i kiedy czytasz ich wiadomości. Jeśli to wyłączysz, ty też nie zobaczysz tego u nich."
 }

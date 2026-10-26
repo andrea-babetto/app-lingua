@@ -13,6 +13,7 @@ import { avatarClass } from "@/lib/avatar";
 import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 import MessageActions from "@/components/chat/MessageActions";
 import { PollDialog } from "@/components/chat/Poll";
+import MessageInfo from "@/components/chat/MessageInfo";
 import { ScheduleDialog, ScheduledList, ScheduledActions } from "@/components/chat/Scheduled";
 import { useI18n } from "@/i18n";
 
@@ -253,6 +254,8 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     setTimeout(() => el.classList.remove("gl-flash"), 1400);
   };
   const isRead = (m) => !!m.read || (m.read_by || []).filter((id) => id !== m.sender_id).length >= others;
+  const isDelivered = (m) => Object.keys(m.delivered_to || {}).filter((id) => id !== m.sender_id).length >= others;
+  const [infoMsg, setInfoMsg] = useState(null);
 
   const sameBlock = (a, b) => a && b && a.sender_id === b.sender_id && !a.deleted_for_all && !b.deleted_for_all
     && new Date(a.created_at).toDateString() === new Date(b.created_at).toDateString()
@@ -319,7 +322,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
                   <span className="text-xs font-semibold text-muted-foreground bg-card/90 rounded-full px-3 py-1 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">{dayLabel(m.created_at, t, lang)}</span>
                 </div>
               )}
-              <MessageBubble msg={m} read={isRead(m)} quote={quoteFor(m)} onJump={jumpTo} onVote={vote} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
+              <MessageBubble msg={m} read={isRead(m)} delivered={isDelivered(m)} quote={quoteFor(m)} onJump={jumpTo} onVote={vote} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
                 showOriginal={!!originals[m.id]} onToggleOriginal={() => toggleOriginal(m.id)}
                 onOpenActions={setActionMsg} onReact={onReact} onReply={startReply} />
             </div>
@@ -416,13 +419,14 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         </button>
       </div>
 
+      {infoMsg && <MessageInfo msg={messages.find((x) => x.id === infoMsg.id) || infoMsg} chat={chat} onClose={() => setInfoMsg(null)} />}
       <PollDialog open={pollOpen} onClose={() => setPollOpen(false)} onCreate={createPoll} />
       <ScheduleDialog open={scheduleOpen} onClose={() => { setScheduleOpen(false); setRescheduling(null); }} onPick={pickTime}
         other={!isGroup && user.settings?.local_time_enabled !== false ? other : null} initial={rescheduling?.send_at} />
       <ScheduledActions item={schedAction} onClose={() => setSchedAction(null)} onSendNow={sendNow} onDelete={deleteScheduled}
         onChangeTime={(s) => { setSchedAction(null); setRescheduling(s); setScheduleOpen(true); }} />
       <MessageActions msg={actionMsg} mine={actionMsg?.sender_id === user.id} userId={user.id} onClose={() => setActionMsg(null)}
-        onReply={startReply} onEdit={startEdit} onReact={onReact}
+        onReply={startReply} onEdit={startEdit} onReact={onReact} onInfo={setInfoMsg}
         onShowOriginal={(m) => toggleOriginal(m.id)} showingOriginal={!!(actionMsg && originals[actionMsg.id])} />
     </div>
   );

@@ -69,7 +69,6 @@
  "Invite code": "کد دعوت",
  "Invite link copied": "پیوند دعوت کپی شد",
  "Leave group": "ترک گروه",
- "Let others see your status": "اجازه دهید دیگران وضعیت شما را ببینند",
  "Log out": "خروج",
  "Make admin": "ارتقا به مدیر",
  "Members": "اعضا",
@@ -273,5 +272,16 @@
  "Poll": "نظرسنجی",
  "1 person voted": "۱ نفر رأی داد",
  "Group rules": "قوانین گروه",
- "Group rules (optional)": "قوانین گروه (اختیاری)"
+ "Group rules (optional)": "قوانین گروه (اختیاری)",
+ "Info": "اطلاعات",
+ "Message info": "اطلاعات پیام",
+ "Read by": "خوانده‌شده توسط",
+ "Read": "خوانده شد",
+ "Read {when}": "خوانده شد {when}",
+ "Delivered to": "تحویل‌شده به",
+ "Delivered {when}": "تحویل شد {when}",
+ "Not delivered yet": "هنوز تحویل نشده",
+ "Sent {when}": "ارسال شد {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "«آخرین بازدید» را خاموش کرده‌اید، پس نمی‌بینید دیگران کی پیام‌هایتان را می‌خوانند.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "دیگران می‌بینند کی آنلاین هستید و کی پیام‌هایشان را می‌خوانید. اگر خاموشش کنید، شما هم مال آن‌ها را نمی‌بینید."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Pozvánkový kód",
  "Invite link copied": "Odkaz s pozvánkou zkopírován",
  "Leave group": "Opustit skupinu",
- "Let others see your status": "Ukázat ostatním váš stav",
  "Log out": "Odhlásit se",
  "Make admin": "Udělat správcem",
  "Members": "Členové",
@@ -273,5 +272,16 @@
  "Poll": "Anketa",
  "1 person voted": "Hlasoval 1 člověk",
  "Group rules": "Pravidla skupiny",
- "Group rules (optional)": "Pravidla skupiny (nepovinné)"
+ "Group rules (optional)": "Pravidla skupiny (nepovinné)",
+ "Info": "Info",
+ "Message info": "Informace o zprávě",
+ "Read by": "Přečetli",
+ "Read": "Přečteno",
+ "Read {when}": "Přečteno {when}",
+ "Delivered to": "Doručeno",
+ "Delivered {when}": "Doručeno {when}",
+ "Not delivered yet": "Zatím nedoručeno",
+ "Sent {when}": "Odesláno {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Vypnuli jste „naposledy online“, proto nevidíte, kdy si ostatní čtou vaše zprávy.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Ostatní vidí, kdy jste online a kdy čtete jejich zprávy. Když to vypnete, neuvidíte to ani vy u nich."
 }

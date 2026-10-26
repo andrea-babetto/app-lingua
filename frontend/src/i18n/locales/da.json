@@ -69,7 +69,6 @@
  "Invite code": "Invitationskode",
  "Invite link copied": "Invitationslink kopieret",
  "Leave group": "Forlad gruppe",
- "Let others see your status": "Lad andre se din status",
  "Log out": "Log ud",
  "Make admin": "Gør til administrator",
  "Members": "Medlemmer",
@@ -273,5 +272,16 @@
  "Poll": "Afstemning",
  "1 person voted": "1 person har stemt",
  "Group rules": "Gruppens regler",
- "Group rules (optional)": "Gruppens regler (valgfrit)"
+ "Group rules (optional)": "Gruppens regler (valgfrit)",
+ "Info": "Info",
+ "Message info": "Beskedinfo",
+ "Read by": "Læst af",
+ "Read": "Læst",
+ "Read {when}": "Læst {when}",
+ "Delivered to": "Leveret til",
+ "Delivered {when}": "Leveret {when}",
+ "Not delivered yet": "Ikke leveret endnu",
+ "Sent {when}": "Sendt {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Du har slået \"sidst set\" fra, så du kan ikke se, hvornår andre læser dine beskeder.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andre kan se, hvornår du er online, og hvornår du læser deres beskeder. Hvis du slår det fra, kan du heller ikke se deres."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Κωδικός πρόσκλησης",
  "Invite link copied": "Ο σύνδεσμος πρόσκλησης αντιγράφηκε",
  "Leave group": "Έξοδος από την ομάδα",
- "Let others see your status": "Επιτρέψτε στους άλλους να βλέπουν την κατάστασή σας",
  "Log out": "Αποσύνδεση",
  "Make admin": "Ορισμός ως διαχειριστή",
  "Members": "Μέλη",
@@ -273,5 +272,16 @@
  "Poll": "Δημοσκόπηση",
  "1 person voted": "Ψήφισε 1 άτομο",
  "Group rules": "Κανόνες της ομάδας",
- "Group rules (optional)": "Κανόνες της ομάδας (προαιρετικά)"
+ "Group rules (optional)": "Κανόνες της ομάδας (προαιρετικά)",
+ "Info": "Πληροφορίες",
+ "Message info": "Πληροφορίες μηνύματος",
+ "Read by": "Διαβάστηκε από",
+ "Read": "Διαβάστηκε",
+ "Read {when}": "Διαβάστηκε {when}",
+ "Delivered to": "Παραδόθηκε σε",
+ "Delivered {when}": "Παραδόθηκε {when}",
+ "Not delivered yet": "Δεν έχει παραδοθεί ακόμα",
+ "Sent {when}": "Στάλθηκε {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Απενεργοποίησες το «τελευταία σύνδεση», οπότε δεν βλέπεις πότε οι άλλοι διαβάζουν τα μηνύματά σου.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Οι άλλοι βλέπουν πότε είσαι online και πότε διαβάζεις τα μηνύματά τους. Αν το απενεργοποιήσεις, δεν θα βλέπεις ούτε εσύ τα δικά τους."
 }

@@ -116,6 +116,15 @@ def create_token(user_id: str) -> str:
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
 
+# People who turned off "last seen & online": they also do not show when they read, and do not see when others read.
+# Kept in memory (one server process) and refreshed at start-up and whenever the setting changes.
+RECEIPTS_HIDDEN = set()
+
+
+def hides_receipts(uid) -> bool:
+    return uid in RECEIPTS_HIDDEN
+
+
 def public_user(u: dict) -> dict:
     """The user's OWN profile (includes private fields). Never send this to other users."""
     if not u:
@@ -622,6 +631,8 @@ async def update_profile(body: ProfileIn, user=Depends(get_current_user)):
         for k in ("show_original", "last_seen_enabled", "local_time_enabled"):
             if k in raw["settings"]:
                 updates[f"settings.{k}"] = bool(raw["settings"][k])
+        if "last_seen_enabled" in raw["settings"]:
+            (RECEIPTS_HIDDEN.discard if raw["settings"]["last_seen_enabled"] else RECEIPTS_HIDDEN.add)(user["id"])
     if updates:
         await db.users.update_one({"id": user["id"]}, {"$set": updates})
     u = await db.users.find_one({"id": user["id"]}, {"_id": 0})
@@ -736,6 +747,14 @@ def message_view(msg, user_lang, uid=None):
         out["translated_from"] = msg["original_language"]
     if msg.get("poll"):
         out["poll"] = poll_view(msg["poll"], msg["original_language"], user_lang, uid)
+    # Delivered / read, with the time: only the sender sees them, and nobody's reading shows when either side hides it.
+    if uid and msg.get("sender_id") == uid:
+        hide_all = hides_receipts(uid)
+        out["read_by"] = [uid] + ([] if hide_all else [r for r in msg.get("read_by", []) if r != uid and not hides_receipts(r)])
+        out["read_at"] = {} if hide_all else {k: v for k, v in (msg.get("read_at") or {}).items() if not hides_receipts(k)}
+        out["delivered_to"] = dict(msg.get("delivered_to") or {})
+    else:
+        out["read_by"], out["read_at"], out["delivered_to"] = [], {}, {}
     return out
 
 
@@ -884,8 +903,9 @@ async def get_or_create_direct(a, b):
 
 @api.get("/chats")
 async def list_chats(user=Depends(get_current_user)):
-    cur = db.chats.find({"members": user["id"], "hidden_for": {"$ne": user["id"]}}, {"_id": 0})
-    chats = [await enrich_chat(c, user["id"]) for c in await cur.to_list(200)]
+    raw = await db.chats.find({"members": user["id"], "hidden_for": {"$ne": user["id"]}}, {"_id": 0}).to_list(200)
+    await mark_delivered(user["id"], [c["id"] for c in raw])
+    chats = [await enrich_chat(c, user["id"]) for c in raw]
     chats.sort(key=lambda c: (c["last_message"]["created_at"] if c["last_message"] else c["created_at"]), reverse=True)
     return chats
 
@@ -1178,6 +1198,29 @@ async def deliver(msg, chat):
     for mid in chat["members"]:
         u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
         await ws_manager.send(mid, {"type": "new_message", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat["id"]})
+    online = [m for m in chat["members"] if m != msg["sender_id"] and ws_manager.is_online(m)]
+    if online:  # their app is open: the message has reached their device
+        now = now_iso()
+        await db.messages.update_one({"id": msg["id"]}, {"$set": {f"delivered_to.{m}": now for m in online}})
+        msg.setdefault("delivered_to", {}).update({m: now for m in online})
+        for m in online:
+            await ws_manager.send(msg["sender_id"], {"type": "delivered", "chat_id": chat["id"], "user": m, "at": now, "message_ids": [msg["id"]]})
+
+
+async def mark_delivered(uid, chat_ids, now=None):
+    """Messages that reached this person's device (they opened the app or a chat): tell each sender."""
+    now = now or now_iso()
+    query = {"chat_id": {"$in": list(chat_ids)}, "sender_id": {"$ne": uid}, f"delivered_to.{uid}": {"$exists": False},
+             "deleted_for_all": {"$ne": True}}
+    rows = await db.messages.find(query, {"_id": 0, "id": 1, "chat_id": 1, "sender_id": 1}).to_list(2000)
+    if not rows:
+        return
+    await db.messages.update_many({"id": {"$in": [r["id"] for r in rows]}}, {"$set": {f"delivered_to.{uid}": now}})
+    groups = {}
+    for r in rows:
+        groups.setdefault((r["sender_id"], r["chat_id"]), []).append(r["id"])
+    for (sender, chat_id), ids in groups.items():
+        await ws_manager.send(sender, {"type": "delivered", "chat_id": chat_id, "user": uid, "at": now, "message_ids": ids})
 
 
 def new_message_doc(chat_id, user, text, lang, attachment, reply_to, status):
@@ -1478,6 +1521,7 @@ async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), use
 @api.get("/messages/{chat_id}")
 async def get_messages(chat_id: str, before: Optional[str] = None, limit: int = 50, user=Depends(get_current_user)):
     await get_chat_for(chat_id, user)
+    await mark_delivered(user["id"], [chat_id])
     limit = max(1, min(limit, 100))
     query = {"chat_id": chat_id, "deleted_for": {"$ne": user["id"]}}
     if before:
@@ -1510,9 +1554,13 @@ async def search_messages(chat_id: str, q: str, user=Depends(get_current_user)):
 @api.post("/messages/{chat_id}/read")
 async def mark_read(chat_id: str, user=Depends(get_current_user)):
     chat = await get_chat_for(chat_id, user)
-    await db.messages.update_many({"chat_id": chat_id, "read_by": {"$ne": user["id"]}}, {"$addToSet": {"read_by": user["id"]}})
-    for mid in chat["members"]:
-        await ws_manager.send(mid, {"type": "read_receipt", "chat_id": chat_id, "reader": user["id"]})
+    uid, now = user["id"], now_iso()
+    await mark_delivered(uid, [chat_id], now)  # read means it arrived too
+    await db.messages.update_many({"chat_id": chat_id, "read_by": {"$ne": uid}}, {"$addToSet": {"read_by": uid}, "$set": {f"read_at.{uid}": now}})
+    if not hides_receipts(uid):
+        for mid in chat["members"]:
+            if mid != uid and not hides_receipts(mid):
+                await ws_manager.send(mid, {"type": "read_receipt", "chat_id": chat_id, "reader": uid, "at": now})
     return {"ok": True}
 
 
@@ -1951,6 +1999,8 @@ async def startup():
     await db.usage.create_index("month")
     await db.scheduled.create_index("send_at")
     await db.password_resets.create_index("token_hash")
+    RECEIPTS_HIDDEN.clear()
+    RECEIPTS_HIDDEN.update([u["id"] async for u in db.users.find({"settings.last_seen_enabled": False}, {"_id": 0, "id": 1})])
     if os.environ.get("APP_ENV") != "test":
         spawn(scheduled_loop())
     # Cached translations expire after 30 days so the database does not grow forever.

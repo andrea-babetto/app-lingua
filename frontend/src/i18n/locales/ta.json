@@ -69,7 +69,6 @@
  "Invite code": "அழைப்புக் குறியீடு",
  "Invite link copied": "அழைப்பு இணைப்பு நகலெடுக்கப்பட்டது",
  "Leave group": "குழுவிலிருந்து வெளியேறு",
- "Let others see your status": "உங்கள் நிலையை மற்றவர்கள் பார்க்க அனுமதிக்கவும்",
  "Log out": "வெளியேறு",
  "Make admin": "நிர்வாகியாக்கு",
  "Members": "உறுப்பினர்கள்",
@@ -273,5 +272,16 @@
  "Poll": "வாக்கெடுப்பு",
  "1 person voted": "1 நபர் வாக்களித்தார்",
  "Group rules": "குழு விதிகள்",
- "Group rules (optional)": "குழு விதிகள் (விருப்பத்தேர்வு)"
+ "Group rules (optional)": "குழு விதிகள் (விருப்பத்தேர்வு)",
+ "Info": "தகவல்",
+ "Message info": "செய்தி தகவல்",
+ "Read by": "படித்தவர்கள்",
+ "Read": "படிக்கப்பட்டது",
+ "Read {when}": "படிக்கப்பட்டது {when}",
+ "Delivered to": "சென்றடைந்தது",
+ "Delivered {when}": "சென்றடைந்தது {when}",
+ "Not delivered yet": "இன்னும் சென்றடையவில்லை",
+ "Sent {when}": "அனுப்பப்பட்டது {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "கடைசியாகப் பார்த்ததை முடக்கியுள்ளீர்கள், எனவே மற்றவர்கள் உங்கள் செய்திகளை எப்போது படிக்கிறார்கள் என்று தெரியாது.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "நீங்கள் எப்போது ஆன்லைனில் இருக்கிறீர்கள், அவர்களின் செய்திகளை எப்போது படிக்கிறீர்கள் என்பதை மற்றவர்கள் பார்க்கலாம். முடக்கினால், அவர்களுடையதும் உங்களுக்குத் தெரியாது."
 }

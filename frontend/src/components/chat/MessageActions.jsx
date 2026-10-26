@@ -1,4 +1,4 @@
-import { Copy, Globe, Pencil, Reply, Trash2 } from "lucide-react";
+import { Copy, Globe, Info, Pencil, Reply, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useI18n } from "@/i18n";
@@ -22,7 +22,7 @@ function Row({ icon: Icon, label, onClick, danger, testId }) {
 }
 
 // The menu that opens when you tap a message: reactions on top, then what you can do with it.
-export default function MessageActions({ msg, mine, userId, onClose, onReply, onEdit, onReact, onShowOriginal, showingOriginal }) {
+export default function MessageActions({ msg, mine, userId, onClose, onReply, onEdit, onReact, onShowOriginal, showingOriginal, onInfo }) {
   const { t } = useI18n();
   const open = !!msg;
   const done = (fn) => () => { onClose(); fn?.(); };
@@ -48,6 +48,7 @@ export default function MessageActions({ msg, mine, userId, onClose, onReply, on
             </div>
             <div className="py-1">
               <Row icon={Reply} label={t("Reply")} testId="action-reply" onClick={done(() => onReply(msg))} />
+              {mine && !msg.deleted_for_all && onInfo && <Row icon={Info} label={t("Info")} testId="action-info" onClick={done(() => onInfo(msg))} />}
               {canEdit(msg, mine) && <Row icon={Pencil} label={t("Edit")} testId="action-edit" onClick={done(() => onEdit(msg))} />}
               {msg.is_translated && <Row icon={Copy} label={t("Copy translation")} testId="action-copy-translation" onClick={done(() => copy(msg.display_text))} />}
               {msg.original_text && <Row icon={Copy} label={msg.is_translated ? t("Copy original") : t("Copy")} testId="action-copy" onClick={done(() => copy(msg.original_text))} />}

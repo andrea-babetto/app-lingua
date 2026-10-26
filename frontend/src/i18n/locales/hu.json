@@ -69,7 +69,6 @@
  "Invite code": "Meghívókód",
  "Invite link copied": "Meghívó link másolva",
  "Leave group": "Kilépés a csoportból",
- "Let others see your status": "Mások láthatják az állapotodat",
  "Log out": "Kijelentkezés",
  "Make admin": "Adminná tesz",
  "Members": "Tagok",
@@ -273,5 +272,16 @@
  "Poll": "Szavazás",
  "1 person voted": "1 ember szavazott",
  "Group rules": "A csoport szabályai",
- "Group rules (optional)": "A csoport szabályai (nem kötelező)"
+ "Group rules (optional)": "A csoport szabályai (nem kötelező)",
+ "Info": "Infó",
+ "Message info": "Üzenet adatai",
+ "Read by": "Olvasta",
+ "Read": "Olvasva",
+ "Read {when}": "Olvasva: {when}",
+ "Delivered to": "Kézbesítve",
+ "Delivered {when}": "Kézbesítve: {when}",
+ "Not delivered yet": "Még nincs kézbesítve",
+ "Sent {when}": "Elküldve: {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Kikapcsoltad az utoljára látva funkciót, ezért nem látod, mikor olvassák mások az üzeneteidet.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Mások látják, mikor vagy elérhető és mikor olvasod az üzeneteiket. Ha kikapcsolod, te sem látod az övékét."
 }

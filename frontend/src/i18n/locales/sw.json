@@ -69,7 +69,6 @@
  "Invite code": "Msimbo wa mwaliko",
  "Invite link copied": "Kiungo cha mwaliko kimenakiliwa",
  "Leave group": "Ondoka kwenye kundi",
- "Let others see your status": "Waruhusu wengine waone hali yako",
  "Log out": "Toka",
  "Make admin": "Fanya msimamizi",
  "Members": "Wanachama",
@@ -273,5 +272,16 @@
  "Poll": "Kura",
  "1 person voted": "Mtu 1 amepiga kura",
  "Group rules": "Kanuni za kikundi",
- "Group rules (optional)": "Kanuni za kikundi (si lazima)"
+ "Group rules (optional)": "Kanuni za kikundi (si lazima)",
+ "Info": "Maelezo",
+ "Message info": "Maelezo ya ujumbe",
+ "Read by": "Umesomwa na",
+ "Read": "Umesomwa",
+ "Read {when}": "Umesomwa {when}",
+ "Delivered to": "Umefika kwa",
+ "Delivered {when}": "Umefika {when}",
+ "Not delivered yet": "Bado haujafika",
+ "Sent {when}": "Umetumwa {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Umezima mara ya mwisho kuonekana, kwa hiyo huoni wengine wanaposoma ujumbe wako.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Wengine wanaona ukiwa mtandaoni na unaposoma ujumbe wao. Ukikizima, nawe hutaona chao."
 }

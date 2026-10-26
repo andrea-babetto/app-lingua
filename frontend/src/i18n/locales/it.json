@@ -69,7 +69,6 @@
  "Invite code": "Codice d'invito",
  "Invite link copied": "Link d'invito copiato",
  "Leave group": "Esci dal gruppo",
- "Let others see your status": "Mostra il tuo stato agli altri",
  "Log out": "Esci",
  "Make admin": "Nomina admin",
  "Members": "Membri",
@@ -273,5 +272,16 @@
  "Poll": "Sondaggio",
  "1 person voted": "Ha votato 1 persona",
  "Group rules": "Regole del gruppo",
- "Group rules (optional)": "Regole del gruppo (facoltative)"
+ "Group rules (optional)": "Regole del gruppo (facoltative)",
+ "Info": "Info",
+ "Message info": "Info messaggio",
+ "Read by": "Letto da",
+ "Read": "Letto",
+ "Read {when}": "Letto {when}",
+ "Delivered to": "Consegnato a",
+ "Delivered {when}": "Consegnato {when}",
+ "Not delivered yet": "Non ancora consegnato",
+ "Sent {when}": "Inviato {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Hai disattivato l'ultimo accesso, quindi non vedi quando gli altri leggono i tuoi messaggi.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Gli altri vedono quando sei online e quando leggi i loro messaggi. Se lo disattivi, non vedi nemmeno i loro."
 }

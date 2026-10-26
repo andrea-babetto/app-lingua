@@ -69,7 +69,6 @@
  "Invite code": "رمز الدعوة",
  "Invite link copied": "تم نسخ رابط الدعوة",
  "Leave group": "مغادرة المجموعة",
- "Let others see your status": "اسمح للآخرين برؤية حالتك",
  "Log out": "تسجيل الخروج",
  "Make admin": "تعيين كمشرف",
  "Members": "الأعضاء",
@@ -273,5 +272,16 @@
  "Poll": "استطلاع",
  "1 person voted": "صوّت شخص واحد",
  "Group rules": "قواعد المجموعة",
- "Group rules (optional)": "قواعد المجموعة (اختياري)"
+ "Group rules (optional)": "قواعد المجموعة (اختياري)",
+ "Info": "معلومات",
+ "Message info": "معلومات الرسالة",
+ "Read by": "قرأها",
+ "Read": "مقروءة",
+ "Read {when}": "قُرئت {when}",
+ "Delivered to": "وصلت إلى",
+ "Delivered {when}": "وصلت {when}",
+ "Not delivered yet": "لم تصل بعد",
+ "Sent {when}": "أُرسلت {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "أوقفت «آخر ظهور»، لذلك لا ترى متى يقرأ الآخرون رسائلك.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "يرى الآخرون متى تكون متصلًا ومتى تقرأ رسائلهم. إذا أوقفت ذلك، فلن ترى ذلك عنهم أيضًا."
 }

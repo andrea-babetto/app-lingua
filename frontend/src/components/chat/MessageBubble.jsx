@@ -59,23 +59,25 @@ function useSwipeToReply(onReply) {
   return { dx, sign, handlers: { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel: onTouchEnd } };
 }
 
-// The ticks under my messages: one when the message is sent, two when it has been read.
-// A new message draws its tick; when it is read the second tick draws itself and both turn green.
-function Ticks({ read, createdAt }) {
+// The ticks under my messages: one grey tick = sent, two grey = delivered (it reached their phone), two green = read.
+// A new message draws its tick; the second tick draws itself when delivered and both turn green when read.
+function Ticks({ read, delivered, createdAt }) {
   const fresh = useRef(Date.now() - new Date(createdAt).getTime() < 5000);  // just sent: draw the first tick
-  const wasRead = useRef(read);
-  const justRead = read && !wasRead.current;
-  useEffect(() => { wasRead.current = read; }, [read]);
+  const two = read || delivered;
+  const hadTwo = useRef(two);
+  const justArrived = two && !hadTwo.current;
+  useEffect(() => { hadTwo.current = two; }, [two]);
   return (
-    <svg data-testid="ticks" data-read={read ? "true" : "false"} viewBox="0 0 18 14" className={`w-[18px] h-[14px] transition-colors duration-500 ${read ? "text-[#a9c9a0]" : ""}`}
-      fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-label={read ? "read" : "sent"}>
+    <svg data-testid="ticks" data-read={read ? "true" : "false"} data-delivered={two ? "true" : "false"} viewBox="0 0 18 14"
+      className={`w-[18px] h-[14px] transition-colors duration-500 ${read ? "text-[#a9c9a0]" : ""}`}
+      fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-label={read ? "read" : two ? "delivered" : "sent"}>
       <path d="M1.5 7.5l3.6 3.6L12.4 3.3" pathLength="1" className={fresh.current ? "gl-tick-draw" : ""} />
-      {read && <path d="M8.3 10.9l.4.3L16 3.3" pathLength="1" className={justRead ? "gl-tick-draw" : ""} />}
+      {two && <path d="M8.3 10.9l.4.3L16 3.3" pathLength="1" className={justArrived ? "gl-tick-draw" : ""} />}
     </svg>
   );
 }
 
-export default function MessageBubble({ msg, read, quote, onJump, onVote, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
+export default function MessageBubble({ msg, read, delivered, quote, onJump, onVote, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();
   const [zoom, setZoom] = useState(false);
@@ -176,7 +178,7 @@ export default function MessageBubble({ msg, read, quote, onJump, onVote, mine, 
           <div dir="ltr" className={`flex items-center gap-1 justify-end mt-0.5 text-[11px] ${mine ? "text-bubble-out-foreground/75" : "text-subtle"}`}>
             {msg.edited && <span>{t("edited")}</span>}
             <span>{time}</span>
-            {mine && <Ticks read={!!read} createdAt={msg.created_at} />}
+            {mine && <Ticks read={!!read} delivered={!!delivered} createdAt={msg.created_at} />}
           </div>
         </div>
 

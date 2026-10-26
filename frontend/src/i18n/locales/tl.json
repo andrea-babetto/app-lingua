@@ -69,7 +69,6 @@
  "Invite code": "Invite code",
  "Invite link copied": "Nakopya ang invite link",
  "Leave group": "Umalis sa grupo",
- "Let others see your status": "Hayaang makita ng iba ang status mo",
  "Log out": "Mag-log out",
  "Make admin": "Gawing admin",
  "Members": "Mga miyembro",
@@ -273,5 +272,16 @@
  "Poll": "Poll",
  "1 person voted": "1 tao ang bumoto",
  "Group rules": "Mga patakaran ng grupo",
- "Group rules (optional)": "Mga patakaran ng grupo (opsyonal)"
+ "Group rules (optional)": "Mga patakaran ng grupo (opsyonal)",
+ "Info": "Impormasyon",
+ "Message info": "Impormasyon ng mensahe",
+ "Read by": "Nabasa ni",
+ "Read": "Nabasa",
+ "Read {when}": "Nabasa {when}",
+ "Delivered to": "Naihatid kay",
+ "Delivered {when}": "Naihatid {when}",
+ "Not delivered yet": "Hindi pa naihahatid",
+ "Sent {when}": "Naipadala {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Pinatay mo ang huling nakita, kaya hindi mo makikita kung kailan binabasa ng iba ang mga mensahe mo.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Nakikita ng iba kung kailan ka online at kung kailan mo binabasa ang mga mensahe nila. Kapag pinatay mo, hindi mo rin makikita ang sa kanila."
 }

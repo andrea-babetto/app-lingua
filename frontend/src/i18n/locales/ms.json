@@ -69,7 +69,6 @@
  "Invite code": "Kod jemputan",
  "Invite link copied": "Pautan jemputan disalin",
  "Leave group": "Tinggalkan kumpulan",
- "Let others see your status": "Benarkan orang lain melihat status anda",
  "Log out": "Log keluar",
  "Make admin": "Jadikan admin",
  "Members": "Ahli",
@@ -273,5 +272,16 @@
  "Poll": "Undian",
  "1 person voted": "1 orang telah mengundi",
  "Group rules": "Peraturan kumpulan",
- "Group rules (optional)": "Peraturan kumpulan (pilihan)"
+ "Group rules (optional)": "Peraturan kumpulan (pilihan)",
+ "Info": "Maklumat",
+ "Message info": "Maklumat mesej",
+ "Read by": "Dibaca oleh",
+ "Read": "Dibaca",
+ "Read {when}": "Dibaca {when}",
+ "Delivered to": "Dihantar kepada",
+ "Delivered {when}": "Sampai {when}",
+ "Not delivered yet": "Belum sampai",
+ "Sent {when}": "Dihantar {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Anda mematikan kali terakhir dilihat, jadi anda tidak nampak bila orang lain membaca mesej anda.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Orang lain nampak bila anda dalam talian dan bila anda membaca mesej mereka. Jika anda mematikannya, anda juga tidak nampak milik mereka."
 }

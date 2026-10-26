@@ -69,7 +69,6 @@
  "Invite code": "招待コード",
  "Invite link copied": "招待リンクをコピーしました",
  "Leave group": "グループを退出",
- "Let others see your status": "自分のステータスを他の人に表示する",
  "Log out": "ログアウト",
  "Make admin": "管理者にする",
  "Members": "メンバー",
@@ -273,5 +272,16 @@
  "Poll": "アンケート",
  "1 person voted": "1人が投票",
  "Group rules": "グループのルール",
- "Group rules (optional)": "グループのルール（任意）"
+ "Group rules (optional)": "グループのルール（任意）",
+ "Info": "情報",
+ "Message info": "メッセージ情報",
+ "Read by": "既読",
+ "Read": "既読",
+ "Read {when}": "既読 {when}",
+ "Delivered to": "配信済み",
+ "Delivered {when}": "配信済み {when}",
+ "Not delivered yet": "未配信",
+ "Sent {when}": "送信 {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "最終ログインをオフにしているため、相手がいつメッセージを読んだかは表示されません。",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "オンライン中やメッセージを読んだタイミングが相手に表示されます。オフにすると、相手のものも表示されません。"
 }

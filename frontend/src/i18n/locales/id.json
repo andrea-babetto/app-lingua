@@ -69,7 +69,6 @@
  "Invite code": "Kode undangan",
  "Invite link copied": "Tautan undangan disalin",
  "Leave group": "Keluar dari grup",
- "Let others see your status": "Biarkan orang lain melihat status Anda",
  "Log out": "Keluar",
  "Make admin": "Jadikan admin",
  "Members": "Anggota",
@@ -273,5 +272,16 @@
  "Poll": "Polling",
  "1 person voted": "1 orang sudah memilih",
  "Group rules": "Aturan grup",
- "Group rules (optional)": "Aturan grup (opsional)"
+ "Group rules (optional)": "Aturan grup (opsional)",
+ "Info": "Info",
+ "Message info": "Info pesan",
+ "Read by": "Dibaca oleh",
+ "Read": "Dibaca",
+ "Read {when}": "Dibaca {when}",
+ "Delivered to": "Terkirim ke",
+ "Delivered {when}": "Terkirim {when}",
+ "Not delivered yet": "Belum terkirim",
+ "Sent {when}": "Dikirim {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Kamu mematikan terakhir dilihat, jadi kamu tidak bisa melihat kapan orang lain membaca pesanmu.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Orang lain bisa melihat kapan kamu online dan kapan kamu membaca pesan mereka. Jika dimatikan, kamu juga tidak bisa melihat milik mereka."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Codi d'invitació",
  "Invite link copied": "Enllaç d'invitació copiat",
  "Leave group": "Surt del grup",
- "Let others see your status": "Deixa que els altres vegin el teu estat",
  "Log out": "Tanca la sessió",
  "Make admin": "Fes administrador",
  "Members": "Membres",
@@ -273,5 +272,16 @@
  "Poll": "Enquesta",
  "1 person voted": "Ha votat 1 persona",
  "Group rules": "Normes del grup",
- "Group rules (optional)": "Normes del grup (opcional)"
+ "Group rules (optional)": "Normes del grup (opcional)",
+ "Info": "Informació",
+ "Message info": "Informació del missatge",
+ "Read by": "Llegit per",
+ "Read": "Llegit",
+ "Read {when}": "Llegit {when}",
+ "Delivered to": "Entregat a",
+ "Delivered {when}": "Entregat {when}",
+ "Not delivered yet": "Encara no entregat",
+ "Sent {when}": "Enviat {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Has desactivat l'última connexió, així que no veus quan els altres llegeixen els teus missatges.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Els altres veuen quan estàs connectat i quan llegeixes els seus missatges. Si ho desactives, tampoc no veuràs els seus."
 }

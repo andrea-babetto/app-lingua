@@ -97,7 +97,14 @@ export default function Chat() {
       if (cur && d.chat_id === cur.id && d.reader !== user.id) {
         // add the reader to each of my messages: in a group the ticks turn green only when everyone has read
         setMessages((prev) => prev.map((m) => (m.sender_id === user.id && !(m.read_by || []).includes(d.reader)
-          ? { ...m, read_by: [...(m.read_by || []), d.reader] } : m)));
+          ? { ...m, read_by: [...(m.read_by || []), d.reader], read_at: { ...(m.read_at || {}), [d.reader]: d.at } } : m)));
+      }
+    } else if (d.type === "delivered") {
+      // my messages reached someone's device: the second (grey) tick
+      if (cur && d.chat_id === cur.id) {
+        const ids = new Set(d.message_ids || []);
+        setMessages((prev) => prev.map((m) => (ids.has(m.id) && !(m.delivered_to || {})[d.user]
+          ? { ...m, delivered_to: { ...(m.delivered_to || {}), [d.user]: d.at } } : m)));
       }
     } else if (d.type === "scheduled_sent") {
       window.dispatchEvent(new CustomEvent("glott:scheduled-sent", { detail: d }));

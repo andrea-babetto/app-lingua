@@ -69,7 +69,6 @@
  "Invite code": "Cod de invitație",
  "Invite link copied": "Link de invitație copiat",
  "Leave group": "Părăsește grupul",
- "Let others see your status": "Lasă-i pe ceilalți să vadă statusul tău",
  "Log out": "Deconectare",
  "Make admin": "Fă administrator",
  "Members": "Membri",
@@ -273,5 +272,16 @@
  "Poll": "Sondaj",
  "1 person voted": "A votat 1 persoană",
  "Group rules": "Regulile grupului",
- "Group rules (optional)": "Regulile grupului (opțional)"
+ "Group rules (optional)": "Regulile grupului (opțional)",
+ "Info": "Info",
+ "Message info": "Informații mesaj",
+ "Read by": "Citit de",
+ "Read": "Citit",
+ "Read {when}": "Citit {when}",
+ "Delivered to": "Livrat către",
+ "Delivered {when}": "Livrat {when}",
+ "Not delivered yet": "Încă nelivrat",
+ "Sent {when}": "Trimis {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Ai dezactivat „văzut ultima dată”, așa că nu vezi când citesc ceilalți mesajele tale.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Ceilalți văd când ești online și când le citești mesajele. Dacă dezactivezi, nici tu nu vei vedea ale lor."
 }

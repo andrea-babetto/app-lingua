@@ -69,7 +69,6 @@
  "Invite code": "รหัสเชิญ",
  "Invite link copied": "คัดลอกลิงก์เชิญแล้ว",
  "Leave group": "ออกจากกลุ่ม",
- "Let others see your status": "ให้ผู้อื่นเห็นสถานะของคุณ",
  "Log out": "ออกจากระบบ",
  "Make admin": "ตั้งเป็นผู้ดูแล",
  "Members": "สมาชิก",
@@ -273,5 +272,16 @@
  "Poll": "โพล",
  "1 person voted": "โหวตแล้ว 1 คน",
  "Group rules": "กฎของกลุ่ม",
- "Group rules (optional)": "กฎของกลุ่ม (ไม่บังคับ)"
+ "Group rules (optional)": "กฎของกลุ่ม (ไม่บังคับ)",
+ "Info": "ข้อมูล",
+ "Message info": "ข้อมูลข้อความ",
+ "Read by": "อ่านโดย",
+ "Read": "อ่านแล้ว",
+ "Read {when}": "อ่านแล้ว {when}",
+ "Delivered to": "ส่งถึง",
+ "Delivered {when}": "ส่งถึงแล้ว {when}",
+ "Not delivered yet": "ยังไม่ส่งถึง",
+ "Sent {when}": "ส่งแล้ว {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "คุณปิดการแสดงเวลาใช้งานล่าสุด จึงไม่เห็นว่าคนอื่นอ่านข้อความของคุณเมื่อไร",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "คนอื่นจะเห็นว่าคุณออนไลน์เมื่อไรและอ่านข้อความของเขาเมื่อไร ถ้าปิด คุณก็จะไม่เห็นของเขาเช่นกัน"
 }

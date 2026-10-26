@@ -69,7 +69,6 @@
  "Invite code": "Код запрошення",
  "Invite link copied": "Посилання-запрошення скопійовано",
  "Leave group": "Вийти з групи",
- "Let others see your status": "Показувати іншим ваш статус",
  "Log out": "Вийти",
  "Make admin": "Призначити адміністратором",
  "Members": "Учасники",
@@ -273,5 +272,16 @@
  "Poll": "Опитування",
  "1 person voted": "Проголосувала 1 людина",
  "Group rules": "Правила групи",
- "Group rules (optional)": "Правила групи (необов'язково)"
+ "Group rules (optional)": "Правила групи (необов'язково)",
+ "Info": "Інфо",
+ "Message info": "Відомості про повідомлення",
+ "Read by": "Прочитали",
+ "Read": "Прочитано",
+ "Read {when}": "Прочитано {when}",
+ "Delivered to": "Доставлено",
+ "Delivered {when}": "Доставлено {when}",
+ "Not delivered yet": "Ще не доставлено",
+ "Sent {when}": "Надіслано {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Ви вимкнули «був(-ла) у мережі», тому не бачите, коли інші читають ваші повідомлення.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Інші бачать, коли ви в мережі й коли читаєте їхні повідомлення. Якщо вимкнете, ви теж не бачитимете їхнього."
 }

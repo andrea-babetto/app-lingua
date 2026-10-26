@@ -69,7 +69,6 @@
  "Invite code": "इन्वाइट कोड",
  "Invite link copied": "इन्वाइट लिंक कॉपी हो गया",
  "Leave group": "ग्रुप छोड़ें",
- "Let others see your status": "दूसरों को अपनी स्थिति देखने दें",
  "Log out": "लॉग आउट",
  "Make admin": "एडमिन बनाएँ",
  "Members": "सदस्य",
@@ -273,5 +272,16 @@
  "Poll": "पोल",
  "1 person voted": "1 व्यक्ति ने वोट किया",
  "Group rules": "ग्रुप के नियम",
- "Group rules (optional)": "ग्रुप के नियम (वैकल्पिक)"
+ "Group rules (optional)": "ग्रुप के नियम (वैकल्पिक)",
+ "Info": "जानकारी",
+ "Message info": "संदेश की जानकारी",
+ "Read by": "इन्होंने पढ़ा",
+ "Read": "पढ़ा गया",
+ "Read {when}": "पढ़ा गया {when}",
+ "Delivered to": "इन्हें पहुँचा",
+ "Delivered {when}": "पहुँचा {when}",
+ "Not delivered yet": "अभी नहीं पहुँचा",
+ "Sent {when}": "भेजा गया {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "आपने आख़िरी बार देखा गया बंद किया है, इसलिए आप नहीं देख पाएँगे कि दूसरे आपके संदेश कब पढ़ते हैं।",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "दूसरे देख सकते हैं कि आप कब ऑनलाइन हैं और कब उनके संदेश पढ़ते हैं। इसे बंद करने पर आप भी उनका नहीं देख पाएँगे।"
 }

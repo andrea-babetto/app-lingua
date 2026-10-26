@@ -69,7 +69,6 @@
  "Invite code": "קוד הזמנה",
  "Invite link copied": "קישור ההזמנה הועתק",
  "Leave group": "עזיבת הקבוצה",
- "Let others see your status": "אפשרו לאחרים לראות את הסטטוס שלכם",
  "Log out": "התנתקות",
  "Make admin": "הפיכה למנהל",
  "Members": "חברים",
@@ -273,5 +272,16 @@
  "Poll": "סקר",
  "1 person voted": "אדם אחד הצביע",
  "Group rules": "כללי הקבוצה",
- "Group rules (optional)": "כללי הקבוצה (לא חובה)"
+ "Group rules (optional)": "כללי הקבוצה (לא חובה)",
+ "Info": "מידע",
+ "Message info": "פרטי ההודעה",
+ "Read by": "נקראה על ידי",
+ "Read": "נקראה",
+ "Read {when}": "נקראה {when}",
+ "Delivered to": "נמסרה ל",
+ "Delivered {when}": "נמסרה {when}",
+ "Not delivered yet": "עדיין לא נמסרה",
+ "Sent {when}": "נשלחה {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "כיבית את \"נראה לאחרונה\", לכן לא תראו מתי אחרים קוראים את ההודעות שלך.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "אחרים רואים מתי את/ה מחובר/ת ומתי את/ה קורא/ת את ההודעות שלהם. אם תכבו, גם אתם לא תראו את שלהם."
 }

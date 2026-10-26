@@ -69,7 +69,6 @@
  "Invite code": "Inbjudningskod",
  "Invite link copied": "Inbjudningslänk kopierad",
  "Leave group": "Lämna grupp",
- "Let others see your status": "Låt andra se din status",
  "Log out": "Logga ut",
  "Make admin": "Gör till admin",
  "Members": "Medlemmar",
@@ -273,5 +272,16 @@
  "Poll": "Omröstning",
  "1 person voted": "1 person har röstat",
  "Group rules": "Gruppens regler",
- "Group rules (optional)": "Gruppens regler (valfritt)"
+ "Group rules (optional)": "Gruppens regler (valfritt)",
+ "Info": "Info",
+ "Message info": "Meddelandeinfo",
+ "Read by": "Läst av",
+ "Read": "Läst",
+ "Read {when}": "Läst {when}",
+ "Delivered to": "Levererat till",
+ "Delivered {when}": "Levererat {when}",
+ "Not delivered yet": "Inte levererat än",
+ "Sent {when}": "Skickat {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Du har stängt av ”senast sedd”, så du ser inte när andra läser dina meddelanden.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Andra ser när du är online och när du läser deras meddelanden. Stänger du av det ser du inte heller deras."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Uitnodigingscode",
  "Invite link copied": "Uitnodigingslink gekopieerd",
  "Leave group": "Groep verlaten",
- "Let others see your status": "Laat anderen je status zien",
  "Log out": "Uitloggen",
  "Make admin": "Beheerder maken",
  "Members": "Leden",
@@ -273,5 +272,16 @@
  "Poll": "Peiling",
  "1 person voted": "1 persoon heeft gestemd",
  "Group rules": "Groepsregels",
- "Group rules (optional)": "Groepsregels (optioneel)"
+ "Group rules (optional)": "Groepsregels (optioneel)",
+ "Info": "Info",
+ "Message info": "Berichtinfo",
+ "Read by": "Gelezen door",
+ "Read": "Gelezen",
+ "Read {when}": "Gelezen {when}",
+ "Delivered to": "Bezorgd bij",
+ "Delivered {when}": "Bezorgd {when}",
+ "Not delivered yet": "Nog niet bezorgd",
+ "Sent {when}": "Verstuurd {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Je hebt 'laatst gezien' uitgezet, dus je ziet niet wanneer anderen je berichten lezen.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Anderen zien wanneer je online bent en wanneer je hun berichten leest. Zet je het uit, dan zie je dat van hen ook niet."
 }

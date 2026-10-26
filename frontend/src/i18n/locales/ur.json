@@ -69,7 +69,6 @@
  "Invite code": "دعوتی کوڈ",
  "Invite link copied": "دعوتی لنک کاپی ہو گیا",
  "Leave group": "گروپ چھوڑیں",
- "Let others see your status": "دوسروں کو اپنی حالت دکھائیں",
  "Log out": "لاگ آؤٹ",
  "Make admin": "ایڈمن بنائیں",
  "Members": "ارکان",
@@ -273,5 +272,16 @@
  "Poll": "پول",
  "1 person voted": "1 شخص نے ووٹ دیا",
  "Group rules": "گروپ کے اصول",
- "Group rules (optional)": "گروپ کے اصول (اختیاری)"
+ "Group rules (optional)": "گروپ کے اصول (اختیاری)",
+ "Info": "معلومات",
+ "Message info": "پیغام کی معلومات",
+ "Read by": "جنہوں نے پڑھا",
+ "Read": "پڑھ لیا گیا",
+ "Read {when}": "پڑھا گیا {when}",
+ "Delivered to": "جن تک پہنچا",
+ "Delivered {when}": "پہنچا {when}",
+ "Not delivered yet": "ابھی نہیں پہنچا",
+ "Sent {when}": "بھیجا گیا {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "آپ نے آخری بار دیکھا گیا بند کیا ہے، اس لیے آپ نہیں دیکھ سکتے کہ دوسرے آپ کے پیغام کب پڑھتے ہیں۔",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "دوسرے دیکھتے ہیں کہ آپ کب آن لائن ہیں اور کب ان کے پیغام پڑھتے ہیں۔ اگر آپ اسے بند کریں تو آپ بھی ان کا نہیں دیکھ سکیں گے۔"
 }

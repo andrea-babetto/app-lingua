@@ -69,7 +69,6 @@
  "Invite code": "ఆహ్వాన కోడ్",
  "Invite link copied": "ఆహ్వాన లింక్ కాపీ అయింది",
  "Leave group": "గ్రూప్ నుండి వెళ్లిపో",
- "Let others see your status": "ఇతరులు మీ స్టేటస్ చూడనివ్వండి",
  "Log out": "లాగ్ అవుట్",
  "Make admin": "అడ్మిన్ చేయి",
  "Members": "సభ్యులు",
@@ -273,5 +272,16 @@
  "Poll": "పోల్",
  "1 person voted": "1 వ్యక్తి ఓటు వేశారు",
  "Group rules": "గ్రూప్ నియమాలు",
- "Group rules (optional)": "గ్రూప్ నియమాలు (ఐచ్ఛికం)"
+ "Group rules (optional)": "గ్రూప్ నియమాలు (ఐచ్ఛికం)",
+ "Info": "సమాచారం",
+ "Message info": "సందేశ సమాచారం",
+ "Read by": "చదివినవారు",
+ "Read": "చదివారు",
+ "Read {when}": "చదివారు {when}",
+ "Delivered to": "చేరింది",
+ "Delivered {when}": "చేరింది {when}",
+ "Not delivered yet": "ఇంకా చేరలేదు",
+ "Sent {when}": "పంపబడింది {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "మీరు చివరిగా చూసింది ఆఫ్ చేశారు, కాబట్టి ఇతరులు మీ సందేశాలను ఎప్పుడు చదివారో మీకు కనిపించదు.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "మీరు ఎప్పుడు ఆన్‌లైన్‌లో ఉన్నారో, వారి సందేశాలు ఎప్పుడు చదివారో ఇతరులకు కనిపిస్తుంది. ఆఫ్ చేస్తే, మీకూ వారిది కనిపించదు."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Kod pozivnice",
  "Invite link copied": "Link pozivnice kopiran",
  "Leave group": "Napusti grupu",
- "Let others see your status": "Neka drugi vide vaš status",
  "Log out": "Odjava",
  "Make admin": "Postavi za admina",
  "Members": "Članovi",
@@ -273,5 +272,16 @@
  "Poll": "Anketa",
  "1 person voted": "Glasala je 1 osoba",
  "Group rules": "Pravila grupe",
- "Group rules (optional)": "Pravila grupe (neobavezno)"
+ "Group rules (optional)": "Pravila grupe (neobavezno)",
+ "Info": "Informacije",
+ "Message info": "Informacije o poruci",
+ "Read by": "Pročitali",
+ "Read": "Pročitano",
+ "Read {when}": "Pročitano {when}",
+ "Delivered to": "Isporučeno",
+ "Delivered {when}": "Isporučeno {when}",
+ "Not delivered yet": "Još nije isporučeno",
+ "Sent {when}": "Poslano {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Isključio si „zadnji put viđen“, pa ne vidiš kad drugi čitaju tvoje poruke.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Drugi vide kad si na mreži i kad čitaš njihove poruke. Ako to isključiš, ni ti nećeš vidjeti njihovo."
 }

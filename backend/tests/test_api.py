@@ -1109,3 +1109,49 @@ def test_group_description_and_rules_are_translated_for_each_member(client, make
     while time.time() < end and bobs()["rules"] != "[en] Solo lavoro":
         time.sleep(0.05)
     assert bobs()["rules"] == "[en] Solo lavoro"
+
+
+def _mine(client, person, chat_id, msg_id):
+    return next(m for m in client.get(f"/api/messages/{chat_id}", headers=person.h).json() if m["id"] == msg_id)
+
+
+def test_delivered_and_read_with_time_only_for_the_sender(client, make_person):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao"}, headers=a.h).json()
+    v = _mine(client, a, chat["id"], m["id"])
+    assert v["delivered_to"] == {} and v["read_at"] == {} and v["read_by"] == [a.id]       # Bob's app is closed: only sent
+    client.get("/api/chats", headers=b.h)                                                  # Bob opens the app: delivered
+    v = _mine(client, a, chat["id"], m["id"])
+    assert list(v["delivered_to"]) == [b.id] and v["read_at"] == {}
+    client.post(f"/api/messages/{chat['id']}/read", headers=b.h)                           # Bob reads it
+    v = _mine(client, a, chat["id"], m["id"])
+    assert v["read_by"] == [a.id, b.id] and b.id in v["read_at"] and v["read_at"][b.id] >= v["delivered_to"][b.id]
+    # Bob sees no receipts on Anna's message (they are for the sender only)
+    seen_by_bob = _mine(client, b, chat["id"], m["id"])
+    assert seen_by_bob["read_at"] == {} and seen_by_bob["delivered_to"] == {} and seen_by_bob["read_by"] == []
+
+
+def test_last_seen_off_hides_reading_both_ways_but_not_delivery(client, make_person):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao"}, headers=a.h).json()
+    client.post(f"/api/messages/{chat['id']}/read", headers=b.h)
+    client.put("/api/auth/profile", json={"settings": {"last_seen_enabled": False}}, headers=b.h)   # Bob hides
+    v = _mine(client, a, chat["id"], m["id"])
+    assert v["read_at"] == {} and v["read_by"] == [a.id] and b.id in v["delivered_to"]          # Anna sees "delivered" only
+    client.put("/api/auth/profile", json={"settings": {"last_seen_enabled": True}}, headers=b.h)
+    assert b.id in _mine(client, a, chat["id"], m["id"])["read_at"]
+    client.put("/api/auth/profile", json={"settings": {"last_seen_enabled": False}}, headers=a.h)   # Anna hides: she sees nobody's
+    v = _mine(client, a, chat["id"], m["id"])
+    assert v["read_at"] == {} and v["read_by"] == [a.id] and b.id in v["delivered_to"]
+
+
+def test_group_receipts_per_person(client, make_person):
+    a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id]}, headers=a.h).json()
+    m = client.post("/api/messages", json={"chat_id": g["id"], "text": "ciao"}, headers=a.h).json()
+    client.get(f"/api/messages/{g['id']}", headers=b.h)                                    # Bob opens the group
+    client.post(f"/api/messages/{g['id']}/read", headers=c.h)                              # Carl reads (so it reached him too)
+    v = _mine(client, a, g["id"], m["id"])
+    assert set(v["delivered_to"]) == {b.id, c.id} and list(v["read_at"]) == [c.id]

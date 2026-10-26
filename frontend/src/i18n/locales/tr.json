@@ -69,7 +69,6 @@
  "Invite code": "Davet kodu",
  "Invite link copied": "Davet bağlantısı kopyalandı",
  "Leave group": "Gruptan ayrıl",
- "Let others see your status": "Durumunuzu başkalarının görmesine izin verin",
  "Log out": "Çıkış yap",
  "Make admin": "Yönetici yap",
  "Members": "Üyeler",
@@ -273,5 +272,16 @@
  "Poll": "Anket",
  "1 person voted": "1 kişi oy verdi",
  "Group rules": "Grup kuralları",
- "Group rules (optional)": "Grup kuralları (isteğe bağlı)"
+ "Group rules (optional)": "Grup kuralları (isteğe bağlı)",
+ "Info": "Bilgi",
+ "Message info": "Mesaj bilgisi",
+ "Read by": "Okuyanlar",
+ "Read": "Okundu",
+ "Read {when}": "Okundu {when}",
+ "Delivered to": "İletilenler",
+ "Delivered {when}": "İletildi {when}",
+ "Not delivered yet": "Henüz iletilmedi",
+ "Sent {when}": "Gönderildi {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Son görülmeyi kapattığın için başkalarının mesajlarını ne zaman okuduğunu göremezsin.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Başkaları ne zaman çevrimiçi olduğunu ve mesajlarını ne zaman okuduğunu görür. Kapatırsan sen de onlarınkini göremezsin."
 }

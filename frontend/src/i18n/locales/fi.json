@@ -69,7 +69,6 @@
  "Invite code": "Kutsukoodi",
  "Invite link copied": "Kutsulinkki kopioitu",
  "Leave group": "Poistu ryhmästä",
- "Let others see your status": "Anna muiden nähdä tilasi",
  "Log out": "Kirjaudu ulos",
  "Make admin": "Tee ylläpitäjäksi",
  "Members": "Jäsenet",
@@ -273,5 +272,16 @@
  "Poll": "Kysely",
  "1 person voted": "1 henkilö äänesti",
  "Group rules": "Ryhmän säännöt",
- "Group rules (optional)": "Ryhmän säännöt (valinnainen)"
+ "Group rules (optional)": "Ryhmän säännöt (valinnainen)",
+ "Info": "Tiedot",
+ "Message info": "Viestin tiedot",
+ "Read by": "Lukeneet",
+ "Read": "Luettu",
+ "Read {when}": "Luettu {when}",
+ "Delivered to": "Toimitettu",
+ "Delivered {when}": "Toimitettu {when}",
+ "Not delivered yet": "Ei vielä toimitettu",
+ "Sent {when}": "Lähetetty {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Olet poistanut viimeksi nähty -tiedon käytöstä, joten et näe, milloin muut lukevat viestisi.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Muut näkevät, milloin olet paikalla ja milloin luet heidän viestinsä. Jos poistat tämän käytöstä, et näe myöskään heidän tietojaan."
 }

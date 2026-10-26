@@ -69,7 +69,6 @@
  "Invite code": "आमंत्रण कोड",
  "Invite link copied": "आमंत्रण लिंक कॉपी केली",
  "Leave group": "ग्रुप सोडा",
- "Let others see your status": "इतरांना तुमची स्थिती दिसू द्या",
  "Log out": "लॉग आउट",
  "Make admin": "अ‍ॅडमिन बनवा",
  "Members": "सदस्य",
@@ -273,5 +272,16 @@
  "Poll": "मतदान",
  "1 person voted": "1 व्यक्तीने मत दिले",
  "Group rules": "ग्रुपचे नियम",
- "Group rules (optional)": "ग्रुपचे नियम (ऐच्छिक)"
+ "Group rules (optional)": "ग्रुपचे नियम (ऐच्छिक)",
+ "Info": "माहिती",
+ "Message info": "संदेशाची माहिती",
+ "Read by": "यांनी वाचला",
+ "Read": "वाचला",
+ "Read {when}": "वाचला {when}",
+ "Delivered to": "यांना पोहोचला",
+ "Delivered {when}": "पोहोचला {when}",
+ "Not delivered yet": "अजून पोहोचला नाही",
+ "Sent {when}": "पाठवला {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "तुम्ही शेवटचे पाहिले बंद केले आहे, म्हणून इतर तुमचे संदेश कधी वाचतात ते तुम्हाला दिसत नाही.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "तुम्ही कधी ऑनलाइन आहात आणि त्यांचे संदेश कधी वाचता हे इतरांना दिसते. बंद केल्यास तुम्हालाही त्यांचे दिसणार नाही."
 }

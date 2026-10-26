@@ -69,7 +69,6 @@
  "Invite code": "Mã mời",
  "Invite link copied": "Đã sao chép liên kết mời",
  "Leave group": "Rời nhóm",
- "Let others see your status": "Cho người khác xem trạng thái của bạn",
  "Log out": "Đăng xuất",
  "Make admin": "Đặt làm quản trị viên",
  "Members": "Thành viên",
@@ -273,5 +272,16 @@
  "Poll": "Thăm dò",
  "1 person voted": "1 người đã bình chọn",
  "Group rules": "Nội quy nhóm",
- "Group rules (optional)": "Nội quy nhóm (không bắt buộc)"
+ "Group rules (optional)": "Nội quy nhóm (không bắt buộc)",
+ "Info": "Thông tin",
+ "Message info": "Thông tin tin nhắn",
+ "Read by": "Đã xem bởi",
+ "Read": "Đã xem",
+ "Read {when}": "Đã xem {when}",
+ "Delivered to": "Đã gửi đến",
+ "Delivered {when}": "Đã nhận {when}",
+ "Not delivered yet": "Chưa gửi đến",
+ "Sent {when}": "Đã gửi {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Bạn đã tắt lần truy cập cuối, nên không thấy khi nào người khác đọc tin nhắn của bạn.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Người khác thấy khi nào bạn trực tuyến và khi nào bạn đọc tin nhắn của họ. Nếu tắt, bạn cũng không thấy của họ."
 }

@@ -69,7 +69,6 @@
  "Invite code": "Code d'invitation",
  "Invite link copied": "Lien d'invitation copié",
  "Leave group": "Quitter le groupe",
- "Let others see your status": "Laissez les autres voir votre statut",
  "Log out": "Se déconnecter",
  "Make admin": "Nommer admin",
  "Members": "Membres",
@@ -273,5 +272,16 @@
  "Poll": "Sondage",
  "1 person voted": "1 personne a voté",
  "Group rules": "Règles du groupe",
- "Group rules (optional)": "Règles du groupe (facultatif)"
+ "Group rules (optional)": "Règles du groupe (facultatif)",
+ "Info": "Infos",
+ "Message info": "Infos du message",
+ "Read by": "Lu par",
+ "Read": "Lu",
+ "Read {when}": "Lu {when}",
+ "Delivered to": "Distribué à",
+ "Delivered {when}": "Distribué {when}",
+ "Not delivered yet": "Pas encore distribué",
+ "Sent {when}": "Envoyé {when}",
+ "You turned off last seen, so you don't see when others read your messages.": "Vous avez désactivé « vu à », vous ne voyez donc pas quand les autres lisent vos messages.",
+ "Others see when you are online and when you read their messages. If you turn it off, you don't see theirs either.": "Les autres voient quand vous êtes en ligne et quand vous lisez leurs messages. Si vous désactivez cette option, vous ne verrez pas non plus les leurs."
 }
