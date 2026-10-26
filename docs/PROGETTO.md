@@ -112,6 +112,7 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [ ] Contatore degli inviti (da decidere: solo admin o anche l'utente). Nota: oggi il link `/?invite=nome` non registra niente.
 
 ### Costo zero, complessità media
+- [ ] **Info messaggio: consegnato e letto, con l'ora** (chiesta da Andrea il 26/10/2026). Nelle chat a due e nei gruppi, dal menu di un proprio messaggio "Info": per ogni persona "Consegnato alle …" e "Letto alle …" (nei gruppi l'elenco di chi l'ha ricevuto e chi l'ha letto). Oggi il server sa solo chi ha letto (`read_by`, senza ora) e non ha lo stato "consegnato": servono ora di lettura, stato di consegna (quando il telefono riceve il messaggio, anche con app chiusa via notifica) e una terza spunta/colore. Da decidere: se chi spegne "ultimo accesso" nasconde anche le conferme di lettura (come WhatsApp, in modo reciproco).
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
 - [ ] Inviti a gruppi con link
 - [ ] Posizione condivisa per un momento
