@@ -207,10 +207,8 @@ export default function Chat() {
   }, [openById]);
 
   const send = async ({ text, reply_to, attachment }) => {
-    const reply = reply_to ? messages.find((m) => m.id === reply_to) : null;
     try {
       const { data } = await api.post("/messages", { chat_id: active.id, text, reply_to, attachment });
-      if (reply) data.reply_to_preview = reply.display_text;
       setMessages((prev) => (prev.some((m) => m.id === data.id) ? prev : [...prev, data]));
       loadChats();
     } catch (e) {

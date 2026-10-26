@@ -74,7 +74,7 @@ function Ticks({ read, createdAt }) {
   );
 }
 
-export default function MessageBubble({ msg, read, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
+export default function MessageBubble({ msg, read, quote, onJump, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();
   const [zoom, setZoom] = useState(false);
@@ -128,11 +128,6 @@ export default function MessageBubble({ msg, read, mine, isGroup, first, last, o
       )}
 
       <div className={`max-w-[82%] sm:max-w-[68%] min-w-0 ${mine ? "items-end" : "items-start"} flex flex-col`}>
-        {msg.reply_to_preview && (
-          <div className={`text-xs px-3 py-1.5 mb-1 rounded-xl border-s-2 truncate max-w-full ${mine ? "bg-bubble-out-foreground/15 border-bubble-out-foreground/60 text-bubble-out-foreground/85" : "bg-card/90 border-sand text-muted-foreground"}`}>
-            {msg.reply_to_preview}
-          </div>
-        )}
 
         <div role="button" tabIndex={0} onClick={() => onOpenActions(msg)}
           onKeyDown={(e) => { if (e.key === "Enter") onOpenActions(msg); }}
@@ -143,6 +138,17 @@ export default function MessageBubble({ msg, read, mine, isGroup, first, last, o
 
           {!mine && isGroup && first && msg.sender_name && (
             <div className="text-xs font-bold text-primary mb-0.5">{msg.sender_name}</div>
+          )}
+
+          {quote && (
+            <span role="button" tabIndex={0} data-testid={`reply-quote-${msg.id}`} onClick={(e) => { e.stopPropagation(); onJump?.(quote.id); }}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); onJump?.(quote.id); } }}
+              className={`block text-start text-[13px] leading-snug px-2.5 py-1.5 mb-1.5 -mx-1 rounded-[10px] border-s-[3px] cursor-pointer ${mine
+                ? "bg-black/20 border-[#a9c9a0] text-bubble-out-foreground/90"
+                : "bg-black/[0.05] dark:bg-white/[0.07] border-primary text-foreground/80"}`}>
+              <span className={`block font-semibold truncate ${mine ? "text-[#a9c9a0]" : "text-foreground"}`}>{quote.name}</span>
+              <span className={`block line-clamp-2 break-words ${quote.deleted ? "italic" : ""}`}>{quote.text}</span>
+            </span>
           )}
 
           {msg.attachment?.is_image && (

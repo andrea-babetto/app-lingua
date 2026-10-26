@@ -154,6 +154,10 @@
 @keyframes gl-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 .gl-tick-draw { stroke-dasharray: 1; stroke-dashoffset: 0; animation: gl-draw 380ms cubic-bezier(.3,.7,.4,1) both; }
 
+/* the original message flashes when you jump to it from a quote */
+@keyframes gl-flash { 0%, 100% { background: transparent; } 25% { background: color-mix(in srgb, var(--primary) 16%, transparent); } }
+.gl-flash { animation: gl-flash 1.3s ease-out; border-radius: 12px; }
+
 @media (prefers-reduced-motion: reduce) {
   .gl-pulse, .gl-msg-in, .typing-dot, .animate-slide-in, .gl-tick-draw { animation: none; }
 }

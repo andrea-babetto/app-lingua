@@ -434,6 +434,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
         await db.chats.update_one({"id": chat["id"]}, {"$pull": {"members": uid, "admins": uid, "pinned_by": uid}})
         if not [a for a in chat.get("admins", []) if a in remaining]:
             await db.chats.update_one({"id": chat["id"]}, {"$addToSet": {"admins": remaining[0]}})
+    await db.messages.update_many({"reply_quote.sender_id": uid}, {"$set": {"reply_quote.text": "", "reply_quote.deleted": True, "reply_quote.is_image": False}})
     await db.messages.delete_many({"sender_id": uid})
     if chat_ids:
         await db.messages.update_many({"chat_id": {"$in": chat_ids}}, {"$pull": {"read_by": uid}})
@@ -1001,11 +1002,15 @@ async def post_message(user, chat, text, reply_to=None, attachment_ref=None):
             me_full = await db.users.find_one({"id": user["id"]}, {"_id": 0})
             if other and (user["id"] in other.get("blocked", []) or other_id in me_full.get("blocked", [])):
                 raise HTTPException(status_code=403, detail="You cannot message this user")
-    if reply_to and not await db.messages.find_one({"id": reply_to, "chat_id": chat["id"]}, {"_id": 0, "id": 1}):
+    target = await db.messages.find_one({"id": reply_to, "chat_id": chat["id"]}, {"_id": 0}) if reply_to else None
+    if reply_to and not target:
         raise HTTPException(status_code=400, detail="Reply target not found in this chat")
     attachment = await resolve_attachment(attachment_ref, user)
     sender_lang = user.get("language") or "en"
     msg = new_message_doc(chat["id"], user, text, sender_lang, attachment, reply_to, "translating" if text else "sent")
+    if target:  # a copy of what is being answered, so everyone sees the quote even if the original is not loaded
+        msg["reply_quote"] = {"sender_id": target["sender_id"], "sender_name": target.get("sender_name", ""),
+                              "text": (target.get("original_text") or "")[:300], "is_image": bool((target.get("attachment") or {}).get("is_image"))}
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)  # instant broadcast of the original
     if text:
@@ -1254,6 +1259,7 @@ async def delete_message(msg_id: str, for_all: bool = False, user=Depends(get_cu
         if msg["sender_id"] != user["id"]:
             raise HTTPException(status_code=403, detail="Only the sender can delete a message for everyone")
         await db.messages.update_one({"id": msg_id}, {"$set": {"deleted_for_all": True, "original_text": "", "translations": {}, "translations_by_user": {}, "attachment": None}})
+        await db.messages.update_many({"reply_to": msg_id}, {"$set": {"reply_quote.text": "", "reply_quote.deleted": True, "reply_quote.is_image": False}})
         for mid in chat["members"]:
             await ws_manager.send(mid, {"type": "message_deleted", "message_id": msg_id, "chat_id": msg["chat_id"]})
     else:
@@ -1290,6 +1296,7 @@ async def edit_message(msg_id: str, body: EditIn, user=Depends(get_current_user)
         await db.messages.update_one({"id": msg_id}, {"$set": {
             "original_text": text, "original_language": lang, "translations": {}, "translations_by_user": {},
             "status": "translating", "edited": True, "edited_at": now_iso()}})
+        await db.messages.update_many({"reply_to": msg_id}, {"$set": {"reply_quote.text": text[:300]}})
         msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
         for mid in chat["members"]:
             u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})

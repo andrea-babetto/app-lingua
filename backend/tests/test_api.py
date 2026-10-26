@@ -931,3 +931,34 @@ def test_scheduled_loop_sends_what_is_due(client, make_person, monkeypatch):
         pass
     monkeypatch.setattr(server.asyncio, "sleep", real_sleep)
     assert [m["original_text"] for m in client.get(f"/api/messages/{chat['id']}", headers=b.h).json()] == ["è ora"]
+
+
+def test_a_reply_carries_a_quote_of_what_it_answers(client, make_person):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    chat = direct(client, a, b)
+    q = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ci vediamo alle nove?"}, headers=a.h).json()
+    r = client.post("/api/messages", json={"chat_id": chat["id"], "text": "yes!", "reply_to": q["id"]}, headers=b.h).json()
+    assert r["reply_quote"] == {"sender_id": a.id, "sender_name": "Anna", "text": "ci vediamo alle nove?", "is_image": False}
+    got = next(m for m in client.get(f"/api/messages/{chat['id']}", headers=a.h).json() if m["id"] == r["id"])
+    assert got["reply_quote"]["text"] == "ci vediamo alle nove?"          # Anna sees it too, from the server
+    # the quote follows an edit of the original...
+    client.put(f"/api/messages/{q['id']}", json={"text": "ci vediamo alle dieci?"}, headers=a.h)
+    got = next(m for m in client.get(f"/api/messages/{chat['id']}", headers=b.h).json() if m["id"] == r["id"])
+    assert got["reply_quote"]["text"] == "ci vediamo alle dieci?"
+    # ...and is emptied when the original is deleted for everyone
+    client.delete(f"/api/messages/{q['id']}?for_all=true", headers=a.h)
+    got = next(m for m in client.get(f"/api/messages/{chat['id']}", headers=b.h).json() if m["id"] == r["id"])
+    assert got["reply_quote"]["text"] == "" and got["reply_quote"]["deleted"] is True
+    # a scheduled reply keeps its quote too
+    q2 = client.post("/api/messages", json={"chat_id": chat["id"], "text": "domani?"}, headers=a.h).json()
+    s = client.post("/api/scheduled", json={"chat_id": chat["id"], "text": "sure", "send_at": _iso(3600), "reply_to": q2["id"]}, headers=b.h).json()
+    m = client.post(f"/api/scheduled/{s['id']}/send-now", headers=b.h).json()
+    assert m["reply_quote"]["text"] == "domani?"
+    # when Anna deletes her account, her words disappear from the quotes as well (in a group, Bob's reply stays)
+    c = make_person("c@x.com", "Carl", "en")
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id]}, headers=a.h).json()
+    q3 = client.post("/api/messages", json={"chat_id": g["id"], "text": "chi viene?"}, headers=a.h).json()
+    r3 = client.post("/api/messages", json={"chat_id": g["id"], "text": "me", "reply_to": q3["id"]}, headers=b.h).json()
+    assert client.post("/api/auth/delete-account", json={"password": "correct-horse-1"}, headers=a.h).status_code == 200
+    left = asyncio.run(server.db.messages.find_one({"id": r3["id"]}, {"_id": 0}))
+    assert left["reply_quote"]["text"] == "" and left["reply_quote"]["deleted"] is True
