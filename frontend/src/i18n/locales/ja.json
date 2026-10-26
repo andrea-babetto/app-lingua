@@ -256,5 +256,20 @@
  "Save and sign in": "保存してログイン",
  "This link is no longer valid. Ask for a new one.": "このリンクは無効になりました。新しいリンクをリクエストしてください。",
  "Back to sign in": "ログインに戻る",
- "Request sent": "リクエスト送信済み"
+ "Request sent": "リクエスト送信済み",
+ "New poll": "新しいアンケート",
+ "Question": "質問",
+ "Ask something…": "質問を入力…",
+ "Answers": "回答",
+ "Answer {count}": "回答{count}",
+ "Remove": "削除",
+ "Add an answer": "回答を追加",
+ "Allow more than one answer": "複数回答を許可",
+ "Create poll": "アンケートを作成",
+ "Choose one answer": "回答を1つ選んでください",
+ "Choose one or more answers": "回答を1つ以上選んでください",
+ "{count} people voted": "{count}人が投票",
+ "Photo or file": "写真またはファイル",
+ "Poll": "アンケート",
+ "1 person voted": "1人が投票"
 }

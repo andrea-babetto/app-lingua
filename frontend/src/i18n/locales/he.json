@@ -256,5 +256,20 @@
  "Save and sign in": "שמירה וכניסה",
  "This link is no longer valid. Ask for a new one.": "הקישור הזה כבר לא תקף. בקשו קישור חדש.",
  "Back to sign in": "חזרה לכניסה",
- "Request sent": "הבקשה נשלחה"
+ "Request sent": "הבקשה נשלחה",
+ "New poll": "סקר חדש",
+ "Question": "שאלה",
+ "Ask something…": "שאלו משהו…",
+ "Answers": "תשובות",
+ "Answer {count}": "תשובה {count}",
+ "Remove": "הסרה",
+ "Add an answer": "הוספת תשובה",
+ "Allow more than one answer": "לאפשר יותר מתשובה אחת",
+ "Create poll": "יצירת סקר",
+ "Choose one answer": "בחרו תשובה אחת",
+ "Choose one or more answers": "בחרו תשובה אחת או יותר",
+ "{count} people voted": "{count} אנשים הצביעו",
+ "Photo or file": "תמונה או קובץ",
+ "Poll": "סקר",
+ "1 person voted": "אדם אחד הצביע"
 }

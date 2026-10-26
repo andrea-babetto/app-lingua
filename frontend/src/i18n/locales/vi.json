@@ -256,5 +256,20 @@
  "Save and sign in": "Lưu và đăng nhập",
  "This link is no longer valid. Ask for a new one.": "Liên kết này không còn hiệu lực. Hãy yêu cầu liên kết mới.",
  "Back to sign in": "Quay lại đăng nhập",
- "Request sent": "Đã gửi lời mời"
+ "Request sent": "Đã gửi lời mời",
+ "New poll": "Cuộc thăm dò mới",
+ "Question": "Câu hỏi",
+ "Ask something…": "Hỏi điều gì đó…",
+ "Answers": "Câu trả lời",
+ "Answer {count}": "Câu trả lời {count}",
+ "Remove": "Xóa",
+ "Add an answer": "Thêm câu trả lời",
+ "Allow more than one answer": "Cho phép chọn nhiều câu trả lời",
+ "Create poll": "Tạo cuộc thăm dò",
+ "Choose one answer": "Chọn một câu trả lời",
+ "Choose one or more answers": "Chọn một hoặc nhiều câu trả lời",
+ "{count} people voted": "{count} người đã bình chọn",
+ "Photo or file": "Ảnh hoặc tệp",
+ "Poll": "Thăm dò",
+ "1 person voted": "1 người đã bình chọn"
 }

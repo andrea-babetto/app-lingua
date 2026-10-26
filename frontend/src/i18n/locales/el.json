@@ -256,5 +256,20 @@
  "Save and sign in": "Αποθήκευση και σύνδεση",
  "This link is no longer valid. Ask for a new one.": "Αυτός ο σύνδεσμος δεν ισχύει πια. Ζήτησε νέο.",
  "Back to sign in": "Πίσω στη σύνδεση",
- "Request sent": "Το αίτημα στάλθηκε"
+ "Request sent": "Το αίτημα στάλθηκε",
+ "New poll": "Νέα δημοσκόπηση",
+ "Question": "Ερώτηση",
+ "Ask something…": "Ρώτα κάτι…",
+ "Answers": "Απαντήσεις",
+ "Answer {count}": "Απάντηση {count}",
+ "Remove": "Αφαίρεση",
+ "Add an answer": "Προσθήκη απάντησης",
+ "Allow more than one answer": "Να επιτρέπονται πολλές απαντήσεις",
+ "Create poll": "Δημιουργία δημοσκόπησης",
+ "Choose one answer": "Διάλεξε μία απάντηση",
+ "Choose one or more answers": "Διάλεξε μία ή περισσότερες απαντήσεις",
+ "{count} people voted": "Ψήφισαν {count} άτομα",
+ "Photo or file": "Φωτογραφία ή αρχείο",
+ "Poll": "Δημοσκόπηση",
+ "1 person voted": "Ψήφισε 1 άτομο"
 }

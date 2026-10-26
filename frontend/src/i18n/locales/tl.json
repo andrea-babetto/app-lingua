@@ -256,5 +256,20 @@
  "Save and sign in": "I-save at mag-sign in",
  "This link is no longer valid. Ask for a new one.": "Hindi na valid ang link na ito. Humingi ng bago.",
  "Back to sign in": "Bumalik sa pag-sign in",
- "Request sent": "Naipadala ang request"
+ "Request sent": "Naipadala ang request",
+ "New poll": "Bagong poll",
+ "Question": "Tanong",
+ "Ask something…": "Magtanong ng kahit ano…",
+ "Answers": "Mga sagot",
+ "Answer {count}": "Sagot {count}",
+ "Remove": "Alisin",
+ "Add an answer": "Magdagdag ng sagot",
+ "Allow more than one answer": "Payagan ang higit sa isang sagot",
+ "Create poll": "Gumawa ng poll",
+ "Choose one answer": "Pumili ng isang sagot",
+ "Choose one or more answers": "Pumili ng isa o higit pang sagot",
+ "{count} people voted": "{count} tao ang bumoto",
+ "Photo or file": "Larawan o file",
+ "Poll": "Poll",
+ "1 person voted": "1 tao ang bumoto"
 }

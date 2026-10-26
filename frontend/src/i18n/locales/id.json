@@ -256,5 +256,20 @@
  "Save and sign in": "Simpan dan masuk",
  "This link is no longer valid. Ask for a new one.": "Tautan ini sudah tidak berlaku. Minta yang baru.",
  "Back to sign in": "Kembali ke halaman masuk",
- "Request sent": "Permintaan terkirim"
+ "Request sent": "Permintaan terkirim",
+ "New poll": "Polling baru",
+ "Question": "Pertanyaan",
+ "Ask something…": "Tanyakan sesuatu…",
+ "Answers": "Jawaban",
+ "Answer {count}": "Jawaban {count}",
+ "Remove": "Hapus",
+ "Add an answer": "Tambah jawaban",
+ "Allow more than one answer": "Izinkan lebih dari satu jawaban",
+ "Create poll": "Buat polling",
+ "Choose one answer": "Pilih satu jawaban",
+ "Choose one or more answers": "Pilih satu jawaban atau lebih",
+ "{count} people voted": "{count} orang sudah memilih",
+ "Photo or file": "Foto atau file",
+ "Poll": "Polling",
+ "1 person voted": "1 orang sudah memilih"
 }

@@ -256,5 +256,20 @@
  "Save and sign in": "Зберегти й увійти",
  "This link is no longer valid. Ask for a new one.": "Це посилання більше не дійсне. Попросіть нове.",
  "Back to sign in": "Повернутися до входу",
- "Request sent": "Запит надіслано"
+ "Request sent": "Запит надіслано",
+ "New poll": "Нове опитування",
+ "Question": "Питання",
+ "Ask something…": "Запитайте щось…",
+ "Answers": "Відповіді",
+ "Answer {count}": "Відповідь {count}",
+ "Remove": "Прибрати",
+ "Add an answer": "Додати відповідь",
+ "Allow more than one answer": "Дозволити кілька відповідей",
+ "Create poll": "Створити опитування",
+ "Choose one answer": "Виберіть одну відповідь",
+ "Choose one or more answers": "Виберіть одну чи кілька відповідей",
+ "{count} people voted": "Проголосували: {count}",
+ "Photo or file": "Фото або файл",
+ "Poll": "Опитування",
+ "1 person voted": "Проголосувала 1 людина"
 }

@@ -256,5 +256,20 @@
  "Save and sign in": "Tallenna ja kirjaudu",
  "This link is no longer valid. Ask for a new one.": "Tämä linkki ei ole enää voimassa. Pyydä uusi.",
  "Back to sign in": "Takaisin kirjautumiseen",
- "Request sent": "Pyyntö lähetetty"
+ "Request sent": "Pyyntö lähetetty",
+ "New poll": "Uusi kysely",
+ "Question": "Kysymys",
+ "Ask something…": "Kysy jotain…",
+ "Answers": "Vastaukset",
+ "Answer {count}": "Vastaus {count}",
+ "Remove": "Poista",
+ "Add an answer": "Lisää vastaus",
+ "Allow more than one answer": "Salli useampi vastaus",
+ "Create poll": "Luo kysely",
+ "Choose one answer": "Valitse yksi vastaus",
+ "Choose one or more answers": "Valitse yksi tai useampi vastaus",
+ "{count} people voted": "{count} henkilöä äänesti",
+ "Photo or file": "Kuva tai tiedosto",
+ "Poll": "Kysely",
+ "1 person voted": "1 henkilö äänesti"
 }

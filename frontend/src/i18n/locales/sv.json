@@ -256,5 +256,20 @@
  "Save and sign in": "Spara och logga in",
  "This link is no longer valid. Ask for a new one.": "Den här länken gäller inte längre. Be om en ny.",
  "Back to sign in": "Tillbaka till inloggning",
- "Request sent": "Förfrågan skickad"
+ "Request sent": "Förfrågan skickad",
+ "New poll": "Ny omröstning",
+ "Question": "Fråga",
+ "Ask something…": "Fråga något…",
+ "Answers": "Svar",
+ "Answer {count}": "Svar {count}",
+ "Remove": "Ta bort",
+ "Add an answer": "Lägg till ett svar",
+ "Allow more than one answer": "Tillåt mer än ett svar",
+ "Create poll": "Skapa omröstning",
+ "Choose one answer": "Välj ett svar",
+ "Choose one or more answers": "Välj ett eller flera svar",
+ "{count} people voted": "{count} har röstat",
+ "Photo or file": "Foto eller fil",
+ "Poll": "Omröstning",
+ "1 person voted": "1 person har röstat"
 }

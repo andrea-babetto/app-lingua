@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react";
-import { ArrowUp, Smile, Plus, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil, Check } from "lucide-react";
+import { ArrowUp, Smile, Plus, Paperclip, BarChart3, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil, Check } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { api, errText } from "@/lib/api";
@@ -12,6 +12,7 @@ import MessageBubble from "@/components/chat/MessageBubble";
 import { avatarClass } from "@/lib/avatar";
 import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 import MessageActions from "@/components/chat/MessageActions";
+import { PollDialog } from "@/components/chat/Poll";
 import { ScheduleDialog, ScheduledList, ScheduledActions } from "@/components/chat/Scheduled";
 import { useI18n } from "@/i18n";
 
@@ -181,6 +182,21 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
     try { await api.delete(`/scheduled/${s.id}`); setScheduled((list) => list.filter((x) => x.id !== s.id)); } catch (e) { schedErr(e); }
   };
 
+  // ---- polls (groups): "+" offers "Photo or file" and "Poll"
+  const [pollOpen, setPollOpen] = useState(false);
+  const [plusOpen, setPlusOpen] = useState(false);
+  const createPoll = async (poll) => {
+    try {
+      await api.post("/polls", { chat_id: chat.id, ...poll });
+      setPollOpen(false);
+      setTimeout(() => scrollToBottom(true), 80);
+    } catch (e) { toast.error(t(errText(e.response?.data?.detail))); }
+  };
+  const vote = async (m, optionIds) => {
+    try { await api.post(`/messages/${m.id}/vote`, { option_ids: optionIds }); }
+    catch (e) { toast.error(t(errText(e.response?.data?.detail))); }
+  };
+
   const startReply = (msg) => { setEditing(null); setReply(msg); taRef.current?.focus(); };
   const startEdit = (msg) => { setReply(null); setEditing(msg); setText(msg.original_text); setTimeout(() => taRef.current?.focus(), 50); };
   const cancelEdit = () => { setEditing(null); setText(readDraft(chat.id)); };
@@ -303,7 +319,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
                   <span className="text-xs font-semibold text-muted-foreground bg-card/90 rounded-full px-3 py-1 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">{dayLabel(m.created_at, t, lang)}</span>
                 </div>
               )}
-              <MessageBubble msg={m} read={isRead(m)} quote={quoteFor(m)} onJump={jumpTo} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
+              <MessageBubble msg={m} read={isRead(m)} quote={quoteFor(m)} onJump={jumpTo} onVote={vote} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
                 showOriginal={!!originals[m.id]} onToggleOriginal={() => toggleOriginal(m.id)}
                 onOpenActions={setActionMsg} onReact={onReact} onReply={startReply} />
             </div>
@@ -344,11 +360,27 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
       )}
 
       <div className="px-2.5 py-2 flex items-end gap-1.5 bg-card border-t border-border shrink-0">
-        {!editing && (
+        {!editing && !isGroup && (
           <button data-testid="attach-button" aria-label={t("Attach a file")} onClick={() => fileRef.current?.click()} disabled={uploading}
             className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0">
             {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-6 h-6" />}
           </button>
+        )}
+        {!editing && isGroup && (
+          <Popover open={plusOpen} onOpenChange={setPlusOpen}>
+            <PopoverTrigger asChild>
+              <button data-testid="attach-button" aria-label={t("Attach a file")} disabled={uploading}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0">
+                {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-6 h-6" />}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent side="top" align="start" className="w-56 p-1.5">
+              <button data-testid="plus-file" onClick={() => { setPlusOpen(false); fileRef.current?.click(); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-muted text-[15px]"><Paperclip className="w-5 h-5 text-muted-foreground" /> {t("Photo or file")}</button>
+              <button data-testid="plus-poll" onClick={() => { setPlusOpen(false); setPollOpen(true); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-muted text-[15px]"><BarChart3 className="w-5 h-5 text-muted-foreground" /> {t("Poll")}</button>
+            </PopoverContent>
+          </Popover>
         )}
         <input type="file" ref={fileRef} hidden onChange={onFile} />
         <div className="flex-1 flex items-end bg-surface rounded-[20px] ps-3.5 pe-1 focus-within:ring-2 focus-within:ring-primary/25 min-w-0">
@@ -384,6 +416,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onEdit, on
         </button>
       </div>
 
+      <PollDialog open={pollOpen} onClose={() => setPollOpen(false)} onCreate={createPoll} />
       <ScheduleDialog open={scheduleOpen} onClose={() => { setScheduleOpen(false); setRescheduling(null); }} onPick={pickTime}
         other={!isGroup && user.settings?.local_time_enabled !== false ? other : null} initial={rescheduling?.send_at} />
       <ScheduledActions item={schedAction} onClose={() => setSchedAction(null)} onSendNow={sendNow} onDelete={deleteScheduled}

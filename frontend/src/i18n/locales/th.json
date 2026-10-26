@@ -256,5 +256,20 @@
  "Save and sign in": "บันทึกและเข้าสู่ระบบ",
  "This link is no longer valid. Ask for a new one.": "ลิงก์นี้ใช้ไม่ได้แล้ว ขอลิงก์ใหม่",
  "Back to sign in": "กลับไปหน้าเข้าสู่ระบบ",
- "Request sent": "ส่งคำขอแล้ว"
+ "Request sent": "ส่งคำขอแล้ว",
+ "New poll": "โพลใหม่",
+ "Question": "คำถาม",
+ "Ask something…": "ถามอะไรสักอย่าง…",
+ "Answers": "คำตอบ",
+ "Answer {count}": "คำตอบ {count}",
+ "Remove": "ลบ",
+ "Add an answer": "เพิ่มคำตอบ",
+ "Allow more than one answer": "อนุญาตให้เลือกได้มากกว่าหนึ่ง",
+ "Create poll": "สร้างโพล",
+ "Choose one answer": "เลือกหนึ่งคำตอบ",
+ "Choose one or more answers": "เลือกหนึ่งคำตอบหรือมากกว่า",
+ "{count} people voted": "โหวตแล้ว {count} คน",
+ "Photo or file": "รูปภาพหรือไฟล์",
+ "Poll": "โพล",
+ "1 person voted": "โหวตแล้ว 1 คน"
 }

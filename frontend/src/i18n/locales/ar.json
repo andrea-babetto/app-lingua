@@ -256,5 +256,20 @@
  "Save and sign in": "حفظ وتسجيل الدخول",
  "This link is no longer valid. Ask for a new one.": "لم يعد هذا الرابط صالحًا. اطلب رابطًا جديدًا.",
  "Back to sign in": "العودة إلى تسجيل الدخول",
- "Request sent": "تم إرسال الطلب"
+ "Request sent": "تم إرسال الطلب",
+ "New poll": "استطلاع جديد",
+ "Question": "السؤال",
+ "Ask something…": "اسأل شيئًا…",
+ "Answers": "الإجابات",
+ "Answer {count}": "الإجابة {count}",
+ "Remove": "إزالة",
+ "Add an answer": "إضافة إجابة",
+ "Allow more than one answer": "السماح بأكثر من إجابة",
+ "Create poll": "إنشاء الاستطلاع",
+ "Choose one answer": "اختر إجابة واحدة",
+ "Choose one or more answers": "اختر إجابة أو أكثر",
+ "{count} people voted": "صوّت {count} أشخاص",
+ "Photo or file": "صورة أو ملف",
+ "Poll": "استطلاع",
+ "1 person voted": "صوّت شخص واحد"
 }

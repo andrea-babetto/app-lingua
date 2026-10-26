@@ -256,5 +256,20 @@
  "Save and sign in": "Salva e accedi",
  "This link is no longer valid. Ask for a new one.": "Questo link non è più valido. Chiedine uno nuovo.",
  "Back to sign in": "Torna all'accesso",
- "Request sent": "Richiesta inviata"
+ "Request sent": "Richiesta inviata",
+ "New poll": "Nuovo sondaggio",
+ "Question": "Domanda",
+ "Ask something…": "Chiedi qualcosa…",
+ "Answers": "Risposte",
+ "Answer {count}": "Risposta {count}",
+ "Remove": "Togli",
+ "Add an answer": "Aggiungi una risposta",
+ "Allow more than one answer": "Consenti più di una risposta",
+ "Create poll": "Crea sondaggio",
+ "Choose one answer": "Scegli una risposta",
+ "Choose one or more answers": "Scegli una o più risposte",
+ "{count} people voted": "Hanno votato {count} persone",
+ "Photo or file": "Foto o file",
+ "Poll": "Sondaggio",
+ "1 person voted": "Ha votato 1 persona"
 }

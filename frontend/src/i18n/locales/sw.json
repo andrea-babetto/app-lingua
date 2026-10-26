@@ -256,5 +256,20 @@
  "Save and sign in": "Hifadhi na uingie",
  "This link is no longer valid. Ask for a new one.": "Kiungo hiki hakifanyi kazi tena. Omba kingine.",
  "Back to sign in": "Rudi kwenye kuingia",
- "Request sent": "Ombi limetumwa"
+ "Request sent": "Ombi limetumwa",
+ "New poll": "Kura mpya",
+ "Question": "Swali",
+ "Ask something…": "Uliza kitu…",
+ "Answers": "Majibu",
+ "Answer {count}": "Jibu {count}",
+ "Remove": "Ondoa",
+ "Add an answer": "Ongeza jibu",
+ "Allow more than one answer": "Ruhusu zaidi ya jibu moja",
+ "Create poll": "Unda kura",
+ "Choose one answer": "Chagua jibu moja",
+ "Choose one or more answers": "Chagua jibu moja au zaidi",
+ "{count} people voted": "Watu {count} wamepiga kura",
+ "Photo or file": "Picha au faili",
+ "Poll": "Kura",
+ "1 person voted": "Mtu 1 amepiga kura"
 }

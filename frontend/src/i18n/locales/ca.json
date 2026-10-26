@@ -256,5 +256,20 @@
  "Save and sign in": "Desa i inicia la sessió",
  "This link is no longer valid. Ask for a new one.": "Aquest enllaç ja no és vàlid. Demana'n un de nou.",
  "Back to sign in": "Torna a l'inici de sessió",
- "Request sent": "Sol·licitud enviada"
+ "Request sent": "Sol·licitud enviada",
+ "New poll": "Enquesta nova",
+ "Question": "Pregunta",
+ "Ask something…": "Pregunta alguna cosa…",
+ "Answers": "Respostes",
+ "Answer {count}": "Resposta {count}",
+ "Remove": "Treu",
+ "Add an answer": "Afegeix una resposta",
+ "Allow more than one answer": "Permet més d'una resposta",
+ "Create poll": "Crea l'enquesta",
+ "Choose one answer": "Tria una resposta",
+ "Choose one or more answers": "Tria una o més respostes",
+ "{count} people voted": "Han votat {count} persones",
+ "Photo or file": "Foto o fitxer",
+ "Poll": "Enquesta",
+ "1 person voted": "Ha votat 1 persona"
 }

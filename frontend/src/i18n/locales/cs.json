@@ -256,5 +256,20 @@
  "Save and sign in": "Uložit a přihlásit",
  "This link is no longer valid. Ask for a new one.": "Tento odkaz už neplatí. Požádejte o nový.",
  "Back to sign in": "Zpět na přihlášení",
- "Request sent": "Žádost odeslána"
+ "Request sent": "Žádost odeslána",
+ "New poll": "Nová anketa",
+ "Question": "Otázka",
+ "Ask something…": "Na něco se zeptejte…",
+ "Answers": "Odpovědi",
+ "Answer {count}": "Odpověď {count}",
+ "Remove": "Odebrat",
+ "Add an answer": "Přidat odpověď",
+ "Allow more than one answer": "Povolit více odpovědí",
+ "Create poll": "Vytvořit anketu",
+ "Choose one answer": "Vyberte jednu odpověď",
+ "Choose one or more answers": "Vyberte jednu nebo více odpovědí",
+ "{count} people voted": "Hlasovalo lidí: {count}",
+ "Photo or file": "Fotka nebo soubor",
+ "Poll": "Anketa",
+ "1 person voted": "Hlasoval 1 člověk"
 }

@@ -256,5 +256,20 @@
  "Save and sign in": "जतन करा आणि साइन इन करा",
  "This link is no longer valid. Ask for a new one.": "ही लिंक आता वैध नाही. नवीन लिंक मागा.",
  "Back to sign in": "साइन इनवर परत जा",
- "Request sent": "विनंती पाठवली"
+ "Request sent": "विनंती पाठवली",
+ "New poll": "नवीन मतदान",
+ "Question": "प्रश्न",
+ "Ask something…": "काहीतरी विचारा…",
+ "Answers": "उत्तरे",
+ "Answer {count}": "उत्तर {count}",
+ "Remove": "काढा",
+ "Add an answer": "उत्तर जोडा",
+ "Allow more than one answer": "एकापेक्षा जास्त उत्तरांना परवानगी द्या",
+ "Create poll": "मतदान तयार करा",
+ "Choose one answer": "एक उत्तर निवडा",
+ "Choose one or more answers": "एक किंवा अधिक उत्तरे निवडा",
+ "{count} people voted": "{count} जणांनी मत दिले",
+ "Photo or file": "फोटो किंवा फाइल",
+ "Poll": "मतदान",
+ "1 person voted": "1 व्यक्तीने मत दिले"
 }

@@ -256,5 +256,20 @@
  "Save and sign in": "Mentés és belépés",
  "This link is no longer valid. Ask for a new one.": "Ez a link már nem érvényes. Kérj újat.",
  "Back to sign in": "Vissza a belépéshez",
- "Request sent": "Kérés elküldve"
+ "Request sent": "Kérés elküldve",
+ "New poll": "Új szavazás",
+ "Question": "Kérdés",
+ "Ask something…": "Kérdezz valamit…",
+ "Answers": "Válaszok",
+ "Answer {count}": "{count}. válasz",
+ "Remove": "Eltávolítás",
+ "Add an answer": "Válasz hozzáadása",
+ "Allow more than one answer": "Több válasz engedélyezése",
+ "Create poll": "Szavazás létrehozása",
+ "Choose one answer": "Válassz egy választ",
+ "Choose one or more answers": "Válassz egy vagy több választ",
+ "{count} people voted": "{count} ember szavazott",
+ "Photo or file": "Fotó vagy fájl",
+ "Poll": "Szavazás",
+ "1 person voted": "1 ember szavazott"
 }

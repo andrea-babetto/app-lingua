@@ -256,5 +256,20 @@
  "Save and sign in": "保存并登录",
  "This link is no longer valid. Ask for a new one.": "此链接已失效，请重新申请。",
  "Back to sign in": "返回登录",
- "Request sent": "已发送请求"
+ "Request sent": "已发送请求",
+ "New poll": "新投票",
+ "Question": "问题",
+ "Ask something…": "问点什么…",
+ "Answers": "选项",
+ "Answer {count}": "选项 {count}",
+ "Remove": "移除",
+ "Add an answer": "添加选项",
+ "Allow more than one answer": "允许多选",
+ "Create poll": "创建投票",
+ "Choose one answer": "选择一个选项",
+ "Choose one or more answers": "选择一个或多个选项",
+ "{count} people voted": "{count} 人已投票",
+ "Photo or file": "照片或文件",
+ "Poll": "投票",
+ "1 person voted": "1 人已投票"
 }

@@ -256,5 +256,20 @@
  "Save and sign in": "Simpan dan log masuk",
  "This link is no longer valid. Ask for a new one.": "Pautan ini tidak sah lagi. Minta pautan baharu.",
  "Back to sign in": "Kembali ke log masuk",
- "Request sent": "Permintaan dihantar"
+ "Request sent": "Permintaan dihantar",
+ "New poll": "Undian baharu",
+ "Question": "Soalan",
+ "Ask something…": "Tanya sesuatu…",
+ "Answers": "Jawapan",
+ "Answer {count}": "Jawapan {count}",
+ "Remove": "Buang",
+ "Add an answer": "Tambah jawapan",
+ "Allow more than one answer": "Benarkan lebih daripada satu jawapan",
+ "Create poll": "Cipta undian",
+ "Choose one answer": "Pilih satu jawapan",
+ "Choose one or more answers": "Pilih satu atau lebih jawapan",
+ "{count} people voted": "{count} orang telah mengundi",
+ "Photo or file": "Foto atau fail",
+ "Poll": "Undian",
+ "1 person voted": "1 orang telah mengundi"
 }

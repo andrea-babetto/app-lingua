@@ -256,5 +256,20 @@
  "Save and sign in": "Kaydet ve giriş yap",
  "This link is no longer valid. Ask for a new one.": "Bu bağlantı artık geçerli değil. Yenisini iste.",
  "Back to sign in": "Girişe dön",
- "Request sent": "İstek gönderildi"
+ "Request sent": "İstek gönderildi",
+ "New poll": "Yeni anket",
+ "Question": "Soru",
+ "Ask something…": "Bir şey sor…",
+ "Answers": "Cevaplar",
+ "Answer {count}": "{count}. cevap",
+ "Remove": "Kaldır",
+ "Add an answer": "Cevap ekle",
+ "Allow more than one answer": "Birden fazla cevaba izin ver",
+ "Create poll": "Anket oluştur",
+ "Choose one answer": "Bir cevap seç",
+ "Choose one or more answers": "Bir veya daha fazla cevap seç",
+ "{count} people voted": "{count} kişi oy verdi",
+ "Photo or file": "Fotoğraf veya dosya",
+ "Poll": "Anket",
+ "1 person voted": "1 kişi oy verdi"
 }

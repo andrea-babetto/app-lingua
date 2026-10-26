@@ -100,6 +100,7 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [x] Scarica i miei dati (Profilo › Account, 26/10/2026)
 - [x] Recupero password da soli (link via email; serve un servizio SMTP su Render, 26/10/2026)
 - [x] Contatti senza chat (26/10/2026)
+- [x] Sondaggi nei gruppi, tradotti per ciascuno (26/10/2026)
 
 ### Scartate o unite
 - Silenzioso e orari: scartata (24/10/2026)
@@ -112,7 +113,6 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 ### Costo zero, complessità media
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
 - [ ] Inviti a gruppi con link
-- [ ] Sondaggi nei gruppi
 - [ ] Descrizione e regole del gruppo
 - [ ] Posizione condivisa per un momento
 - [ ] Pagine pubbliche per lingua (per farsi trovare su Google)
@@ -246,3 +246,4 @@ Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingu
 - **Scarica i miei dati** (26/10/2026): in Profilo › Account il tasto "Scarica i miei dati" scarica un file JSON (`GET /api/auth/export`, massimo 5 volte l'ora) con profilo e impostazioni, messaggi scritti (originale e traduzioni fatte per chi li ha letti; esclusi quelli eliminati per tutti), chat (con nome e username degli altri membri, mai la loro email), contatti, persone bloccate, glossario, messaggi programmati, file inviati (nome e tipo), dispositivi per le notifiche (solo la data) e messaggi tradotti al mese. Non contiene i messaggi scritti dagli altri. Il server ora permette al sito di leggere il nome del file scaricato (`expose_headers`).
 - **Recupero password da soli** (26/10/2026): nella pagina di accesso "Password dimenticata?" (compare solo se il server può mandare email: `password_reset` in `/api/config`). Si scrive l'email; la risposta è sempre la stessa, che l'account esista o no. Se esiste parte un'email (italiano o inglese secondo la lingua del profilo) con un link `…/reset?token=…` valido 1 ora e una sola volta; nel database c'è solo l'impronta del codice (`password_resets.token_hash`). Dalla pagina `/reset` si sceglie la nuova password e si entra; le altre sessioni si chiudono. Limiti: 3 richieste l'ora per email, 10 per indirizzo. Email via SMTP (`backend/mailer.py`), variabili su `lingua-api`: `SMTP_HOST`, `SMTP_PORT` (587 o 465), `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FROM`. In prova (`APP_ENV=test`) le email non partono e il link compare nel registro del server.
 - **Contatti senza chat** (26/10/2026): la scheda Contatti mostra le persone con cui hai una chat più quelle salvate senza chat nell'elenco (`GET /api/contacts`: contatti accettati o richiesta inviata; mai le persone bloccate o che ti hanno bloccato). Chi ha la richiesta ancora in attesa ha la scritta "Richiesta inviata" e non mostra l'ora locale. Toccandole si apre (o si riapre) la chat. Ordine alfabetico.
+- **Sondaggi nei gruppi** (26/10/2026): nei gruppi il "+" offre "Foto o file" e "Sondaggio". Una domanda (max 200 caratteri), da 2 a 10 risposte (max 100, non uguali), "Consenti più di una risposta". Il sondaggio è un messaggio: la domanda è il testo (tradotta come un messaggio, conta nel contatore), le risposte vengono tradotte per ogni lingua del gruppo (`poll.translations`). Si vota toccando una risposta (ritoccandola si toglie); il conteggio si aggiorna in diretta per tutti. Chi ha votato cosa non viene mandato agli altri (solo i numeri e la propria scelta). Non si modifica; se eliminato per tutti non si vota più. `POST /api/polls`, `POST /api/messages/{id}/vote`. Nell'elenco chat compare "📊 domanda".

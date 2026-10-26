@@ -256,5 +256,20 @@
  "Save and sign in": "Opslaan en inloggen",
  "This link is no longer valid. Ask for a new one.": "Deze link is niet meer geldig. Vraag een nieuwe aan.",
  "Back to sign in": "Terug naar inloggen",
- "Request sent": "Verzoek verstuurd"
+ "Request sent": "Verzoek verstuurd",
+ "New poll": "Nieuwe peiling",
+ "Question": "Vraag",
+ "Ask something…": "Vraag iets…",
+ "Answers": "Antwoorden",
+ "Answer {count}": "Antwoord {count}",
+ "Remove": "Verwijderen",
+ "Add an answer": "Antwoord toevoegen",
+ "Allow more than one answer": "Meer dan één antwoord toestaan",
+ "Create poll": "Peiling maken",
+ "Choose one answer": "Kies één antwoord",
+ "Choose one or more answers": "Kies een of meer antwoorden",
+ "{count} people voted": "{count} mensen hebben gestemd",
+ "Photo or file": "Foto of bestand",
+ "Poll": "Peiling",
+ "1 person voted": "1 persoon heeft gestemd"
 }

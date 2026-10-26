@@ -256,5 +256,20 @@
  "Save and sign in": "Salvează și conectează-te",
  "This link is no longer valid. Ask for a new one.": "Linkul nu mai este valabil. Cere unul nou.",
  "Back to sign in": "Înapoi la conectare",
- "Request sent": "Cerere trimisă"
+ "Request sent": "Cerere trimisă",
+ "New poll": "Sondaj nou",
+ "Question": "Întrebare",
+ "Ask something…": "Întreabă ceva…",
+ "Answers": "Răspunsuri",
+ "Answer {count}": "Răspunsul {count}",
+ "Remove": "Elimină",
+ "Add an answer": "Adaugă un răspuns",
+ "Allow more than one answer": "Permite mai multe răspunsuri",
+ "Create poll": "Creează sondajul",
+ "Choose one answer": "Alege un răspuns",
+ "Choose one or more answers": "Alege unul sau mai multe răspunsuri",
+ "{count} people voted": "Au votat {count} persoane",
+ "Photo or file": "Fotografie sau fișier",
+ "Poll": "Sondaj",
+ "1 person voted": "A votat 1 persoană"
 }

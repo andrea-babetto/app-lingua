@@ -256,5 +256,20 @@
  "Save and sign in": "محفوظ کریں اور سائن اِن کریں",
  "This link is no longer valid. Ask for a new one.": "یہ لنک اب درست نہیں۔ نیا لنک مانگیں۔",
  "Back to sign in": "سائن اِن پر واپس جائیں",
- "Request sent": "درخواست بھیج دی گئی"
+ "Request sent": "درخواست بھیج دی گئی",
+ "New poll": "نیا پول",
+ "Question": "سوال",
+ "Ask something…": "کچھ پوچھیں…",
+ "Answers": "جوابات",
+ "Answer {count}": "جواب {count}",
+ "Remove": "ہٹائیں",
+ "Add an answer": "جواب شامل کریں",
+ "Allow more than one answer": "ایک سے زیادہ جواب کی اجازت دیں",
+ "Create poll": "پول بنائیں",
+ "Choose one answer": "ایک جواب چنیں",
+ "Choose one or more answers": "ایک یا زیادہ جواب چنیں",
+ "{count} people voted": "{count} لوگوں نے ووٹ دیا",
+ "Photo or file": "تصویر یا فائل",
+ "Poll": "پول",
+ "1 person voted": "1 شخص نے ووٹ دیا"
 }

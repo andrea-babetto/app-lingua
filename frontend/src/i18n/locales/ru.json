@@ -256,5 +256,20 @@
  "Save and sign in": "Сохранить и войти",
  "This link is no longer valid. Ask for a new one.": "Эта ссылка больше не действует. Запросите новую.",
  "Back to sign in": "Вернуться ко входу",
- "Request sent": "Запрос отправлен"
+ "Request sent": "Запрос отправлен",
+ "New poll": "Новый опрос",
+ "Question": "Вопрос",
+ "Ask something…": "Спросите что-нибудь…",
+ "Answers": "Ответы",
+ "Answer {count}": "Ответ {count}",
+ "Remove": "Удалить",
+ "Add an answer": "Добавить ответ",
+ "Allow more than one answer": "Разрешить несколько ответов",
+ "Create poll": "Создать опрос",
+ "Choose one answer": "Выберите один ответ",
+ "Choose one or more answers": "Выберите один или несколько ответов",
+ "{count} people voted": "Проголосовали: {count}",
+ "Photo or file": "Фото или файл",
+ "Poll": "Опрос",
+ "1 person voted": "Проголосовал 1 человек"
 }

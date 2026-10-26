@@ -256,5 +256,20 @@
  "Save and sign in": "저장하고 로그인",
  "This link is no longer valid. Ask for a new one.": "이 링크는 더 이상 유효하지 않습니다. 새 링크를 요청하세요.",
  "Back to sign in": "로그인으로 돌아가기",
- "Request sent": "요청 보냄"
+ "Request sent": "요청 보냄",
+ "New poll": "새 투표",
+ "Question": "질문",
+ "Ask something…": "무엇이든 물어보세요…",
+ "Answers": "답변",
+ "Answer {count}": "답변 {count}",
+ "Remove": "삭제",
+ "Add an answer": "답변 추가",
+ "Allow more than one answer": "복수 선택 허용",
+ "Create poll": "투표 만들기",
+ "Choose one answer": "답변 하나를 고르세요",
+ "Choose one or more answers": "답변을 하나 이상 고르세요",
+ "{count} people voted": "{count}명 투표함",
+ "Photo or file": "사진 또는 파일",
+ "Poll": "투표",
+ "1 person voted": "1명 투표함"
 }

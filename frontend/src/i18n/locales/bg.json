@@ -256,5 +256,20 @@
  "Save and sign in": "Запази и влез",
  "This link is no longer valid. Ask for a new one.": "Тази връзка вече не е валидна. Поискай нова.",
  "Back to sign in": "Обратно към входа",
- "Request sent": "Поканата е изпратена"
+ "Request sent": "Поканата е изпратена",
+ "New poll": "Нова анкета",
+ "Question": "Въпрос",
+ "Ask something…": "Попитай нещо…",
+ "Answers": "Отговори",
+ "Answer {count}": "Отговор {count}",
+ "Remove": "Премахни",
+ "Add an answer": "Добави отговор",
+ "Allow more than one answer": "Позволи повече от един отговор",
+ "Create poll": "Създай анкета",
+ "Choose one answer": "Избери един отговор",
+ "Choose one or more answers": "Избери един или повече отговора",
+ "{count} people voted": "Гласуваха {count} души",
+ "Photo or file": "Снимка или файл",
+ "Poll": "Анкета",
+ "1 person voted": "Гласува 1 човек"
 }

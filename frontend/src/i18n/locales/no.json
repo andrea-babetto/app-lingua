@@ -256,5 +256,20 @@
  "Save and sign in": "Lagre og logg inn",
  "This link is no longer valid. Ask for a new one.": "Denne lenken er ikke lenger gyldig. Be om en ny.",
  "Back to sign in": "Tilbake til innlogging",
- "Request sent": "Forespørsel sendt"
+ "Request sent": "Forespørsel sendt",
+ "New poll": "Ny avstemning",
+ "Question": "Spørsmål",
+ "Ask something…": "Spør om noe…",
+ "Answers": "Svar",
+ "Answer {count}": "Svar {count}",
+ "Remove": "Fjern",
+ "Add an answer": "Legg til et svar",
+ "Allow more than one answer": "Tillat mer enn ett svar",
+ "Create poll": "Opprett avstemning",
+ "Choose one answer": "Velg ett svar",
+ "Choose one or more answers": "Velg ett eller flere svar",
+ "{count} people voted": "{count} har stemt",
+ "Photo or file": "Bilde eller fil",
+ "Poll": "Avstemning",
+ "1 person voted": "1 person har stemt"
 }

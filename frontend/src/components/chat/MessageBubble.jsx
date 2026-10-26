@@ -9,6 +9,7 @@ import { useI18n } from "@/i18n";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogoArrows } from "@/components/Logo";
 import { avatarClass } from "@/lib/avatar";
+import { PollCard } from "@/components/chat/Poll";
 
 function Lightbox({ src, alt, onClose }) {
   useEffect(() => {
@@ -74,7 +75,7 @@ function Ticks({ read, createdAt }) {
   );
 }
 
-export default function MessageBubble({ msg, read, quote, onJump, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
+export default function MessageBubble({ msg, read, quote, onJump, onVote, mine, isGroup, first, last, other, latestMine, showOriginal, onToggleOriginal, onOpenActions, onReact, onReply }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();
   const [zoom, setZoom] = useState(false);
@@ -166,6 +167,8 @@ export default function MessageBubble({ msg, read, quote, onJump, mine, isGroup,
               <LogoArrows animate className="w-4 h-4 shrink-0" />
               <span className="text-sm italic">{msg.original_text}</span>
             </div>
+          ) : msg.poll ? (
+            <PollCard msg={msg} question={bodyText} mine={mine} onVote={onVote} />
           ) : (bodyText ? (
             <p className="whitespace-pre-wrap break-words">{bodyText}</p>
           ) : null)}

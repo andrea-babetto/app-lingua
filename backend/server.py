@@ -734,7 +734,21 @@ def message_view(msg, user_lang, uid=None):
         out["display_text"] = entry["text"]
         out["is_translated"] = True
         out["translated_from"] = msg["original_language"]
+    if msg.get("poll"):
+        out["poll"] = poll_view(msg["poll"], msg["original_language"], user_lang, uid)
     return out
+
+
+def poll_view(poll, original_lang, user_lang, uid):
+    """A poll as one person sees it: answers in their language when translated, how many chose each, and their own choice.
+    Who voted for what is not sent."""
+    texts = (poll.get("translations") or {}).get(user_lang) if user_lang != original_lang else None
+    votes = poll.get("votes") or {}
+    voters = {v for ids in votes.values() for v in ids}
+    return {"multiple": bool(poll.get("multiple")), "voters": len(voters),
+            "options": [{"id": o["id"], "text": (texts[i] if texts and i < len(texts) and texts[i] else o["text"]),
+                         "count": len(votes.get(o["id"], [])), "mine": bool(uid and uid in votes.get(o["id"], []))}
+                        for i, o in enumerate(poll.get("options") or [])]}
 
 
 # ---------------- Chats ----------------
@@ -1168,6 +1182,89 @@ async def send_message(body: MessageIn, user=Depends(get_current_user)):
     return message_view(msg, user.get("language") or "en", user["id"])
 
 
+# ---------------- Polls (groups) ----------------
+# A poll is a message: the question is its text (translated like any message), the answers are translated for each language too.
+class PollIn(BaseModel):
+    chat_id: str = Field(max_length=64)
+    question: str = Field(min_length=1, max_length=200)
+    options: List[str] = Field(min_length=2, max_length=10)
+    multiple: bool = False
+
+
+class VoteIn(BaseModel):
+    option_ids: List[str] = Field(default_factory=list, max_length=10)
+
+
+async def translate_poll_options(msg_id, chat_id, sender_lang, options):
+    try:
+        chat = await db.chats.find_one({"id": chat_id}, {"_id": 0, "members": 1}) or {}
+        langs = set()
+        for mid in chat.get("members", []):
+            u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1}) or {}
+            if u.get("language") and u["language"] != sender_lang:
+                langs.add(u["language"])
+        for lang in langs:
+            res = await asyncio.gather(*[engine.translate(o, sender_lang, lang, tone=DEFAULT_TONE) for o in options], return_exceptions=True)
+            texts = [r["text"] if isinstance(r, dict) else "" for r in res]
+            await db.messages.update_one({"id": msg_id}, {"$set": {f"poll.translations.{lang}": texts}})
+        await broadcast_message(msg_id, chat_id)
+    except Exception:
+        logger.exception("poll translation failed for %s", msg_id)
+
+
+async def broadcast_message(msg_id, chat_id):
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0, "members": 1})
+    if not msg or not chat:
+        return
+    for mid in chat["members"]:
+        u = await db.users.find_one({"id": mid}, {"_id": 0, "language": 1})
+        await ws_manager.send(mid, {"type": "message_update", "message": message_view(msg, (u or {}).get("language") or "en", mid), "chat_id": chat_id})
+
+
+@api.post("/polls")
+async def create_poll(body: PollIn, user=Depends(get_current_user)):
+    limiter.check(f"msg:{user['id']}", 60, 60, "You are sending messages too fast.")
+    chat = await get_chat_for(body.chat_id, user)
+    if chat["type"] != "group":
+        raise HTTPException(status_code=400, detail="Polls are for groups")
+    question = " ".join(body.question.split())
+    options = [" ".join(o.split())[:100] for o in body.options]
+    if not question or any(not o for o in options):
+        raise HTTPException(status_code=400, detail="Write the question and every answer")
+    if len({o.lower() for o in options}) != len(options):
+        raise HTTPException(status_code=400, detail="Two answers are the same")
+    sender_lang = user.get("language") or "en"
+    msg = new_message_doc(chat["id"], user, question, sender_lang, None, None, "translating")
+    msg["poll"] = {"options": [{"id": f"o{i}", "text": o} for i, o in enumerate(options)], "multiple": body.multiple, "votes": {}, "translations": {}}
+    await db.messages.insert_one(dict(msg))
+    await deliver(msg, chat)
+    spawn(translate_message_async(msg["id"], chat["id"], sender_lang, question, DEFAULT_TONE, notify=True))
+    spawn(translate_poll_options(msg["id"], chat["id"], sender_lang, options))
+    return message_view(msg, sender_lang, user["id"])
+
+
+@api.post("/messages/{msg_id}/vote")
+async def vote(msg_id: str, body: VoteIn, user=Depends(get_current_user)):
+    """Replaces my choice with these answers (an empty list takes my vote back)."""
+    limiter.check(f"vote:{user['id']}", 60, 60)
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    if not msg or not msg.get("poll") or msg.get("deleted_for_all"):
+        raise HTTPException(status_code=404, detail="Poll not found")
+    await get_chat_for(msg["chat_id"], user)
+    ids = list(dict.fromkeys(body.option_ids))
+    valid = {o["id"] for o in msg["poll"]["options"]}
+    if any(i not in valid for i in ids) or (len(ids) > 1 and not msg["poll"].get("multiple")):
+        raise HTTPException(status_code=400, detail="Invalid answer")
+    update = {"$pull": {f"poll.votes.{o}": user["id"] for o in valid}}
+    await db.messages.update_one({"id": msg_id}, update)
+    if ids:
+        await db.messages.update_one({"id": msg_id}, {"$addToSet": {f"poll.votes.{o}": user["id"] for o in ids}})
+    await broadcast_message(msg_id, msg["chat_id"])
+    fresh = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    return message_view(fresh, user.get("language") or "en", user["id"])
+
+
 # ---------------- Scheduled messages ----------------
 # Written now, sent at a chosen time. Only the writer sees them until they leave; the text is translated when it is sent.
 MAX_SCHEDULED = 20                      # waiting messages per person
@@ -1395,7 +1492,7 @@ async def delete_message(msg_id: str, for_all: bool = False, user=Depends(get_cu
     if for_all:
         if msg["sender_id"] != user["id"]:
             raise HTTPException(status_code=403, detail="Only the sender can delete a message for everyone")
-        await db.messages.update_one({"id": msg_id}, {"$set": {"deleted_for_all": True, "original_text": "", "translations": {}, "translations_by_user": {}, "attachment": None}})
+        await db.messages.update_one({"id": msg_id}, {"$set": {"deleted_for_all": True, "original_text": "", "translations": {}, "translations_by_user": {}, "attachment": None, "poll": None}})
         await db.messages.update_many({"reply_to": msg_id}, {"$set": {"reply_quote.text": "", "reply_quote.deleted": True, "reply_quote.is_image": False}})
         for mid in chat["members"]:
             await ws_manager.send(mid, {"type": "message_deleted", "message_id": msg_id, "chat_id": msg["chat_id"]})
@@ -1423,6 +1520,8 @@ async def edit_message(msg_id: str, body: EditIn, user=Depends(get_current_user)
         raise HTTPException(status_code=403, detail="You can only edit your own messages")
     if (msg.get("attachment") or {}).get("is_voice"):
         raise HTTPException(status_code=400, detail="Voice messages cannot be edited")
+    if msg.get("poll"):
+        raise HTTPException(status_code=400, detail="Polls cannot be edited")
     if datetime.now(timezone.utc) - datetime.fromisoformat(msg["created_at"]) > EDIT_WINDOW:
         raise HTTPException(status_code=400, detail="Messages can only be edited for 30 minutes")
     text = body.text.strip()

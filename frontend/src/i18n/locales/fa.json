@@ -256,5 +256,20 @@
  "Save and sign in": "ذخیره و ورود",
  "This link is no longer valid. Ask for a new one.": "این پیوند دیگر معتبر نیست. پیوند تازه بخواهید.",
  "Back to sign in": "بازگشت به ورود",
- "Request sent": "درخواست ارسال شد"
+ "Request sent": "درخواست ارسال شد",
+ "New poll": "نظرسنجی جدید",
+ "Question": "پرسش",
+ "Ask something…": "چیزی بپرسید…",
+ "Answers": "پاسخ‌ها",
+ "Answer {count}": "پاسخ {count}",
+ "Remove": "حذف",
+ "Add an answer": "افزودن پاسخ",
+ "Allow more than one answer": "اجازهٔ بیش از یک پاسخ",
+ "Create poll": "ساخت نظرسنجی",
+ "Choose one answer": "یک پاسخ انتخاب کنید",
+ "Choose one or more answers": "یک یا چند پاسخ انتخاب کنید",
+ "{count} people voted": "{count} نفر رأی دادند",
+ "Photo or file": "عکس یا فایل",
+ "Poll": "نظرسنجی",
+ "1 person voted": "۱ نفر رأی داد"
 }

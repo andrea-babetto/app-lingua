@@ -256,5 +256,20 @@
  "Save and sign in": "సేవ్ చేసి సైన్ ఇన్ చేయండి",
  "This link is no longer valid. Ask for a new one.": "ఈ లింక్ ఇక చెల్లదు. కొత్తది అడగండి.",
  "Back to sign in": "సైన్ ఇన్‌కి తిరిగి వెళ్లండి",
- "Request sent": "అభ్యర్థన పంపబడింది"
+ "Request sent": "అభ్యర్థన పంపబడింది",
+ "New poll": "కొత్త పోల్",
+ "Question": "ప్రశ్న",
+ "Ask something…": "ఏదైనా అడగండి…",
+ "Answers": "సమాధానాలు",
+ "Answer {count}": "సమాధానం {count}",
+ "Remove": "తీసివేయండి",
+ "Add an answer": "సమాధానం జోడించండి",
+ "Allow more than one answer": "ఒకటి కంటే ఎక్కువ సమాధానాలను అనుమతించండి",
+ "Create poll": "పోల్ సృష్టించండి",
+ "Choose one answer": "ఒక సమాధానం ఎంచుకోండి",
+ "Choose one or more answers": "ఒకటి లేదా అంతకంటే ఎక్కువ సమాధానాలు ఎంచుకోండి",
+ "{count} people voted": "{count} మంది ఓటు వేశారు",
+ "Photo or file": "ఫోటో లేదా ఫైల్",
+ "Poll": "పోల్",
+ "1 person voted": "1 వ్యక్తి ఓటు వేశారు"
 }

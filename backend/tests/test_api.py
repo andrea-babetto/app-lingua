@@ -1041,3 +1041,41 @@ def test_my_contacts_include_people_without_a_chat(client, make_person):
     client.post(f"/api/users/{b.id}/block", headers=a.h)
     assert [r["name"] for r in client.get("/api/contacts", headers=a.h).json()] == ["Carl"]
     assert client.get("/api/contacts").status_code == 401
+
+
+def test_group_polls_are_translated_and_counted(client, make_person):
+    a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
+    g = client.post("/api/chats/group", json={"name": "Team", "member_ids": [b.id, c.id]}, headers=a.h).json()
+    direct_chat = direct(client, a, b)
+    body = {"chat_id": g["id"], "question": "Dove ceniamo?", "options": ["Pizzeria", "Sushi", "Da Mario"]}
+    assert client.post("/api/polls", json={**body, "chat_id": direct_chat["id"]}, headers=a.h).status_code == 400   # groups only
+    assert client.post("/api/polls", json={**body, "options": ["solo una"]}, headers=a.h).status_code == 422
+    assert client.post("/api/polls", json={**body, "options": ["Sushi", "sushi"]}, headers=a.h).status_code == 400
+    p = client.post("/api/polls", json=body, headers=a.h).json()
+    assert p["poll"]["multiple"] is False and [o["text"] for o in p["poll"]["options"]] == ["Pizzeria", "Sushi", "Da Mario"]
+    # Bob reads the question and the answers in English
+    got = wait_for(client, b, g["id"], p["id"], lambda x: x["status"] == "sent" and x["poll"]["options"][0]["text"].startswith("[en]"))
+    assert got["display_text"] == "[en] Dove ceniamo?" and got["poll"]["options"][1]["text"] == "[en] Sushi"
+    # votes: one answer each in a single-choice poll; changing and taking back
+    opt = [o["id"] for o in p["poll"]["options"]]
+    assert client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": opt[:2]}, headers=b.h).status_code == 400
+    v = client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": [opt[1]]}, headers=b.h).json()
+    assert [o["count"] for o in v["poll"]["options"]] == [0, 1, 0] and v["poll"]["options"][1]["mine"] is True
+    client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": [opt[1]]}, headers=c.h)
+    v = client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": [opt[0]]}, headers=b.h).json()  # Bob changes his mind
+    assert [o["count"] for o in v["poll"]["options"]] == [1, 1, 0] and v["poll"]["voters"] == 2
+    seen_by_anna = next(m for m in client.get(f"/api/messages/{g['id']}", headers=a.h).json() if m["id"] == p["id"])
+    assert "votes" not in seen_by_anna["poll"] and all(o["mine"] is False for o in seen_by_anna["poll"]["options"])   # who voted what stays private
+    v = client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": []}, headers=b.h).json()
+    assert [o["count"] for o in v["poll"]["options"]] == [0, 1, 0]
+    # several answers when the poll allows it
+    m = client.post("/api/polls", json={**body, "multiple": True}, headers=a.h).json()
+    mo = [o["id"] for o in m["poll"]["options"]]
+    v = client.post(f"/api/messages/{m['id']}/vote", json={"option_ids": mo[:2]}, headers=b.h).json()
+    assert [o["count"] for o in v["poll"]["options"]] == [1, 1, 0] and v["poll"]["voters"] == 1
+    # outsiders cannot vote, polls cannot be edited, deleted polls cannot be voted
+    stranger = make_person("s@x.com", "Sam", "en")
+    assert client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": [opt[0]]}, headers=stranger.h).status_code == 403
+    assert client.put(f"/api/messages/{p['id']}", json={"text": "altro"}, headers=a.h).status_code == 400
+    client.delete(f"/api/messages/{p['id']}?for_all=true", headers=a.h)
+    assert client.post(f"/api/messages/{p['id']}/vote", json={"option_ids": [opt[0]]}, headers=b.h).status_code == 404

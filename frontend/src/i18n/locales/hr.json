@@ -256,5 +256,20 @@
  "Save and sign in": "Spremi i prijavi se",
  "This link is no longer valid. Ask for a new one.": "Ova poveznica više ne vrijedi. Zatraži novu.",
  "Back to sign in": "Natrag na prijavu",
- "Request sent": "Zahtjev poslan"
+ "Request sent": "Zahtjev poslan",
+ "New poll": "Nova anketa",
+ "Question": "Pitanje",
+ "Ask something…": "Pitaj nešto…",
+ "Answers": "Odgovori",
+ "Answer {count}": "Odgovor {count}",
+ "Remove": "Ukloni",
+ "Add an answer": "Dodaj odgovor",
+ "Allow more than one answer": "Dopusti više odgovora",
+ "Create poll": "Izradi anketu",
+ "Choose one answer": "Odaberi jedan odgovor",
+ "Choose one or more answers": "Odaberi jedan ili više odgovora",
+ "{count} people voted": "Glasalo je {count} osoba",
+ "Photo or file": "Fotografija ili datoteka",
+ "Poll": "Anketa",
+ "1 person voted": "Glasala je 1 osoba"
 }
