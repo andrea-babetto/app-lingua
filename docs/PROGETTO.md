@@ -120,7 +120,7 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [ ] Sincronizzazione su più dispositivi (come WhatsApp Web)
 
 ### Costo basso (centesimi al mese per utente)
-- [ ] Messaggi vocali: trascrizione con OpenAI, pochi centesimi al minuto di audio (complessità media, frontend incluso). Serve la chiave OpenAI e `VOICE_MESSAGES=true`. Da decidere: durata massima (proposta 2 minuti), chi ascolta l'audio (solo i destinatari), conservazione (proposta 30 giorni), cosa si mostra se la trascrizione fallisce. Parere legale sull'invio dell'audio a OpenAI.
+- [ ] Messaggi vocali: trascrizione con OpenAI, pochi centesimi al minuto di audio (complessità media, frontend incluso). Serve la chiave OpenAI e `VOICE_MESSAGES=true`. Decisioni di Andrea (26/10/2026): durata massima 2 minuti; si registra come WhatsApp (tieni premuto, scorri a sinistra per annullare, scorri in su per bloccare); chi riceve legge il testo tradotto e può ascoltare la voce originale; l'audio si cancella dopo 30 giorni (il testo resta); se la trascrizione non riesce il vocale arriva lo stesso con "Trascrizione non riuscita". Parere legale sull'invio dell'audio a OpenAI (USA) e riga nell'informativa privacy.
 
 ### Costo medio (si paga a ogni uso, va misurato)
 - [ ] Tono che si adatta (amichevole o professionale; dai del tu o del lei): stesso costo dei messaggi
