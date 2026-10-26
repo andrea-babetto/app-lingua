@@ -240,5 +240,9 @@
  "Scheduled message": "Zakazana poruka",
  "Send now": "Pošalji sada",
  "Change time": "Promeni vreme",
- "A scheduled message could not be sent": "Zakazanu poruku nije bilo moguće poslati"
+ "A scheduled message could not be sent": "Zakazanu poruku nije bilo moguće poslati",
+ "Download my data": "Preuzmi moje podatke",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Datoteka sa tvojim profilom, porukama koje si napisao, razgovorima, kontaktima i pojmovnikom.",
+ "Your file is ready": "Datoteka je spremna",
+ "Could not prepare the file. Try again later.": "Datoteku nije bilo moguće pripremiti. Pokušaj kasnije."
 }

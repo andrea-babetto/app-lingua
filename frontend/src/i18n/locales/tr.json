@@ -240,5 +240,9 @@
  "Scheduled message": "Zamanlanmış mesaj",
  "Send now": "Şimdi gönder",
  "Change time": "Saati değiştir",
- "A scheduled message could not be sent": "Zamanlanmış bir mesaj gönderilemedi"
+ "A scheduled message could not be sent": "Zamanlanmış bir mesaj gönderilemedi",
+ "Download my data": "Verilerimi indir",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Profilini, yazdığın mesajları, sohbetlerini, kişilerini ve sözlüğünü içeren bir dosya.",
+ "Your file is ready": "Dosyan hazır",
+ "Could not prepare the file. Try again later.": "Dosya hazırlanamadı. Daha sonra tekrar dene."
 }

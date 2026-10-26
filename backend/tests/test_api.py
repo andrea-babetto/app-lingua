@@ -962,3 +962,32 @@ def test_a_reply_carries_a_quote_of_what_it_answers(client, make_person):
     assert client.post("/api/auth/delete-account", json={"password": "correct-horse-1"}, headers=a.h).status_code == 200
     left = asyncio.run(server.db.messages.find_one({"id": r3["id"]}, {"_id": 0}))
     assert left["reply_quote"]["text"] == "" and left["reply_quote"]["deleted"] is True
+
+
+def test_download_my_data_contains_my_things_and_not_other_peoples_words(client, make_person):
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    assert client.get("/api/auth/export").status_code == 401
+    chat = direct(client, a, b)
+    mine = client.post("/api/messages", json={"chat_id": chat["id"], "text": "ciao Bob"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], mine["id"], lambda x: x["status"] == "sent")
+    client.post("/api/messages", json={"chat_id": chat["id"], "text": "hello Anna, my secret"}, headers=b.h)
+    gone = client.post("/api/messages", json={"chat_id": chat["id"], "text": "oops"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], gone["id"], lambda x: x["status"] == "sent")
+    client.delete(f"/api/messages/{gone['id']}?for_all=true", headers=a.h)
+    client.post("/api/glossary", json={"term": "ACOS", "rule": "keep"}, headers=a.h)
+    client.put("/api/auth/profile", json={"bio": "Marketing a Milano", "timezone": "Europe/Rome"}, headers=a.h)
+    client.post("/api/scheduled", json={"chat_id": chat["id"], "text": "domani", "send_at": _iso(3600)}, headers=a.h)
+    r = client.get("/api/auth/export", headers=a.h)
+    assert r.status_code == 200 and r.headers["content-type"].startswith("application/json")
+    assert "attachment" in r.headers["content-disposition"] and ".json" in r.headers["content-disposition"]
+    d = r.json()
+    assert d["profile"]["email"] == "a@x.com" and d["profile"]["bio"] == "Marketing a Milano" and d["profile"]["timezone"] == "Europe/Rome"
+    assert "password_hash" not in r.text
+    assert [m["text"] for m in d["messages_i_wrote"]] == ["ciao Bob"]                # deleted-for-all messages are left out
+    assert d["messages_i_wrote"][0]["translations"].get("en") == "[en] ciao Bob"
+    assert "my secret" not in r.text                                                  # Bob's words are not in Anna's file
+    assert d["chats"][0]["members"] == [{"id": b.id, "name": "Bob", "username": b.username}]
+    assert "b@x.com" not in r.text                                                    # nor Bob's email
+    assert d["glossary"] == [{"term": "ACOS", "rule": "keep"}]
+    assert [x["text"] for x in d["scheduled_messages"]] == ["domani"]
+    assert d["translation_usage_by_month"][0]["my_messages_translated"] == 2   # "oops" was translated before being deleted

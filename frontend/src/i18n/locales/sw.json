@@ -240,5 +240,9 @@
  "Scheduled message": "Ujumbe uliopangwa",
  "Send now": "Tuma sasa",
  "Change time": "Badilisha saa",
- "A scheduled message could not be sent": "Ujumbe uliopangwa haukuweza kutumwa"
+ "A scheduled message could not be sent": "Ujumbe uliopangwa haukuweza kutumwa",
+ "Download my data": "Pakua data yangu",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Faili lenye wasifu wako, ujumbe uliouandika, mazungumzo, anwani na kamusi yako.",
+ "Your file is ready": "Faili lako liko tayari",
+ "Could not prepare the file. Try again later.": "Faili halikuweza kuandaliwa. Jaribu tena baadaye."
 }

@@ -240,5 +240,9 @@
  "Scheduled message": "Geplante Nachricht",
  "Send now": "Jetzt senden",
  "Change time": "Uhrzeit ändern",
- "A scheduled message could not be sent": "Eine geplante Nachricht konnte nicht gesendet werden"
+ "A scheduled message could not be sent": "Eine geplante Nachricht konnte nicht gesendet werden",
+ "Download my data": "Meine Daten herunterladen",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Eine Datei mit deinem Profil, deinen geschriebenen Nachrichten, Chats, Kontakten und deinem Glossar.",
+ "Your file is ready": "Deine Datei ist bereit",
+ "Could not prepare the file. Try again later.": "Die Datei konnte nicht erstellt werden. Versuch es später noch einmal."
 }

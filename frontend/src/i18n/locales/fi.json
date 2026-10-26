@@ -240,5 +240,9 @@
  "Scheduled message": "Ajastettu viesti",
  "Send now": "Lähetä nyt",
  "Change time": "Vaihda aika",
- "A scheduled message could not be sent": "Ajastettua viestiä ei voitu lähettää"
+ "A scheduled message could not be sent": "Ajastettua viestiä ei voitu lähettää",
+ "Download my data": "Lataa tietoni",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Tiedosto, jossa on profiilisi, kirjoittamasi viestit, keskustelusi, yhteystietosi ja sanastosi.",
+ "Your file is ready": "Tiedostosi on valmis",
+ "Could not prepare the file. Try again later.": "Tiedostoa ei voitu valmistella. Yritä myöhemmin uudelleen."
 }

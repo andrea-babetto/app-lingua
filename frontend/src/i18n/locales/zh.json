@@ -240,5 +240,9 @@
  "Scheduled message": "定时消息",
  "Send now": "立即发送",
  "Change time": "更改时间",
- "A scheduled message could not be sent": "一条定时消息未能发送"
+ "A scheduled message could not be sent": "一条定时消息未能发送",
+ "Download my data": "下载我的数据",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "包含你的个人资料、你写的消息、聊天、联系人和词汇表的文件。",
+ "Your file is ready": "你的文件已准备好",
+ "Could not prepare the file. Try again later.": "无法准备文件，请稍后再试。"
 }

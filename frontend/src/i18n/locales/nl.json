@@ -240,5 +240,9 @@
  "Scheduled message": "Ingepland bericht",
  "Send now": "Nu versturen",
  "Change time": "Tijd wijzigen",
- "A scheduled message could not be sent": "Een ingepland bericht kon niet worden verstuurd"
+ "A scheduled message could not be sent": "Een ingepland bericht kon niet worden verstuurd",
+ "Download my data": "Mijn gegevens downloaden",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Een bestand met je profiel, de berichten die je schreef, je chats, contacten en woordenlijst.",
+ "Your file is ready": "Je bestand is klaar",
+ "Could not prepare the file. Try again later.": "Het bestand kon niet worden gemaakt. Probeer het later opnieuw."
 }

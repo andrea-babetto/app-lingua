@@ -240,5 +240,9 @@
  "Scheduled message": "Pesan terjadwal",
  "Send now": "Kirim sekarang",
  "Change time": "Ubah waktu",
- "A scheduled message could not be sent": "Pesan terjadwal tidak dapat dikirim"
+ "A scheduled message could not be sent": "Pesan terjadwal tidak dapat dikirim",
+ "Download my data": "Unduh data saya",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "File berisi profil, pesan yang kamu tulis, obrolan, kontak, dan glosariummu.",
+ "Your file is ready": "File-mu sudah siap",
+ "Could not prepare the file. Try again later.": "File tidak dapat disiapkan. Coba lagi nanti."
 }

@@ -240,5 +240,9 @@
  "Scheduled message": "הודעה מתוזמנת",
  "Send now": "שליחה עכשיו",
  "Change time": "שינוי שעה",
- "A scheduled message could not be sent": "לא ניתן היה לשלוח הודעה מתוזמנת"
+ "A scheduled message could not be sent": "לא ניתן היה לשלוח הודעה מתוזמנת",
+ "Download my data": "הורדת הנתונים שלי",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "קובץ עם הפרופיל שלך, ההודעות שכתבת, הצ'אטים, אנשי הקשר ומילון המונחים שלך.",
+ "Your file is ready": "הקובץ שלך מוכן",
+ "Could not prepare the file. Try again later.": "לא ניתן היה להכין את הקובץ. נסו שוב מאוחר יותר."
 }

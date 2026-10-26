@@ -240,5 +240,9 @@
  "Scheduled message": "Időzített üzenet",
  "Send now": "Küldés most",
  "Change time": "Időpont módosítása",
- "A scheduled message could not be sent": "Egy időzített üzenetet nem sikerült elküldeni"
+ "A scheduled message could not be sent": "Egy időzített üzenetet nem sikerült elküldeni",
+ "Download my data": "Adataim letöltése",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Egy fájl a profiloddal, az általad írt üzenetekkel, a csevegéseiddel, névjegyeiddel és a szójegyzékeddel.",
+ "Your file is ready": "Elkészült a fájl",
+ "Could not prepare the file. Try again later.": "Nem sikerült elkészíteni a fájlt. Próbáld újra később."
 }

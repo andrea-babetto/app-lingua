@@ -240,5 +240,9 @@
  "Scheduled message": "নির্ধারিত বার্তা",
  "Send now": "এখনই পাঠান",
  "Change time": "সময় বদলান",
- "A scheduled message could not be sent": "একটি নির্ধারিত বার্তা পাঠানো যায়নি"
+ "A scheduled message could not be sent": "একটি নির্ধারিত বার্তা পাঠানো যায়নি",
+ "Download my data": "আমার ডেটা ডাউনলোড করুন",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "আপনার প্রোফাইল, আপনার লেখা বার্তা, চ্যাট, পরিচিতি ও শব্দকোষসহ একটি ফাইল।",
+ "Your file is ready": "আপনার ফাইল তৈরি",
+ "Could not prepare the file. Try again later.": "ফাইল তৈরি করা যায়নি। পরে আবার চেষ্টা করুন।"
 }

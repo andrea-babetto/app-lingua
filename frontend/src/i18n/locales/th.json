@@ -240,5 +240,9 @@
  "Scheduled message": "ข้อความที่ตั้งเวลาไว้",
  "Send now": "ส่งตอนนี้",
  "Change time": "เปลี่ยนเวลา",
- "A scheduled message could not be sent": "ส่งข้อความที่ตั้งเวลาไว้ไม่ได้"
+ "A scheduled message could not be sent": "ส่งข้อความที่ตั้งเวลาไว้ไม่ได้",
+ "Download my data": "ดาวน์โหลดข้อมูลของฉัน",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "ไฟล์ที่มีโปรไฟล์ ข้อความที่คุณเขียน แชต รายชื่อติดต่อ และอภิธานศัพท์ของคุณ",
+ "Your file is ready": "ไฟล์ของคุณพร้อมแล้ว",
+ "Could not prepare the file. Try again later.": "เตรียมไฟล์ไม่ได้ ลองใหม่ภายหลัง"
 }

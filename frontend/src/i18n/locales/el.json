@@ -240,5 +240,9 @@
  "Scheduled message": "Προγραμματισμένο μήνυμα",
  "Send now": "Αποστολή τώρα",
  "Change time": "Αλλαγή ώρας",
- "A scheduled message could not be sent": "Ένα προγραμματισμένο μήνυμα δεν στάλθηκε"
+ "A scheduled message could not be sent": "Ένα προγραμματισμένο μήνυμα δεν στάλθηκε",
+ "Download my data": "Λήψη των δεδομένων μου",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Ένα αρχείο με το προφίλ σου, τα μηνύματα που έγραψες, τις συνομιλίες, τις επαφές και το γλωσσάρι σου.",
+ "Your file is ready": "Το αρχείο σου είναι έτοιμο",
+ "Could not prepare the file. Try again later.": "Δεν ήταν δυνατή η προετοιμασία του αρχείου. Δοκίμασε ξανά αργότερα."
 }

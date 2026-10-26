@@ -407,6 +407,61 @@ async def change_password(body: ChangePasswordIn, user=Depends(get_current_user)
     return {"token": create_token(user["id"]), "user": public_user(fresh)}
 
 
+# ---------------- Download my data (GDPR, right of access) ----------------
+EXPORT_NOTE = ("Your data on Glotter, as of the date above. It contains your profile and settings, the messages you wrote "
+               "(original text and the translations made for the people who read them), your chats, contacts, blocked people, "
+               "glossary, scheduled messages, the files you sent (name and type; open them from the app), your devices for "
+               "notifications and how many messages were translated each month. Messages written by other people are not "
+               "included: they belong to them.")
+
+
+@api.get("/auth/export")
+async def export_my_data(user=Depends(get_current_user)):
+    limiter.check(f"export:{user['id']}", 5, 3600, "Please wait a little before downloading your data again.")
+    uid = user["id"]
+    me = await db.users.find_one({"id": uid}, {"_id": 0}) or {}
+    names = {}
+
+    async def who(ids):
+        missing = [i for i in ids if i not in names]
+        if missing:
+            async for u in db.users.find({"id": {"$in": missing}}, {"_id": 0, "id": 1, "name": 1, "username": 1}):
+                names[u["id"]] = {"name": u.get("name", ""), "username": u.get("username", "")}
+        return [dict(id=i, **names.get(i, {"name": "(deleted account)", "username": ""})) for i in ids]
+
+    chats = []
+    for c in await db.chats.find({"members": uid}, {"_id": 0}).to_list(2000):
+        chats.append({"id": c["id"], "type": c.get("type"), "name": c.get("name", ""), "created_at": c.get("created_at"),
+                      "members": await who([m for m in c.get("members", []) if m != uid]), "i_am_admin": uid in c.get("admins", [])})
+    messages = []
+    for m in await db.messages.find({"sender_id": uid}, {"_id": 0}).sort("created_at", 1).to_list(200000):
+        if m.get("deleted_for_all"):
+            continue
+        tr = {lang: e.get("text", "") for lang, e in (m.get("translations") or {}).items()}
+        messages.append({"id": m["id"], "chat_id": m["chat_id"], "created_at": m.get("created_at"), "language": m.get("original_language"),
+                         "text": m.get("original_text", ""), "translations": tr, "edited": bool(m.get("edited")),
+                         "reply_to": m.get("reply_to"), "attachment": (m.get("attachment") or {}).get("filename")})
+    contacts = []
+    for c in await db.contacts.find({"user_id": uid}, {"_id": 0}).to_list(5000):
+        person = (await who([c["contact_id"]]))[0]
+        contacts.append({**person, "status": c.get("status"), "since": c.get("created_at")})
+    files = [{"name": f.get("original_filename"), "type": f.get("content_type"), "size": f.get("size"), "sent_at": f.get("created_at")}
+             for f in await db.files.find({"owner_id": uid, "is_deleted": {"$ne": True}}, {"_id": 0}).to_list(20000)]
+    devices = [{"added_at": d.get("created_at")} for d in await db.push_subs.find({"user_id": uid}, {"_id": 0, "created_at": 1}).to_list(100)]
+    usage = [{"month": u["month"], "translated_for_me": u.get("received", 0), "my_messages_translated": u.get("sent", 0)}
+             for u in await db.usage.find({"user_id": uid}, {"_id": 0}).sort("month", 1).to_list(500)]
+    scheduled = [{"chat_id": x["chat_id"], "text": x["text"], "send_at": x["send_at"]}
+                 for x in await db.scheduled.find({"sender_id": uid}, {"_id": 0}).to_list(100)]
+    profile = {k: me.get(k) for k in ("id", "name", "username", "email", "phone", "language", "bio", "timezone", "avatar", "created_at", "last_seen", "settings")}
+    data = {"service": "Glotter", "exported_at": now_iso(), "note": EXPORT_NOTE, "profile": profile,
+            "glossary": me.get("glossary", []), "blocked": await who(me.get("blocked", [])), "contacts": contacts,
+            "chats": chats, "messages_i_wrote": messages, "scheduled_messages": scheduled, "files_i_sent": files,
+            "notification_devices": devices, "translation_usage_by_month": usage}
+    filename = f"glotter-data-{me.get('username') or uid}-{now_iso()[:10]}.json"
+    return Response(content=json.dumps(data, ensure_ascii=False, indent=2), media_type="application/json",
+                    headers={"Content-Disposition": f'attachment; filename="{filename}"', "Cache-Control": "no-store"})
+
+
 class DeleteAccountIn(BaseModel):
     password: str = Field(default="", max_length=72)
 
@@ -1611,7 +1666,8 @@ async def guard_requests(request: Request, call_next):
 app.add_middleware(CORSMiddleware, allow_credentials=False,
                    allow_origins=ALLOWED_ORIGINS,
                    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                   allow_headers=["Authorization", "Content-Type"])
+                   allow_headers=["Authorization", "Content-Type"],
+                   expose_headers=["Content-Disposition"])  # so the site can read the name of a downloaded file
 
 
 # ---------------- Startup ----------------

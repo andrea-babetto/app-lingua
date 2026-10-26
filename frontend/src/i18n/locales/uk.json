@@ -240,5 +240,9 @@
  "Scheduled message": "Заплановане повідомлення",
  "Send now": "Надіслати зараз",
  "Change time": "Змінити час",
- "A scheduled message could not be sent": "Не вдалося надіслати заплановане повідомлення"
+ "A scheduled message could not be sent": "Не вдалося надіслати заплановане повідомлення",
+ "Download my data": "Завантажити мої дані",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Файл із вашим профілем, написаними вами повідомленнями, чатами, контактами та глосарієм.",
+ "Your file is ready": "Файл готовий",
+ "Could not prepare the file. Try again later.": "Не вдалося підготувати файл. Спробуйте пізніше."
 }

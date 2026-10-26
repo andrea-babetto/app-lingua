@@ -240,5 +240,9 @@
  "Scheduled message": "پیام زمان‌بندی‌شده",
  "Send now": "ارسال فوری",
  "Change time": "تغییر زمان",
- "A scheduled message could not be sent": "یک پیام زمان‌بندی‌شده ارسال نشد"
+ "A scheduled message could not be sent": "یک پیام زمان‌بندی‌شده ارسال نشد",
+ "Download my data": "دانلود داده‌های من",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "فایلی شامل نمایه، پیام‌هایی که نوشته‌اید، گفتگوها، مخاطبان و واژه‌نامهٔ شما.",
+ "Your file is ready": "فایل شما آماده است",
+ "Could not prepare the file. Try again later.": "فایل آماده نشد. بعداً دوباره امتحان کنید."
 }

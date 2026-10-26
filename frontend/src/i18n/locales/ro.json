@@ -240,5 +240,9 @@
  "Scheduled message": "Mesaj programat",
  "Send now": "Trimite acum",
  "Change time": "Schimbă ora",
- "A scheduled message could not be sent": "Un mesaj programat nu a putut fi trimis"
+ "A scheduled message could not be sent": "Un mesaj programat nu a putut fi trimis",
+ "Download my data": "Descarcă datele mele",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Un fișier cu profilul tău, mesajele pe care le-ai scris, conversațiile, contactele și glosarul.",
+ "Your file is ready": "Fișierul tău este gata",
+ "Could not prepare the file. Try again later.": "Fișierul nu a putut fi pregătit. Încearcă mai târziu."
 }

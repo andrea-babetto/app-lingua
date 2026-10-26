@@ -240,5 +240,9 @@
  "Scheduled message": "رسالة مجدولة",
  "Send now": "إرسال الآن",
  "Change time": "تغيير الوقت",
- "A scheduled message could not be sent": "تعذّر إرسال رسالة مجدولة"
+ "A scheduled message could not be sent": "تعذّر إرسال رسالة مجدولة",
+ "Download my data": "تنزيل بياناتي",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "ملف يحتوي على ملفك الشخصي والرسائل التي كتبتها ومحادثاتك وجهات اتصالك ومسرد مصطلحاتك.",
+ "Your file is ready": "ملفك جاهز",
+ "Could not prepare the file. Try again later.": "تعذّر تجهيز الملف. حاول مرة أخرى لاحقًا."
 }

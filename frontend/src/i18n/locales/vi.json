@@ -240,5 +240,9 @@
  "Scheduled message": "Tin nhắn hẹn giờ",
  "Send now": "Gửi ngay",
  "Change time": "Đổi giờ",
- "A scheduled message could not be sent": "Không gửi được một tin nhắn hẹn giờ"
+ "A scheduled message could not be sent": "Không gửi được một tin nhắn hẹn giờ",
+ "Download my data": "Tải xuống dữ liệu của tôi",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Một tệp gồm hồ sơ, các tin nhắn bạn đã viết, cuộc trò chuyện, danh bạ và bảng thuật ngữ của bạn.",
+ "Your file is ready": "Tệp của bạn đã sẵn sàng",
+ "Could not prepare the file. Try again later.": "Không thể chuẩn bị tệp. Hãy thử lại sau."
 }

@@ -240,5 +240,9 @@
  "Scheduled message": "Mesej berjadual",
  "Send now": "Hantar sekarang",
  "Change time": "Tukar masa",
- "A scheduled message could not be sent": "Mesej berjadual tidak dapat dihantar"
+ "A scheduled message could not be sent": "Mesej berjadual tidak dapat dihantar",
+ "Download my data": "Muat turun data saya",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Fail yang mengandungi profil, mesej yang anda tulis, sembang, kenalan dan glosari anda.",
+ "Your file is ready": "Fail anda sudah sedia",
+ "Could not prepare the file. Try again later.": "Fail tidak dapat disediakan. Cuba lagi kemudian."
 }

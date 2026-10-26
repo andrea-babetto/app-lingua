@@ -240,5 +240,9 @@
  "Scheduled message": "예약된 메시지",
  "Send now": "지금 보내기",
  "Change time": "시간 변경",
- "A scheduled message could not be sent": "예약된 메시지를 보내지 못했습니다"
+ "A scheduled message could not be sent": "예약된 메시지를 보내지 못했습니다",
+ "Download my data": "내 데이터 다운로드",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "프로필, 내가 쓴 메시지, 대화, 연락처, 용어집이 담긴 파일입니다.",
+ "Your file is ready": "파일이 준비되었습니다",
+ "Could not prepare the file. Try again later.": "파일을 준비하지 못했습니다. 나중에 다시 시도해 주세요."
 }

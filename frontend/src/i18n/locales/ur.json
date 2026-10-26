@@ -240,5 +240,9 @@
  "Scheduled message": "شیڈول شدہ پیغام",
  "Send now": "ابھی بھیجیں",
  "Change time": "وقت بدلیں",
- "A scheduled message could not be sent": "ایک شیڈول شدہ پیغام نہیں بھیجا جا سکا"
+ "A scheduled message could not be sent": "ایک شیڈول شدہ پیغام نہیں بھیجا جا سکا",
+ "Download my data": "میرا ڈیٹا ڈاؤن لوڈ کریں",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "ایک فائل جس میں آپ کی پروفائل، آپ کے لکھے پیغامات، چیٹس، رابطے اور فرہنگ ہیں۔",
+ "Your file is ready": "آپ کی فائل تیار ہے",
+ "Could not prepare the file. Try again later.": "فائل تیار نہیں ہو سکی۔ بعد میں دوبارہ کوشش کریں۔"
 }

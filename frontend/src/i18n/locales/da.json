@@ -240,5 +240,9 @@
  "Scheduled message": "Planlagt besked",
  "Send now": "Send nu",
  "Change time": "Skift tidspunkt",
- "A scheduled message could not be sent": "En planlagt besked kunne ikke sendes"
+ "A scheduled message could not be sent": "En planlagt besked kunne ikke sendes",
+ "Download my data": "Download mine data",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "En fil med din profil, de beskeder, du har skrevet, dine chats, kontakter og ordliste.",
+ "Your file is ready": "Din fil er klar",
+ "Could not prepare the file. Try again later.": "Filen kunne ikke klargøres. Prøv igen senere."
 }

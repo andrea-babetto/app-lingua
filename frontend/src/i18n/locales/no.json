@@ -240,5 +240,9 @@
  "Scheduled message": "Planlagt melding",
  "Send now": "Send nå",
  "Change time": "Endre tid",
- "A scheduled message could not be sent": "En planlagt melding kunne ikke sendes"
+ "A scheduled message could not be sent": "En planlagt melding kunne ikke sendes",
+ "Download my data": "Last ned dataene mine",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "En fil med profilen din, meldingene du har skrevet, chattene, kontaktene og ordlisten din.",
+ "Your file is ready": "Filen din er klar",
+ "Could not prepare the file. Try again later.": "Kunne ikke lage filen. Prøv igjen senere."
 }

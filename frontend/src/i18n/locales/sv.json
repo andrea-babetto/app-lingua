@@ -240,5 +240,9 @@
  "Scheduled message": "Schemalagt meddelande",
  "Send now": "Skicka nu",
  "Change time": "Ändra tid",
- "A scheduled message could not be sent": "Ett schemalagt meddelande kunde inte skickas"
+ "A scheduled message could not be sent": "Ett schemalagt meddelande kunde inte skickas",
+ "Download my data": "Ladda ner mina data",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "En fil med din profil, meddelandena du har skrivit, dina chattar, kontakter och ordlista.",
+ "Your file is ready": "Din fil är klar",
+ "Could not prepare the file. Try again later.": "Filen kunde inte förberedas. Försök igen senare."
 }

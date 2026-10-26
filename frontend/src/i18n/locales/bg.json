@@ -240,5 +240,9 @@
  "Scheduled message": "Планирано съобщение",
  "Send now": "Изпрати сега",
  "Change time": "Промени часа",
- "A scheduled message could not be sent": "Планирано съобщение не можа да бъде изпратено"
+ "A scheduled message could not be sent": "Планирано съобщение не можа да бъде изпратено",
+ "Download my data": "Изтегли данните ми",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Файл с профила ти, съобщенията, които си написал, чатовете, контактите и речника ти.",
+ "Your file is ready": "Файлът ти е готов",
+ "Could not prepare the file. Try again later.": "Файлът не можа да бъде подготвен. Опитай по-късно."
 }

@@ -240,5 +240,9 @@
  "Scheduled message": "Запланированное сообщение",
  "Send now": "Отправить сейчас",
  "Change time": "Изменить время",
- "A scheduled message could not be sent": "Не удалось отправить запланированное сообщение"
+ "A scheduled message could not be sent": "Не удалось отправить запланированное сообщение",
+ "Download my data": "Скачать мои данные",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Файл с вашим профилем, написанными вами сообщениями, чатами, контактами и глоссарием.",
+ "Your file is ready": "Файл готов",
+ "Could not prepare the file. Try again later.": "Не удалось подготовить файл. Попробуйте позже."
 }

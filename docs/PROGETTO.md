@@ -90,12 +90,14 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/2026). Ordine dentro ogni gruppo: prima quelle che servono alla beta. Quando una funzione è fatta (o scartata) si toglie dalla lista e va in "Già fatte".
 
-### Già fatte (24/10/2026, sul ramo `design-refresh`)
+### Già fatte
 - [x] Ora locale dell'altra persona (in alto nella chat e nella scheda contatto, disattivabile dalla Privacy)
 - [x] Risposta rapida scorrendo il messaggio verso destra (a sinistra in arabo ed ebraico)
 - [x] Animazione di consegna (la spunta che si disegna)
 - [x] Animazione di lettura (la seconda spunta che si disegna e diventa verde)
 - [x] Messaggi programmati (tieni premuto invio)
+- [x] Citazione nelle risposte visibile a tutti (correzione, 26/10/2026)
+- [x] Scarica i miei dati (Profilo › Account, 26/10/2026)
 
 ### Scartate o unite
 - Silenzioso e orari: scartata (24/10/2026)
@@ -106,7 +108,6 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [ ] Contatore degli inviti (da decidere: solo admin o anche l'utente). Nota: oggi il link `/?invite=nome` non registra niente.
 
 ### Costo zero, complessità media
-- [ ] Scarica i miei dati (obbligo europeo) — **prima della beta allargata**
 - [ ] Contatti senza chat (la scheda Contatti mostra anche chi non hai ancora sentito, ma devi averlo salvato)
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
 - [ ] Inviti a gruppi con link
@@ -242,3 +243,4 @@ Ordine proposto: 1) traduzione di foto e documenti, 2) apprendimento della lingu
 - **Spunte animate:** un messaggio appena inviato disegna la sua spunta; quando è letto la seconda spunta si disegna e tutte e due diventano verde salvia (#a9c9a0). I messaggi vecchi non si muovono. Rispetta "riduci animazioni". Corretto anche un difetto: la doppia spunta si vedeva solo mentre la chat era aperta (ora viene da `read_by` del server); nei gruppi diventa verde solo quando hanno letto tutti.
 - **Messaggi programmati:** si tiene premuto il tasto invio (o clic destro su computer) e si sceglie quando parte: tra 1 ora, stasera alle 20 (fino alle 19), domani alle 9, o data e ora a scelta (fino a 30 giorni). Nelle chat a due compare anche l'ora di chi riceve ("Per Hamad saranno le 13:30"). In attesa, il messaggio si vede solo a chi l'ha scritto, in fondo alla chat, tratteggiato con l'orario; toccandolo: invia ora, cambia ora, elimina. Server: collezione `scheduled`, `POST /api/scheduled`, `GET /api/scheduled/{chat}`, `PUT/DELETE /api/scheduled/{id}`, `POST /api/scheduled/{id}/send-now`; un ciclo ogni 15 secondi invia quelli scaduti (tolti prima di partire, quindi mai due volte; non parte in `APP_ENV=test`). Massimo 20 in attesa a persona. La traduzione avviene alla partenza. Se nel frattempo si è bloccati o fuori dal gruppo, il messaggio viene scartato e chi l'ha scritto riceve un avviso. Eliminando l'account si cancellano anche quelli in attesa.
 - **Citazione nelle risposte (corretto 26/10/2026):** prima la citazione era solo un'aggiunta temporanea sul telefono di chi scriveva (chi riceveva non la vedeva mai, e spariva riaprendo la chat). Ora il server salva con la risposta una copia di ciò che si cita (`reply_quote`: nome, testo originale fino a 300 caratteri, se era una foto); l'app mostra il messaggio citato nella lingua di chi legge quando è caricato, altrimenti la copia. La citazione sta dentro il fumetto (come WhatsApp), con il nome ("Tu" se eri tu); toccandola si va al messaggio originale, che lampeggia. La copia segue le modifiche del messaggio citato e si svuota se viene eliminato per tutti o se chi l'ha scritto elimina l'account.
+- **Scarica i miei dati** (26/10/2026): in Profilo › Account il tasto "Scarica i miei dati" scarica un file JSON (`GET /api/auth/export`, massimo 5 volte l'ora) con profilo e impostazioni, messaggi scritti (originale e traduzioni fatte per chi li ha letti; esclusi quelli eliminati per tutti), chat (con nome e username degli altri membri, mai la loro email), contatti, persone bloccate, glossario, messaggi programmati, file inviati (nome e tipo), dispositivi per le notifiche (solo la data) e messaggi tradotti al mese. Non contiene i messaggi scritti dagli altri. Il server ora permette al sito di leggere il nome del file scaricato (`expose_headers`).

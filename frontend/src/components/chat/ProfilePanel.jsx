@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ArrowLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info } from "lucide-react";
+import { Download, Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ArrowLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -180,6 +180,34 @@ function DeleteAccount() {
 }
 
 // ---- the pages behind each row ----
+// "Download my data" (a European right): a JSON file with the profile, the messages I wrote, chats, contacts, glossary...
+function DownloadData() {
+  const { t } = useI18n();
+  const [busy, setBusy] = useState(false);
+  const download = async () => {
+    setBusy(true);
+    try {
+      const res = await api.get("/auth/export", { responseType: "blob" });
+      const name = /filename="([^"]+)"/.exec(res.headers["content-disposition"] || "")?.[1] || "glotter-data.json";
+      const url = URL.createObjectURL(res.data);
+      const a = document.createElement("a");
+      a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      toast.success(t("Your file is ready"));
+    } catch { toast.error(t("Could not prepare the file. Try again later.")); }
+    finally { setBusy(false); }
+  };
+  return (
+    <div className="space-y-2">
+      <div className="text-sm font-medium">{t("Download my data")}</div>
+      <p className="text-xs text-muted-foreground">{t("A file with your profile, the messages you wrote, your chats, contacts and glossary.")}</p>
+      <Button data-testid="download-data" variant="outline" className="w-full" onClick={download} disabled={busy}>
+        {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Download className="w-4 h-4 me-2" /> {t("Download my data")}</>}
+      </Button>
+    </div>
+  );
+}
+
 function AccountPage({ onBack }) {
   const { user } = useAuth();
   const { t } = useI18n();
@@ -222,11 +250,12 @@ function AccountPage({ onBack }) {
         {dirty && <Button data-testid="save-profile-button" className="w-full" onClick={saveProfile} disabled={busy}>{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Save profile")}</Button>}
       </Section>
       <Section><PasswordSection /></Section>
+      <Section><DownloadData /></Section>
     </SubPage>
   );
 }
 
-// Languages I read well: messages in them are shown as written, not translated.
+// The language I write and read in, and whether the original is shown under translations.
 function LanguagePage({ onBack }) {
   const { user } = useAuth();
   const { t, langName } = useI18n();

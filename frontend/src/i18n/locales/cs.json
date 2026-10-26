@@ -240,5 +240,9 @@
  "Scheduled message": "Naplánovaná zpráva",
  "Send now": "Odeslat hned",
  "Change time": "Změnit čas",
- "A scheduled message could not be sent": "Naplánovanou zprávu se nepodařilo odeslat"
+ "A scheduled message could not be sent": "Naplánovanou zprávu se nepodařilo odeslat",
+ "Download my data": "Stáhnout moje data",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Soubor s vaším profilem, zprávami, které jste napsali, chaty, kontakty a slovníčkem.",
+ "Your file is ready": "Soubor je připraven",
+ "Could not prepare the file. Try again later.": "Soubor se nepodařilo připravit. Zkuste to později."
 }

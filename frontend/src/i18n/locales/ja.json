@@ -240,5 +240,9 @@
  "Scheduled message": "予約済みメッセージ",
  "Send now": "今すぐ送信",
  "Change time": "時間を変更",
- "A scheduled message could not be sent": "予約したメッセージを送信できませんでした"
+ "A scheduled message could not be sent": "予約したメッセージを送信できませんでした",
+ "Download my data": "データをダウンロード",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "プロフィール、送信したメッセージ、チャット、連絡先、用語集を含むファイルです。",
+ "Your file is ready": "ファイルの準備ができました",
+ "Could not prepare the file. Try again later.": "ファイルを準備できませんでした。しばらくしてからもう一度お試しください。"
 }

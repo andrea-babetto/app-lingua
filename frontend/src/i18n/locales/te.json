@@ -240,5 +240,9 @@
  "Scheduled message": "షెడ్యూల్ చేసిన సందేశం",
  "Send now": "ఇప్పుడే పంపండి",
  "Change time": "సమయం మార్చండి",
- "A scheduled message could not be sent": "షెడ్యూల్ చేసిన ఒక సందేశాన్ని పంపలేకపోయాం"
+ "A scheduled message could not be sent": "షెడ్యూల్ చేసిన ఒక సందేశాన్ని పంపలేకపోయాం",
+ "Download my data": "నా డేటాను డౌన్‌లోడ్ చేయండి",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "మీ ప్రొఫైల్, మీరు రాసిన సందేశాలు, చాట్‌లు, పరిచయాలు, పదకోశం ఉన్న ఫైల్.",
+ "Your file is ready": "మీ ఫైల్ సిద్ధంగా ఉంది",
+ "Could not prepare the file. Try again later.": "ఫైల్‌ను సిద్ధం చేయలేకపోయాం. తర్వాత మళ్లీ ప్రయత్నించండి."
 }

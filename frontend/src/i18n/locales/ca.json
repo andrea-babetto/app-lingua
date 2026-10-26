@@ -240,5 +240,9 @@
  "Scheduled message": "Missatge programat",
  "Send now": "Envia ara",
  "Change time": "Canvia l'hora",
- "A scheduled message could not be sent": "No s'ha pogut enviar un missatge programat"
+ "A scheduled message could not be sent": "No s'ha pogut enviar un missatge programat",
+ "Download my data": "Baixa les meves dades",
+ "A file with your profile, the messages you wrote, your chats, contacts and glossary.": "Un fitxer amb el teu perfil, els missatges que has escrit, els teus xats, contactes i glossari.",
+ "Your file is ready": "El fitxer està a punt",
+ "Could not prepare the file. Try again later.": "No s'ha pogut preparar el fitxer. Torna-ho a provar més tard."
 }
