@@ -1299,6 +1299,7 @@ async def transcribe_voice(msg_id, chat_id, voice, lang):
     if transcript:
         await db.messages.update_one({"id": msg_id}, {"$set": {"original_text": transcript, "status": "translating"}})
         await translate_message_async(msg_id, chat_id, lang, transcript, DEFAULT_TONE, notify=True)
+        await prepare_speech(msg_id)
     else:
         await db.messages.update_one({"id": msg_id}, {"$set": {"status": "transcription_failed"}})
         await broadcast_message(msg_id, chat_id)
@@ -1569,9 +1570,55 @@ async def send_voice(chat_id: str = Form(...), file: UploadFile = File(...), dur
 SPEECH_LOCKS = {}
 
 
+async def make_speech(msg, text):
+    """The translated text of a voice message read aloud, stored once per text (so once per language).
+    Returns the file id, or None if the voice could not be made."""
+    key = speech_key(text)
+    lock = SPEECH_LOCKS.setdefault(f"{msg['id']}:{key}", asyncio.Lock())
+    try:
+        async with lock:  # made once, even if the server and two listeners ask at the same moment
+            fresh = await db.messages.find_one({"id": msg["id"]}, {"_id": 0, "speech": 1})
+            fid = ((fresh or {}).get("speech") or {}).get(key)
+            if fid:
+                return fid
+            audio = await tts.synthesize(text)
+            if not audio:
+                return None
+            await log_voice_cost("speech", msg["attachment"].get("duration") or 0, TTS_COST_PER_MIN)
+            stored = await storage.put_object(f"lingua/voice/{msg['sender_id']}/{uuid.uuid4()}.mp3", audio, "audio/mpeg")
+            fid = str(uuid.uuid4())
+            await db.files.insert_one({"id": fid, "storage_path": stored["path"], "original_filename": "voice.mp3",
+                                       "content_type": "audio/mpeg", "size": stored.get("size", len(audio)),
+                                       "owner_id": msg["sender_id"], "is_voice": True, "is_speech": True,
+                                       "is_deleted": False, "created_at": now_iso()})
+            done = await db.messages.update_one({"id": msg["id"], "deleted_for_all": {"$ne": True}, "attachment.expired": {"$ne": True}},
+                                                {"$set": {f"speech.{key}": fid}})
+            if not done.matched_count:  # deleted meanwhile: do not keep its voice
+                await drop_voice_audio({"speech": {key: fid}})
+                return None
+            return fid
+    finally:
+        SPEECH_LOCKS.pop(f"{msg['id']}:{key}", None)
+
+
+async def prepare_speech(msg_id):
+    """Right after a voice message is translated, make its spoken translations, so play starts at once."""
+    if not tts.enabled():
+        return
+    msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
+    if not msg or msg.get("deleted_for_all") or not (msg.get("attachment") or {}).get("is_voice") or msg["attachment"].get("expired"):
+        return
+    texts = {e["text"] for e in list((msg.get("translations") or {}).values()) + list((msg.get("translations_by_user") or {}).values())
+             if e.get("text")}
+    made = await asyncio.gather(*[make_speech(msg, t) for t in texts], return_exceptions=True)
+    if any(isinstance(f, str) for f in made):
+        await broadcast_message(msg_id, msg["chat_id"])  # listeners get the ready voice
+
+
 @api.post("/messages/{msg_id}/speech")
 async def message_speech(msg_id: str, user=Depends(get_current_user)):
-    """The translation of a voice message read aloud in the listener's language. Made the first time someone asks, then kept."""
+    """The translation of a voice message read aloud in the listener's language. Usually ready already
+    (made right after the translation); if not, it is made now."""
     msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
     if not msg or msg.get("deleted_for_all") or not (msg.get("attachment") or {}).get("is_voice"):
         raise HTTPException(status_code=404, detail="Not found")
@@ -1585,25 +1632,10 @@ async def message_speech(msg_id: str, user=Depends(get_current_user)):
         raise HTTPException(status_code=409, detail="There is no translation to read yet")
     if view.get("speech_url"):
         return {"url": view["speech_url"]}
-    key = speech_key(view["display_text"])
-    lock = SPEECH_LOCKS.setdefault(f"{msg_id}:{key}", asyncio.Lock())
-    async with lock:  # two people of the same language pressing play together: the audio is made once
-        fresh = await db.messages.find_one({"id": msg_id}, {"_id": 0, "speech": 1})
-        fid = ((fresh or {}).get("speech") or {}).get(key)
-        if not fid:
-            limiter.check(f"speech:{user['id']}", 60, 3600)
-            audio = await tts.synthesize(view["display_text"])
-            if not audio:
-                raise HTTPException(status_code=502, detail="Could not create the voice. Try again.")
-            await log_voice_cost("speech", msg["attachment"].get("duration") or 0, TTS_COST_PER_MIN)
-            stored = await storage.put_object(f"lingua/voice/{msg['sender_id']}/{uuid.uuid4()}.mp3", audio, "audio/mpeg")
-            fid = str(uuid.uuid4())
-            await db.files.insert_one({"id": fid, "storage_path": stored["path"], "original_filename": "voice.mp3",
-                                       "content_type": "audio/mpeg", "size": stored.get("size", len(audio)),
-                                       "owner_id": msg["sender_id"], "is_voice": True, "is_speech": True,
-                                       "is_deleted": False, "created_at": now_iso()})
-            await db.messages.update_one({"id": msg_id}, {"$set": {f"speech.{key}": fid}})
-    SPEECH_LOCKS.pop(f"{msg_id}:{key}", None)
+    limiter.check(f"speech:{user['id']}", 60, 3600)
+    fid = await make_speech(msg, view["display_text"])
+    if not fid:
+        raise HTTPException(status_code=502, detail="Could not create the voice. Try again.")
     return {"url": f"/api/files/{fid}"}
 
 

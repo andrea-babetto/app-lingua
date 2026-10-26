@@ -78,8 +78,13 @@ async def main():
         await bubble.wait_for()
         check("text hidden until 'Write it'", await jp.get_by_test_id(f"voice-text-{vid}").count() == 0)
         check("play reads the translation", (await jp.get_by_test_id(f"voice-mode-{vid}").inner_text()) == "Translated voice")
+        ready = next(x for x in await msgs(jt) if x["id"] == vid).get("speech_url")
+        check("translated voice already ready before play", ready)
+        asked = []
+        jp.on("request", lambda r: asked.append(r.url) if r.url.endswith("/speech") else None)
         await jp.get_by_test_id(f"voice-play-{vid}").click()
         await jp.wait_for_timeout(1200)
+        check("play starts without waiting for the voice to be made", not asked)
         label = await jp.get_by_test_id(f"voice-play-{vid}").get_attribute("aria-label")
         m = next(x for x in await msgs(jt) if x["id"] == vid)
         check("spoken translation made and playing", m.get("speech_url") and label == "Pause")

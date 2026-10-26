@@ -535,15 +535,15 @@ def test_voice_reply_keeps_the_quote(client, make_person, monkeypatch):
     assert msg["reply_to"] == first["id"] and msg["reply_quote"]["text"] == "Hello"
 
 
-def test_spoken_translation_is_made_once_per_language(client, make_person, monkeypatch):
+def test_spoken_translation_is_ready_and_made_once_per_language(client, make_person, monkeypatch):
     calls = _voice_on(monkeypatch)
     a, b, c = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en"), make_person("c@x.com", "Carl", "en")
     group = client.post("/api/chats/group", json={"name": "G", "member_ids": [b.id, c.id]}, headers=a.h).json()
     msg = _voice(client, a, group["id"]).json()
-    got = wait_for(client, b, group["id"], msg["id"], lambda x: x["status"] == "sent")
-    assert got["speech_url"] is None  # nobody listened yet: nothing made, nothing paid
+    # made right after the translation, so play starts at once
+    got = wait_for(client, b, group["id"], msg["id"], lambda x: x["status"] == "sent" and x.get("speech_url"))
     r1 = client.post(f"/api/messages/{msg['id']}/speech", headers=b.h)
-    assert r1.status_code == 200 and client.get(r1.json()["url"]).content == b"ID3fake-mp3"
+    assert r1.status_code == 200 and r1.json()["url"] == got["speech_url"] and client.get(r1.json()["url"]).content == b"ID3fake-mp3"
     r2 = client.post(f"/api/messages/{msg['id']}/speech", headers=c.h)
     assert r2.json()["url"] == r1.json()["url"] and calls["speech"] == ["[en] Come stai oggi?"]
     assert _mine(client, c, group["id"], msg["id"])["speech_url"] == r1.json()["url"]
@@ -555,6 +555,21 @@ def test_spoken_translation_is_made_once_per_language(client, make_person, monke
     text = client.post("/api/messages", json={"chat_id": group["id"], "text": "Ciao"}, headers=a.h).json()
     assert client.post(f"/api/messages/{text['id']}/speech", headers=b.h).status_code == 404
 
+
+def test_spoken_translation_made_on_play_if_not_ready(client, make_person, monkeypatch):
+    calls = _voice_on(monkeypatch, speech=b"")  # making it in advance failed
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    msg = _voice(client, a, chat["id"]).json()
+    got = wait_for(client, b, chat["id"], msg["id"], lambda x: x["status"] == "sent")
+    time.sleep(0.3)
+    assert got["speech_url"] is None and len(calls["speech"]) == 1
+    assert client.post(f"/api/messages/{msg['id']}/speech", headers=b.h).status_code == 502
+    async def works(text):
+        return b"ID3now"
+    monkeypatch.setattr(tts, "synthesize", works)
+    url = client.post(f"/api/messages/{msg['id']}/speech", headers=b.h).json()["url"]
+    assert client.get(url).content == b"ID3now"
 
 def test_old_voice_audio_is_deleted_but_text_stays(client, make_person, monkeypatch):
     _voice_on(monkeypatch)
