@@ -300,5 +300,11 @@
  "Translated voice": "ترجمہ شدہ آواز",
  "Voice message not sent": "صوتی پیغام نہیں بھیجا گیا",
  "Write it": "لکھ کر دکھاؤ",
- "🎤 Voice message": "🎤 صوتی پیغام"
+ "🎤 Voice message": "🎤 صوتی پیغام",
+ "Dictate": "بول کر لکھیں",
+ "Done": "ہو گیا",
+ "I didn't catch that. Try again.": "سمجھ نہیں آیا۔ دوبارہ کوشش کریں۔",
+ "Listen": "سنیں",
+ "Listening…": "سن رہا ہے…",
+ "Writing…": "لکھ رہا ہے…"
 }

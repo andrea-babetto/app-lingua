@@ -85,7 +85,7 @@ export default function Chat() {
       }
       loadChats();
       if (d.type === "new_message" && d.message.sender_id !== user.id && (!cur || cur.id !== d.chat_id)) {
-        if (canNotify() && Notification.permission === "granted") try { new Notification(d.message.sender_name, { body: d.message.display_text || (d.message.attachment?.is_voice ? t("🎤 Voice message") : "") }); } catch { /* some mobile browsers refuse the constructor */ }
+        if (canNotify() && Notification.permission === "granted") try { new Notification(d.message.sender_name, { body: d.message.attachment?.is_voice ? t("🎤 Voice message") : d.message.display_text }); } catch { /* some mobile browsers refuse the constructor */ }
       }
     } else if (d.type === "typing") {
       if (cur && d.chat_id === cur.id) {

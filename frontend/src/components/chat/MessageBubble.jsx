@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Reply, RotateCw, X } from "lucide-react";
+import { Reply, RotateCw, X, Volume2, Loader2, Pause } from "lucide-react";
 import { toast } from "sonner";
 import { api, API } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -11,6 +11,21 @@ import { LogoArrows } from "@/components/Logo";
 import { avatarClass } from "@/lib/avatar";
 import { PollCard } from "@/components/chat/Poll";
 import VoiceMessage from "@/components/chat/VoiceMessage";
+import { speak, useSpeaking } from "@/lib/speak";
+import { useConfig } from "@/lib/config";
+
+// 🔊 next to "Translated from…": hear the message in your language
+function ListenButton({ msg }) {
+  const { t } = useI18n();
+  const state = useSpeaking(msg.id);
+  return (
+    <button data-testid={`listen-${msg.id}`} aria-label={state === "playing" ? t("Pause") : t("Listen")}
+      onClick={() => speak(msg, () => toast.error(t("Could not create the voice. Try again.")))}
+      className={`mt-1 w-7 h-7 rounded-full flex items-center justify-center transition hover:opacity-85 ${state === "idle" ? "bg-label text-label-foreground" : "bg-foreground text-background"}`}>
+      {state === "loading" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : state === "playing" ? <Pause className="w-3.5 h-3.5" fill="currentColor" /> : <Volume2 className="w-3.5 h-3.5" />}
+    </button>
+  );
+}
 
 function Lightbox({ src, alt, onClose }) {
   useEffect(() => {
@@ -84,6 +99,7 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
   const [zoom, setZoom] = useState(false);
   const [showTheirs, setShowTheirs] = useState(false);
   const voice = !!msg.attachment?.is_voice;
+  const cfg = useConfig();
   const translating = msg.status === "translating" && !msg.is_translated && !mine && !voice;
   // In a one-to-one chat the sender can see what the other person reads.
   const theirLang = mine && latestMine && !isGroup && other?.language && other.language !== msg.original_language ? other.language : null;
@@ -198,6 +214,7 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
         )}
 
         {!mine && msg.is_translated && !translating && (
+          <div className="flex items-center gap-1.5">
           <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={onToggleOriginal}
             className={`mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold transition hover:opacity-85 ${showOriginal
               ? "bg-foreground text-background" : "bg-label text-label-foreground"}`}>
@@ -205,6 +222,8 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
               ? `${t("Original in {language}", { language: langName(msg.translated_from) })} · ${t("Show translation")}`
               : t("Translated from {language}", { language: langName(msg.translated_from) })}
           </button>
+          {cfg.voice_speech && !voice && !msg.poll && <ListenButton msg={msg} />}
+          </div>
         )}
         {sendingTranslation && (
           <div data-testid="sending-translation" className="mt-1 inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-muted-foreground">

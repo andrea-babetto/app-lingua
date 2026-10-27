@@ -26,7 +26,7 @@ const PRIVACY = {
       ]],
       ["Automatic translation", [
         "To translate a message, we send its text to Anthropic (USA), our translation provider, which processes it on our behalf. We send only the text to translate and the languages involved, not your email or profile.",
-        "Voice messages: the recording is sent to OpenAI (USA), which turns it into text on our behalf; the text is then translated like any message. When someone listens to the translation, its text is sent to OpenAI to be read aloud by a synthetic voice (never a copy of your voice). The audio of voice messages and their spoken translations are deleted after 30 days; the text stays in the chat.",
+        "Voice messages: the recording is sent to OpenAI (USA), which turns it into text on our behalf; the text is then translated like any message. When someone listens to the translation, its text is sent to OpenAI to be read aloud by a synthetic voice (never a copy of your voice). The same happens when someone presses \"Listen\" on a written message. With dictation, your recording is sent to OpenAI only to turn it into text in the message box, and it is not kept. The audio of voice messages and of messages read aloud is deleted after 30 days; the text stays in the chat.",
         "Messages are not end-to-end encrypted. The service operator can technically access stored messages, and does so only to handle abuse reports, keep the service secure, or comply with the law.",
         "Translations are automatic and can contain mistakes.",
       ]],
@@ -64,7 +64,7 @@ const PRIVACY = {
       ]],
       ["Traduzione automatica", [
         "Per tradurre un messaggio inviamo il testo ad Anthropic (USA), il nostro fornitore di traduzione, che lo tratta per nostro conto. Inviamo solo il testo da tradurre e le lingue coinvolte, non la tua email né il tuo profilo.",
-        "Messaggi vocali: la registrazione viene inviata a OpenAI (USA), che la trasforma in testo per nostro conto; il testo viene poi tradotto come ogni messaggio. Quando qualcuno ascolta la traduzione, il suo testo viene inviato a OpenAI per essere letto da una voce sintetica (mai una copia della tua voce). L'audio dei vocali e delle traduzioni lette viene cancellato dopo 30 giorni; il testo resta nella chat.",
+        "Messaggi vocali: la registrazione viene inviata a OpenAI (USA), che la trasforma in testo per nostro conto; il testo viene poi tradotto come ogni messaggio. Quando qualcuno ascolta la traduzione, il suo testo viene inviato a OpenAI per essere letto da una voce sintetica (mai una copia della tua voce). Lo stesso avviene quando qualcuno tocca \"Ascolta\" su un messaggio scritto. Con la dettatura la registrazione viene inviata a OpenAI solo per trasformarla in testo nella casella del messaggio, e non viene conservata. L'audio dei vocali e dei messaggi letti ad alta voce viene cancellato dopo 30 giorni; il testo resta nella chat.",
         "I messaggi non sono cifrati end-to-end. Chi gestisce il servizio può tecnicamente accedere ai messaggi conservati, e lo fa solo per gestire segnalazioni di abuso, mantenere il servizio sicuro o rispettare la legge.",
         "Le traduzioni sono automatiche e possono contenere errori.",
       ]],

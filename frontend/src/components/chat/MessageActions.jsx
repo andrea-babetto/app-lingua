@@ -1,7 +1,9 @@
-import { Copy, Globe, Info, Pencil, Reply, Trash2 } from "lucide-react";
+import { Copy, Globe, Info, Pencil, Reply, Trash2, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useI18n } from "@/i18n";
+import { useConfig } from "@/lib/config";
+import { speak } from "@/lib/speak";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 export const REACTIONS = ["👍", "❤️", "😂", "😮", "🙏"];
@@ -24,7 +26,9 @@ function Row({ icon: Icon, label, onClick, danger, testId }) {
 // The menu that opens when you tap a message: reactions on top, then what you can do with it.
 export default function MessageActions({ msg, mine, userId, onClose, onReply, onEdit, onReact, onShowOriginal, showingOriginal, onInfo }) {
   const { t } = useI18n();
+  const cfg = useConfig();
   const open = !!msg;
+  const canListen = cfg.voice_speech && msg && !msg.deleted_for_all && !msg.poll && !msg.attachment?.is_voice && msg.display_text?.trim();
   const done = (fn) => () => { onClose(); fn?.(); };
   const copy = (text) => { navigator.clipboard?.writeText(text).then(() => toast.success(t("Copied"))).catch(() => {}); };
   const del = async (forAll) => {
@@ -48,6 +52,7 @@ export default function MessageActions({ msg, mine, userId, onClose, onReply, on
             </div>
             <div className="py-1">
               <Row icon={Reply} label={t("Reply")} testId="action-reply" onClick={done(() => onReply(msg))} />
+              {canListen && <Row icon={Volume2} label={t("Listen")} testId="action-listen" onClick={done(() => speak(msg, () => toast.error(t("Could not create the voice. Try again."))))} />}
               {mine && !msg.deleted_for_all && onInfo && <Row icon={Info} label={t("Info")} testId="action-info" onClick={done(() => onInfo(msg))} />}
               {canEdit(msg, mine) && <Row icon={Pencil} label={t("Edit")} testId="action-edit" onClick={done(() => onEdit(msg))} />}
               {msg.is_translated && <Row icon={Copy} label={t("Copy translation")} testId="action-copy-translation" onClick={done(() => copy(msg.display_text))} />}

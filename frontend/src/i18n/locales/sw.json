@@ -300,5 +300,11 @@
  "Translated voice": "Sauti iliyotafsiriwa",
  "Voice message not sent": "Ujumbe wa sauti haukutumwa",
  "Write it": "Iandike",
- "🎤 Voice message": "🎤 Ujumbe wa sauti"
+ "🎤 Voice message": "🎤 Ujumbe wa sauti",
+ "Dictate": "Ongea uandikiwe",
+ "Done": "Imekamilika",
+ "I didn't catch that. Try again.": "Sikusikia vizuri. Jaribu tena.",
+ "Listen": "Sikiliza",
+ "Listening…": "Inasikiliza…",
+ "Writing…": "Inaandika…"
 }

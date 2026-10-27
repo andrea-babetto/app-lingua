@@ -300,5 +300,11 @@
  "Translated voice": "Μεταφρασμένη φωνή",
  "Voice message not sent": "Το φωνητικό μήνυμα δεν στάλθηκε",
  "Write it": "Γράψ' το",
- "🎤 Voice message": "🎤 Φωνητικό μήνυμα"
+ "🎤 Voice message": "🎤 Φωνητικό μήνυμα",
+ "Dictate": "Υπαγόρευση",
+ "Done": "Τέλος",
+ "I didn't catch that. Try again.": "Δεν το κατάλαβα. Δοκιμάστε ξανά.",
+ "Listen": "Ακρόαση",
+ "Listening…": "Ακούω…",
+ "Writing…": "Γράφω…"
 }

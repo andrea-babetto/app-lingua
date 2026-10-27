@@ -300,5 +300,11 @@
  "Translated voice": "Giọng đã dịch",
  "Voice message not sent": "Chưa gửi được tin nhắn thoại",
  "Write it": "Viết ra",
- "🎤 Voice message": "🎤 Tin nhắn thoại"
+ "🎤 Voice message": "🎤 Tin nhắn thoại",
+ "Dictate": "Đọc chính tả",
+ "Done": "Xong",
+ "I didn't catch that. Try again.": "Tôi chưa nghe rõ. Hãy thử lại.",
+ "Listen": "Nghe",
+ "Listening…": "Đang nghe…",
+ "Writing…": "Đang viết…"
 }

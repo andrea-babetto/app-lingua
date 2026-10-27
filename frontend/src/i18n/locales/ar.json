@@ -300,5 +300,11 @@
  "Translated voice": "الصوت المترجم",
  "Voice message not sent": "لم تُرسل الرسالة الصوتية",
  "Write it": "اكتبها",
- "🎤 Voice message": "🎤 رسالة صوتية"
+ "🎤 Voice message": "🎤 رسالة صوتية",
+ "Dictate": "إملاء",
+ "Done": "تم",
+ "I didn't catch that. Try again.": "لم أفهم. حاول مرة أخرى.",
+ "Listen": "استمع",
+ "Listening…": "جارٍ الاستماع…",
+ "Writing…": "جارٍ الكتابة…"
 }

@@ -300,5 +300,11 @@
  "Translated voice": "翻訳された音声",
  "Voice message not sent": "ボイスメッセージを送信できませんでした",
  "Write it": "文字で見る",
- "🎤 Voice message": "🎤 ボイスメッセージ"
+ "🎤 Voice message": "🎤 ボイスメッセージ",
+ "Dictate": "音声入力",
+ "Done": "完了",
+ "I didn't catch that. Try again.": "聞き取れませんでした。もう一度お試しください。",
+ "Listen": "聞く",
+ "Listening…": "聞き取り中…",
+ "Writing…": "入力中…"
 }

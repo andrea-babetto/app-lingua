@@ -17,6 +17,7 @@ import MessageInfo from "@/components/chat/MessageInfo";
 import { ScheduleDialog, ScheduledList, ScheduledActions } from "@/components/chat/Scheduled";
 import { useI18n } from "@/i18n";
 import VoiceRecorder, { canRecord } from "@/components/chat/VoiceRecorder";
+import Dictation from "@/components/chat/Dictation";
 import { useConfig } from "@/lib/config";
 
 const EMOJIS = ["😀","😂","😍","🥰","😎","🤔","😢","😡","👍","👎","🙏","👏","🔥","❤️","🎉","✅","💯","😅","🤝","👋","💪","🌍","☕","🚀"];
@@ -406,7 +407,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
           </Popover>
         )}
         <input type="file" ref={fileRef} hidden onChange={onFile} />
-        <div className="flex-1 flex items-end bg-surface rounded-[20px] ps-3.5 pe-1 focus-within:ring-2 focus-within:ring-primary/25 min-w-0">
+        <div className="relative flex-1 flex items-end bg-surface rounded-[20px] ps-3.5 pe-1 focus-within:ring-2 focus-within:ring-primary/25 min-w-0">
           <textarea
             ref={taRef}
             data-testid="message-input"
@@ -421,6 +422,9 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
             enterKeyHint="send"
             className="flex-1 resize-none max-h-32 py-2.5 bg-transparent text-base outline-none min-w-0 leading-snug placeholder:text-subtle"
           />
+          {cfg.dictation && canRecord() && (
+            <Dictation maxSeconds={cfg.voice_max_seconds || 120} onText={(words) => setText((cur) => (cur.trim() ? `${cur.trimEnd()} ${words}` : words))} />
+          )}
           <Popover>
             <PopoverTrigger asChild>
               <button data-testid="emoji-picker-button" aria-label={t("Emoji")} className="w-9 h-10 rounded-full flex items-center justify-center text-subtle hover:text-foreground shrink-0"><Smile className="w-5 h-5" /></button>

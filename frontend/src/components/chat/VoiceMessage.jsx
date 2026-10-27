@@ -3,14 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Loader2, AlertCircle, Mic, Volume2 } from "lucide-react";
 import { toast } from "sonner";
-import { api, API } from "@/lib/api";
+import { api } from "@/lib/api";
+import { SILENCE, fileUrl } from "@/lib/speak";
 import { useConfig } from "@/lib/config";
 import { useI18n } from "@/i18n";
 import { clock } from "@/components/chat/VoiceRecorder";
 
-// A silent sound played straight from the tap: iPhone then lets the spoken translation play when it arrives a moment later.
-const SILENCE = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
-const fileUrl = (u) => (u && u.startsWith("/api/") ? API + u.slice(4) : u);
 
 export default function VoiceMessage({ msg, mine, text, rtl }) {
   const { t } = useI18n();

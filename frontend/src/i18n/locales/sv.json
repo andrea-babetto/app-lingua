@@ -300,5 +300,11 @@
  "Translated voice": "Översatt röst",
  "Voice message not sent": "Röstmeddelandet skickades inte",
  "Write it": "Skriv ut det",
- "🎤 Voice message": "🎤 Röstmeddelande"
+ "🎤 Voice message": "🎤 Röstmeddelande",
+ "Dictate": "Diktera",
+ "Done": "Klar",
+ "I didn't catch that. Try again.": "Det uppfattade jag inte. Försök igen.",
+ "Listen": "Lyssna",
+ "Listening…": "Lyssnar…",
+ "Writing…": "Skriver…"
 }

@@ -319,7 +319,7 @@ def check_invite_code(given: str):
 @api.get("/config")
 async def public_config():
     return {"google_client_id": GOOGLE_CLIENT_ID, "voice_messages": voice_messages_on(), "voice_transcription": stt.enabled(),
-            "voice_speech": tts.enabled(), "voice_max_seconds": MAX_VOICE_SECONDS,
+            "voice_speech": tts.enabled(), "voice_max_seconds": MAX_VOICE_SECONDS, "dictation": stt.enabled(),
             "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required(),
             "password_reset": mailer.enabled() or APP_ENV == "test"}
 
@@ -754,9 +754,8 @@ def message_view(msg, user_lang, uid=None):
         out["display_text"] = entry["text"]
         out["is_translated"] = True
         out["translated_from"] = msg["original_language"]
-    if (msg.get("attachment") or {}).get("is_voice") and out["is_translated"]:
-        fid = (msg.get("speech") or {}).get(speech_key(out["display_text"]))
-        out["speech_url"] = f"/api/files/{fid}" if fid else None  # the translation read aloud, once someone asked for it
+    fid = (msg.get("speech") or {}).get(speech_key(out["display_text"])) if out["display_text"] else None
+    out["speech_url"] = f"/api/files/{fid}" if fid else None  # the text read aloud, once it was made
     if msg.get("poll"):
         out["poll"] = poll_view(msg["poll"], msg["original_language"], user_lang, uid)
     # Delivered / read, with the time: only the sender sees them, and nobody's reading shows when either side hides it.
@@ -1166,11 +1165,23 @@ async def translate_message_async(msg_id, chat_id, sender_lang, text, tone, noti
 PUSH_CONTACT = "mailto:" + (os.environ.get("ADMIN_EMAIL", "").strip() or "admin@example.com")
 
 
-def push_preview(view):
+# "Voice message" in the language of whoever gets the notification (same words as the app)
+VOICE_LABEL = {"ar": "رسالة صوتية", "bg": "Гласово съобщение", "bn": "ভয়েস মেসেজ", "ca": "Missatge de veu", "cs": "Hlasová zpráva",
+               "da": "Talebesked", "de": "Sprachnachricht", "el": "Φωνητικό μήνυμα", "en": "Voice message", "es": "Mensaje de voz",
+               "fa": "پیام صوتی", "fi": "Ääniviesti", "fr": "Message vocal", "he": "הודעה קולית", "hi": "वॉइस मैसेज", "hr": "Glasovna poruka",
+               "hu": "Hangüzenet", "id": "Pesan suara", "it": "Vocale", "ja": "ボイスメッセージ", "ko": "음성 메시지", "mr": "व्हॉइस मेसेज",
+               "ms": "Mesej suara", "nl": "Spraakbericht", "no": "Talemelding", "pl": "Wiadomość głosowa", "pt": "Mensagem de voz",
+               "ro": "Mesaj vocal", "ru": "Голосовое сообщение", "sk": "Hlasová správa", "sr": "Гласовна порука", "sv": "Röstmeddelande",
+               "sw": "Ujumbe wa sauti", "ta": "குரல் செய்தி", "te": "వాయిస్ మెసేజ్", "th": "ข้อความเสียง", "tl": "Voice message",
+               "tr": "Sesli mesaj", "uk": "Голосове повідомлення", "ur": "صوتی پیغام", "vi": "Tin nhắn thoại", "zh": "语音消息"}
+
+
+def push_preview(view, lang="en"):
     t = (view.get("display_text") or "").strip()
     att = view.get("attachment")
-    if att and att.get("is_voice"):
-        return f"🎤 {t[:138]}" if t else "🎤 Voice message"
+    if att and att.get("is_voice"):  # like the chat list: "🎤 Voice message · 0:12", never the text
+        secs = int(att.get("duration") or 0)
+        return f"🎤 {VOICE_LABEL.get(lang, VOICE_LABEL['en'])}" + (f" · {secs // 60}:{secs % 60:02d}" if secs else "")
     if t:
         return t[:140]
     if att:
@@ -1193,7 +1204,7 @@ async def notify_offline(msg, chat):
                 continue
             view = message_view(msg, u.get("language") or "en", mid)
             title = msg["sender_name"] if chat["type"] == "direct" else f"{msg['sender_name']} · {chat.get('name') or 'Group'}"
-            await push.send_to_user(db, mid, {"title": title, "body": push_preview(view), "chat_id": chat["id"]}, PUSH_CONTACT)
+            await push.send_to_user(db, mid, {"title": title, "body": push_preview(view, u.get("language") or "en"), "chat_id": chat["id"]}, PUSH_CONTACT)
     except Exception:
         logger.exception("push notification failed")
 
@@ -1277,8 +1288,9 @@ async def post_message(user, chat, text, reply_to=None, attachment_ref=None, voi
                               "text": (target.get("original_text") or "")[:300], "is_image": bool((target.get("attachment") or {}).get("is_image"))}
     await db.messages.insert_one(dict(msg))
     await deliver(msg, chat)  # instant broadcast of the original
-    if transcribe:
+    if transcribe:  # the notification says "voice message": it need not wait for the text
         spawn(transcribe_voice(msg["id"], chat["id"], voice, sender_lang))
+        spawn(notify_offline(msg, chat))
     elif text:
         spawn(translate_message_async(msg["id"], chat["id"], sender_lang, text, DEFAULT_TONE, notify=True))
     else:
@@ -1298,12 +1310,11 @@ async def transcribe_voice(msg_id, chat_id, voice, lang):
     chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
     if transcript:
         await db.messages.update_one({"id": msg_id}, {"$set": {"original_text": transcript, "status": "translating"}})
-        await translate_message_async(msg_id, chat_id, lang, transcript, DEFAULT_TONE, notify=True)
+        await translate_message_async(msg_id, chat_id, lang, transcript, DEFAULT_TONE)
         await prepare_speech(msg_id)
     else:
         await db.messages.update_one({"id": msg_id}, {"$set": {"status": "transcription_failed"}})
         await broadcast_message(msg_id, chat_id)
-        await notify_offline(await db.messages.find_one({"id": msg_id}, {"_id": 0}), chat)
 
 
 async def log_voice_cost(kind, seconds, per_minute):
@@ -1584,16 +1595,18 @@ async def make_speech(msg, text):
             audio = await tts.synthesize(text)
             if not audio:
                 return None
-            await log_voice_cost("speech", msg["attachment"].get("duration") or 0, TTS_COST_PER_MIN)
+            seconds = (msg.get("attachment") or {}).get("duration") or len(text) / 15  # about 15 characters a second
+            await log_voice_cost("speech", seconds, TTS_COST_PER_MIN)
             stored = await storage.put_object(f"lingua/voice/{msg['sender_id']}/{uuid.uuid4()}.mp3", audio, "audio/mpeg")
             fid = str(uuid.uuid4())
             await db.files.insert_one({"id": fid, "storage_path": stored["path"], "original_filename": "voice.mp3",
                                        "content_type": "audio/mpeg", "size": stored.get("size", len(audio)),
                                        "owner_id": msg["sender_id"], "is_voice": True, "is_speech": True,
                                        "is_deleted": False, "created_at": now_iso()})
-            done = await db.messages.update_one({"id": msg["id"], "deleted_for_all": {"$ne": True}, "attachment.expired": {"$ne": True}},
+            done = await db.messages.update_one({"id": msg["id"], "deleted_for_all": {"$ne": True}, "attachment.expired": {"$ne": True},
+                                                 "original_text": msg["original_text"]},  # not edited meanwhile
                                                 {"$set": {f"speech.{key}": fid}})
-            if not done.matched_count:  # deleted meanwhile: do not keep its voice
+            if not done.matched_count:  # deleted or edited meanwhile: do not keep its voice
                 await drop_voice_audio({"speech": {key: fid}})
                 return None
             return fid
@@ -1617,18 +1630,23 @@ async def prepare_speech(msg_id):
 
 @api.post("/messages/{msg_id}/speech")
 async def message_speech(msg_id: str, user=Depends(get_current_user)):
-    """The translation of a voice message read aloud in the listener's language. Usually ready already
-    (made right after the translation); if not, it is made now."""
+    """A message read aloud in the listener's language. For a voice message, its translation (usually made
+    already, right after the translation); for a written message, its text, made the first time someone listens."""
     msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})
-    if not msg or msg.get("deleted_for_all") or not (msg.get("attachment") or {}).get("is_voice"):
+    if not msg or msg.get("deleted_for_all"):
         raise HTTPException(status_code=404, detail="Not found")
     await get_chat_for(msg["chat_id"], user)
-    if msg["attachment"].get("expired"):
+    voice = (msg.get("attachment") or {}).get("is_voice")
+    if voice and msg["attachment"].get("expired"):
         raise HTTPException(status_code=410, detail="This audio is no longer available")
     if not tts.enabled():
         raise HTTPException(status_code=404, detail="Spoken translation is not available")
     view = message_view(msg, user.get("language") or "en", user["id"])
-    if not view["is_translated"]:
+    if voice and not view["is_translated"]:  # in the speaker's own language the recording itself is played
+        raise HTTPException(status_code=409, detail="There is no translation to read yet")
+    if msg.get("poll") or not view["display_text"].strip():
+        raise HTTPException(status_code=404, detail="Nothing to read")
+    if not voice and msg.get("status") == "translating" and not view["is_translated"] and msg["sender_id"] != user["id"]:
         raise HTTPException(status_code=409, detail="There is no translation to read yet")
     if view.get("speech_url"):
         return {"url": view["speech_url"]}
@@ -1637,6 +1655,25 @@ async def message_speech(msg_id: str, user=Depends(get_current_user)):
     if not fid:
         raise HTTPException(status_code=502, detail="Could not create the voice. Try again.")
     return {"url": f"/api/files/{fid}"}
+
+
+@api.post("/dictate")
+async def dictate(file: UploadFile = File(...), duration: float = Form(0), user=Depends(get_current_user)):
+    """Speak instead of typing: the words come back as text for the message box (nothing is kept)."""
+    if not stt.enabled():
+        raise HTTPException(status_code=404, detail="Dictation is not available")
+    limiter.check(f"dictate:{user['id']}", 20, 60)
+    ct = normalize_content_type(file.content_type)
+    if ct not in AUDIO_TYPES:
+        raise HTTPException(status_code=415, detail="Unsupported audio format")
+    if not 0 < duration <= MAX_VOICE_SECONDS + 3:
+        raise HTTPException(status_code=400, detail="Dictation lasts up to 2 minutes")
+    data = await file.read(MAX_VOICE_BYTES + 1)
+    if len(data) > MAX_VOICE_BYTES:
+        raise HTTPException(status_code=413, detail="Recording too large")
+    text = await stt.transcribe(data, f"audio.{AUDIO_TYPES[ct]}", ct, user.get("language") or "")
+    await log_voice_cost("dictation", min(duration, MAX_VOICE_SECONDS), STT_COST_PER_MIN)
+    return {"text": text}
 
 
 async def drop_voice_audio(msg):
@@ -1658,6 +1695,11 @@ async def expire_old_voice(now=None):
     for m in rows:
         await drop_voice_audio(m)
         await db.messages.update_one({"id": m["id"]}, {"$set": {"attachment.expired": True, "attachment.url": None, "speech": {}}})
+    spoken = await db.messages.find({"attachment.is_voice": {"$ne": True}, "speech": {"$exists": True, "$ne": {}}, "created_at": {"$lt": cutoff}},
+                                    {"_id": 0, "id": 1, "speech": 1}).to_list(500)
+    for m in spoken:  # written messages read aloud: only the audio goes
+        await drop_voice_audio({"speech": m["speech"]})
+        await db.messages.update_one({"id": m["id"]}, {"$set": {"speech": {}}})
     return len(rows)
 
 
@@ -1740,6 +1782,8 @@ async def delete_message(msg_id: str, for_all: bool = False, user=Depends(get_cu
             raise HTTPException(status_code=403, detail="Only the sender can delete a message for everyone")
         if (msg.get("attachment") or {}).get("is_voice"):
             await drop_voice_audio(msg)
+        elif msg.get("speech"):
+            await drop_voice_audio({"speech": msg["speech"]})
         await db.messages.update_one({"id": msg_id}, {"$set": {"deleted_for_all": True, "original_text": "", "translations": {}, "translations_by_user": {}, "attachment": None, "poll": None, "speech": {}}})
         await db.messages.update_many({"reply_to": msg_id}, {"$set": {"reply_quote.text": "", "reply_quote.deleted": True, "reply_quote.is_image": False}})
         for mid in chat["members"]:
@@ -1777,8 +1821,10 @@ async def edit_message(msg_id: str, body: EditIn, user=Depends(get_current_user)
         raise HTTPException(status_code=400, detail="Message is empty")
     lang = user.get("language") or "en"
     if text != msg["original_text"]:
+        if msg.get("speech"):  # the old text read aloud no longer matches
+            await drop_voice_audio({"speech": msg["speech"]})
         await db.messages.update_one({"id": msg_id}, {"$set": {
-            "original_text": text, "original_language": lang, "translations": {}, "translations_by_user": {},
+            "speech": {}, "original_text": text, "original_language": lang, "translations": {}, "translations_by_user": {},
             "status": "translating", "edited": True, "edited_at": now_iso()}})
         await db.messages.update_many({"reply_to": msg_id}, {"$set": {"reply_quote.text": text[:300]}})
         msg = await db.messages.find_one({"id": msg_id}, {"_id": 0})

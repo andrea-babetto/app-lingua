@@ -300,5 +300,11 @@
  "Translated voice": "மொழிபெயர்க்கப்பட்ட குரல்",
  "Voice message not sent": "குரல் செய்தி அனுப்பப்படவில்லை",
  "Write it": "எழுதிக் காட்டு",
- "🎤 Voice message": "🎤 குரல் செய்தி"
+ "🎤 Voice message": "🎤 குரல் செய்தி",
+ "Dictate": "பேசி எழுது",
+ "Done": "முடிந்தது",
+ "I didn't catch that. Try again.": "புரியவில்லை. மீண்டும் முயலவும்.",
+ "Listen": "கேள்",
+ "Listening…": "கேட்கிறது…",
+ "Writing…": "எழுதுகிறது…"
 }

@@ -300,5 +300,11 @@
  "Translated voice": "번역된 음성",
  "Voice message not sent": "음성 메시지를 보내지 못했습니다",
  "Write it": "글로 보기",
- "🎤 Voice message": "🎤 음성 메시지"
+ "🎤 Voice message": "🎤 음성 메시지",
+ "Dictate": "받아쓰기",
+ "Done": "완료",
+ "I didn't catch that. Try again.": "알아듣지 못했어요. 다시 시도하세요.",
+ "Listen": "듣기",
+ "Listening…": "듣는 중…",
+ "Writing…": "입력 중…"
 }

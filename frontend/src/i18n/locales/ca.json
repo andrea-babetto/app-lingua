@@ -300,5 +300,11 @@
  "Translated voice": "Veu traduïda",
  "Voice message not sent": "No s'ha enviat el missatge de veu",
  "Write it": "Escriu-ho",
- "🎤 Voice message": "🎤 Missatge de veu"
+ "🎤 Voice message": "🎤 Missatge de veu",
+ "Dictate": "Dicta",
+ "Done": "Fet",
+ "I didn't catch that. Try again.": "No ho he entès. Torna-ho a provar.",
+ "Listen": "Escolta",
+ "Listening…": "Escoltant…",
+ "Writing…": "Escrivint…"
 }

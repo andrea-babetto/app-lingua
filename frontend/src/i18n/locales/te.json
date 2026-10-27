@@ -300,5 +300,11 @@
  "Translated voice": "అనువదించిన గొంతు",
  "Voice message not sent": "వాయిస్ మెసేజ్ పంపబడలేదు",
  "Write it": "రాసి చూపించు",
- "🎤 Voice message": "🎤 వాయిస్ మెసేజ్"
+ "🎤 Voice message": "🎤 వాయిస్ మెసేజ్",
+ "Dictate": "మాట్లాడి రాయండి",
+ "Done": "పూర్తి",
+ "I didn't catch that. Try again.": "అర్థం కాలేదు. మళ్లీ ప్రయత్నించండి.",
+ "Listen": "వినండి",
+ "Listening…": "వింటోంది…",
+ "Writing…": "రాస్తోంది…"
 }

@@ -300,5 +300,11 @@
  "Translated voice": "অনূদিত কণ্ঠ",
  "Voice message not sent": "ভয়েস মেসেজ পাঠানো হয়নি",
  "Write it": "লিখে দেখাও",
- "🎤 Voice message": "🎤 ভয়েস মেসেজ"
+ "🎤 Voice message": "🎤 ভয়েস মেসেজ",
+ "Dictate": "বলে লিখুন",
+ "Done": "হয়েছে",
+ "I didn't catch that. Try again.": "বুঝতে পারিনি। আবার চেষ্টা করুন।",
+ "Listen": "শুনুন",
+ "Listening…": "শুনছি…",
+ "Writing…": "লিখছি…"
 }

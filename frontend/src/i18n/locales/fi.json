@@ -300,5 +300,11 @@
  "Translated voice": "Käännetty ääni",
  "Voice message not sent": "Ääniviestiä ei lähetetty",
  "Write it": "Kirjoita se",
- "🎤 Voice message": "🎤 Ääniviesti"
+ "🎤 Voice message": "🎤 Ääniviesti",
+ "Dictate": "Sanele",
+ "Done": "Valmis",
+ "I didn't catch that. Try again.": "En saanut selvää. Yritä uudelleen.",
+ "Listen": "Kuuntele",
+ "Listening…": "Kuunnellaan…",
+ "Writing…": "Kirjoitetaan…"
 }

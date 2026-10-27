@@ -300,5 +300,11 @@
  "Translated voice": "翻译语音",
  "Voice message not sent": "语音消息未发送",
  "Write it": "转成文字",
- "🎤 Voice message": "🎤 语音消息"
+ "🎤 Voice message": "🎤 语音消息",
+ "Dictate": "语音输入",
+ "Done": "完成",
+ "I didn't catch that. Try again.": "没听清，请再试一次。",
+ "Listen": "朗读",
+ "Listening…": "正在听…",
+ "Writing…": "正在输入…"
 }

@@ -300,5 +300,11 @@
  "Translated voice": "Lefordított hang",
  "Voice message not sent": "A hangüzenet nem lett elküldve",
  "Write it": "Írd le",
- "🎤 Voice message": "🎤 Hangüzenet"
+ "🎤 Voice message": "🎤 Hangüzenet",
+ "Dictate": "Diktálás",
+ "Done": "Kész",
+ "I didn't catch that. Try again.": "Nem értettem. Próbáld újra.",
+ "Listen": "Meghallgatás",
+ "Listening…": "Figyelek…",
+ "Writing…": "Írom…"
 }

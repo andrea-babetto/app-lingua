@@ -300,5 +300,11 @@
  "Translated voice": "अनुवादित आवाज़",
  "Voice message not sent": "वॉइस मैसेज नहीं भेजा गया",
  "Write it": "लिखकर दिखाओ",
- "🎤 Voice message": "🎤 वॉइस मैसेज"
+ "🎤 Voice message": "🎤 वॉइस मैसेज",
+ "Dictate": "बोलकर लिखें",
+ "Done": "हो गया",
+ "I didn't catch that. Try again.": "समझ नहीं आया। फिर से कोशिश करें।",
+ "Listen": "सुनें",
+ "Listening…": "सुन रहे हैं…",
+ "Writing…": "लिख रहे हैं…"
 }

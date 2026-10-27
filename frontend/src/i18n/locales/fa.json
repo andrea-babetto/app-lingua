@@ -300,5 +300,11 @@
  "Translated voice": "صدای ترجمه‌شده",
  "Voice message not sent": "پیام صوتی ارسال نشد",
  "Write it": "بنویسش",
- "🎤 Voice message": "🎤 پیام صوتی"
+ "🎤 Voice message": "🎤 پیام صوتی",
+ "Dictate": "دیکته",
+ "Done": "تمام",
+ "I didn't catch that. Try again.": "متوجه نشدم. دوباره تلاش کنید.",
+ "Listen": "گوش دادن",
+ "Listening…": "در حال گوش دادن…",
+ "Writing…": "در حال نوشتن…"
 }

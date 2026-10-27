@@ -300,5 +300,11 @@
  "Translated voice": "Преведени глас",
  "Voice message not sent": "Гласовна порука није послата",
  "Write it": "Напиши то",
- "🎤 Voice message": "🎤 Гласовна порука"
+ "🎤 Voice message": "🎤 Гласовна порука",
+ "Dictate": "Диктирај",
+ "Done": "Готово",
+ "I didn't catch that. Try again.": "Нисам разумео. Покушајте поново.",
+ "Listen": "Послушај",
+ "Listening…": "Слушам…",
+ "Writing…": "Пишем…"
 }

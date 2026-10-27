@@ -300,5 +300,11 @@
  "Translated voice": "Voz traducida",
  "Voice message not sent": "Mensaje de voz no enviado",
  "Write it": "Escríbelo",
- "🎤 Voice message": "🎤 Mensaje de voz"
+ "🎤 Voice message": "🎤 Mensaje de voz",
+ "Dictate": "Dictar",
+ "Done": "Listo",
+ "I didn't catch that. Try again.": "No te he entendido. Inténtalo de nuevo.",
+ "Listen": "Escuchar",
+ "Listening…": "Escuchando…",
+ "Writing…": "Escribiendo…"
 }

@@ -300,5 +300,11 @@
  "Translated voice": "Çevrilmiş ses",
  "Voice message not sent": "Sesli mesaj gönderilmedi",
  "Write it": "Yazıya dök",
- "🎤 Voice message": "🎤 Sesli mesaj"
+ "🎤 Voice message": "🎤 Sesli mesaj",
+ "Dictate": "Dikte et",
+ "Done": "Bitti",
+ "I didn't catch that. Try again.": "Anlayamadım. Tekrar deneyin.",
+ "Listen": "Dinle",
+ "Listening…": "Dinleniyor…",
+ "Writing…": "Yazılıyor…"
 }

@@ -10,7 +10,7 @@ const CANCEL_PX = 110, LOCK_PX = 80, MIN_MS = 800, BARS = 32;
 export const canRecord = () => typeof window !== "undefined" && !!window.MediaRecorder && !!navigator.mediaDevices?.getUserMedia;
 
 // Chrome and Android record webm/opus, iPhone records mp4/aac: the server takes both.
-function pickMime() {
+export function pickMime() {
   const MR = window.MediaRecorder;
   if (!MR?.isTypeSupported) return "";
   return ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"].find((m) => MR.isTypeSupported(m)) || "";

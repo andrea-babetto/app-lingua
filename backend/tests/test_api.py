@@ -552,8 +552,6 @@ def test_spoken_translation_is_ready_and_made_once_per_language(client, make_per
     assert client.post(f"/api/messages/{msg['id']}/speech", headers=a.h).status_code == 409
     outsider = make_person("o@x.com", lang="en")
     assert client.post(f"/api/messages/{msg['id']}/speech", headers=outsider.h).status_code == 403
-    text = client.post("/api/messages", json={"chat_id": group["id"], "text": "Ciao"}, headers=a.h).json()
-    assert client.post(f"/api/messages/{text['id']}/speech", headers=b.h).status_code == 404
 
 
 def test_spoken_translation_made_on_play_if_not_ready(client, make_person, monkeypatch):
@@ -598,9 +596,57 @@ def test_deleting_a_voice_for_everyone_deletes_the_audio(client, make_person, mo
     assert client.get(msg["attachment"]["url"]).status_code == 404 and client.get(speech).status_code == 404
 
 
-def test_voice_push_preview():
-    assert server.push_preview({"display_text": "Hi", "attachment": {"is_voice": True}}) == "🎤 Hi"
-    assert server.push_preview({"display_text": "", "attachment": {"is_voice": True}}) == "🎤 Voice message"
+def test_voice_push_preview_says_voice_message_not_the_text():
+    view = {"display_text": "Hi", "attachment": {"is_voice": True, "duration": 72.4}}
+    assert server.push_preview(view) == "🎤 Voice message · 1:12"
+    assert server.push_preview(view, "it") == "🎤 Vocale · 1:12"
+    assert server.push_preview({"display_text": "", "attachment": {"is_voice": True}}, "xx") == "🎤 Voice message"
+    assert server.push_preview({"display_text": "Hi", "attachment": None}) == "Hi"
+
+
+def test_listen_to_written_messages(client, make_person, monkeypatch):
+    calls = _voice_on(monkeypatch)
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "Ciao"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    url = client.post(f"/api/messages/{m['id']}/speech", headers=b.h).json()["url"]
+    assert client.post(f"/api/messages/{m['id']}/speech", headers=b.h).json()["url"] == url
+    assert calls["speech"] == ["[en] Ciao"]  # made once, read in the listener's language
+    assert _mine(client, b, chat["id"], m["id"])["speech_url"] == url
+    mine = client.post(f"/api/messages/{m['id']}/speech", headers=a.h).json()["url"]  # the writer hears their own words
+    assert mine != url and calls["speech"][-1] == "Ciao"
+    # editing makes the old audio wrong: it goes
+    assert client.put(f"/api/messages/{m['id']}", json={"text": "Ciao a tutti"}, headers=a.h).status_code == 200
+    assert client.get(url).status_code == 404 and client.get(mine).status_code == 404
+    # read aloud only for people in the chat
+    outsider = make_person("o@x.com", lang="en")
+    assert client.post(f"/api/messages/{m['id']}/speech", headers=outsider.h).status_code == 403
+
+
+def test_spoken_written_messages_expire_but_keep_the_photo(client, make_person, monkeypatch):
+    _voice_on(monkeypatch)
+    a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")
+    chat = direct(client, a, b)
+    up = upload(client, a).json()
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "Guarda", "attachment": up}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    url = client.post(f"/api/messages/{m['id']}/speech", headers=b.h).json()["url"]
+    asyncio.run(server.db.messages.update_one({"id": m["id"]}, {"$set": {"created_at": _iso(-31 * 86400)}}))
+    asyncio.run(server.expire_old_voice())
+    assert client.get(url).status_code == 404 and client.get(up["url"]).status_code == 200
+
+
+def test_dictation(client, make_person, monkeypatch):
+    a = make_person("a@x.com", lang="it")
+    rec = {"file": ("d.webm", b"\x1a\x45\xdf\xa3" * 2000, "audio/webm")}
+    assert client.post("/api/dictate", data={"duration": "3"}, files=rec, headers=a.h).status_code == 404  # no OpenAI key
+    _voice_on(monkeypatch, transcript="Ci vediamo alle otto")
+    assert client.get("/api/config").json()["dictation"] is True
+    r = client.post("/api/dictate", data={"duration": "3"}, files=rec, headers=a.h)
+    assert r.status_code == 200 and r.json() == {"text": "Ci vediamo alle otto"}
+    assert client.post("/api/dictate", data={"duration": "300"}, files=rec, headers=a.h).status_code == 400
+    assert client.post("/api/dictate", data={"duration": "3"}, files=rec).status_code in (401, 403)
 
 
 # ---------------------------------------------------------------- websocket

@@ -300,5 +300,11 @@
  "Translated voice": "קול מתורגם",
  "Voice message not sent": "ההודעה הקולית לא נשלחה",
  "Write it": "כתוב את זה",
- "🎤 Voice message": "🎤 הודעה קולית"
+ "🎤 Voice message": "🎤 הודעה קולית",
+ "Dictate": "הכתבה",
+ "Done": "סיום",
+ "I didn't catch that. Try again.": "לא הבנתי. נסו שוב.",
+ "Listen": "האזנה",
+ "Listening…": "מקשיב…",
+ "Writing…": "כותב…"
 }

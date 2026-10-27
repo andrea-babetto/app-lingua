@@ -300,5 +300,11 @@
  "Translated voice": "Перекладений голос",
  "Voice message not sent": "Голосове повідомлення не надіслано",
  "Write it": "Текстом",
- "🎤 Voice message": "🎤 Голосове повідомлення"
+ "🎤 Voice message": "🎤 Голосове повідомлення",
+ "Dictate": "Диктувати",
+ "Done": "Готово",
+ "I didn't catch that. Try again.": "Не розчув. Спробуйте ще раз.",
+ "Listen": "Прослухати",
+ "Listening…": "Слухаю…",
+ "Writing…": "Пишу…"
 }

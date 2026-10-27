@@ -300,5 +300,11 @@
  "Translated voice": "Oversat stemme",
  "Voice message not sent": "Talebeskeden blev ikke sendt",
  "Write it": "Skriv det",
- "🎤 Voice message": "🎤 Talebesked"
+ "🎤 Voice message": "🎤 Talebesked",
+ "Dictate": "Diktér",
+ "Done": "Færdig",
+ "I didn't catch that. Try again.": "Det fangede jeg ikke. Prøv igen.",
+ "Listen": "Lyt",
+ "Listening…": "Lytter…",
+ "Writing…": "Skriver…"
 }

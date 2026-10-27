@@ -300,5 +300,11 @@
  "Translated voice": "Preložený hlas",
  "Voice message not sent": "Hlasová správa nebola odoslaná",
  "Write it": "Napíš to",
- "🎤 Voice message": "🎤 Hlasová správa"
+ "🎤 Voice message": "🎤 Hlasová správa",
+ "Dictate": "Diktovať",
+ "Done": "Hotovo",
+ "I didn't catch that. Try again.": "Nerozumel som. Skúste to znova.",
+ "Listen": "Vypočuť",
+ "Listening…": "Počúvam…",
+ "Writing…": "Píšem…"
 }

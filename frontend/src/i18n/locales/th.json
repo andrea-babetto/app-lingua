@@ -300,5 +300,11 @@
  "Translated voice": "เสียงที่แปลแล้ว",
  "Voice message not sent": "ส่งข้อความเสียงไม่สำเร็จ",
  "Write it": "ดูเป็นข้อความ",
- "🎤 Voice message": "🎤 ข้อความเสียง"
+ "🎤 Voice message": "🎤 ข้อความเสียง",
+ "Dictate": "พูดเพื่อพิมพ์",
+ "Done": "เสร็จ",
+ "I didn't catch that. Try again.": "ฟังไม่ทัน ลองอีกครั้ง",
+ "Listen": "ฟัง",
+ "Listening…": "กำลังฟัง…",
+ "Writing…": "กำลังพิมพ์…"
 }

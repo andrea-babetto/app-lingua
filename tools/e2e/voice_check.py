@@ -1,5 +1,5 @@
 """Voice messages in the browser: hold to record, slide to cancel, lock, and the other person listening to the translation.
-Needs the test server started with VOICE_DEMO=1 (scripted transcript, a beep instead of the spoken translation)."""
+Also dictation and listening to written messages. Needs the test server started with VOICE_DEMO=1 (scripted transcript, a beep instead of the spoken translation)."""
 import asyncio, os
 from playwright.async_api import async_playwright
 URL, API, PW = "http://localhost:3000", "http://127.0.0.1:8001/api", "e2e-demo-pass-1"
@@ -32,6 +32,7 @@ async def main():
             await pg.get_by_test_id(f"sidebar-chat-item-{cid}").click()
             await pg.wait_for_timeout(1000)
             return pg
+        written = await (await api.post(f"{API}/messages", headers=H(gt), data={"chat_id": cid, "text": "Ciao James! Come stai oggi?"})).json()
         page = await page_for(gt)
         mic = page.get_by_test_id("voice-record-button")
         check("mic shows when the box is empty", await mic.is_visible())
@@ -72,6 +73,17 @@ async def main():
         await page.wait_for_timeout(2500)
         check("locked recording sent", len(await voices(gt)) == 2)
 
+        # 3b. dictation: talk, "Done", the words land in the box (nothing is sent)
+        await page.get_by_test_id("dictate-button").click()
+        await page.wait_for_timeout(1500)
+        check("dictation is listening", await page.get_by_test_id("dictation").is_visible())
+        await page.screenshot(path=f"{SH}/dictation.png")
+        await page.get_by_test_id("dictation-done").click()
+        await page.wait_for_timeout(2000)
+        check("dictated words in the message box", "Ciao James" in await page.get_by_test_id("message-input").input_value())
+        check("dictation sends nothing by itself", len(await voices(gt)) == 2 and len(await msgs(gt)) == 3)
+        await page.get_by_test_id("message-input").fill("")
+
         # 4. James listens
         jp = await page_for(jt)
         bubble = jp.get_by_test_id(f"voice-{vid}")
@@ -93,6 +105,17 @@ async def main():
         await jp.get_by_test_id(f"voice-original-{vid}").click(); await jp.wait_for_timeout(500)
         check("original voice plays", (await jp.get_by_test_id(f"voice-mode-{vid}").inner_text()) == "Original voice")
         await jp.screenshot(path=f"{SH}/voice-james.png")
+
+        # 5. listen to a written message in your language
+        listen = jp.get_by_test_id(f"listen-{written['id']}")
+        check("🔊 next to a translated written message", await listen.is_visible())
+        await listen.click()
+        await jp.wait_for_timeout(1200)
+        check("the written message is read aloud", await listen.get_attribute("aria-label") == "Pause")
+        await listen.click()
+        await jp.get_by_test_id(f"message-bubble-{written['id']}").locator("[role=button]").first.click()
+        check("'Listen' in the message menu", await jp.get_by_test_id("action-listen").is_visible())
+        await jp.keyboard.press("Escape"); await jp.wait_for_timeout(400)
         await jp.get_by_test_id("back-button").click() if await jp.get_by_test_id("back-button").count() else None
         side = await jp.get_by_test_id(f"sidebar-chat-item-{cid}").inner_text()
         check("chat list preview says voice message, not the text", "🎤 Voice message · 0:0" in side and "see you" not in side)
