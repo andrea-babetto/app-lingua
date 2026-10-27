@@ -6,31 +6,12 @@ import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Logo from "@/components/Logo";
-import LoginDemo from "@/components/LoginDemo";
+import { WelcomeHero, FormHero } from "@/components/WelcomeHero";
 import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
 import { pendingInvite, clearInvite } from "@/lib/invite";
-import { avatarClass } from "@/lib/avatar";
-
-// "Hamad invited you": shown when the person arrived from a friend's or a group's link
-function InviteBanner({ invite }) {
-  const { t } = useI18n();
-  const person = invite.kind === "person";
-  return (
-    <div data-testid="invite-banner" className="mt-6 flex items-center gap-3 p-3.5 rounded-2xl bg-label text-label-foreground">
-      <span className={`w-12 h-12 shrink-0 rounded-full overflow-hidden flex items-center justify-center text-lg font-bold ${person ? avatarClass(invite.name) : "bg-card"}`}>
-        {person && invite.avatar ? <img src={invite.avatar} alt="" className="w-full h-full object-cover" /> : person ? (invite.name || "?").slice(0, 2).toUpperCase() : (invite.emoji || "👥")}
-      </span>
-      <span className="min-w-0">
-        <span className="block font-semibold leading-snug">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</span>
-        <span className="block text-[13px] leading-snug opacity-85">{person ? t("Create your account and you will find {name} in your chats.", { name: invite.name }) : t("After you sign up, an admin of the group will let you in.")}</span>
-      </span>
-    </div>
-  );
-}
 
 // Remembers that this phone has already had an account, so the sign-in page opens straight on the form.
 const SEEN = "glott_seen";
@@ -43,7 +24,7 @@ const savedForm = () => { try { return comingBack() ? JSON.parse(sessionStorage.
 
 export default function Login() {
   const { t, lang, setUiLang } = useI18n();
-  const [view, setView] = useState(() => comingBack() || (seenBefore() ? "login" : "welcome")); // welcome | login | register
+  const [view, setView] = useState(() => comingBack() || (pendingInvite() ? "register" : seenBefore() ? "login" : "welcome")); // welcome | login | register | forgot
   const mode = view === "register" ? "register" : "login";
   const [form, setForm] = useState(() => ({ name: "", email: "", password: "", invite_code: "", ...savedForm() }));
   const [loading, setLoading] = useState(false);
@@ -116,11 +97,20 @@ export default function Login() {
         i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="underline font-semibold">{part}</Link> : part)}
     </p>
   );
+  // On top of the photos: light text on a dark glass pill.
   const languageMenu = (
     <select data-testid="ui-language-select" aria-label="Language" value={lang} onChange={(e) => setUiLang(e.target.value)}
-      className="max-w-[11rem] h-9 rounded-full border border-border bg-background text-sm font-semibold px-3 outline-none focus:border-primary">
-      {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.flag} {l.native}</option>)}
+      className="max-w-[11rem] h-9 rounded-full border border-white/35 bg-[#231f1a]/55 text-[#f8f4e9] backdrop-blur-sm text-sm font-semibold px-3 outline-none focus:border-white">
+      {LANGUAGES.map((l) => <option key={l.code} value={l.code} className="text-foreground bg-background">{l.flag} {l.native}</option>)}
     </select>
+  );
+  const back = (to, testid, after) => (
+    <button type="button" data-testid={testid} onClick={() => { setView(to); after?.(); }} aria-label={t("Back")}
+      className="w-10 h-10 rounded-full bg-[#231f1a]/55 backdrop-blur-sm text-[#f8f4e9] inline-flex items-center justify-center"><ArrowLeft className="w-5 h-5 rtl:rotate-180" /></button>
+  );
+  const sheet = "relative -mt-7 flex-1 flex flex-col rounded-t-[28px] bg-background px-6 pt-7 pb-8";
+  const page = (children) => (
+    <div className="min-h-dvh bg-background flex justify-center"><div className="w-full max-w-md min-h-dvh flex flex-col">{children}</div></div>
   );
 
   const askReset = async (e) => {
@@ -135,20 +125,16 @@ export default function Login() {
   };
 
   if (view === "forgot") {
-    return (
-      <div className="min-h-dvh bg-background flex justify-center px-6 pt-5 pb-8">
-        <div className="w-full max-w-sm flex flex-col" data-testid="forgot-page">
-          <div className="flex items-center justify-between">
-            <button type="button" data-testid="forgot-back" onClick={() => { setView("login"); setResetSent(false); }} className="h-9 -ms-2 px-2 inline-flex items-center gap-1.5 text-[15px] font-semibold"><ArrowLeft className="w-5 h-5 rtl:rotate-180" /> {t("Back")}</button>
-            {languageMenu}
-          </div>
-          <h1 className="mt-6 text-[25px] leading-snug font-semibold tracking-tight">{t("Forgot your password?")}</h1>
+    return page(
+      <>
+        <FormHero top={<>{back("login", "forgot-back", () => setResetSent(false))}{languageMenu}</>} title={t("Forgot your password?")} />
+        <div className={sheet} data-testid="forgot-page">
           {resetSent ? (
-            <p data-testid="forgot-sent" className="mt-3 text-[15px] leading-relaxed">{t("If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.")}</p>
+            <p data-testid="forgot-sent" className="text-[15px] leading-relaxed">{t("If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.")}</p>
           ) : (
             <form onSubmit={askReset} className="flex-1 flex flex-col">
-              <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Write the email of your account: we will send you a link to choose a new password.")}</p>
-              <label className="block mt-7"><span className={label}>{t("Email")}</span>
+              <p className="text-[15px] leading-snug text-muted-foreground">{t("Write the email of your account: we will send you a link to choose a new password.")}</p>
+              <label className="block mt-6"><span className={label}>{t("Email")}</span>
                 <Input data-testid="forgot-email" className={field} type="email" value={form.email} required autoComplete="email" onChange={set("email")} /></label>
               <div className="mt-auto pt-10">
                 <Button data-testid="forgot-send" type="submit" className="w-full h-[52px] rounded-2xl text-base font-semibold" disabled={loading}>
@@ -158,52 +144,36 @@ export default function Login() {
             </form>
           )}
         </div>
-      </div>
+      </>
     );
   }
 
   if (view === "welcome") {
     return (
-      <div className="min-h-dvh bg-background flex justify-center px-6 pt-5 pb-8">
-        <div className="w-full max-w-sm flex flex-col" data-testid="welcome-page">
-          <div className="flex justify-end">{languageMenu}</div>
-          <div className="mt-8">
-            <Logo height={44} />
-            <h1 className="mt-5 text-[25px] leading-snug font-semibold tracking-tight">{t("One language: yours.")}</h1>
-            <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Talk to anyone in the world: everyone writes and reads in their own language.")}</p>
-            {invite ? <InviteBanner invite={invite} /> : <LoginDemo always />}
-          </div>
-          <div className="mt-auto pt-8 space-y-3">
-            <Button data-testid="welcome-register" className="w-full h-[54px] rounded-2xl text-base font-semibold" onClick={() => setView("register")}>{t("Create your account")}</Button>
-            {googleClientId && !codeNeeded && <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />}
-            <button type="button" data-testid="welcome-login" onClick={() => setView("login")} className="w-full h-10 text-[15px] font-semibold">{t("I already have an account")}</button>
-            {consent}
-          </div>
+      <WelcomeHero languageMenu={languageMenu}>
+        <h1 className="text-[27px] leading-[1.15] font-bold tracking-tight">{t("Far apart, but in the same language.")}</h1>
+        <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("You write in your language, your friends read in theirs.")}</p>
+        <div className="mt-6 space-y-3">
+          <Button data-testid="welcome-register" className="w-full h-[52px] rounded-full text-base font-semibold bg-[#7da36f] text-[#14200f] hover:bg-[#71985f]" onClick={() => setView("register")}>{t("Create your account")}</Button>
+          {googleClientId && !codeNeeded && <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />}
+          <Button data-testid="welcome-login" variant="outline" className="w-full h-[52px] rounded-full text-base font-semibold border-[1.5px] border-foreground bg-transparent" onClick={() => setView("login")}>{t("I already have an account")}</Button>
+          {consent}
         </div>
-      </div>
+      </WelcomeHero>
     );
   }
 
-  return (
-    <div className="min-h-dvh bg-background flex justify-center px-6 pt-5 pb-8">
-      <div className="w-full max-w-sm flex flex-col">
-        <div className="flex items-center justify-between">
-          {mode === "register"
-            ? <button type="button" data-testid="auth-back" onClick={() => setView("welcome")} className="h-9 -ms-2 px-2 inline-flex items-center gap-1.5 text-[15px] font-semibold"><ArrowLeft className="w-5 h-5 rtl:rotate-180" /> {t("Back")}</button>
-            : <span />}
-          {languageMenu}
-        </div>
-
-        <div className="mt-8 mb-7">
-          {mode === "login" && <Logo height={44} />}
-          <h1 data-testid="auth-title" className={`${mode === "login" ? "mt-5" : "mt-6"} text-[25px] leading-snug font-semibold tracking-tight`}>
-            {mode === "login" ? t("Welcome back.") : t("Create your account")}
-          </h1>
-          <p className="mt-2 text-[15px] leading-snug text-muted-foreground">
-            {mode === "login" ? t("Sign in to pick up your conversations.") : t("It takes 30 seconds.")}
-          </p>
-          {invite && <InviteBanner invite={invite} />}
-        </div>
+  return page(
+    <>
+      <FormHero
+        top={<>{mode === "register" ? back("welcome", "auth-back") : <span />}{languageMenu}</>}
+        title={mode === "login" ? t("Welcome back.") : t("Create your account")}
+        invite={mode === "register" ? invite : null} />
+      <div className={sheet}>
+        {invite && mode === "register" && <h1 data-testid="auth-title" className="text-[21px] leading-snug font-bold tracking-tight">{t("Create your account")}</h1>}
+        <p className="mb-6 text-[15px] leading-snug text-muted-foreground">
+          {mode === "login" ? t("Sign in to pick up your conversations.") : t("It takes 30 seconds.")}
+        </p>
 
         <form onSubmit={submit} className="flex-1 flex flex-col">
           <div className="space-y-4">
@@ -269,6 +239,6 @@ export default function Login() {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }

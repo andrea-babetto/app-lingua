@@ -22,7 +22,9 @@ export function LogoArrows({ className = "w-4 h-4", animate = false }) {
 }
 
 // height: the logo's height in pixels (the design's sizes: 29 in the header, 44 on the sign-in page).
-export default function Logo({ height = 29, className = "" }) {
+// onDark: always the light-on-dark logo (on top of a photo).
+export default function Logo({ height = 29, className = "", onDark = false }) {
+  if (onDark) return <img src={logoDark} alt="Glotter" data-testid="logo-wordmark" style={{ height }} className={`w-auto block select-none ${className}`} />;
   return (
     <span className={`inline-flex items-center select-none ${className}`}>
       <img src={logoLight} alt="Glotter" data-testid="logo-wordmark" style={{ height }} className="w-auto block dark:hidden" />
