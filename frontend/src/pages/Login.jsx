@@ -12,6 +12,25 @@ import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
+import { pendingInvite, clearInvite } from "@/lib/invite";
+import { avatarClass } from "@/lib/avatar";
+
+// "Hamad invited you": shown when the person arrived from a friend's or a group's link
+function InviteBanner({ invite }) {
+  const { t } = useI18n();
+  const person = invite.kind === "person";
+  return (
+    <div data-testid="invite-banner" className="mt-6 flex items-center gap-3 p-3.5 rounded-2xl bg-label text-label-foreground">
+      <span className={`w-12 h-12 shrink-0 rounded-full overflow-hidden flex items-center justify-center text-lg font-bold ${person ? avatarClass(invite.name) : "bg-card"}`}>
+        {person && invite.avatar ? <img src={invite.avatar} alt="" className="w-full h-full object-cover" /> : person ? (invite.name || "?").slice(0, 2).toUpperCase() : (invite.emoji || "👥")}
+      </span>
+      <span className="min-w-0">
+        <span className="block font-semibold leading-snug">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</span>
+        <span className="block text-[13px] leading-snug opacity-85">{person ? t("Create your account and you will find {name} in your chats.", { name: invite.name }) : t("After you sign up, an admin of the group will let you in.")}</span>
+      </span>
+    </div>
+  );
+}
 
 // Remembers that this phone has already had an account, so the sign-in page opens straight on the form.
 const SEEN = "glott_seen";
@@ -34,6 +53,14 @@ export default function Login() {
   const [passwordReset, setPasswordReset] = useState(false);  // "Forgot password?" only when the server can send emails
   const [resetSent, setResetSent] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
+  const [invite, setInvite] = useState(null);  // the friend or group whose link brought the person here
+  const inviteCode = invite ? pendingInvite() : "";
+  const codeNeeded = inviteRequired && !(invite && !invite.needs_code);  // a friend's link is the invitation
+  useEffect(() => {
+    const code = pendingInvite();
+    if (!code) return;
+    api.get(`/invite/${encodeURIComponent(code)}`).then(({ data }) => setInvite(data)).catch((e) => { if (e.response?.status === 404) clearInvite(); });
+  }, []);
   const { auth } = useAuth();
   const nav = useNavigate();
   useEffect(() => { clearReturn(); try { sessionStorage.removeItem(FORM); } catch { /* storage blocked */ } }, []);
@@ -44,7 +71,7 @@ export default function Login() {
     setLoading(true);
     try {
       const url = mode === "login" ? "/auth/login" : "/auth/register";
-      const payload = mode === "login" ? { email: form.email, password: form.password } : form;
+      const payload = mode === "login" ? { email: form.email, password: form.password } : { ...form, invite_link: inviteCode };
       const { data } = await api.post(url, payload);
       auth(data);
       markSeen();
@@ -67,7 +94,7 @@ export default function Login() {
   const googleCredential = async (credential) => {
     setLoading(true);
     try {
-      const { data } = await api.post("/auth/google", { credential, invite_code: form.invite_code });
+      const { data } = await api.post("/auth/google", { credential, invite_code: form.invite_code, invite_link: inviteCode });
       auth(data);
       markSeen();
       nav(data.user.language ? "/" : "/onboarding");
@@ -144,11 +171,11 @@ export default function Login() {
             <Logo height={44} />
             <h1 className="mt-5 text-[25px] leading-snug font-semibold tracking-tight">{t("One language: yours.")}</h1>
             <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("Talk to anyone in the world: everyone writes and reads in their own language.")}</p>
-            <LoginDemo always />
+            {invite ? <InviteBanner invite={invite} /> : <LoginDemo always />}
           </div>
           <div className="mt-auto pt-8 space-y-3">
             <Button data-testid="welcome-register" className="w-full h-[54px] rounded-2xl text-base font-semibold" onClick={() => setView("register")}>{t("Create your account")}</Button>
-            {googleClientId && !inviteRequired && <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />}
+            {googleClientId && !codeNeeded && <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />}
             <button type="button" data-testid="welcome-login" onClick={() => setView("login")} className="w-full h-10 text-[15px] font-semibold">{t("I already have an account")}</button>
             {consent}
           </div>
@@ -175,6 +202,7 @@ export default function Login() {
           <p className="mt-2 text-[15px] leading-snug text-muted-foreground">
             {mode === "login" ? t("Sign in to pick up your conversations.") : t("It takes 30 seconds.")}
           </p>
+          {invite && <InviteBanner invite={invite} />}
         </div>
 
         <form onSubmit={submit} className="flex-1 flex flex-col">
@@ -199,12 +227,12 @@ export default function Login() {
                 {t("Forgot password?")}
               </button>
             )}
-            {mode === "register" && !inviteRequired && !showInvite && (
+            {mode === "register" && !codeNeeded && !invite && !showInvite && (
               <button type="button" data-testid="show-invite-button" onClick={() => setShowInvite(true)} className="text-sm text-primary font-semibold">
                 {t("Have an invite code?")}
               </button>
             )}
-            {mode === "register" && (inviteRequired || showInvite) && (
+            {mode === "register" && (codeNeeded || (showInvite && !invite)) && (
               <label className="block"><span className={label}>{t("Invite code")}</span>
                 <Input data-testid="invite-input" className={field} value={form.invite_code} required autoComplete="off" onChange={set("invite_code")} /></label>
             )}

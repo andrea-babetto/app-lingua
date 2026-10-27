@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Search, UserPlus, Loader2, Link2, Users, User, Check } from "lucide-react";
 import { toast } from "sonner";
 import { api, errText } from "@/lib/api";
-import { useAuth } from "@/context/AuthContext";
 import { langByCode } from "@/data/languages";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -10,9 +9,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import EmojiPick from "@/components/chat/EmojiPick";
 import { useI18n } from "@/i18n";
+import { shareMyInvite } from "@/lib/invite";
 
 export default function NewChatDialog({ open, onOpenChange, onStartChat, initialTab = "person" }) {
-  const { user } = useAuth();
   const { t, langName } = useI18n();
   const [tab, setTab] = useState(initialTab);
   useEffect(() => { if (open) setTab(initialTab); }, [open, initialTab]);
@@ -64,10 +63,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
     finally { setCreating(false); }
   };
 
-  const copyInvite = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/?invite=${user.username}`);
-    toast.success(t("Invite link copied"));
-  };
+  const copyInvite = () => shareMyInvite(t);
 
   return (
     <Dialog open={open} onOpenChange={(v) => { onOpenChange(v); if (!v) reset(); }}>
@@ -92,7 +88,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
               <Input data-testid="user-search-input" className="ps-9" placeholder={t("Search by username or exact email")} value={q} onChange={(e) => search(e.target.value)} autoFocus />
             </div>
             <button onClick={copyInvite} className="w-full flex items-center gap-2 text-sm text-primary hover:underline">
-              <Link2 className="w-4 h-4" /> {t("Copy my invite link (@{name})", { name: user.username })}
+              <Link2 className="w-4 h-4" /> {t("Share my invite link")}
             </button>
             <div className="min-h-32 max-h-72 overflow-y-auto chat-scroll space-y-1">
               {loading && <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>}

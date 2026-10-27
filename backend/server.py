@@ -184,6 +184,7 @@ class RegisterIn(BaseModel):
     password: str = Field(min_length=8, max_length=72)
     name: str = Field(min_length=1, max_length=60)
     invite_code: str = Field(default="", max_length=100)
+    invite_link: str = Field(default="", max_length=64)  # the code of the friend's or group's link the person came from
 
     @field_validator("password")
     @classmethod
@@ -209,6 +210,7 @@ class LoginIn(BaseModel):
 class GoogleIn(BaseModel):
     credential: str = Field(min_length=10, max_length=4096)
     invite_code: str = Field(default="", max_length=100)
+    invite_link: str = Field(default="", max_length=64)
 
 
 class ProfileIn(BaseModel):
@@ -350,11 +352,12 @@ def new_user_doc(email, name, password_hash="", avatar="", provider=None):
 @api.post("/auth/register")
 async def register(body: RegisterIn, request: Request):
     limiter.check(f"register-ip:{client_ip(request)}", 10, 3600, "Too many sign-ups from this address. Try again later.")
-    check_invite_code(body.invite_code)
+    entry = await check_entry(body.invite_code, body.invite_link)
     email = body.email.lower()
     if await db.users.find_one({"email": email}):
         raise HTTPException(status_code=400, detail="Email already registered")
     doc = new_user_doc(email, body.name, await hash_password_async(body.password))
+    doc.update(entry)
     await db.users.insert_one(dict(doc))
     return {"token": create_token(doc["id"]), "user": public_user(doc)}
 
@@ -398,8 +401,9 @@ async def google_login(body: GoogleIn, request: Request):
     if existing:
         u = existing
     else:
-        check_invite_code(body.invite_code)
+        entry = await check_entry(body.invite_code, body.invite_link)
         u = new_user_doc(email, (info.get("name") or email.split("@")[0])[:60], "", info.get("picture", ""), provider="google")
+        u.update(entry)
         await db.users.insert_one(dict(u))
     return {"token": create_token(u["id"]), "user": public_user(u)}
 
@@ -587,6 +591,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
     await db.usage.delete_many({"user_id": uid})
     await db.scheduled.delete_many({"sender_id": uid})
     await db.password_resets.delete_many({"user_id": uid})
+    await db.chats.update_many({"join_requests.user_id": uid}, {"$pull": {"join_requests": {"user_id": uid}}})
     await db.contacts.delete_many({"$or": [{"user_id": uid}, {"contact_id": uid}]})
     await db.users.update_many({"blocked": uid}, {"$pull": {"blocked": uid}})
     await db.users.delete_one({"id": uid})
@@ -803,6 +808,13 @@ async def enrich_chat(chat, me_id):
     unread = await db.messages.count_documents({"chat_id": chat["id"], "sender_id": {"$ne": me_id}, "read_by": {"$ne": me_id},
                                                 "deleted_for": {"$ne": me_id}})
     out = dict(chat)
+    out.pop("invite_code", None)
+    out.pop("join_requests", None)
+    if chat["type"] == "group" and me_id in chat.get("admins", []):  # the group's link and who asked to join: admins only
+        out["invite_code"] = chat.get("invite_code") or ""
+        reqs = chat.get("join_requests") or []
+        people = {u["id"]: u async for u in db.users.find({"id": {"$in": [r["user_id"] for r in reqs]}}, {"_id": 0})}
+        out["join_requests"] = [{**stranger_profile(people[r["user_id"]]), "at": r.get("at")} for r in reqs if r["user_id"] in people]
     out.pop("hidden_for", None)  # who deleted the chat is private to each person
     out["pinned"] = me_id in (out.pop("pinned_by", None) or [])  # who pinned it is private too
     out["members_info"] = members
@@ -853,6 +865,184 @@ async def translate_group_texts(chat_id):
                 await ws_manager.send(mid, {"type": "chat_updated", "chat_id": chat_id})
     except Exception:
         logger.exception("group texts translation failed for %s", chat_id)
+
+
+# ---------------- Invite links ----------------
+# Everyone has a personal link (/?invite=<code>): whoever opens it lands in a chat with them, and can sign up
+# without the beta code. A group can have a link too: whoever opens it asks to join, an admin accepts.
+INVITE_RE = re.compile(r"^[A-Za-z0-9_.-]{1,64}$")
+
+
+def new_invite_code():
+    return secrets.token_urlsafe(6).replace("-", "x").replace("_", "y")  # 8 letters and digits, easy to copy
+
+
+async def personal_invite_code(uid):
+    u = await db.users.find_one({"id": uid}, {"_id": 0, "invite_code": 1})
+    if u and u.get("invite_code"):
+        return u["invite_code"]
+    code = new_invite_code()
+    await db.users.update_one({"id": uid}, {"$set": {"invite_code": code}})
+    return code
+
+
+async def resolve_invite(code):
+    """What a link code points to: ("person", user, old) or ("group", chat, old); (None, None, False) if nothing.
+    old=True for the first links, which carried the username: they open the chat but are not an invitation."""
+    code = (code or "").strip()
+    if not INVITE_RE.match(code):
+        return None, None, False
+    u = await db.users.find_one({"invite_code": code}, {"_id": 0})
+    if u:
+        return "person", u, False
+    chat = await db.chats.find_one({"type": "group", "invite_code": code}, {"_id": 0})
+    if chat:
+        return "group", chat, False
+    u = await db.users.find_one({"username": code.lower()}, {"_id": 0})
+    if u:
+        return "person", u, True
+    return None, None, False
+
+
+async def check_entry(invite_code, invite_link):
+    """Sign-up: a friend's or a group's link counts as an invitation, so the beta code is not needed.
+    Returns who brought the new person in (kept for the admin's invite counter)."""
+    kind, target, old = await resolve_invite(invite_link)
+    if kind and not old:
+        return {"invited_by": target["id"]} if kind == "person" else {"joined_via_group": target["id"]}
+    check_invite_code(invite_code)
+    return {}
+
+
+@api.get("/invite/{code}")
+async def invite_info(code: str, request: Request):
+    """Who or which group a link is from, for the welcome page (no account needed)."""
+    limiter.check(f"invite-ip:{client_ip(request)}", 60, 600)
+    kind, target, old = await resolve_invite(code)
+    if not kind:
+        raise HTTPException(status_code=404, detail="This invite link is not valid any more")
+    if kind == "person":
+        return {"kind": "person", "name": target.get("name", ""), "avatar": target.get("avatar", ""),
+                "language": target.get("language", ""), "needs_code": old and invite_code_required()}
+    return {"kind": "group", "name": target.get("name", ""), "emoji": target.get("emoji", ""),
+            "members": len(target.get("members", [])), "needs_code": False}
+
+
+@api.post("/invite/{code}/accept")
+async def invite_accept(code: str, user=Depends(get_current_user)):
+    """Opened a link while signed in (or just after signing up): a friend's link connects the two of you and opens
+    your chat; a group's link sends the admins a request to join."""
+    limiter.check(f"invite-accept:{user['id']}", 30, 3600)
+    kind, target, _ = await resolve_invite(code)
+    if not kind:
+        raise HTTPException(status_code=404, detail="This invite link is not valid any more")
+    me = await db.users.find_one({"id": user["id"]}, {"_id": 0}) or user
+    if kind == "person":
+        if target["id"] == user["id"]:
+            return {"kind": "self"}
+        if user["id"] in (target.get("blocked") or []) or target["id"] in (me.get("blocked") or []):
+            raise HTTPException(status_code=403, detail="You cannot contact this user")
+        now = now_iso()
+        for a, b in ((user["id"], target["id"]), (target["id"], user["id"])):  # both saved as contacts: the link was the request
+            await db.contacts.update_one({"user_id": a, "contact_id": b}, {"$set": {"status": "accepted"},
+                                         "$setOnInsert": {"id": str(uuid.uuid4()), "created_at": now}}, upsert=True)
+        chat = await get_or_create_direct(user["id"], target["id"])
+        raw = await db.chats.find_one({"id": chat["id"]}, {"_id": 0})
+        await ws_manager.send(target["id"], {"type": "invite_joined", "name": user.get("name", ""), "chat": await enrich_chat(raw, target["id"])})
+        return {"kind": "person", "chat": chat}
+    chat = target
+    if user["id"] in chat["members"]:
+        return {"kind": "group", "status": "member", "chat": await enrich_chat(chat, user["id"])}
+    admins = chat.get("admins", [])
+    async for a in db.users.find({"id": {"$in": admins}}, {"_id": 0, "blocked": 1}):
+        if user["id"] in (a.get("blocked") or []):  # an admin blocked this person
+            raise HTTPException(status_code=403, detail="You cannot join this group")
+    if len(chat["members"]) >= 50:
+        raise HTTPException(status_code=409, detail="This group is full")
+    reqs = chat.get("join_requests") or []
+    if not any(r["user_id"] == user["id"] for r in reqs):
+        if len(reqs) >= 100:
+            raise HTTPException(status_code=429, detail="Too many people are waiting to join this group")
+        await db.chats.update_one({"id": chat["id"]}, {"$push": {"join_requests": {"user_id": user["id"], "at": now_iso()}}})
+        for a in admins:
+            await ws_manager.send(a, {"type": "join_request", "chat_id": chat["id"], "group": chat.get("name", ""), "name": user.get("name", "")})
+            if not ws_manager.is_active(a):
+                try:
+                    await push.send_to_user(db, a, {"title": chat.get("name") or "Group", "body": f"{user.get('name', '')} 👋 ➜ {chat.get('name', '')}",
+                                                    "chat_id": chat["id"]}, PUSH_CONTACT)
+                except Exception:
+                    logger.exception("push for a join request failed")
+    return {"kind": "group", "status": "pending", "name": chat.get("name", "")}
+
+
+@api.get("/me/invite")
+async def my_invite(user=Depends(get_current_user)):
+    return {"code": await personal_invite_code(user["id"])}
+
+
+@api.post("/me/invite/reset")
+async def reset_my_invite(user=Depends(get_current_user)):
+    """A new personal link: the old one stops working (people already in stay in)."""
+    limiter.check(f"invite-reset:{user['id']}", 10, 3600)
+    code = new_invite_code()
+    await db.users.update_one({"id": user["id"]}, {"$set": {"invite_code": code}})
+    return {"code": code}
+
+
+async def group_for_admin(chat_id, user):
+    chat = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+    if not chat or chat["type"] != "group" or user["id"] not in chat["members"]:
+        raise HTTPException(status_code=404, detail="Group not found")
+    if user["id"] not in chat.get("admins", []):
+        raise HTTPException(status_code=403, detail="Only admins can do this")
+    return chat
+
+
+async def tell_admins(chat):
+    for a in chat.get("admins", []):
+        await ws_manager.send(a, {"type": "chat_updated", "chat_id": chat["id"]})
+
+
+@api.post("/chats/{chat_id}/invite-link")
+async def group_invite_link(chat_id: str, reset: bool = False, user=Depends(get_current_user)):
+    """The group's link (made the first time; reset=true makes a new one and the old one stops working)."""
+    chat = await group_for_admin(chat_id, user)
+    code = chat.get("invite_code")
+    if reset or not code:
+        code = new_invite_code()
+        await db.chats.update_one({"id": chat_id}, {"$set": {"invite_code": code}})
+        await tell_admins(chat)
+    return {"code": code}
+
+
+@api.delete("/chats/{chat_id}/invite-link")
+async def group_invite_link_off(chat_id: str, user=Depends(get_current_user)):
+    chat = await group_for_admin(chat_id, user)
+    await db.chats.update_one({"id": chat_id}, {"$unset": {"invite_code": ""}})
+    await tell_admins(chat)
+    return {"ok": True}
+
+
+@api.post("/chats/{chat_id}/requests/{uid}/{decision}")
+async def answer_join_request(chat_id: str, uid: str, decision: str, user=Depends(get_current_user)):
+    if decision not in ("approve", "decline"):
+        raise HTTPException(status_code=404, detail="Not found")
+    chat = await group_for_admin(chat_id, user)
+    if not any(r["user_id"] == uid for r in chat.get("join_requests") or []):
+        raise HTTPException(status_code=404, detail="No request from this person")
+    await db.chats.update_one({"id": chat_id}, {"$pull": {"join_requests": {"user_id": uid}}})
+    if decision == "approve":
+        if len(chat["members"]) >= 50:
+            raise HTTPException(status_code=409, detail="This group is full")
+        if await db.users.find_one({"id": uid}, {"_id": 0, "id": 1}) and uid not in chat["members"]:
+            chat["members"] = chat["members"] + [uid]
+            await db.chats.update_one({"id": chat_id}, {"$addToSet": {"members": uid}})
+            fresh = await db.chats.find_one({"id": chat_id}, {"_id": 0})
+            for mid in fresh["members"]:
+                await ws_manager.send(mid, {"type": "new_chat", "chat": await enrich_chat(fresh, mid)})
+            spawn(translate_group_texts(chat_id))
+    await tell_admins(chat)
+    return {"ok": True}
 
 
 # ---------------- Block & report ----------------
@@ -2031,6 +2221,25 @@ async def admin_usage(month: Optional[str] = None, user=Depends(get_current_user
             "people": people[:200]}
 
 
+@api.get("/admin/invites")
+async def admin_invites(user=Depends(get_current_user)):
+    """Who brought how many people in with their link (and the groups people joined Glotter from)."""
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin only")
+    rows = await db.users.aggregate([{"$match": {"invited_by": {"$exists": True}}},
+                                     {"$group": {"_id": "$invited_by", "count": {"$sum": 1}, "last": {"$max": "$created_at"}}}]).to_list(10000)
+    people = {u["id"]: u async for u in db.users.find({"id": {"$in": [r["_id"] for r in rows]}}, {"_id": 0})}
+    out = [{"id": r["_id"], "name": (people.get(r["_id"]) or {}).get("name", "(deleted)"), "username": (people.get(r["_id"]) or {}).get("username", ""),
+            "count": r["count"], "last": r["last"]} for r in rows]
+    out.sort(key=lambda r: (-r["count"], r["name"].lower()))
+    groups = await db.users.aggregate([{"$match": {"joined_via_group": {"$exists": True}}},
+                                       {"$group": {"_id": "$joined_via_group", "count": {"$sum": 1}}}]).to_list(10000)
+    names = {c["id"]: c.get("name", "") async for c in db.chats.find({"id": {"$in": [g["_id"] for g in groups]}}, {"_id": 0, "id": 1, "name": 1})}
+    total_users = await db.users.count_documents({"role": {"$ne": "admin"}})
+    return {"people": out, "groups": sorted([{"name": names.get(g["_id"], "(deleted)"), "count": g["count"]} for g in groups], key=lambda g: -g["count"]),
+            "invited": sum(r["count"] for r in out) + sum(g["count"] for g in groups), "total_users": total_users}
+
+
 @api.get("/admin/users")
 async def admin_users(user=Depends(get_current_user)):
     if user.get("role") != "admin":
@@ -2195,6 +2404,8 @@ async def seed_demo():
 async def startup():
     await db.users.create_index("email", unique=True)
     await db.users.create_index("username")
+    await db.users.create_index("invite_code")
+    await db.chats.create_index("invite_code")
     await db.messages.create_index([("chat_id", 1), ("created_at", -1)])
     await db.translation_cache.create_index("key", unique=True)
     await db.usage.create_index("key", unique=True)

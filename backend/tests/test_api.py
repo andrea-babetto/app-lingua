@@ -721,6 +721,91 @@ def test_invite_code_gates_google_signup(client, monkeypatch):
     assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 200
 
 
+
+# ---------------------------------------------------------------- invite links
+def _register(client, email, **extra):
+    return client.post("/api/auth/register", json={"email": email, "password": "correct-horse-1", "name": email.split("@")[0], **extra})
+
+
+def _admin(client, make_person):
+    boss = make_person("boss@x.com", "Boss")
+    asyncio.run(server.db.users.update_one({"id": boss.id}, {"$set": {"role": "admin"}}))
+    return boss
+
+
+def test_personal_invite_link_lets_friends_in_and_opens_the_chat(client, make_person, monkeypatch):
+    a, boss = make_person("a@x.com", "Anna", "it"), _admin(client, make_person)
+    monkeypatch.setenv("INVITE_CODE", "s3cret-code")
+    code = client.get("/api/me/invite", headers=a.h).json()["code"]
+    assert client.get("/api/me/invite", headers=a.h).json()["code"] == code  # stable
+    info = client.get(f"/api/invite/{code}").json()
+    assert info["kind"] == "person" and info["name"] == "Anna" and info["needs_code"] is False and "email" not in info
+    assert _register(client, "nocode@x.com").status_code == 403  # without a link the beta code is still needed
+    r = _register(client, "friend@x.com", invite_link=code)
+    assert r.status_code == 200
+    fh = {"Authorization": f"Bearer {r.json()['token']}"}
+    got = client.post(f"/api/invite/{code}/accept", headers=fh).json()
+    assert got["kind"] == "person" and got["chat"]["other_user"]["id"] == a.id
+    assert [c["status"] for c in client.get("/api/contacts", headers=a.h).json()] == ["accepted"]
+    assert any(c["id"] == got["chat"]["id"] for c in client.get("/api/chats", headers=a.h).json())
+    inv = client.get("/api/admin/invites", headers=boss.h).json()
+    assert inv["people"][0]["name"] == "Anna" and inv["people"][0]["count"] == 1 and inv["invited"] == 1
+    assert client.get("/api/admin/invites", headers=a.h).status_code == 403  # the counter is for the admin only
+    # a new link: the old one stops working
+    new = client.post("/api/me/invite/reset", headers=a.h).json()["code"]
+    assert new != code and client.get(f"/api/invite/{code}").status_code == 404
+    assert _register(client, "late@x.com", invite_link=code).status_code == 403
+    assert client.post(f"/api/invite/{new}/accept", headers=a.h).json() == {"kind": "self"}
+
+
+def test_old_username_links_open_the_chat_but_need_the_beta_code(client, make_person, monkeypatch):
+    a, b = make_person("a@x.com", "Anna"), make_person("b@x.com", "Bob")
+    monkeypatch.setenv("INVITE_CODE", "s3cret-code")
+    assert client.get(f"/api/invite/{a.username}").json()["needs_code"] is True
+    assert _register(client, "x@x.com", invite_link=a.username).status_code == 403
+    assert _register(client, "y@x.com", invite_link=a.username, invite_code="s3cret-code").status_code == 200
+    assert client.post(f"/api/invite/{a.username}/accept", headers=b.h).json()["kind"] == "person"
+    assert client.get("/api/invite/not-a-real-link").status_code == 404
+    assert client.get("/api/invite/bad%20code").status_code == 404
+
+
+def test_blocked_people_cannot_use_a_link(client, make_person):
+    a, b = make_person("a@x.com"), make_person("b@x.com")
+    code = client.get("/api/me/invite", headers=a.h).json()["code"]
+    client.post(f"/api/users/{b.id}/block", headers=a.h)
+    assert client.post(f"/api/invite/{code}/accept", headers=b.h).status_code == 403
+
+
+def test_group_link_needs_an_admin_to_accept(client, make_person, monkeypatch):
+    a, b, c, d = (make_person(f"{n}@x.com", n.upper()) for n in "abcd")
+    group = client.post("/api/chats/group", json={"name": "Viaggio", "member_ids": [b.id]}, headers=a.h).json()
+    gid = group["id"]
+    assert client.post(f"/api/chats/{gid}/invite-link", headers=b.h).status_code == 403  # only admins make the link
+    code = client.post(f"/api/chats/{gid}/invite-link", headers=a.h).json()["code"]
+    assert client.get(f"/api/invite/{code}").json() == {"kind": "group", "name": "Viaggio", "emoji": "", "members": 2, "needs_code": False}
+    assert client.post(f"/api/invite/{code}/accept", headers=c.h).json() == {"kind": "group", "status": "pending", "name": "Viaggio"}
+    assert client.post(f"/api/invite/{code}/accept", headers=d.h).json()["status"] == "pending"
+    assert client.get(f"/api/messages/{gid}", headers=c.h).status_code in (403, 404)  # not in yet
+    mine = next(x for x in client.get("/api/chats", headers=a.h).json() if x["id"] == gid)
+    assert mine["invite_code"] == code and [r["id"] for r in mine["join_requests"]] == [c.id, d.id]
+    theirs = next(x for x in client.get("/api/chats", headers=b.h).json() if x["id"] == gid)
+    assert "invite_code" not in theirs and "join_requests" not in theirs  # members who are not admins don't see them
+    assert client.post(f"/api/chats/{gid}/requests/{c.id}/approve", headers=b.h).status_code == 403
+    assert client.post(f"/api/chats/{gid}/requests/{c.id}/approve", headers=a.h).status_code == 200
+    assert client.post(f"/api/chats/{gid}/requests/{d.id}/decline", headers=a.h).status_code == 200
+    assert client.get(f"/api/messages/{gid}", headers=c.h).status_code == 200
+    assert client.get(f"/api/messages/{gid}", headers=d.h).status_code in (403, 404)
+    assert client.post(f"/api/invite/{code}/accept", headers=c.h).json()["status"] == "member"
+    mine = next(x for x in client.get("/api/chats", headers=a.h).json() if x["id"] == gid)
+    assert mine["join_requests"] == [] and len(mine["members"]) == 3
+    # a group link also lets a new person sign up without the beta code; turned off, it stops working
+    monkeypatch.setenv("INVITE_CODE", "s3cret-code")
+    assert _register(client, "new@x.com", invite_link=code).status_code == 200
+    assert client.delete(f"/api/chats/{gid}/invite-link", headers=a.h).status_code == 200
+    assert client.get(f"/api/invite/{code}").status_code == 404
+    again = client.post(f"/api/chats/{gid}/invite-link", headers=a.h).json()["code"]
+    assert again != code and client.post(f"/api/chats/{gid}/invite-link?reset=true", headers=a.h).json()["code"] != again
+
 # ---------------------------------------------------------------- edit, reactions
 def test_edit_message_retranslates_and_is_limited_to_the_sender(client, make_person):
     a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")

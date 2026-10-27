@@ -6,6 +6,7 @@ import { syncPush } from "@/lib/push";
 import useAppViewport from "@/hooks/useAppViewport";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/i18n";
+import { pendingInvite, clearInvite } from "@/lib/invite";
 import Logo, { LogoMark } from "@/components/Logo";
 import Sidebar from "@/components/chat/Sidebar";
 import ChatWindow from "@/components/chat/ChatWindow";
@@ -71,6 +72,19 @@ export default function Chat() {
 
   useEffect(() => { loadChats().catch(() => setChatsLoaded(true)); loadRequests().catch(() => {}); syncPush(); }, [loadChats, loadRequests]);
 
+  // arrived from an invite link: a friend's opens the chat with them, a group's asks its admins to let me in
+  useEffect(() => {
+    const code = pendingInvite();
+    if (!code) return;
+    clearInvite();
+    api.post(`/invite/${encodeURIComponent(code)}/accept`).then(async ({ data }) => {
+      if (data.chat) { await loadChats(); openChatRef.current?.(data.chat); }
+      else if (data.kind === "group") toast.success(t("Request sent: an admin of {name} will let you in", { name: data.name }));
+    }).catch((e) => {
+      toast.error(e.response?.status === 404 ? t("This invite link is not valid any more") : t("Could not use the invite link"));
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // ---- real-time connection: reconnects by itself, and catches up when the app comes back to the foreground
   handlers.current.onEvent = async (d) => {
     const cur = activeRef.current;
@@ -116,12 +130,16 @@ export default function Chat() {
       loadRequests();
     } else if (d.type === "contact_accepted" || d.type === "new_chat" || d.type === "presence") {
       loadChats();
-    } else if (d.type === "chat_updated") {
+    } else if (d.type === "invite_joined") {
+      toast.success(t("{name} joined Glotter with your invite", { name: d.name }));
+      loadChats();
+    } else if (d.type === "chat_updated" || d.type === "join_request") {
+      if (d.type === "join_request") toast(t("{name} asks to join {group}", { name: d.name, group: d.group }));
       const fresh = await loadChats();
       const c = activeRef.current;
       if (c) {
         const f = fresh.find((x) => x.id === c.id);
-        if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description, rules: f.rules, description_original: f.description_original, rules_original: f.rules_original, texts_translated_from: f.texts_translated_from }));
+        if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description, rules: f.rules, description_original: f.description_original, rules_original: f.rules_original, texts_translated_from: f.texts_translated_from, invite_code: f.invite_code, join_requests: f.join_requests }));
       }
     }
   };
@@ -171,6 +189,7 @@ export default function Chat() {
     };
   }, [token, loadChats, refreshActive]);
 
+  const openChatRef = useRef(null);
   const openChat = useCallback(async (chat) => {
     const req = ++openReq.current;
     setActive(chat);
@@ -190,6 +209,7 @@ export default function Chat() {
       if (req === openReq.current) setMessagesLoading(false);
     }
   }, [loadChats]);
+  openChatRef.current = openChat;
 
   // opened from a notification (app was closed: ?chat=ID, or already open: a message from the service worker)
   const openById = useCallback(async (id) => {
@@ -335,7 +355,7 @@ export default function Chat() {
         <InfoPanel chat={active} messages={messages} onSearch={() => { setInfoOpen(false); setSearchSignal((n) => n + 1); }} onClose={() => setInfoOpen(false)} onChanged={async () => {
           const fresh = await loadChats();
           const f = fresh.find((x) => x.id === active.id);
-          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description, rules: f.rules, description_original: f.description_original, rules_original: f.rules_original, texts_translated_from: f.texts_translated_from }));
+          if (f) setActive((a) => ({ ...a, members: f.members, members_info: f.members_info, admins: f.admins, emoji: f.emoji, display_name: f.display_name, display_avatar: f.display_avatar, description: f.description, rules: f.rules, description_original: f.description_original, rules_original: f.rules_original, texts_translated_from: f.texts_translated_from, invite_code: f.invite_code, join_requests: f.join_requests }));
         }} onLeft={() => { closeActive(); loadChats(); }}
         onBlocked={() => { closeActive(); loadChats(); }}
         onDelete={() => deleteChat(active)} />

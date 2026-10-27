@@ -16,6 +16,7 @@ import { avatarClass } from "@/lib/avatar";
 import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import LanguagePicker from "@/components/LanguagePicker";
 import { useI18n } from "@/i18n";
+import { shareMyInvite } from "@/lib/invite";
 
 // ---- building blocks of the list-style profile ----
 function Group({ children }) {
@@ -447,15 +448,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
     finally { setUploading(false); e.target.value = ""; }
   };
 
-  const invite = async () => {
-    const url = `${window.location.origin}/?invite=${user.username}`;
-    const text = t("Chat with me on Glotter: each of us writes and reads in our own language.");
-    try {
-      if (navigator.share) { await navigator.share({ title: "Glotter", text, url }); return; }
-    } catch (e) { if (e?.name === "AbortError") return; }
-    try { await navigator.clipboard.writeText(`${text} ${url}`); toast.success(t("Invite link copied")); }
-    catch { toast(url); }
-  };
+  const invite = () => shareMyInvite(t);
 
   const pages = {
     account: <AccountPage onBack={back} />,

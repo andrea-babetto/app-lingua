@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Textarea } from "@/components/ui/textarea";
 import { avatarClass } from "@/lib/avatar";
 import EmojiPick from "@/components/chat/EmojiPick";
+import GroupInvite from "@/components/chat/GroupInvite";
 import { useI18n } from "@/i18n";
 import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 
@@ -216,6 +217,8 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
             )}
           </div>
         )}
+
+        {isGroup && !editing && meAdmin && <GroupInvite chat={chat} onChanged={onChanged} />}
 
         {isGroup && !editing && (
           <div className="space-y-2">

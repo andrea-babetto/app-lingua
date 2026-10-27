@@ -14,6 +14,7 @@ export default function Admin() {
   const [net, setNet] = useState(null);
   const [users, setUsers] = useState([]);
   const [usage, setUsage] = useState(null);
+  const [invites, setInvites] = useState(null);
   const [month, setMonth] = useState("");
   const [confirmFor, setConfirmFor] = useState(null);
   const [result, setResult] = useState(null);
@@ -23,6 +24,7 @@ export default function Admin() {
     api.get("/admin/stats").then(({ data }) => setStats(data)).catch(() => setErr("Admin access required"));
     api.get("/admin/users").then(({ data }) => setUsers(data)).catch(() => {});
     api.get("/admin/client-ip").then(({ data }) => setNet(data)).catch(() => {});
+    api.get("/admin/invites").then(({ data }) => setInvites(data)).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -109,6 +111,26 @@ export default function Admin() {
               </table>
             )}
         </div>
+
+        {invites && (
+          <div className="bg-card border border-border rounded-xl p-5" data-testid="invites-card">
+            <h2 className="text-lg font-semibold mb-1">Invites</h2>
+            <p className="text-sm text-muted-foreground mb-3">{invites.invited} of {invites.total_users} people joined with someone's link (only you see this).</p>
+            {invites.people.length === 0 && invites.groups.length === 0 ? <p className="text-sm text-muted-foreground">Nobody has joined with a link yet.</p> : (
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-muted-foreground"><th className="py-1 font-medium">Brought in by</th><th className="py-1 font-medium text-right">People</th><th className="py-1 font-medium text-right">Last</th></tr></thead>
+                <tbody>
+                  {invites.people.map((p) => (
+                    <tr key={p.id} className="border-t border-border" data-testid={`invites-row-${p.id}`}><td className="py-1.5">{p.name} <span className="text-muted-foreground">@{p.username}</span></td><td className="py-1.5 text-right tabular-nums font-semibold">{p.count}</td><td className="py-1.5 text-right text-muted-foreground">{(p.last || "").slice(0, 10)}</td></tr>
+                  ))}
+                  {invites.groups.map((g) => (
+                    <tr key={`g-${g.name}`} className="border-t border-border"><td className="py-1.5">Group link: {g.name}</td><td className="py-1.5 text-right tabular-nums font-semibold">{g.count}</td><td /></tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
 
         <div className="bg-card border border-border rounded-xl p-5" data-testid="users-card">
           <h2 className="text-lg font-semibold mb-1">People ({users.length})</h2>

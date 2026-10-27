@@ -8,6 +8,9 @@ import "@fontsource-variable/noto-sans-sc";
 import "@/index.css";
 import App from "@/App";
 import { queryClient } from "@/lib/queryClient";
+import { captureInvite } from "@/lib/invite";
+
+captureInvite();  // before any redirect drops ?invite= from the address
 
 class ErrorBoundary extends React.Component {
   state = { error: null };

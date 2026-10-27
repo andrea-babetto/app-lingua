@@ -323,6 +323,15 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
         </div>
       )}
 
+      {isGroup && (chat.join_requests || []).length > 0 && (
+        <button data-testid="join-requests-banner" onClick={onToggleInfo}
+          className="shrink-0 w-full px-4 py-2 bg-label text-label-foreground text-sm font-semibold text-start flex items-center justify-between gap-2">
+          <span className="truncate">{chat.join_requests.length === 1
+            ? t("{name} asks to join", { name: chat.join_requests[0].name })
+            : t("{count} people ask to join", { count: chat.join_requests.length })}</span>
+          <span className="underline shrink-0">{t("See")}</span>
+        </button>
+      )}
       <div ref={scrollRef} onScroll={onScroll} className="flex-1 overflow-y-auto chat-scroll chat-wallpaper py-3 relative">
         {loading && <MessageSkeleton />}
         {!loading && messages.length === 0 && (
