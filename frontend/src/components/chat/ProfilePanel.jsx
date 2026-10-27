@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Download, Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ArrowLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info } from "lucide-react";
+import { Download, Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ArrowLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info, Sparkles } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -17,6 +17,7 @@ import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import LanguagePicker from "@/components/LanguagePicker";
 import { useI18n } from "@/i18n";
 import { shareMyInvite } from "@/lib/invite";
+import { featureGroups } from "@/data/features";
 
 // ---- building blocks of the list-style profile ----
 function Group({ children }) {
@@ -401,6 +402,64 @@ function PrivacyPage({ onBack, onOpen }) {
 
 const HELP_EMAIL = import.meta.env.VITE_LEGAL_EMAIL || "";
 
+// "What Glotter can do": every function in groups; tapping one opens what it is for and how to use it.
+function FeaturesPage({ onBack, onOpen, onInvite }) {
+  const { t } = useI18n();
+  const [openId, setOpenId] = useState(null);
+  const groups = featureGroups(t);
+  const feature = groups.flatMap((g) => g.items).find((f) => f.id === openId);
+  if (feature) {
+    const Icon = feature.icon;
+    const tryIt = feature.try === "invite" ? onInvite : feature.try ? () => onOpen(feature.try) : null;
+    return (
+      <SubPage title={feature.title} onBack={() => setOpenId(null)}>
+        <div className="px-4 pt-6 pb-2 flex flex-col items-center text-center gap-3" data-testid={`feature-detail-${feature.id}`}>
+          <span className="w-16 h-16 rounded-full bg-label text-label-foreground flex items-center justify-center"><Icon className="w-8 h-8" aria-hidden="true" /></span>
+          <h3 className="text-xl font-bold leading-snug">{feature.title}</h3>
+          <p className="text-[15px] leading-relaxed text-muted-foreground">{feature.what}</p>
+        </div>
+        <Section title={t("How")}>
+          <p className="text-[15px] leading-relaxed">{feature.how}</p>
+        </Section>
+        {tryIt && (
+          <div className="mx-3 mt-4">
+            <Button data-testid="feature-try" className="w-full h-11 rounded-xl" onClick={tryIt}>{t("Try it")}</Button>
+          </div>
+        )}
+      </SubPage>
+    );
+  }
+  return (
+    <SubPage title={t("What Glotter can do")} onBack={onBack}>
+      <p className="px-4 pt-4 text-sm text-muted-foreground leading-relaxed">{t("Everything you can do with Glotter. Tap a function to see how it works.")}</p>
+      {groups.map((g) => (
+        <section key={g.id} className="mt-4">
+          <h3 className="px-4 pb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{g.title}</h3>
+          <div className="bg-card border-y border-border divide-y divide-border">
+            {g.items.map((f) => {
+              const Icon = f.icon;
+              return (
+                <button key={f.id} data-testid={`feature-${f.id}`} onClick={() => setOpenId(f.id)}
+                  className="w-full flex items-center gap-3.5 px-4 py-3 text-start hover:bg-muted/60 active:bg-muted transition-colors">
+                  <Icon className="w-5 h-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+                  <span className="flex-1 min-w-0">
+                    <span className="flex items-center gap-2">
+                      <span className="text-[15px] font-medium truncate">{f.title}</span>
+                      {f.isNew && <span className="shrink-0 text-[10.5px] font-bold uppercase px-1.5 py-0.5 rounded-md bg-label text-label-foreground">{t("New")}</span>}
+                    </span>
+                    <span className="block text-xs text-muted-foreground truncate">{f.what}</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 shrink-0 text-subtle rtl:rotate-180" aria-hidden="true" />
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </SubPage>
+  );
+}
+
 function HelpPage({ onBack }) {
   const { t } = useI18n();
   const copy = async () => {
@@ -459,6 +518,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
     privacy: <PrivacyPage onBack={back} onOpen={setPage} />,
     blocked: <BlockedPage onBack={() => setPage("privacy")} />,
     help: <HelpPage onBack={back} />,
+    features: <FeaturesPage onBack={back} onOpen={setPage} onInvite={invite} />,
   };
   if (pages[page]) return pages[page];
 
@@ -490,6 +550,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
 
       <Group>
         <Row icon={Heart} label={t("Invite a friend")} testId="profile-row-invite" onClick={invite} />
+        <Row icon={Sparkles} label={t("What Glotter can do")} testId="profile-row-features" onClick={() => setPage("features")} />
         {HELP_EMAIL && <Row icon={HelpCircle} label={t("Help and feedback")} hint={HELP_EMAIL} testId="profile-row-help" onClick={() => setPage("help")} />}
         {user.role === "admin" && <Row icon={BarChart3} label={t("Admin dashboard")} testId="open-admin-item" onClick={onOpenAdmin} />}
       </Group>
