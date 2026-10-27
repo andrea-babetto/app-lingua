@@ -107,12 +107,14 @@ Lista ufficiale delle funzioni da implementare, per costo e complessità (23/10/
 - [x] Ascolta i messaggi scritti (🔊) e Detta invece di scrivere (27/10/2026)
 
 ### Scartate o unite
+- Schermata iniziale a rotella e versione ibrida (lista + rotella + "palcoscenico" col cielo dell'altra persona): disegnate e provate, Andrea tiene l'interfaccia attuale (27/10/2026)
 - Silenzioso e orari: scartata (24/10/2026)
 - Stato personale: unito alla frase di presentazione già esistente (24/10/2026)
 
 ### Rimandate (ci torniamo)
 - [ ] Anteprima del link quando viene incollato (da decidere: dentro la chat, nel link d'invito, o tutte e due)
 - [ ] Contatore degli inviti (da decidere: solo admin o anche l'utente). Nota: oggi il link `/?invite=nome` non registra niente.
+- [ ] Costi dei vocali da rianalizzare con più dati (27/10/2026: primi 19 richieste OpenAI = 0,02 $). Opzione pronta da valutare: leggere la voce tradotta e il 🔊 con la voce del telefono (gratis, immediata, qualità variabile) e usare OpenAI solo per trascrivere.
 
 ### Costo zero, complessità media
 - [ ] Ingresso da link (il link apre la chat con chi invita) — **prima della beta allargata**
