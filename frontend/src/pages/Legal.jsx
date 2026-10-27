@@ -37,7 +37,7 @@ const PRIVACY = {
       ]],
       ["How long we keep it", [
         "While your account exists. When you delete a message for everyone, it is removed. When you delete your account, your profile, the messages you wrote, your files, your notification subscriptions and your contacts are erased immediately, and your one-to-one chats are removed for both people.",
-        "Reports about abuse may be kept for as long as needed to protect other users. Cached translations are not linked to you and expire after 30 days.",
+        "Reports about abuse may be kept for as long as needed to protect other users. Cached translations are not linked to you and expire after 30 days. Every night we make a backup copy of the database, kept in our file storage for 14 days in case of breakdowns: data you delete disappears from the backups within 14 days.",
       ]],
       ["Your rights", [
         `You can access and correct your data in Profile, and delete your account there (Profile → Delete account). You can also ask us at ${EMAIL} for a copy of your data, to restrict or object to its use, or to move it elsewhere.`,
@@ -75,7 +75,7 @@ const PRIVACY = {
       ]],
       ["Per quanto tempo li conserviamo", [
         "Finché esiste il tuo account. Se elimini un messaggio per tutti, viene rimosso. Quando elimini l'account, il profilo, i messaggi che hai scritto, i tuoi file, le iscrizioni alle notifiche e i contatti vengono cancellati subito, e le chat uno-a-uno vengono rimosse per entrambe le persone.",
-        "Le segnalazioni di abuso possono essere conservate per il tempo necessario a proteggere gli altri utenti. Le traduzioni in memoria temporanea non sono collegate a te e scadono dopo 30 giorni.",
+        "Le segnalazioni di abuso possono essere conservate per il tempo necessario a proteggere gli altri utenti. Le traduzioni in memoria temporanea non sono collegate a te e scadono dopo 30 giorni. Ogni notte facciamo una copia di sicurezza del database, conservata nel nostro archivio dei file per 14 giorni in caso di guasti: i dati che cancelli spariscono anche dalle copie entro 14 giorni.",
       ]],
       ["I tuoi diritti", [
         `Puoi vedere e correggere i tuoi dati nel Profilo e cancellare l'account da lì (Profilo → Elimina account). Puoi anche chiederci a ${EMAIL} una copia dei dati, la limitazione o l'opposizione al trattamento, o il trasferimento ad altro servizio.`,

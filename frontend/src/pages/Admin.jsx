@@ -15,6 +15,8 @@ export default function Admin() {
   const [users, setUsers] = useState([]);
   const [usage, setUsage] = useState(null);
   const [invites, setInvites] = useState(null);
+  const [backups, setBackups] = useState(null);
+  const [backingUp, setBackingUp] = useState(false);
   const [month, setMonth] = useState("");
   const [confirmFor, setConfirmFor] = useState(null);
   const [result, setResult] = useState(null);
@@ -25,11 +27,33 @@ export default function Admin() {
     api.get("/admin/users").then(({ data }) => setUsers(data)).catch(() => {});
     api.get("/admin/client-ip").then(({ data }) => setNet(data)).catch(() => {});
     api.get("/admin/invites").then(({ data }) => setInvites(data)).catch(() => {});
+    api.get("/admin/backups").then(({ data }) => setBackups(data)).catch(() => {});
   }, []);
 
   useEffect(() => {
     api.get("/admin/usage", { params: month ? { month } : {} }).then(({ data }) => setUsage(data)).catch(() => {});
   }, [month]);
+
+  const backupNow = async () => {
+    setBackingUp(true);
+    try {
+      await api.post("/admin/backups/run");
+      const { data } = await api.get("/admin/backups");
+      setBackups(data);
+      toast.success("Backup done");
+    } catch { toast.error("Backup failed"); }
+    finally { setBackingUp(false); }
+  };
+
+  const downloadBackup = async (day) => {
+    try {
+      const { data } = await api.get(`/admin/backups/${day}/download`, { responseType: "blob" });
+      const url = URL.createObjectURL(data);
+      const a = document.createElement("a");
+      a.href = url; a.download = `glotter-backup-${day}.jsonl.gz`; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch { toast.error("Download failed"); }
+  };
 
   const reset = async () => {
     const u = confirmFor;
@@ -111,6 +135,36 @@ export default function Admin() {
               </table>
             )}
         </div>
+
+        {backups && (
+          <div className="bg-card border border-border rounded-xl p-5" data-testid="backups-card">
+            <h2 className="text-lg font-semibold mb-1">Backup</h2>
+            <p className="text-sm text-muted-foreground mb-3">
+              Every night the whole database is copied to the file storage (R2); the last {backups.keep_days} days are kept.
+              Download one now and then to keep a copy on your computer too.
+            </p>
+            <button data-testid="backup-now" disabled={backingUp} onClick={backupNow}
+              className="mb-3 h-9 px-4 rounded-lg bg-primary text-primary-foreground text-sm font-semibold disabled:opacity-50">
+              {backingUp ? "Backing up…" : "Back up now"}
+            </button>
+            {backups.backups.length === 0 ? <p className="text-sm text-muted-foreground">No backup yet: the first one runs tonight.</p> : (
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-muted-foreground"><th className="py-1 font-medium">Day</th><th className="py-1 font-medium">Made at</th><th className="py-1 font-medium text-right">Size</th><th className="py-1 font-medium text-right">People / messages</th><th /></tr></thead>
+                <tbody>
+                  {backups.backups.map((b) => (
+                    <tr key={b.day} className="border-t border-border" data-testid={`backup-row-${b.day}`}>
+                      <td className="py-1.5">{b.day}</td>
+                      <td className="py-1.5 text-muted-foreground">{new Date(b.created_at).toLocaleString()}</td>
+                      <td className="py-1.5 text-right tabular-nums">{b.size > 1048576 ? `${(b.size / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b.size / 1024))} KB`}</td>
+                      <td className="py-1.5 text-right tabular-nums">{b.counts?.users ?? 0} / {b.counts?.messages ?? 0}</td>
+                      <td className="py-1.5 text-right"><button className="text-primary font-semibold underline" onClick={() => downloadBackup(b.day)}>Download</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
 
         {invites && (
           <div className="bg-card border border-border rounded-xl p-5" data-testid="invites-card">

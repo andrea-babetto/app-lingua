@@ -19,6 +19,7 @@ Script usati per controllare l'app in un browser simulato da telefono, **senza**
    - `python tools/e2e/voice_check.py` — 24 controlli su vocali (tieni premuto, scorri per annullare, blocca, ascolto tradotto, "Scrivilo", voce originale), dettatura e ascolto dei messaggi scritti. **Avviare il server di prova con `VOICE_DEMO=1`** (trascrizione finta e un "bip" al posto della voce tradotta; il browser usa un microfono finto).
    - `python tools/e2e/invite_check.py` — 13 controlli sui link d'invito (benvenuto con chi ti ha invitato, registrazione, la chat si apre da sola, link del gruppo con richiesta e Accetta, contatore in /admin). **Cambia dati nel server di prova: riavviarlo prima di ripetere.**
    - `python tools/e2e/guide_check.py` — 6 controlli sulla guida "Cosa sa fare Glotter" (elenco, scheda con i nomi veri dei tasti, "Provalo", lingua di chi legge).
+   - `python tools/e2e/backup_check.py` — 3 controlli sul riquadro Backup in /admin (fai un backup, compare nell'elenco, si scarica).
 
 ## Lingue dell'interfaccia
 `python tools/extract_i18n.py` rilegge tutte le frasi `t("...")` del sito e scrive `frontend/src/i18n/source.json`; con `--check` dice quali lingue (`frontend/src/i18n/locales/*.json`) non hanno ancora una frase.

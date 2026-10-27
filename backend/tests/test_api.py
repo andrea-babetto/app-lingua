@@ -806,6 +806,64 @@ def test_group_link_needs_an_admin_to_accept(client, make_person, monkeypatch):
     again = client.post(f"/api/chats/{gid}/invite-link", headers=a.h).json()["code"]
     assert again != code and client.post(f"/api/chats/{gid}/invite-link?reset=true", headers=a.h).json()["code"] != again
 
+
+# ---------------------------------------------------------------- backup
+def test_nightly_backup_can_be_put_back(client, make_person):
+    import backup
+    from datetime import datetime as _dt, timezone as _tz
+    from mongomock_motor import AsyncMongoMockClient
+    a, b = make_person("a@x.com", "Anna", "it"), make_person("b@x.com", "Bob", "en")
+    chat = direct(client, a, b)
+    m = client.post("/api/messages", json={"chat_id": chat["id"], "text": "Ciao"}, headers=a.h).json()
+    wait_for(client, b, chat["id"], m["id"], lambda x: x["status"] == "sent")
+    night = _dt(2026, 10, 28, 3, 0, tzinfo=_tz.utc)
+    assert asyncio.run(backup.due(server.db, night)) is True
+    assert asyncio.run(backup.due(server.db, night.replace(hour=1))) is False  # not before 2:00 UTC
+    rec = asyncio.run(backup.make_backup(server.db, night))
+    assert rec["day"] == "2026-10-28" and rec["counts"]["users"] == 2 and rec["counts"]["messages"] == 1
+    assert "translation_cache" not in rec["counts"]
+    assert asyncio.run(backup.due(server.db, night)) is False  # once a day
+    # put it back into an empty database: the same people and messages
+    data = asyncio.run(server.storage.get_object(rec["key"]))
+    fresh = AsyncMongoMockClient()["restored"]
+    counts = asyncio.run(backup.restore(fresh, data))
+    assert counts["users"] == 2 and counts["messages"] == 1
+    assert asyncio.run(fresh.messages.find_one({"id": m["id"]}))["original_text"] == "Ciao"
+    try:  # never on top of live data
+        asyncio.run(backup.restore(fresh, data))
+        assert False
+    except ValueError:
+        pass
+
+
+def test_old_backups_are_deleted(client, make_person):
+    import backup
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    make_person("a@x.com")
+    start = _dt(2026, 10, 1, 3, 0, tzinfo=_tz.utc)
+    first = asyncio.run(backup.make_backup(server.db, start))
+    asyncio.run(backup.make_backup(server.db, start + _td(days=backup.KEEP_DAYS + 1)))
+    days = [r["day"] for r in asyncio.run(server.db.backups.find({}).to_list(100))]
+    assert first["day"] not in days and len(days) == 1
+    try:
+        asyncio.run(server.storage.get_object(first["key"]))
+        assert False
+    except server.storage.StorageError:
+        pass
+
+
+def test_admin_backups(client, make_person):
+    boss, a = _admin(client, make_person), make_person("a@x.com")
+    assert client.get("/api/admin/backups", headers=a.h).status_code == 403
+    assert client.post("/api/admin/backups/run", headers=a.h).status_code == 403
+    rec = client.post("/api/admin/backups/run", headers=boss.h).json()
+    listed = client.get("/api/admin/backups", headers=boss.h).json()
+    assert listed["keep_days"] == 14 and listed["backups"][0]["day"] == rec["day"]
+    r = client.get(f"/api/admin/backups/{rec['day']}/download", headers=boss.h)
+    assert r.status_code == 200 and r.content[:2] == b"\x1f\x8b" and "attachment" in r.headers["content-disposition"]
+    assert client.get(f"/api/admin/backups/{rec['day']}/download", headers=a.h).status_code == 403
+    assert client.get("/api/admin/backups/1999-01-01/download", headers=boss.h).status_code == 404
+
 # ---------------------------------------------------------------- edit, reactions
 def test_edit_message_retranslates_and_is_limited_to_the_sender(client, make_person):
     a, b = make_person("a@x.com", lang="it"), make_person("b@x.com", lang="en")

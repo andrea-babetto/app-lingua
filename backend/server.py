@@ -27,6 +27,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 import stt
 import tts
+import backup
 import mailer
 import push
 import storage
@@ -1893,6 +1894,17 @@ async def expire_old_voice(now=None):
     return len(rows)
 
 
+async def backup_loop():
+    """The nightly copy of the database (see backup.py)."""
+    while True:
+        try:
+            if await backup.due(db):
+                await backup.make_backup(db)
+        except Exception:
+            logger.exception("nightly backup failed")
+        await asyncio.sleep(1800)
+
+
 async def voice_cleanup_loop():
     while True:
         try:
@@ -2221,6 +2233,41 @@ async def admin_usage(month: Optional[str] = None, user=Depends(get_current_user
             "people": people[:200]}
 
 
+def require_admin(user):
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin only")
+
+
+@api.get("/admin/backups")
+async def admin_backups(user=Depends(get_current_user)):
+    require_admin(user)
+    rows = await db.backups.find({}, {"_id": 0}).sort("day", -1).to_list(100)
+    return {"keep_days": backup.KEEP_DAYS, "backups": rows}
+
+
+@api.post("/admin/backups/run")
+async def admin_backup_now(user=Depends(get_current_user)):
+    """Make (or redo) today's copy right away."""
+    require_admin(user)
+    limiter.check(f"backup-now:{user['id']}", 5, 3600)
+    return await backup.make_backup(db)
+
+
+@api.get("/admin/backups/{day}/download")
+async def admin_backup_download(day: str, user=Depends(get_current_user)):
+    """A copy to keep on the admin's own computer too (a second place, outside Cloudflare)."""
+    require_admin(user)
+    rec = await db.backups.find_one({"day": day}, {"_id": 0})
+    if not rec:
+        raise HTTPException(status_code=404, detail="No backup for this day")
+    try:
+        data = await storage.get_object(rec["key"])
+    except storage.StorageError:
+        raise HTTPException(status_code=404, detail="Backup file not found")
+    return Response(content=data, media_type="application/gzip",
+                    headers={"Content-Disposition": f'attachment; filename="glotter-backup-{day}.jsonl.gz"'})
+
+
 @api.get("/admin/invites")
 async def admin_invites(user=Depends(get_current_user)):
     """Who brought how many people in with their link (and the groups people joined Glotter from)."""
@@ -2419,6 +2466,7 @@ async def startup():
     if os.environ.get("APP_ENV") != "test":
         spawn(scheduled_loop())
         spawn(voice_cleanup_loop())
+        spawn(backup_loop())
     # Cached translations expire after 30 days so the database does not grow forever.
     await db.translation_cache.create_index("created_at_dt", expireAfterSeconds=30 * 24 * 3600)
     storage.get_storage()  # fail early (and log) if storage is misconfigured
