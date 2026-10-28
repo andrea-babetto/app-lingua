@@ -270,4 +270,4 @@ Andrea ha scelto uno stile preso da un esempio (app di chat bianca e gialla) e i
 
 ## Novità del 29/10/2026
 - **Colore:** l'azzurro non convinceva Andrea; ora il colore d'accento è un **antracite con una punta del verde del logo** (`#34413a`, testo bianco) per pulsante principale, Invita e non letti; i miei messaggi sono una sua tinta chiarissima (`#e9efeb`). Il testo sopra l'accento usa `--gl-on-accent` (non più un nero fisso), così cambia da solo con il colore.
-- **Computer:** la conversazione non occupa più tutta la larghezza: messaggi, barra di scrittura e risposta restano in una colonna centrale di 40rem (640px), come su Telegram.
+- **Computer:** la conversazione non occupa più tutta la larghezza: messaggi, barra di scrittura e risposta restano in una colonna centrale di 40rem (640px), come su Telegram. La lista delle chat a sinistra è più stretta (20–22rem invece di 22–28rem).

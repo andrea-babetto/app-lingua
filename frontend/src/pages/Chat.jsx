@@ -330,7 +330,7 @@ export default function Chat() {
 
   return (
     <div className="app-shell flex overflow-hidden bg-background">
-      <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-[22rem] lg:w-[26rem] xl:w-[28rem] shrink-0 border-r border-border flex-col`}>
+      <div className={`${mobileView === "chat" ? "hidden" : "flex"} md:flex w-full md:w-[20rem] lg:w-[21rem] xl:w-[22rem] shrink-0 border-r border-border flex-col`}>
         <Sidebar chats={chats} loading={!chatsLoaded} activeId={active?.id} onSelect={openChat}
           onOpenContact={async (person) => { try { const { data } = await api.post(`/chats/direct/${person.id}`); loadChats(); openChat(data); } catch (e) { toast.error(errText(e.response?.data?.detail)); } }}
           onNewChat={(kind) => { setNewChatTab(kind); setNewChatOpen(true); }}
