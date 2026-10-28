@@ -21,7 +21,7 @@ function ListenButton({ msg }) {
   return (
     <button data-testid={`listen-${msg.id}`} aria-label={state === "playing" ? t("Pause") : t("Listen")}
       onClick={() => speak(msg, () => toast.error(t("Could not create the voice. Try again.")))}
-      className={`mt-1 w-7 h-7 rounded-full flex items-center justify-center transition hover:opacity-85 ${state === "idle" ? "bg-label text-label-foreground" : "bg-foreground text-background"}`}>
+      className={`mt-1 w-6 h-6 rounded-full flex items-center justify-center transition ${state === "idle" ? "text-subtle hover:text-foreground" : "bg-foreground text-background"}`}>
       {state === "loading" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : state === "playing" ? <Pause className="w-3.5 h-3.5" fill="currentColor" /> : <Volume2 className="w-3.5 h-3.5" />}
     </button>
   );
@@ -216,8 +216,7 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
         {!mine && msg.is_translated && !translating && (
           <div className="flex items-center gap-1.5">
           <button data-testid={`translation-toggle-badge-${msg.id}`} onClick={onToggleOriginal}
-            className={`mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold transition hover:opacity-85 ${showOriginal
-              ? "bg-foreground text-background" : "bg-label text-label-foreground"}`}>
+            className={`mt-1 ps-1 text-[11.5px] transition hover:text-foreground ${showOriginal ? "font-medium text-foreground" : "text-subtle"}`}>
             {showOriginal
               ? `${t("Original in {language}", { language: langName(msg.translated_from) })} · ${t("Show translation")}`
               : t("Translated from {language}", { language: langName(msg.translated_from) })}

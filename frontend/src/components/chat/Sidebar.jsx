@@ -54,9 +54,9 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
     <button data-testid={`sidebar-chat-item-${chat.id}`} onClick={click}
       onTouchStart={start} onTouchEnd={cancel} onTouchMove={cancel} onTouchCancel={cancel}
       onContextMenu={(e) => { e.preventDefault(); onAskDelete(chat); }}
-      className={`w-full flex items-center gap-3.5 px-5 py-3 text-start select-none [-webkit-touch-callout:none] transition-colors ${active ? "bg-accent" : "hover:bg-muted/60 active:bg-muted"}`}>
+      className={`w-full flex items-center gap-3 px-5 py-2.5 text-start select-none [-webkit-touch-callout:none] transition-colors ${active ? "bg-accent" : "hover:bg-muted/60 active:bg-muted"}`}>
       <div className="relative shrink-0">
-        <Avatar className={chat.type === "group" ? "rounded-2xl" : ""} style={{ width: "3.25rem", height: "3.25rem" }}>
+        <Avatar className={chat.type === "group" ? "rounded-2xl" : ""} style={{ width: "3rem", height: "3rem" }}>
           <AvatarImage src={chat.display_avatar} />
           <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${chat.type === "group" ? "rounded-2xl" : ""}`}>{(chat.type === "group" && chat.emoji) || initials(chat.display_name)}</AvatarFallback>
         </Avatar>
@@ -65,15 +65,14 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline justify-between gap-2">
           <span className="flex items-baseline gap-1.5 min-w-0">
-            <span className="text-base font-medium truncate">{chat.display_name}</span>
-            {chat.other_user?.language && <span className="shrink-0 text-[10px] font-bold uppercase text-subtle">{chat.other_user.language}</span>}
+            <span className="text-[15px] font-medium truncate">{chat.display_name}</span>
           </span>
           {chat.last_message && (
             <span className={`text-xs shrink-0 ${chat.unread > 0 ? "text-foreground font-medium" : "text-subtle"}`}>{when(chat.last_message.created_at, t)}</span>
           )}
         </div>
         <div className="flex items-center justify-between gap-2 mt-0.5">
-          <span dir="auto" className={`text-sm truncate ${chat.unread > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}>{preview(chat, myId, t)}</span>
+          <span dir="auto" className={`text-[13.5px] truncate ${chat.unread > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}>{preview(chat, myId, t)}</span>
           {chat.unread > 0 && (
             <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-sand text-[var(--gl-on-accent)] text-[11px] font-semibold flex items-center justify-center">{chat.unread}</span>
           )}
@@ -295,7 +294,6 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onOpenCont
                 <ChatRow chat={c} active={activeId === c.id} myId={user.id} onSelect={onSelect} onAskDelete={setMenuChat} />
               </div>
             ))}
-            {tab !== "contacts" && list.length > 0 && <p className="px-6 pt-4 text-center text-xs text-muted-foreground">{window.matchMedia?.("(pointer: coarse)").matches ? t("Press and hold a chat for options.") : t("Right-click a chat for options.")}</p>}
           </div>
 
         </>

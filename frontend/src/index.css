@@ -138,10 +138,10 @@
 /* conversation background: warm paper with a dense, light texture of small line doodles (chat, travel, languages, famous places) (tools/make_chat_pattern.py) */
 .chat-wallpaper {
   background-color: var(--chat-bg);
-  background-image: linear-gradient(rgb(251 251 250 / 0.6), rgb(251 251 250 / 0.6)), url("./assets/brand/chat-pattern-light.svg");
+  background-image: linear-gradient(rgb(251 251 250 / 0.82), rgb(251 251 250 / 0.82)), url("./assets/brand/chat-pattern-light.svg");
   background-size: 240px 240px;
 }
-.dark .chat-wallpaper { background-image: linear-gradient(rgb(20 20 20 / 0.6), rgb(20 20 20 / 0.6)), url("./assets/brand/chat-pattern-dark.svg"); }
+.dark .chat-wallpaper { background-image: linear-gradient(rgb(20 20 20 / 0.78), rgb(20 20 20 / 0.78)), url("./assets/brand/chat-pattern-dark.svg"); }
 
 /* the dot of the translation mark pulses while a message is being translated */
 @keyframes gl-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
