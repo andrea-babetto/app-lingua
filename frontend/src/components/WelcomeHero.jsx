@@ -38,7 +38,7 @@ export function WelcomePreview() {
   );
 }
 
-// "Giulia invited you": the person (or the group) in the circle, with a first message in yellow.
+// "Giulia invited you": the person (or the group) in the circle, with a first message in my bubble colour.
 export function InvitePreview({ invite }) {
   const { t, langName } = useI18n();
   const person = invite.kind === "person";

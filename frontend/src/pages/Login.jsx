@@ -89,7 +89,7 @@ export default function Login() {
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
   // the design of 28/10/2026: white page, round buttons with a thin border at the top, centred title, pill fields
-  // with the label above, and the main button that turns yellow when the form is filled in
+  // with the label above, and the main button that turns light blue when the form is filled in
   const label = "block text-sm font-medium mb-2";
   const pill = "flex items-center gap-2.5 h-12 rounded-full border border-border bg-background px-4 focus-within:border-foreground";
   const bare = "flex-1 min-w-0 bg-transparent outline-none text-[15px] placeholder:text-subtle";
