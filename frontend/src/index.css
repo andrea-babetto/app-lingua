@@ -71,7 +71,7 @@
     --gl-bg: #ffffff; --gl-surface: #f4f4f4; --gl-chat-bg: #fbfbfa; --gl-chat-dots: #e2e2e2; --gl-line: #f2f2f2; --gl-border: #ececec;
     --gl-text: #1a1a1a; --gl-text-2: #6a6a6a; --gl-text-3: #767676; --gl-danger: #c0392b; --gl-danger-bg: #fdecea; --gl-online: #2e9b5a;
     --gl-primary: #111111; --gl-on-primary: #ffffff; --gl-accent: #9fd0ff; --gl-on-accent: #1a1a1a;
-    --gl-bubble-out: #dcefff; --gl-bubble-out-fg: #1a1a1a; --gl-bubble-in: #ffffff; --gl-label-bg: #eaf5ff; --gl-label-fg: #1d4a6e;
+    --gl-bubble-out: #e8f3ff; --gl-bubble-out-fg: #1a1a1a; --gl-bubble-in: #ffffff; --gl-label-bg: #eaf5ff; --gl-label-fg: #1d4a6e;
     --gl-switch-off: #e6e6e6; --gl-selected-row: #f6f6f6;
     --gl-r-bubble: 18px; --gl-r-bubble-tail: 6px; --gl-r-card: 16px; --gl-r-input: 999px; --gl-r-btn: 999px;
   
