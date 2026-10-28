@@ -75,7 +75,7 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete }) {
         <div className="flex items-center justify-between gap-2 mt-0.5">
           <span dir="auto" className={`text-sm truncate ${chat.unread > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}>{preview(chat, myId, t)}</span>
           {chat.unread > 0 && (
-            <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-sand text-[#1a1a1a] text-[11px] font-semibold flex items-center justify-center">{chat.unread}</span>
+            <span className="shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-sand text-[var(--gl-on-accent)] text-[11px] font-semibold flex items-center justify-center">{chat.unread}</span>
           )}
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onOpenCont
         {tab !== "profile" && (
           <div className="flex items-center gap-2 shrink-0">
             <button type="button" data-testid="header-invite" onClick={() => shareMyInvite(t)}
-              className="h-10 px-3.5 rounded-full bg-sand text-[#1a1a1a] text-sm font-medium inline-flex items-center gap-1.5 hover:bg-sand/90">
+              className="h-10 px-3.5 rounded-full bg-sand text-[var(--gl-on-accent)] text-sm font-medium inline-flex items-center gap-1.5 hover:bg-sand/90">
               <UserPlus className="w-4 h-4" aria-hidden="true" /> {t("Invite")}
             </button>
             <button type="button" data-testid="header-search" aria-label={t("Search")} aria-expanded={searching} onClick={() => { setSearching((v) => !v); setQ(""); }}
@@ -309,7 +309,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onOpenCont
               <span className={`relative w-14 h-8 rounded-full flex items-center justify-center transition-colors ${on ? "bg-primary text-primary-foreground" : "text-subtle"}`}>
                 <Icon className="w-[21px] h-[21px]" strokeWidth={1.9} />
                 {unread[id] > 0 && (
-                  <span className="absolute -top-1 end-1.5 min-w-4 h-4 px-1 rounded-full bg-sand text-[#1a1a1a] text-[10px] font-semibold flex items-center justify-center">{unread[id]}</span>
+                  <span className="absolute -top-1 end-1.5 min-w-4 h-4 px-1 rounded-full bg-sand text-[var(--gl-on-accent)] text-[10px] font-semibold flex items-center justify-center">{unread[id]}</span>
                 )}
               </span>
               <span className={on ? "font-medium text-foreground" : "text-subtle"}>{t(label)}</span>

@@ -165,9 +165,9 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
             <span role="button" tabIndex={0} data-testid={`reply-quote-${msg.id}`} onClick={(e) => { e.stopPropagation(); onJump?.(quote.id); }}
               onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); onJump?.(quote.id); } }}
               className={`block text-start text-[13px] leading-snug px-2.5 py-1.5 mb-1.5 -mx-1 rounded-[10px] border-s-[3px] cursor-pointer ${mine
-                ? "bg-black/[0.07] border-[#1a1a1a] text-bubble-out-foreground/80"
+                ? "bg-black/[0.06] dark:bg-white/[0.07] border-bubble-out-foreground/60 text-bubble-out-foreground/80"
                 : "bg-black/[0.05] dark:bg-white/[0.07] border-primary text-foreground/80"}`}>
-              <span className={`block font-semibold truncate ${mine ? "text-[#1a1a1a]" : "text-foreground"}`}>{quote.name}</span>
+              <span className={`block font-semibold truncate ${mine ? "text-bubble-out-foreground" : "text-foreground"}`}>{quote.name}</span>
               <span className={`block line-clamp-2 break-words ${quote.deleted ? "italic" : ""}`}>{quote.text}</span>
             </span>
           )}

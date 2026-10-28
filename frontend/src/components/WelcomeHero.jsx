@@ -14,7 +14,7 @@ function Row({ name, text, time, unread, faded }) {
         <span className="flex justify-between gap-2"><span className="text-[13px] font-medium truncate">{name}</span><span className="text-[10px] text-subtle shrink-0">{time}</span></span>
         <span className="mt-0.5 flex items-center justify-between gap-2">
           <span className={`text-[11px] truncate ${unread ? "text-foreground" : "text-subtle"}`}>{text}</span>
-          {unread > 0 && <span className="min-w-4 h-4 px-1 rounded-full bg-sand text-[10px] font-semibold text-[#1a1a1a] flex items-center justify-center shrink-0">{unread}</span>}
+          {unread > 0 && <span className="min-w-4 h-4 px-1 rounded-full bg-sand text-[10px] font-semibold text-[var(--gl-on-accent)] flex items-center justify-center shrink-0">{unread}</span>}
         </span>
       </span>
     </div>

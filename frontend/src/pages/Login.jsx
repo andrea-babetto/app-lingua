@@ -89,12 +89,12 @@ export default function Login() {
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
   // the design of 28/10/2026: white page, round buttons with a thin border at the top, centred title, pill fields
-  // with the label above, and the main button that turns light blue when the form is filled in
+  // with the label above, and the main button that lights up when the form is filled in
   const label = "block text-sm font-medium mb-2";
   const pill = "flex items-center gap-2.5 h-12 rounded-full border border-border bg-background px-4 focus-within:border-foreground";
   const bare = "flex-1 min-w-0 bg-transparent outline-none text-[15px] placeholder:text-subtle";
   const round = "w-10 h-10 shrink-0 rounded-full border border-border bg-background inline-flex items-center justify-center";
-  const main = "w-full h-[50px] rounded-full text-[15px] font-medium bg-sand text-[#1a1a1a] hover:bg-sand/90 disabled:opacity-100 disabled:bg-surface disabled:text-subtle";
+  const main = "w-full h-[50px] rounded-full text-[15px] font-medium bg-sand text-[var(--gl-on-accent)] hover:bg-sand/90 disabled:opacity-100 disabled:bg-surface disabled:text-subtle";
   const ghost = "w-full h-[50px] rounded-full text-[15px] font-medium border border-border bg-background text-foreground hover:bg-surface";
 
   const consent = (testId) => (
