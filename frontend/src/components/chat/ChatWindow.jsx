@@ -334,7 +334,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
       )}
       <div ref={scrollRef} onScroll={onScroll} className="flex-1 overflow-y-auto chat-scroll chat-wallpaper py-3 relative">
         {/* on a computer the conversation keeps a reading width in the middle, as Telegram does */}
-        <div className="mx-auto w-full max-w-3xl h-full">
+        <div className="mx-auto w-full max-w-[40rem] h-full">
         {loading && <MessageSkeleton />}
         {!loading && messages.length === 0 && (
           <div className="h-full flex items-center justify-center p-8">
@@ -384,7 +384,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
       )}
 
       {(reply || editing) && (
-        <div className="px-4 md:px-[max(1rem,calc((100%_-_48rem)/2))] py-2 flex items-center gap-2 bg-card border-t border-border">
+        <div className="px-4 md:px-[max(1rem,calc((100%_-_40rem)/2))] py-2 flex items-center gap-2 bg-card border-t border-border">
           <div className="flex-1 min-w-0 text-sm border-s-2 border-primary ps-2">
             <div className="font-semibold text-primary flex items-center gap-1">
               {editing ? <><Pencil className="w-3.5 h-3.5" /> {t("Editing message")}</> : t("Reply to {name}", { name: reply.sender_name })}
@@ -395,7 +395,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
         </div>
       )}
 
-      <div className="relative px-2.5 md:px-[max(0.625rem,calc((100%_-_48rem)/2))] py-2 flex items-end gap-1.5 bg-card border-t border-[var(--gl-line)] shrink-0">
+      <div className="relative px-2.5 md:px-[max(0.625rem,calc((100%_-_40rem)/2))] py-2 flex items-end gap-1.5 bg-card border-t border-[var(--gl-line)] shrink-0">
         {!editing && !isGroup && (
           <button data-testid="attach-button" aria-label={t("Attach a file")} onClick={() => fileRef.current?.click()} disabled={uploading}
             className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0">
