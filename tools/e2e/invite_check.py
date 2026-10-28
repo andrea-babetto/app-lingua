@@ -51,7 +51,7 @@ async def main():
         check("welcome page says who invited you", "Giulia" in await banner.inner_text())
         check("the code leaves the address bar", "invite=" not in page.url)
         await page.screenshot(path=f"{SH}/welcome.png")
-        await page.get_by_test_id("welcome-register").click()
+        await page.get_by_test_id("invite-accept").click()
         check("no invite-code field with a friend's link", await page.get_by_test_id("show-invite-button").count() == 0)
         email = f"amico{int(time.time())}@test.dev"
         await page.get_by_test_id("name-input").fill("Marco Amico")

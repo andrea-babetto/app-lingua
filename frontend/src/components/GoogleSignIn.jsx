@@ -33,7 +33,7 @@ export default function GoogleSignIn({ clientId, onCredential }) {
           callback: (resp) => resp?.credential && cb.current(resp.credential),
         });
         window.google.accounts.id.renderButton(box.current, {
-          theme: "outline", size: "large", text: "continue_with", shape: "rectangular", width: 320,
+          theme: "outline", size: "large", text: "continue_with", shape: "pill", width: 320,
         });
       })
       .catch(() => {});

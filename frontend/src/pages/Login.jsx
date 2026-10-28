@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
-import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff, Loader2, Lock, Mail, MoreHorizontal, User2 } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { WelcomeHero, FormHero } from "@/components/WelcomeHero";
+import { WelcomePreview, InvitePreview } from "@/components/WelcomeHero";
 import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import { useI18n } from "@/i18n";
@@ -23,12 +22,13 @@ const comingBack = () => { const [page, view] = returnTarget().split(":"); retur
 const savedForm = () => { try { return comingBack() ? JSON.parse(sessionStorage.getItem(FORM) || "{}") : {}; } catch { return {}; } };
 
 export default function Login() {
-  const { t, lang, setUiLang } = useI18n();
-  const [view, setView] = useState(() => comingBack() || (pendingInvite() ? "register" : seenBefore() ? "login" : "welcome")); // welcome | login | register | forgot
+  const { t, lang, setUiLang, langName } = useI18n();
+  const [view, setView] = useState(() => comingBack() || (pendingInvite() ? "invite" : seenBefore() ? "login" : "welcome")); // welcome | invite | login | register | forgot
   const mode = view === "register" ? "register" : "login";
   const [form, setForm] = useState(() => ({ name: "", email: "", password: "", invite_code: "", ...savedForm() }));
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
+  const [method, setMethod] = useState("email");  // email | google (the two tabs on the sign-in and sign-up pages)
   const [googleClientId, setGoogleClientId] = useState("");
   const [inviteRequired, setInviteRequired] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);  // "Forgot password?" only when the server can send emails
@@ -40,7 +40,7 @@ export default function Login() {
   useEffect(() => {
     const code = pendingInvite();
     if (!code) return;
-    api.get(`/invite/${encodeURIComponent(code)}`).then(({ data }) => setInvite(data)).catch((e) => { if (e.response?.status === 404) clearInvite(); });
+    api.get(`/invite/${encodeURIComponent(code)}`).then(({ data }) => setInvite(data)).catch((e) => { if (e.response?.status === 404) { clearInvite(); setView((v) => (v === "invite" ? "welcome" : v)); } });
   }, []);
   const { auth } = useAuth();
   const nav = useNavigate();
@@ -88,29 +88,49 @@ export default function Login() {
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
-  const field = "h-12 rounded-[14px] border-[1.5px] border-border bg-background px-4 text-base shadow-none focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/12";
-  const label = "block text-[13px] font-semibold text-muted-foreground mb-1.5";
+  // the design of 28/10/2026: white page, round buttons with a thin border at the top, centred title, pill fields
+  // with the label above, and the main button that turns yellow when the form is filled in
+  const label = "block text-sm font-medium mb-2";
+  const pill = "flex items-center gap-2.5 h-12 rounded-full border border-border bg-background px-4 focus-within:border-foreground";
+  const bare = "flex-1 min-w-0 bg-transparent outline-none text-[15px] placeholder:text-subtle";
+  const round = "w-10 h-10 shrink-0 rounded-full border border-border bg-background inline-flex items-center justify-center";
+  const main = "w-full h-[50px] rounded-full text-[15px] font-medium bg-sand text-[#1a1a1a] hover:bg-sand/90 disabled:opacity-100 disabled:bg-surface disabled:text-subtle";
+  const ghost = "w-full h-[50px] rounded-full text-[15px] font-medium border border-border bg-background text-foreground hover:bg-surface";
 
-  const consent = (
-    <p className="text-xs text-center text-muted-foreground leading-relaxed" data-testid="welcome-consent">
+  const consent = (testId) => (
+    <p className="text-xs text-center text-subtle leading-relaxed" data-testid={testId}>
       {t("By creating an account you agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
-        i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="underline font-semibold">{part}</Link> : part)}
+        i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="underline text-muted-foreground">{part}</Link> : part)}
     </p>
   );
-  // On top of the photos: light text on a dark glass pill.
+  // ••• in a circle: the interface language (the real menu lies on top of the circle, invisible, so it opens the phone's own list)
   const languageMenu = (
-    <select data-testid="ui-language-select" aria-label="Language" value={lang} onChange={(e) => setUiLang(e.target.value)}
-      className="max-w-[11rem] h-9 rounded-full border border-white/35 bg-[#231f1a]/55 text-[#f8f4e9] backdrop-blur-sm text-sm font-semibold px-3 outline-none focus:border-white">
-      {LANGUAGES.map((l) => <option key={l.code} value={l.code} className="text-foreground bg-background">{l.flag} {l.native}</option>)}
-    </select>
+    <span className={`relative ${round}`} title={t("Language")}>
+      <MoreHorizontal className="w-5 h-5" aria-hidden="true" />
+      <select data-testid="ui-language-select" aria-label={t("Language")} value={lang} onChange={(e) => setUiLang(e.target.value)}
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+        {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.flag} {l.native}</option>)}
+      </select>
+    </span>
   );
   const back = (to, testid, after) => (
-    <button type="button" data-testid={testid} onClick={() => { setView(to); after?.(); }} aria-label={t("Back")}
-      className="w-10 h-10 rounded-full bg-[#231f1a]/55 backdrop-blur-sm text-[#f8f4e9] inline-flex items-center justify-center"><ArrowLeft className="w-5 h-5 rtl:rotate-180" /></button>
+    <button type="button" data-testid={testid} onClick={() => { setView(to); after?.(); }} aria-label={t("Back")} className={round}>
+      <ChevronLeft className="w-[18px] h-[18px] rtl:rotate-180" />
+    </button>
   );
-  const sheet = "relative -mt-7 flex-1 flex flex-col rounded-t-[28px] bg-background px-6 pt-7 pb-8";
-  const page = (children) => (
-    <div className="min-h-dvh bg-background flex justify-center"><div className="w-full max-w-md min-h-dvh flex flex-col">{children}</div></div>
+  const page = (children, top) => (
+    <div className="min-h-dvh bg-background flex justify-center">
+      <div className="w-full max-w-md min-h-dvh flex flex-col px-5 pt-5 pb-8">
+        <div className="flex items-center justify-between min-h-10">{top}</div>
+        {children}
+      </div>
+    </div>
+  );
+  const heading = (title, sub) => (
+    <div className="mt-6 text-center">
+      <h1 data-testid="auth-title" className="text-[25px] leading-tight font-medium tracking-tight">{title}</h1>
+      {sub && <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">{sub}</p>}
+    </div>
   );
 
   const askReset = async (e) => {
@@ -126,119 +146,135 @@ export default function Login() {
 
   if (view === "forgot") {
     return page(
-      <>
-        <FormHero top={<>{back("login", "forgot-back", () => setResetSent(false))}{languageMenu}</>} title={t("Forgot your password?")} />
-        <div className={sheet} data-testid="forgot-page">
-          {resetSent ? (
-            <p data-testid="forgot-sent" className="text-[15px] leading-relaxed">{t("If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.")}</p>
+      <div className="flex-1 flex flex-col" data-testid="forgot-page">
+        {heading(t("Forgot your password?"), resetSent ? "" : t("Write the email of your account: we will send you a link to choose a new password."))}
+        {resetSent ? (
+          <p data-testid="forgot-sent" className="mt-6 text-[15px] leading-relaxed text-center">{t("If there is an account with this email, the link is on its way. Check your inbox, and also the spam folder.")}</p>
+        ) : (
+          <form onSubmit={askReset} className="flex-1 flex flex-col">
+            <label className="block mt-8"><span className={label}>{t("Email")}</span>
+              <span className={pill}><Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <input data-testid="forgot-email" className={bare} type="email" value={form.email} required autoComplete="email" placeholder="name@email.com" onChange={set("email")} /></span></label>
+            <div className="mt-auto pt-10">
+              <Button data-testid="forgot-send" type="submit" className={main} disabled={loading || !form.email}>
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Send link")}
+              </Button>
+            </div>
+          </form>
+        )}
+      </div>,
+      <>{back("login", "forgot-back", () => setResetSent(false))}{languageMenu}</>
+    );
+  }
+
+  if (view === "welcome" || view === "invite") {
+    const person = invite?.kind === "person";
+    return page(
+      <div className="flex-1 flex flex-col" data-testid="welcome-page">
+        {view === "invite" && invite ? <InvitePreview invite={invite} /> : <WelcomePreview />}
+        <div className="mt-6 text-center">
+          {view === "invite" && invite ? (
+            <>
+              <h1 className="text-[25px] leading-tight font-medium tracking-tight">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</h1>
+              <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">
+                {person
+                  ? <>{invite.language && <>{t("{name} writes in {language}, you read in yours.", { name: invite.name, language: langName(invite.language) })} </>}{t("Create your account and you will find {name} in your chats.", { name: invite.name })}</>
+                  : t("After you sign up, an admin of the group will let you in.")}
+              </p>
+            </>
           ) : (
-            <form onSubmit={askReset} className="flex-1 flex flex-col">
-              <p className="text-[15px] leading-snug text-muted-foreground">{t("Write the email of your account: we will send you a link to choose a new password.")}</p>
-              <label className="block mt-6"><span className={label}>{t("Email")}</span>
-                <Input data-testid="forgot-email" className={field} type="email" value={form.email} required autoComplete="email" onChange={set("email")} /></label>
-              <div className="mt-auto pt-10">
-                <Button data-testid="forgot-send" type="submit" className="w-full h-[52px] rounded-2xl text-base font-semibold" disabled={loading}>
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Send link")}
-                </Button>
-              </div>
-            </form>
+            <>
+              <h1 className="text-[25px] leading-tight font-medium tracking-tight">{t("Welcome to Glotter")}</h1>
+              <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">{t("You write in your language, your friends read in theirs.")}<br />{t("Everyone in their own language, in 41 languages.")}</p>
+            </>
           )}
         </div>
-      </>
-    );
-  }
-
-  if (view === "welcome") {
-    return (
-      <WelcomeHero languageMenu={languageMenu}>
-        <h1 className="text-[27px] leading-[1.15] font-bold tracking-tight">{t("Far apart, but in the same language.")}</h1>
-        <p className="mt-2 text-[15px] leading-snug text-muted-foreground">{t("You write in your language, your friends read in theirs.")}</p>
-        <div className="mt-6 space-y-3">
-          <Button data-testid="welcome-register" className="w-full h-[52px] rounded-full text-base font-semibold bg-[#7da36f] text-[#14200f] hover:bg-[#71985f]" onClick={() => setView("register")}>{t("Create your account")}</Button>
-          {googleClientId && !codeNeeded && <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />}
-          <Button data-testid="welcome-login" variant="outline" className="w-full h-[52px] rounded-full text-base font-semibold border-[1.5px] border-foreground bg-transparent" onClick={() => setView("login")}>{t("I already have an account")}</Button>
-          {consent}
+        <div className="mt-auto pt-8 space-y-2.5">
+          {view === "invite" && invite ? (
+            <>
+              <Button data-testid="invite-accept" className={main} onClick={() => setView("register")}>{t("Accept the invite")}</Button>
+              <Button data-testid="welcome-login" variant="outline" className={ghost} onClick={() => setView("login")}>{t("I already have an account")}</Button>
+            </>
+          ) : (
+            <>
+              <Button data-testid="welcome-login" className={main} onClick={() => setView("login")}>{t("Sign in")}</Button>
+              <Button data-testid="welcome-register" variant="outline" className={ghost} onClick={() => setView("register")}>{t("Create your account")}</Button>
+            </>
+          )}
         </div>
-      </WelcomeHero>
+      </div>,
+      <><span />{languageMenu}</>
     );
   }
 
+  const ready = form.email && form.password.length >= 8 && (mode === "login" || form.name.trim());
   return page(
-    <>
-      <FormHero
-        top={<>{mode === "register" ? back("welcome", "auth-back") : <span />}{languageMenu}</>}
-        title={mode === "login" ? t("Welcome back.") : t("Create your account")}
-        invite={mode === "register" ? invite : null} />
-      <div className={sheet}>
-        {invite && mode === "register" && <h1 data-testid="auth-title" className="text-[21px] leading-snug font-bold tracking-tight">{t("Create your account")}</h1>}
-        <p className="mb-6 text-[15px] leading-snug text-muted-foreground">
-          {mode === "login" ? t("Sign in to pick up your conversations.") : t("It takes 30 seconds.")}
-        </p>
+    <div className="flex-1 flex flex-col">
+      {heading(mode === "login" ? t("Welcome back.") : t("Create your account"),
+        mode === "login" ? t("Sign in with your email or with Google to find your chats.") : t("It takes 30 seconds. Then choose your language and start chatting."))}
 
-        <form onSubmit={submit} className="flex-1 flex flex-col">
-          <div className="space-y-4">
+      {googleClientId && !codeNeeded && (
+        <div className="mt-7 grid grid-cols-2 gap-2" role="tablist">
+          {[["email", t("Email")], ["google", "Google"]].map(([id, name]) => (
+            <button key={id} type="button" role="tab" aria-selected={method === id} data-testid={`method-${id}`} onClick={() => setMethod(id)}
+              className={`h-11 rounded-full text-[15px] font-medium ${method === id ? "bg-primary text-primary-foreground" : "border border-border"}`}>{name}</button>
+          ))}
+        </div>
+      )}
+
+      {method === "google" && googleClientId && !codeNeeded ? (
+        <div className="mt-7 flex-1 flex flex-col">
+          <div className="flex justify-center"><GoogleSignIn clientId={googleClientId} onCredential={googleCredential} /></div>
+          {mode === "register" && <div className="mt-6">{consent("consent-line")}</div>}
+        </div>
+      ) : (
+        <form onSubmit={submit} className="mt-7 flex-1 flex flex-col">
+          <div className="space-y-[18px]">
             {mode === "register" && (
               <label className="block"><span className={label}>{t("Your name")}</span>
-                <Input data-testid="name-input" className={field} value={form.name} required autoComplete="name" onChange={set("name")} /></label>
+                <span className={pill}><User2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  <input data-testid="name-input" className={bare} value={form.name} required autoComplete="name" onChange={set("name")} /></span></label>
             )}
             <label className="block"><span className={label}>{t("Email")}</span>
-              <Input data-testid="email-input" className={field} type="email" value={form.email} required autoComplete="email" onChange={set("email")} /></label>
+              <span className={pill}><Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <input data-testid="email-input" className={bare} type="email" value={form.email} required autoComplete="email" placeholder="name@email.com" onChange={set("email")} /></span></label>
             <label className="block"><span className={label}>{t("Password")}</span>
-              <span className="relative block">
-                <Input data-testid="password-input" className={`${field} pe-11`} type={showPw ? "text" : "password"} value={form.password} required minLength={8} maxLength={72}
+              <span className={pill}><Lock className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <input data-testid="password-input" className={bare} type={showPw ? "text" : "password"} value={form.password} required minLength={8} maxLength={72}
                   autoComplete={mode === "login" ? "current-password" : "new-password"} onChange={set("password")} />
-                <button type="button" onClick={() => setShowPw((v) => !v)} aria-label={showPw ? t("Hide password") : t("Show password")}
-                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
-                  {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </span></label>
+                <button type="button" onClick={() => setShowPw((v) => !v)} aria-label={showPw ? t("Hide password") : t("Show password")} className="text-subtle hover:text-foreground">
+                  {showPw ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
+                </button></span></label>
             {mode === "login" && passwordReset && (
-              <button type="button" data-testid="forgot-link" onClick={() => setView("forgot")} className="-mt-1 text-sm text-muted-foreground font-semibold hover:text-foreground">
-                {t("Forgot password?")}
-              </button>
+              <p className="text-center text-sm text-muted-foreground">
+                <button type="button" data-testid="forgot-link" onClick={() => setView("forgot")} className="font-medium text-foreground">{t("Forgot password?")}</button>
+              </p>
             )}
             {mode === "register" && !codeNeeded && !invite && !showInvite && (
-              <button type="button" data-testid="show-invite-button" onClick={() => setShowInvite(true)} className="text-sm text-primary font-semibold">
-                {t("Have an invite code?")}
-              </button>
+              <p className="text-center"><button type="button" data-testid="show-invite-button" onClick={() => setShowInvite(true)} className="text-sm font-medium">{t("Have an invite code?")}</button></p>
             )}
             {mode === "register" && (codeNeeded || (showInvite && !invite)) && (
               <label className="block"><span className={label}>{t("Invite code")}</span>
-                <Input data-testid="invite-input" className={field} value={form.invite_code} required autoComplete="off" onChange={set("invite_code")} /></label>
-            )}
-            {mode === "register" && (
-              <p data-testid="consent-line" className="text-xs text-muted-foreground leading-relaxed">
-                {t("By creating an account you agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
-                  i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="text-primary font-semibold underline">{part}</Link> : part)}
-              </p>
+                <span className={pill}><input data-testid="invite-input" className={bare} value={form.invite_code} required autoComplete="off" onChange={set("invite_code")} /></span></label>
             )}
           </div>
 
-          <div className="mt-auto pt-10 space-y-4">
-            <Button data-testid="submit-auth-button" type="submit" className="w-full h-[52px] rounded-2xl text-base font-semibold" disabled={loading}>
+          <div className="mt-auto pt-10 space-y-3.5">
+            {mode === "register" && consent("consent-line")}
+            <Button data-testid="submit-auth-button" type="submit" className={main} disabled={loading || !ready}>
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === "login" ? t("Sign in") : t("Create account")}
             </Button>
-            {googleClientId && (
-              <>
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  <div className="h-px flex-1 bg-border" /> {t("or")} <div className="h-px flex-1 bg-border" />
-                </div>
-                <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />
-              </>
-            )}
-            <p className="text-sm text-center text-muted-foreground">
-              {mode === "login" ? t("No account?") : t("Have an account?")}{" "}
-              <button type="button" data-testid="toggle-auth-mode" className="text-primary font-bold" onClick={() => setView(mode === "login" ? "register" : "login")}>
-                {mode === "login" ? t("Sign up") : t("Sign in")}
-              </button>
-            </p>
-            <p className="text-xs text-center text-muted-foreground space-x-3 rtl:space-x-reverse">
-              <Link to="/terms" onClick={toLegal} className="underline">{t("Terms of Service")}</Link>
-              <Link to="/privacy" onClick={toLegal} className="underline">{t("Privacy Policy")}</Link>
-            </p>
           </div>
         </form>
-      </div>
-    </>
+      )}
+
+      <p className="mt-4 text-sm text-center text-muted-foreground">
+        {mode === "login" ? t("No account?") : t("Have an account?")}{" "}
+        <button type="button" data-testid="toggle-auth-mode" className="font-medium text-foreground" onClick={() => setView(mode === "login" ? "register" : "login")}>
+          {mode === "login" ? t("Sign up") : t("Sign in")}
+        </button>
+      </p>
+    </div>,
+    <>{back(invite ? "invite" : "welcome", "auth-back")}{languageMenu}</>
   );
 }
