@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Search, UserPlus, Loader2, Link2, Users, User, Check } from "lucide-react";
+import { avatarClass, initials } from "@/lib/avatar";
 import { toast } from "sonner";
 import { api, errText } from "@/lib/api";
 import { langByCode } from "@/data/languages";
@@ -95,7 +96,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
               {!loading && q && results.length === 0 && <p className="text-center text-sm text-muted-foreground py-6">{q.trim().length < 3 ? t("Type at least 3 characters") : t("No users found. Try their username or exact email.")}</p>}
               {results.map((u) => (
                 <div key={u.id} data-testid={`search-result-${u.id}`} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted">
-                  <Avatar className="w-10 h-10"><AvatarImage src={u.avatar} /><AvatarFallback>{u.name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+                  <Avatar className="w-10 h-10"><AvatarImage src={u.avatar} /><AvatarFallback className={avatarClass(u.name)}>{initials(u.name)}</AvatarFallback></Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium truncate">{u.name}</div>
                     <div className="text-xs text-muted-foreground truncate">@{u.username} · {langByCode(u.language).flag} {langName(u.language)}</div>
@@ -129,7 +130,7 @@ export default function NewChatDialog({ open, onOpenChange, onStartChat, initial
                 return (
                   <button key={u.id} data-testid={`group-select-${u.id}`} onClick={() => toggleSelect(u)}
                     className={`w-full flex items-center gap-3 p-2 rounded-lg text-start ${on ? "bg-accent" : "hover:bg-muted"}`}>
-                    <Avatar className="w-9 h-9"><AvatarImage src={u.avatar} /><AvatarFallback>{u.name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+                    <Avatar className="w-9 h-9"><AvatarImage src={u.avatar} /><AvatarFallback className={avatarClass(u.name)}>{initials(u.name)}</AvatarFallback></Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium truncate">{u.name}</div>
                       <div className="text-xs text-muted-foreground truncate">{langByCode(u.language).flag} {langName(u.language)}</div>

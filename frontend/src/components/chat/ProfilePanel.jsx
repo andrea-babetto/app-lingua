@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Download, Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ArrowLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info, Sparkles } from "lucide-react";
+import { Download, Plus, Trash2, Camera, Loader2, User2, AtSign, Phone, Mail, Moon, Sun, Smartphone, BarChart3, LogOut, ChevronRight, Bell, KeyRound, ChevronLeft, Languages, Palette, Lock, BookMarked, Heart, HelpCircle, Ban, X, Info, Sparkles } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -21,17 +21,15 @@ import { featureGroups } from "@/data/features";
 
 // ---- building blocks of the list-style profile ----
 function Group({ children }) {
-  return <div className="bg-card rounded-[18px] border border-border mx-3 mt-3 overflow-hidden divide-y divide-border">{children}</div>;
+  return <div className="mx-5 mt-2 pb-2 border-b border-[var(--gl-line)] last-of-type:border-0">{children}</div>;
 }
 
 function Row({ icon: Icon, label, hint, onClick, testId }) {
   return (
-    <button data-testid={testId} onClick={onClick} className="w-full flex items-center gap-3.5 px-4 py-3.5 text-start hover:bg-muted/60 active:bg-muted transition-colors">
-      <Icon className="w-5 h-5 shrink-0 text-muted-foreground" aria-hidden="true" />
-      <span className="flex-1 min-w-0">
-        <span className="block text-[15px] font-medium truncate">{label}</span>
-        {hint && <span className="block text-xs text-muted-foreground truncate">{hint}</span>}
-      </span>
+    <button data-testid={testId} onClick={onClick} className="w-full flex items-center gap-3.5 py-2 text-start rounded-xl hover:bg-muted/60 active:bg-muted transition-colors">
+      <span className="w-9 h-9 shrink-0 rounded-full border border-border flex items-center justify-center"><Icon className="w-[17px] h-[17px]" aria-hidden="true" /></span>
+      <span className="flex-1 min-w-0 text-[15px] truncate">{label}</span>
+      {hint && <span className="max-w-[40%] text-sm text-subtle truncate">{hint}</span>}
       <ChevronRight className="w-4 h-4 shrink-0 text-subtle rtl:rotate-180" aria-hidden="true" />
     </button>
   );
@@ -40,12 +38,12 @@ function Row({ icon: Icon, label, hint, onClick, testId }) {
 function SubPage({ title, onBack, children }) {
   const { t } = useI18n();
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-subpage">
-      <div className="h-12 px-2 flex items-center gap-2 bg-card border-b border-border sticky top-0 z-10">
-        <button aria-label={t("Back")} data-testid="profile-back" onClick={onBack} className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted">
-          <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
+    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-background pb-6" data-testid="profile-subpage">
+      <div className="h-14 px-4 flex items-center gap-3 bg-card sticky top-0 z-10">
+        <button aria-label={t("Back")} data-testid="profile-back" onClick={onBack} className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-muted">
+          <ChevronLeft className="w-[18px] h-[18px] rtl:rotate-180" />
         </button>
-        <h2 className="text-base font-semibold">{title}</h2>
+        <h2 className="text-lg font-medium">{title}</h2>
       </div>
       {children}
     </div>
@@ -524,18 +522,18 @@ export default function ProfilePanel({ onOpenAdmin }) {
 
   const themeLabel = { light: t("Light"), dark: t("Dark"), system: t("Same as phone") }[mode];
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-panel">
-      <div className="bg-card px-4 pt-4 pb-6 flex flex-col items-center gap-1.5">
+    <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-background pb-6" data-testid="profile-panel">
+      <div className="px-4 pt-3 pb-4 flex flex-col items-center gap-1">
         <div className="relative">
-          <Avatar className="w-28 h-28"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-3xl font-bold ${avatarClass(user.name)}`}>{initials(user.name)}</AvatarFallback></Avatar>
+          <Avatar className="w-[5.5rem] h-[5.5rem]"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-3xl font-semibold ${avatarClass(user.name)}`}>{initials(user.name)}</AvatarFallback></Avatar>
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button" aria-label={t("Change photo")}
             className="absolute bottom-0 end-0 w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
           </button>
           <input type="file" accept="image/*" ref={fileRef} hidden onChange={uploadAvatar} />
         </div>
-        <div className="text-2xl font-bold mt-2 text-center">{user.name}</div>
-        <div className="text-sm text-muted-foreground"><bdi dir="ltr">@{user.username}</bdi> · {lang.flag} {langName(user.language)}</div>
+        <div className="text-[21px] font-medium mt-2 text-center">{user.name}</div>
+        <div className="text-sm text-subtle"><bdi dir="ltr">@{user.username}</bdi> · {lang.flag} {langName(user.language)}</div>
         {user.bio && <div data-testid="profile-bio" className="text-sm text-center text-foreground/80 mt-1 max-w-xs">{user.bio}</div>}
       </div>
 
@@ -555,8 +553,8 @@ export default function ProfilePanel({ onOpenAdmin }) {
         {user.role === "admin" && <Row icon={BarChart3} label={t("Admin dashboard")} testId="open-admin-item" onClick={onOpenAdmin} />}
       </Group>
 
-      <div className="mx-3 mt-4">
-        <Button data-testid="logout-item" variant="outline" className="w-full text-destructive" onClick={logout}><LogOut className="w-4 h-4 me-2" /> {t("Log out")}</Button>
+      <div className="mx-5 mt-4">
+        <Button data-testid="logout-item" variant="outline" className="w-full h-12 text-[15px] text-destructive" onClick={logout}><LogOut className="w-4 h-4 me-2" /> {t("Log out")}</Button>
       </div>
       <div className="mx-3 mt-2 flex justify-center text-xs text-muted-foreground"><DeleteAccount /></div>
     </div>

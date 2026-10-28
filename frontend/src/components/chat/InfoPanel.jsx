@@ -9,20 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import EmojiPick from "@/components/chat/EmojiPick";
 import GroupInvite from "@/components/chat/GroupInvite";
 import { useI18n } from "@/i18n";
 import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 
-// Round action button with its label underneath (search, block, report).
+// Action pill with icon and label (search: black; block, report: light grey with red text).
 function ActionButton({ icon: Icon, label, onClick, testId, danger }) {
   return (
-    <button data-testid={testId} onClick={onClick} className="flex flex-col items-center gap-1.5 w-20 text-center group">
-      <span className={`w-12 h-12 rounded-full flex items-center justify-center bg-surface group-hover:bg-muted transition-colors ${danger ? "text-destructive" : "text-foreground"}`}>
-        <Icon className="w-5 h-5" />
-      </span>
-      <span className={`text-[11px] leading-tight font-medium ${danger ? "text-destructive" : "text-muted-foreground"}`}>{label}</span>
+    <button data-testid={testId} onClick={onClick}
+      className={`h-10 px-4 rounded-full inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${danger ? "bg-surface text-destructive hover:bg-muted" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}>
+      <Icon className="w-4 h-4" aria-hidden="true" /> {label}
     </button>
   );
 }
@@ -44,7 +42,7 @@ function SharedTabs({ messages }) {
       <div className="flex gap-1 p-1 rounded-full bg-surface" role="tablist">
         {tabs.map(([id, label, n]) => (
           <button key={id} role="tab" aria-selected={tab === id} data-testid={`shared-tab-${id}`} onClick={() => setTab(id)}
-            className={`flex-1 h-8 rounded-full text-[13px] font-semibold transition-colors ${tab === id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}>
+            className={`flex-1 h-8 rounded-full text-[13px] font-semibold transition-colors ${tab === id ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}>
             {label}{n > 0 && <span className="ms-1 text-[11px] opacity-70">{n}</span>}
           </button>
         ))}
@@ -159,20 +157,20 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
 
   return (
     <div className="fixed inset-0 z-30 md:static md:z-auto md:w-80 lg:w-80 shrink-0 bg-card md:border-s border-border flex flex-col" data-testid="info-panel">
-      <div className="h-16 px-4 flex items-center justify-between border-b border-border">
-        <span className="text-base font-semibold">{isGroup ? t("Group info") : t("Contact info")}</span>
+      <div className="h-16 px-4 flex items-center justify-between border-b border-[var(--gl-line)]">
+        <span className="text-lg font-medium">{isGroup ? t("Group info") : t("Contact info")}</span>
         <div className="flex items-center gap-1">
           {isGroup && meAdmin && !editing && (
             <Button variant="ghost" size="icon" onClick={() => setEditing(true)} data-testid="edit-group-button"><Pencil className="w-4 h-4" /></Button>
           )}
-          <Button variant="ghost" size="icon" onClick={onClose} data-testid="info-panel-close"><X className="w-5 h-5" /></Button>
+          <Button variant="outline" size="icon" className="w-10 h-10" onClick={onClose} data-testid="info-panel-close"><X className="w-[18px] h-[18px]" /></Button>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto chat-scroll p-5 space-y-6">
         <div className="flex flex-col items-center text-center gap-2">
           <div className="relative">
-            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className={`text-2xl ${avatarClass(chat.display_name)}`}>{(editing ? gEmoji : chat.emoji) || chat.display_name.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+            <Avatar className="w-24 h-24"><AvatarImage src={editing ? gAvatar : chat.display_avatar} /><AvatarFallback className={`text-2xl ${avatarClass(chat.display_name)}`}>{(editing ? gEmoji : chat.emoji) || initials(chat.display_name)}</AvatarFallback></Avatar>
             {isGroup && editing && (
               <label className="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer" data-testid="group-avatar-upload">
                 <Camera className="w-4 h-4" />
@@ -193,7 +191,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
             </div>
           ) : (
             <>
-              <div className="text-xl font-bold">{chat.display_name}</div>
+              <div className="text-[22px] font-medium">{chat.display_name}</div>
               {!isGroup && other && <div className="text-sm text-muted-foreground">@{other.username} · {langByCode(other.language).flag} {t("reads & writes in {language}", { language: langName(other.language) })}</div>}
               {!isGroup && other?.timezone && user.settings?.local_time_enabled !== false && (
                 <div data-testid="contact-local-time" className="text-sm text-muted-foreground inline-flex items-center gap-1.5">
@@ -240,7 +238,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
                 {results.map((u) => (
                   <button key={u.id} onClick={() => addMember(u)} data-testid={`group-add-result-${u.id}`}
                     className="w-full flex items-center gap-2 p-2 rounded-lg hover:bg-muted text-start">
-                    <Avatar className="w-8 h-8"><AvatarImage src={u.avatar} /><AvatarFallback className="text-[10px]">{u.name.slice(0,2)}</AvatarFallback></Avatar>
+                    <Avatar className="w-8 h-8"><AvatarImage src={u.avatar} /><AvatarFallback className={`text-[10px] ${avatarClass(u.name)}`}>{initials(u.name)}</AvatarFallback></Avatar>
                     <span className="text-sm truncate flex-1">{u.name}</span>
                     <span className="text-xs text-muted-foreground">{langByCode(u.language).flag}</span>
                   </button>
@@ -250,7 +248,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
             <div className="space-y-1">
               {members.map((m) => (
                 <div key={m.id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted" data-testid={`group-member-${m.id}`}>
-                  <Avatar className="w-9 h-9"><AvatarImage src={m.avatar} /><AvatarFallback className="text-[10px]">{m.name.slice(0,2)}</AvatarFallback></Avatar>
+                  <Avatar className="w-9 h-9"><AvatarImage src={m.avatar} /><AvatarFallback className={`text-[10px] ${avatarClass(m.name)}`}>{initials(m.name)}</AvatarFallback></Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium truncate flex items-center gap-1">
                       {m.id === user.id ? t("You") : m.name}
@@ -269,7 +267,7 @@ export default function InfoPanel({ chat, messages, onClose, onChanged, onLeft, 
 
         {!isGroup && other && (
           <div className="space-y-5">
-            <div className="flex justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-2">
               <ActionButton icon={Search} label={t("Search")} onClick={onSearch} testId="info-search-button" />
               <ActionButton icon={Ban} label={blocked ? t("Unblock user") : t("Block user")} onClick={block} testId="block-user-button" danger />
               <ActionButton icon={Flag} label={t("Report user")} onClick={() => setReportOpen(true)} testId="report-user-button" danger />
