@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { api } from "@/lib/api";
+import { forgetMyInvite } from "@/lib/invite";
 
 const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
@@ -28,12 +29,14 @@ export function AuthProvider({ children }) {
 
   const auth = (data) => {
     localStorage.setItem("lingua_token", data.token);
+    forgetMyInvite();  // another account on this device: not the previous person's link
     setToken(data.token);
     setUser(data.user);
   };
 
   const logout = () => {
     localStorage.removeItem("lingua_token");
+    forgetMyInvite();
     setToken(null);
     setUser(false);
   };

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Search, MessageCircle, Users, User, Contact, Plus, UserPlus, Check, X, WifiOff, Pin, PinOff, Trash2 } from "lucide-react";
-import { shareMyInvite } from "@/lib/invite";
+import { shareMyInvite, prefetchMyInvite } from "@/lib/invite";
 import { format, isToday, isYesterday } from "date-fns";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
@@ -154,6 +154,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onOpenCont
   const [toDelete, setToDelete] = useState(null);
   const [menuChat, setMenuChat] = useState(null); // the chat whose long-press menu is open
   const online = useOnline();
+  useEffect(() => { prefetchMyInvite(); }, []);  // ready before "Invite" is tapped, so the share sheet opens at once
 
   const direct = chats.filter((c) => c.type !== "group");
   const groups = chats.filter((c) => c.type === "group");

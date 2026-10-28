@@ -29,9 +29,21 @@ export async function shareLink(url, text, t) {
   catch { toast(url); }
 }
 
+// My own link, fetched ahead (when the chat list opens): the phone opens its share sheet only if share() is called
+// straight from the tap, and waiting for the server first made Safari fall back to "link copied".
+let myCode = "";
+export function prefetchMyInvite() {
+  if (myCode) return;
+  api.get("/me/invite").then(({ data }) => { myCode = data.code || ""; }).catch(() => {});
+}
+export const forgetMyInvite = () => { myCode = ""; };
+
 export async function shareMyInvite(t) {
+  const text = t("Chat with me on Glotter: each of us writes and reads in our own language.");
+  if (myCode) return shareLink(inviteUrl(myCode), text, t);
   try {
     const { data } = await api.get("/me/invite");
-    await shareLink(inviteUrl(data.code), t("Chat with me on Glotter: each of us writes and reads in our own language."), t);
+    myCode = data.code || "";
+    await shareLink(inviteUrl(myCode), text, t);
   } catch { toast.error(t("Failed")); }
 }
