@@ -1,10 +1,8 @@
 // The pictures at the top of the welcome pages: a few chats seen as you would see them (the other person's message
 // already in your language), and, when someone invited you, who it is. Names are samples; the messages follow the
 // interface language.
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { useI18n } from "@/i18n";
-
-const initials = (name) => { const w = (name || "?").trim().split(/\s+/); return ((w[0]?.[0] || "") + (w.length > 1 ? w[w.length - 1][0] : "")).toUpperCase(); };
 
 function Row({ name, text, time, unread, faded }) {
   return (

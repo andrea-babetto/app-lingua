@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react";
-import { ArrowUp, Smile, Plus, Paperclip, BarChart3, ArrowLeft, Info, X, Loader2, Search, ChevronDown, Pencil, Check } from "lucide-react";
+import { ArrowUp, Smile, Plus, Paperclip, BarChart3, ChevronLeft, MoreHorizontal, X, Loader2, Search, ChevronDown, Pencil, Check } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { api, errText } from "@/lib/api";
@@ -9,7 +9,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import MessageBubble from "@/components/chat/MessageBubble";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { timeIn, offsetFromHere, useMinuteTick } from "@/lib/localTime";
 import MessageActions from "@/components/chat/MessageActions";
 import { PollDialog } from "@/components/chat/Poll";
@@ -36,7 +36,7 @@ const draftKey = (id) => `glott_draft_${id}`;
 const readDraft = (id) => { try { return localStorage.getItem(draftKey(id)) || ""; } catch { return ""; } };
 const writeDraft = (id, v) => { try { v ? localStorage.setItem(draftKey(id), v) : localStorage.removeItem(draftKey(id)); } catch { /* storage blocked */ } };
 
-const headerBtn = "w-10 h-10 rounded-full flex items-center justify-center text-foreground/80 hover:bg-muted active:bg-muted transition shrink-0";
+const headerBtn = "w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-muted active:bg-muted transition shrink-0";
 
 function MessageSkeleton() {
   return (
@@ -284,23 +284,23 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
 
   return (
     <div className="h-full w-full flex-1 min-w-0 flex flex-col bg-background relative">
-      <header className="h-16 ps-1.5 pe-2 flex items-center gap-1 bg-card text-foreground border-b border-border shrink-0 z-10">
-        <button data-testid="mobile-back-button" aria-label={t("Back")} className={`${headerBtn} md:hidden`} onClick={onBack}><ArrowLeft className="w-6 h-6 rtl:rotate-180" /></button>
+      <header className="h-[4.5rem] ps-3 pe-3 flex items-center gap-2 bg-card text-foreground border-b border-[var(--gl-line)] shrink-0 z-10">
+        <button data-testid="mobile-back-button" aria-label={t("Back")} className={`${headerBtn} md:hidden`} onClick={onBack}><ChevronLeft className="w-[18px] h-[18px] rtl:rotate-180" /></button>
         <button className="flex items-center gap-3 flex-1 min-w-0 text-start h-full md:ps-2" onClick={onToggleInfo}>
           <Avatar className={`w-10 h-10 ${isGroup ? "rounded-xl" : ""}`}>
             <AvatarImage src={chat.display_avatar} />
-            <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${isGroup ? "rounded-xl" : ""}`}>{(isGroup && chat.emoji) || chat.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className={`font-semibold ${avatarClass(chat.display_name)} ${isGroup ? "rounded-xl" : ""}`}>{(isGroup && chat.emoji) || initials(chat.display_name)}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <div className="text-[17px] font-semibold truncate leading-tight">{chat.display_name}</div>
+            <div className="text-base font-medium truncate leading-tight">{chat.display_name}</div>
             {typingUser
               ? <div className="text-xs text-primary font-medium truncate">{t("typing in {language}", { language: langName(typingUser.language) })}…</div>
-              : <div className={`text-xs truncate ${!isGroup && other?.online ? "text-online font-medium" : "text-muted-foreground"}`}>{subtitle}</div>}
+              : <div className={`text-xs truncate ${!isGroup && other?.online ? "text-online" : "text-subtle"}`}>{subtitle}</div>}
           </div>
         </button>
-        <button data-testid="search-messages-button" aria-label={t("Search")} className={headerBtn} onClick={() => { setSearchOpen((v) => !v); setSq(""); setSres([]); }}><Search className="w-5 h-5" /></button>
-        <button data-testid="toggle-info-panel-button" aria-label={t("Chat info")} className={headerBtn} onClick={onToggleInfo}><Info className="w-5 h-5" /></button>
-        <button data-testid="close-chat-button" aria-label={t("Close")} title={t("Close")} className={`${headerBtn} hidden md:flex`} onClick={onBack}><X className="w-5 h-5" /></button>
+        <button data-testid="search-messages-button" aria-label={t("Search")} className={headerBtn} onClick={() => { setSearchOpen((v) => !v); setSq(""); setSres([]); }}><Search className="w-[18px] h-[18px]" /></button>
+        <button data-testid="toggle-info-panel-button" aria-label={t("Chat info")} className={headerBtn} onClick={onToggleInfo}><MoreHorizontal className="w-5 h-5" /></button>
+        <button data-testid="close-chat-button" aria-label={t("Close")} title={t("Close")} className={`${headerBtn} hidden md:flex`} onClick={onBack}><X className="w-[18px] h-[18px]" /></button>
       </header>
 
       {searchOpen && (
@@ -349,7 +349,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
             <div key={m.id}>
               {showDay && (
                 <div className="flex justify-center my-3">
-                  <span className="text-xs font-semibold text-muted-foreground bg-card/90 rounded-full px-3 py-1 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">{dayLabel(m.created_at, t, lang)}</span>
+                  <span className="text-xs text-subtle bg-card border border-border rounded-full px-3 py-1">{dayLabel(m.created_at, t, lang)}</span>
                 </div>
               )}
               <MessageBubble msg={m} read={isRead(m)} delivered={isDelivered(m)} quote={quoteFor(m)} onJump={jumpTo} onVote={vote} mine={m.sender_id === user.id} isGroup={isGroup} other={other} first={first} last={last} latestMine={m.id === latestMineId}
@@ -361,7 +361,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
         <ScheduledList items={scheduled} onOpen={setSchedAction} />
         {typingUser && (
           <div data-testid="typing-indicator" className="flex items-center gap-2 px-3 mt-1">
-            <div className="flex items-center gap-1 px-3 py-2 rounded-[18px] rounded-es-[6px] bg-bubble-in shadow-[0_1px_1px_rgba(0,0,0,0.06)]">
+            <div className="flex items-center gap-1 px-3 py-2 rounded-[18px] rounded-es-[6px] bg-bubble-in border border-border">
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
@@ -376,7 +376,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
         <button data-testid="scroll-to-bottom" aria-label={t("Go to the latest message")} onClick={() => { scrollToBottom(true); setNewBelow(0); }}
           className="absolute end-4 bottom-20 z-10 w-11 h-11 rounded-full bg-card border border-border shadow-lg flex items-center justify-center active:scale-95 transition">
           <ChevronDown className="w-6 h-6" />
-          {newBelow > 0 && <span className="absolute -top-2 -right-1 min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">{newBelow}</span>}
+          {newBelow > 0 && <span className="absolute -top-2 -right-1 min-w-5 h-5 px-1.5 rounded-full bg-sand text-[#1a1a1a] text-xs font-semibold flex items-center justify-center">{newBelow}</span>}
         </button>
       )}
 
@@ -392,7 +392,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
         </div>
       )}
 
-      <div className="relative px-2.5 py-2 flex items-end gap-1.5 bg-card border-t border-border shrink-0">
+      <div className="relative px-2.5 py-2 flex items-end gap-1.5 bg-card border-t border-[var(--gl-line)] shrink-0">
         {!editing && !isGroup && (
           <button data-testid="attach-button" aria-label={t("Attach a file")} onClick={() => fileRef.current?.click()} disabled={uploading}
             className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted shrink-0">
@@ -416,7 +416,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
           </Popover>
         )}
         <input type="file" ref={fileRef} hidden onChange={onFile} />
-        <div className="relative flex-1 flex items-end bg-surface rounded-[20px] ps-3.5 pe-1 focus-within:ring-2 focus-within:ring-primary/25 min-w-0">
+        <div className="relative flex-1 flex items-end bg-surface rounded-[22px] ps-4 pe-1 focus-within:ring-2 focus-within:ring-primary/25 min-w-0">
           <textarea
             ref={taRef}
             data-testid="message-input"

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import LanguagePicker from "@/components/LanguagePicker";
 import { useI18n } from "@/i18n";
@@ -360,7 +360,7 @@ function BlockedPage({ onBack }) {
         <Group>
           {rows.map((u) => (
             <div key={u.id} data-testid={`blocked-${u.id}`} className="flex items-center gap-3 px-4 py-3">
-              <Avatar className="w-10 h-10"><AvatarImage src={u.avatar} /><AvatarFallback className={`font-semibold ${avatarClass(u.name)}`}>{(u.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+              <Avatar className="w-10 h-10"><AvatarImage src={u.avatar} /><AvatarFallback className={`font-semibold ${avatarClass(u.name)}`}>{initials(u.name)}</AvatarFallback></Avatar>
               <div className="flex-1 min-w-0"><div className="text-[15px] font-medium truncate">{u.name}</div><div className="text-xs text-muted-foreground truncate" dir="ltr">@{u.username}</div></div>
               <Button size="sm" variant="outline" data-testid={`unblock-${u.id}`} onClick={() => unblock(u)}>{t("Unblock")}</Button>
             </div>
@@ -527,7 +527,7 @@ export default function ProfilePanel({ onOpenAdmin }) {
     <div className="flex-1 min-h-0 overflow-y-auto chat-scroll bg-surface pb-6" data-testid="profile-panel">
       <div className="bg-card px-4 pt-4 pb-6 flex flex-col items-center gap-1.5">
         <div className="relative">
-          <Avatar className="w-28 h-28"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-3xl font-bold ${avatarClass(user.name)}`}>{(user.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+          <Avatar className="w-28 h-28"><AvatarImage src={user.avatar} /><AvatarFallback className={`text-3xl font-bold ${avatarClass(user.name)}`}>{initials(user.name)}</AvatarFallback></Avatar>
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="change-avatar-button" aria-label={t("Change photo")}
             className="absolute bottom-0 end-0 w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:opacity-90">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}

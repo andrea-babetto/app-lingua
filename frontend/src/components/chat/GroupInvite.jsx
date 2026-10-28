@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Link2, Share2, RefreshCw, Ban, Check, X } from "lucide-react";
 import { api, errText } from "@/lib/api";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { inviteUrl, shareLink } from "@/lib/invite";
 import { useI18n } from "@/i18n";
 
@@ -36,7 +36,7 @@ export default function GroupInvite({ chat, onChanged }) {
           <div className="text-xs font-semibold uppercase tracking-wide">{t("Asking to join")} · {requests.length}</div>
           {requests.map((p) => (
             <div key={p.id} className="flex items-center gap-2" data-testid={`join-request-${p.id}`}>
-              <Avatar className="w-9 h-9"><AvatarImage src={p.avatar} /><AvatarFallback className={`text-[11px] font-semibold ${avatarClass(p.name)}`}>{(p.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+              <Avatar className="w-9 h-9"><AvatarImage src={p.avatar} /><AvatarFallback className={`text-[11px] font-semibold ${avatarClass(p.name)}`}>{initials(p.name)}</AvatarFallback></Avatar>
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold truncate">{p.name}</div>
                 <div className="text-xs opacity-80 truncate">{langName(p.language)}</div>

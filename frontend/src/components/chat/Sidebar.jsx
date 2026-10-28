@@ -15,13 +15,9 @@ import ProfilePanel from "@/components/chat/ProfilePanel";
 import PushPrompt from "@/components/chat/PushPrompt";
 import { LogoArrows } from "@/components/Logo";
 import { clock } from "@/components/chat/VoiceRecorder";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { returnTarget } from "@/lib/returnTarget";
 import { useI18n } from "@/i18n";
-
-function initials(name) {
-  return (name || "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
-}
 
 function when(iso, t) {
   const d = new Date(iso);

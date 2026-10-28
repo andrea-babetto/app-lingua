@@ -8,7 +8,7 @@ import { isRTL } from "@/data/languages";
 import { useI18n } from "@/i18n";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogoArrows } from "@/components/Logo";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { PollCard } from "@/components/chat/Poll";
 import VoiceMessage from "@/components/chat/VoiceMessage";
 import { speak, useSpeaking } from "@/lib/speak";
@@ -85,7 +85,7 @@ function Ticks({ read, delivered, createdAt }) {
   useEffect(() => { hadTwo.current = two; }, [two]);
   return (
     <svg data-testid="ticks" data-read={read ? "true" : "false"} data-delivered={two ? "true" : "false"} viewBox="0 0 18 14"
-      className={`w-[18px] h-[14px] transition-colors duration-500 ${read ? "text-[#a9c9a0]" : ""}`}
+      className={`w-[18px] h-[14px] transition-colors duration-500 ${read ? "text-[#0b7a3e]" : "opacity-60"}`}
       fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-label={read ? "read" : two ? "delivered" : "sent"}>
       <path d="M1.5 7.5l3.6 3.6L12.4 3.3" pathLength="1" className={fresh.current ? "gl-tick-draw" : ""} />
       {two && <path d="M8.3 10.9l.4.3L16 3.3" pathLength="1" className={justArrived ? "gl-tick-draw" : ""} />}
@@ -142,7 +142,7 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
           {last && (
             <Avatar className="w-8 h-8">
               <AvatarImage src={msg.sender_avatar} />
-              <AvatarFallback className={`text-[11px] font-semibold ${avatarClass(msg.sender_name)}`}>{(msg.sender_name || "?").slice(0, 2).toUpperCase()}</AvatarFallback>
+              <AvatarFallback className={`text-[11px] font-semibold ${avatarClass(msg.sender_name)}`}>{initials(msg.sender_name)}</AvatarFallback>
             </Avatar>
           )}
         </div>
@@ -152,22 +152,22 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
 
         <div role="button" tabIndex={0} onClick={() => onOpenActions(msg)}
           onKeyDown={(e) => { if (e.key === "Enter") onOpenActions(msg); }}
-          className={`relative px-3.5 py-2 text-[15px] leading-[1.45] cursor-pointer select-text shadow-[0_1px_1px_rgba(0,0,0,0.06)] max-w-full ${radius} ${mine
+          className={`relative px-3.5 py-2 text-[15px] leading-[1.45] cursor-pointer select-text max-w-full ${radius} ${mine
             ? "bg-bubble-out text-bubble-out-foreground"
-            : "bg-bubble-in text-foreground"}`}
+            : "bg-bubble-in text-foreground border border-border"}`}
           dir={rtl ? "rtl" : "ltr"}>
 
           {!mine && isGroup && first && msg.sender_name && (
-            <div className="text-xs font-bold text-primary mb-0.5">{msg.sender_name}</div>
+            <div className="text-xs font-semibold text-foreground mb-0.5">{msg.sender_name}</div>
           )}
 
           {quote && (
             <span role="button" tabIndex={0} data-testid={`reply-quote-${msg.id}`} onClick={(e) => { e.stopPropagation(); onJump?.(quote.id); }}
               onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); onJump?.(quote.id); } }}
               className={`block text-start text-[13px] leading-snug px-2.5 py-1.5 mb-1.5 -mx-1 rounded-[10px] border-s-[3px] cursor-pointer ${mine
-                ? "bg-black/20 border-[#a9c9a0] text-bubble-out-foreground/90"
+                ? "bg-black/[0.07] border-[#1a1a1a] text-bubble-out-foreground/80"
                 : "bg-black/[0.05] dark:bg-white/[0.07] border-primary text-foreground/80"}`}>
-              <span className={`block font-semibold truncate ${mine ? "text-[#a9c9a0]" : "text-foreground"}`}>{quote.name}</span>
+              <span className={`block font-semibold truncate ${mine ? "text-[#1a1a1a]" : "text-foreground"}`}>{quote.name}</span>
               <span className={`block line-clamp-2 break-words ${quote.deleted ? "italic" : ""}`}>{quote.text}</span>
             </span>
           )}

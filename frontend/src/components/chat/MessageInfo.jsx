@@ -3,7 +3,7 @@
 import { CheckCheck, Check, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/i18n";
 
@@ -21,7 +21,7 @@ export function whenShort(iso, lang, t) {
 function Person({ p, children }) {
   return (
     <div className="flex items-center gap-3 py-2" data-testid={`info-person-${p.id}`}>
-      <Avatar className="w-9 h-9"><AvatarImage src={p.avatar} /><AvatarFallback className={`text-xs font-semibold ${avatarClass(p.name)}`}>{(p.name || "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+      <Avatar className="w-9 h-9"><AvatarImage src={p.avatar} /><AvatarFallback className={`text-xs font-semibold ${avatarClass(p.name)}`}>{initials(p.name)}</AvatarFallback></Avatar>
       <div className="flex-1 min-w-0"><div className="text-[15px] font-medium truncate">{p.name}</div>{children}</div>
     </div>
   );
@@ -48,7 +48,7 @@ export default function MessageInfo({ msg, chat, onClose }) {
             <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mt-1">{t("Read by")}</h3>
             {read.map((p) => (
               <Person key={p.id} p={p}>
-                {line(<CheckCheck className="w-3.5 h-3.5 text-[#7da36f]" />, readAt[p.id] ? t("Read {when}", { when: whenShort(readAt[p.id], lang, t) }) : t("Read"))}
+                {line(<CheckCheck className="w-3.5 h-3.5 text-[#0b7a3e]" />, readAt[p.id] ? t("Read {when}", { when: whenShort(readAt[p.id], lang, t) }) : t("Read"))}
                 {delivered[p.id] && line(<CheckCheck className="w-3.5 h-3.5" />, t("Delivered {when}", { when: whenShort(delivered[p.id], lang, t) }), "text-muted-foreground ms-3")}
               </Person>
             ))}

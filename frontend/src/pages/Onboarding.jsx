@@ -6,7 +6,7 @@ import { api, errText } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { avatarClass } from "@/lib/avatar";
+import { avatarClass, initials } from "@/lib/avatar";
 import LanguagePicker from "@/components/LanguagePicker";
 import Logo from "@/components/Logo";
 import { useI18n } from "@/i18n";
@@ -93,7 +93,7 @@ export default function Onboarding() {
             </button>
           ) : (
             <div className={`w-16 h-16 rounded-full flex items-center justify-center text-lg font-bold ${avatarClass(name)}`}>
-              {(name || "?").trim().slice(0, 2).toUpperCase()}
+              {initials(name)}
             </div>
           )}
           <button onClick={() => fileRef.current?.click()} disabled={uploading} data-testid="onboarding-avatar-upload"
