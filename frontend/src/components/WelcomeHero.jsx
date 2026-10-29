@@ -1,39 +1,36 @@
-// The pictures at the top of the welcome pages: a few chats seen as you would see them (the other person's message
-// already in your language), and, when someone invited you, who it is. Names are samples; the messages follow the
-// interface language.
+// The pictures of the welcome pages: a phone with a chat seen as you would see it (the other person's messages already
+// in your language), and, when someone invited you, who it is. Names are samples; the messages follow the interface language.
 import { avatarClass, initials } from "@/lib/avatar";
 import { useI18n } from "@/i18n";
 
-function Row({ name, text, time, unread, faded }) {
-  return (
-    <div className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 ${faded ? "opacity-60" : "bg-background border border-border"}`}>
-      <span className={`w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-xs font-semibold ${avatarClass(name)}`}>
-        {initials(name)}
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="flex justify-between gap-2"><span className="text-[13px] font-medium truncate">{name}</span><span className="text-[10px] text-subtle shrink-0">{time}</span></span>
-        <span className="mt-0.5 flex items-center justify-between gap-2">
-          <span className={`text-[11px] truncate ${unread ? "text-foreground" : "text-subtle"}`}>{text}</span>
-          {unread > 0 && <span className="min-w-4 h-4 px-1 rounded-full bg-sand text-[10px] font-semibold text-[var(--gl-on-accent)] flex items-center justify-center shrink-0">{unread}</span>}
-        </span>
-      </span>
-    </div>
-  );
-}
-
-// A circle with chats inside, fading at the bottom.
+// The phone at the bottom of the presentation: a chat with James, his messages already in your language, and he is typing.
 export function WelcomePreview() {
-  const { t, langName } = useI18n();
+  const { t, lang, langName } = useI18n();
+  const other = lang === "en" ? { name: "María", full: "María López", lang: "es" } : { name: "James", full: "James Miller", lang: "en" };
+  const tr = <span className="text-[10px] text-subtle ps-1 -mt-1">{t("Translated from {language}", { language: langName(other.lang) })}</span>;
+  const inB = "self-start max-w-[78%] bg-bubble-in border border-border rounded-[16px] rounded-es-[5px] px-3 py-1.5 text-[13px] leading-snug";
+  const outB = "self-end max-w-[78%] bg-bubble-out text-bubble-out-foreground rounded-[16px] rounded-ee-[5px] px-3 py-1.5 text-[13px] leading-snug";
   return (
-    <div data-testid="welcome-preview" aria-hidden="true" className="relative mx-auto w-full max-w-[22rem] h-[23rem]">
-      <div className="absolute left-1/2 top-6 w-[21rem] h-[21rem] -translate-x-1/2 rounded-full bg-background shadow-[0_0_0_1px_var(--gl-line),0_20px_60px_rgba(0,0,0,0.05)]" />
-      <div className="absolute inset-x-4 top-[4.5rem] space-y-2">
-        <Row name="James Miller" time="10:24" unread={2} text={`${t("Sure! What time?")} · ${t("Translated from {language}", { language: langName("en") })}`} />
-        <Row name="María López" time="09:58" text={`${t("🎤 Voice message")} · 0:12`} />
-        <Row name={t("Trip to Lisbon")} time="09:12" unread={5} text={`Ana: ${t("I booked the restaurant!")}`} />
-        <Row name="Kenji Tanaka" time="—" faded text={t("Thanks a lot, see you tomorrow!")} />
+    <div data-testid="welcome-preview" aria-hidden="true" className="relative mx-auto w-[270px] h-[400px] overflow-hidden shrink-0">
+      <div className="absolute inset-x-0 top-0 h-[560px] rounded-[46px] bg-[#1a1a1a] p-[9px] shadow-[0_30px_60px_rgba(0,0,0,0.14)]">
+        <div className="w-full h-full rounded-[38px] bg-card overflow-hidden flex flex-col">
+          <div className="flex justify-center pt-2.5"><span className="w-[80px] h-[22px] rounded-full bg-black" /></div>
+          <div className="flex items-center justify-center gap-2 pt-2.5 pb-2 border-b border-[var(--gl-line)]">
+            <span className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold ${avatarClass(other.name)}`}>{initials(other.full)}</span>
+            <span className="text-[12.5px] font-medium">{other.name}</span>
+          </div>
+          <div className="flex-1 chat-wallpaper flex flex-col gap-1.5 px-3 py-2.5">
+            <span className={inB}>{t("Hi! I just arrived in Milan.")}</span>{tr}
+            <span className={outB}>{t("Welcome! See you tonight?")}</span>
+            <span className={inB}>{t("Sure! What time?")}</span>{tr}
+            <span className={outB}>{t("At eight in front of the Duomo.")}</span>
+            <span className="self-start h-8 px-3 flex items-center gap-1 bg-bubble-in border border-border rounded-[16px] rounded-es-[5px]">
+              <span className="typing-dot w-1.5 h-1.5 rounded-full bg-sand" /><span className="typing-dot w-1.5 h-1.5 rounded-full bg-sand" /><span className="typing-dot w-1.5 h-1.5 rounded-full bg-sand" />
+            </span>
+            <span className="text-[10px] text-subtle ps-1 -mt-1">{t("typing in {language}", { language: langName(other.lang) })}…</span>
+          </div>
+        </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-background to-85%" />
     </div>
   );
 }

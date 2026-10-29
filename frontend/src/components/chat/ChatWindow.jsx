@@ -36,6 +36,12 @@ const draftKey = (id) => `glott_draft_${id}`;
 const readDraft = (id) => { try { return localStorage.getItem(draftKey(id)) || ""; } catch { return ""; } };
 const writeDraft = (id, v) => { try { v ? localStorage.setItem(draftKey(id), v) : localStorage.removeItem(draftKey(id)); } catch { /* storage blocked */ } };
 
+// The banner "You write in Italian · James reads in English": shown in every chat until it is closed with its X, then
+// never again in that chat (remembered on this device).
+const bannerKey = (id) => `glott_lang_banner_${id}`;
+const bannerClosed = (id) => { try { return !!localStorage.getItem(bannerKey(id)); } catch { return false; } };
+const closeBanner = (id) => { try { localStorage.setItem(bannerKey(id), "1"); } catch { /* storage blocked */ } };
+
 const headerBtn = "w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-muted active:bg-muted transition shrink-0";
 
 function MessageSkeleton() {
@@ -251,6 +257,9 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
     : other?.online ? t("online") : (other?.last_seen ? t("last seen recently") : langName(other?.language));
   const subtitle = showTime ? `${status} · ${t("{time} local time", { time: timeIn(other.timezone, lang) })}` : status;
 
+  const [bannerOn, setBannerOn] = useState(() => !bannerClosed(chat.id));
+  const showBanner = bannerOn && !loading && (isGroup || (other?.language && other.language !== user.language));
+
   const latestMineId = [...messages].reverse().find((m) => m.sender_id === user.id)?.id;
   // Read = everyone else in the chat has read it (the server keeps who read each message; a live receipt sets m.read).
   const others = Math.max(1, (chat.members_info?.length || 2) - 1);
@@ -294,7 +303,7 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
           <div className="flex-1 min-w-0">
             <div className="text-base font-medium truncate leading-tight">{chat.display_name}</div>
             {typingUser
-              ? <div className="text-xs text-primary font-medium truncate">{t("typing in {language}", { language: langName(typingUser.language) })}…</div>
+              ? <div data-testid="header-typing" className="text-xs text-[var(--gl-typing)] font-medium truncate">{t("typing in {language}", { language: langName(typingUser.language) })}…</div>
               : <div className={`text-xs truncate ${!isGroup && other?.online ? "text-online" : "text-subtle"}`}>{subtitle}</div>}
           </div>
         </button>
@@ -362,13 +371,14 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
         })}
         <ScheduledList items={scheduled} onOpen={setSchedAction} />
         {typingUser && (
-          <div data-testid="typing-indicator" className="flex items-center gap-2 px-3 mt-1">
-            <div className="flex items-center gap-1 px-3 py-2 rounded-[18px] rounded-es-[6px] bg-bubble-in border border-border">
-              <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
-              <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
-              <span className="typing-dot w-1.5 h-1.5 rounded-full bg-primary" />
-              <span className="text-xs text-muted-foreground ms-1">{t("typing in {language}", { language: langName(typingUser.language) })}</span>
-            </div>
+          <div data-testid="typing-indicator" className="gl-msg-in flex flex-col items-start gap-1 px-3 mt-2">
+            {isGroup && <span className="ps-1 text-xs font-medium text-subtle">{(typingUser.name || "").split(" ")[0]}</span>}
+            <span className="h-10 px-4 flex items-center gap-[5px] rounded-[18px] rounded-es-[6px] bg-bubble-in border border-border" aria-hidden="true">
+              <span className="typing-dot w-2 h-2 rounded-full bg-sand" />
+              <span className="typing-dot w-2 h-2 rounded-full bg-sand" />
+              <span className="typing-dot w-2 h-2 rounded-full bg-sand" />
+            </span>
+            <span className="ps-1 text-[11px] text-subtle">{t("typing in {language}", { language: langName(typingUser.language) })}…</span>
           </div>
         )}
         <div ref={bottomRef} />
@@ -381,6 +391,21 @@ export default function ChatWindow({ chat, messages, loading, onSend, onSentMess
           <ChevronDown className="w-6 h-6" />
           {newBelow > 0 && <span className="absolute -top-2 -right-1 min-w-5 h-5 px-1.5 rounded-full bg-sand text-[var(--gl-on-accent)] text-xs font-semibold flex items-center justify-center">{newBelow}</span>}
         </button>
+      )}
+
+      {showBanner && (
+        <div className="chat-wallpaper shrink-0 flex justify-center px-3 pt-1 pb-2">
+          <div data-testid="language-banner" className="max-w-full h-9 ps-1 pe-1.5 rounded-full bg-[var(--gl-tint)] shadow-[0_4px_14px_rgba(0,0,0,0.06)] flex items-center gap-2 text-[13px]">
+            <span className="w-7 h-7 shrink-0 rounded-full bg-[#1a1a1a] text-[var(--gl-accent)] text-[10px] font-semibold flex items-center justify-center">{(user.language || "").toUpperCase()}</span>
+            <span className="truncate">{isGroup
+              ? t("You write in {language} · everyone reads in their own", { language: langName(user.language) })
+              : t("You write in {mine} · {name} reads in {theirs}", { mine: langName(user.language), name: (other?.name || "").split(" ")[0], theirs: langName(other?.language) })}</span>
+            <button type="button" data-testid="language-banner-close" aria-label={t("Close")} onClick={() => { closeBanner(chat.id); setBannerOn(false); }}
+              className="w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-black/5">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
       )}
 
       {(reply || editing) && (

@@ -9,14 +9,18 @@ export function LogoMark({ className = "w-9 h-9" }) {
   return <img src={appIcon} alt="" aria-hidden="true" className={className} />;
 }
 
-// The mark: a ring with a tail and a dot (it means "a message that has been translated").
-// It takes the text colour for the ring and the tail; the dot pulses while a message is being translated.
-export function LogoArrows({ className = "w-4 h-4", animate = false }) {
+// The mark: the speech bubble of the logo with three yellow dots inside (the first full, the others fading, as when someone types).
+// It takes the text colour for the ring and the tail; animate: the dots light up one after the other (a message being translated).
+// onAccent: on a yellow background (my messages) the dots take the text colour too, or they would not show.
+export function LogoArrows({ className = "w-4 h-4", animate = false, onAccent = false }) {
+  const dot = (cx, opacity) => (
+    <circle className={`${onAccent ? "fill-current" : "fill-[var(--gl-accent)]"} ${animate ? "typing-dot" : ""}`} cx={cx} cy="11.2" r="1.6" opacity={animate ? undefined : opacity} />
+  );
   return (
     <svg viewBox="0 0 24 24" className={`text-foreground shrink-0 ${className}`} aria-hidden="true">
       <circle cx="12" cy="11.2" r="9" fill="none" stroke="currentColor" strokeWidth="3.8" />
       <path d="M4.4 15.8 L2.4 22.4 L9.4 19.6 Z" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
-      <circle className={`fill-[#7da36f] dark:fill-[#a9c9a0] ${animate ? "gl-pulse" : ""}`} cx="12" cy="11.2" r="2.6" />
+      <g>{dot(8.6, 1)}{dot(12, 0.6)}{dot(15.4, 0.3)}</g>
     </svg>
   );
 }

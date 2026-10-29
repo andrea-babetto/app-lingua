@@ -65,14 +65,15 @@
 }
 
 @layer base {
-  /* Glotter colours (design of 28/10/2026: white, black for what is selected, the sage green of the logo for the main action
-     and the unread badges, a very pale tint of it for my messages; pills everywhere). The aliases below are the names the components use. */
+  /* Glotter colours (design of 29/10/2026): white, black for what is selected, the yellow of the logo for the main action,
+     my messages and the unread badges; pills everywhere. The aliases below are the names the components use. */
   :root {
     --gl-bg: #ffffff; --gl-surface: #f4f4f4; --gl-chat-bg: #fbfbfa; --gl-chat-dots: #e2e2e2; --gl-line: #f2f2f2; --gl-border: #ececec;
     --gl-text: #1a1a1a; --gl-text-2: #6a6a6a; --gl-text-3: #767676; --gl-danger: #c0392b; --gl-danger-bg: #fdecea; --gl-online: #2e9b5a;
-    --gl-primary: #111111; --gl-on-primary: #ffffff; --gl-accent: #7da36f; --gl-on-accent: #14200f;
-    --gl-bubble-out: #e8f0e4; --gl-bubble-out-fg: #1a1a1a; --gl-bubble-in: #ffffff; --gl-label-bg: #eef4eb; --gl-label-fg: #2f4a28;
-    --gl-switch-off: #e6e6e6; --gl-selected-row: #f6f6f6;
+    --gl-primary: #111111; --gl-on-primary: #ffffff; --gl-accent: #f7c600; --gl-on-accent: #1a1a1a;
+    --gl-bubble-out: #f7c600; --gl-bubble-out-fg: #1a1a1a; --gl-bubble-in: #ffffff; --gl-label-bg: #f2f2f2; --gl-label-fg: #555555;
+    --gl-tint: #fff4c2; --gl-typing: #9a7600; --gl-nav: #ffffff;
+    --gl-switch-off: #e6e6e6; --gl-selected-row: #f4f4f4;
     --gl-r-bubble: 18px; --gl-r-bubble-tail: 6px; --gl-r-card: 16px; --gl-r-input: 999px; --gl-r-btn: 999px;
   
     --background: var(--gl-bg);
@@ -110,11 +111,13 @@
   
   /* dark mode: the app sets the .dark class; the tokens file uses data-theme, so both are covered */
 :root.dark, :root[data-theme="dark"] {
-    --gl-bg: #111111; --gl-surface: #1e1e1e; --gl-chat-bg: #141414; --gl-chat-dots: #262626; --gl-line: #222222; --gl-border: #2c2c2c;
+    /* a soft dark grey, not black */
+    --gl-bg: #1f1f22; --gl-surface: #2b2b2f; --gl-chat-bg: #19191c; --gl-chat-dots: #2c2c30; --gl-line: #303034; --gl-border: #3a3a3e;
     --gl-text: #f2f2f2; --gl-text-2: #b5b5b5; --gl-text-3: #9a9a9a;
-    --gl-primary: #a9c9a0; --gl-on-primary: #14200f;
-    --gl-bubble-out: #2b3528; --gl-bubble-out-fg: #e6efe2; --gl-bubble-in: #1f1f1f; --gl-label-bg: rgba(169, 201, 160, 0.16); --gl-label-fg: #d3e6cd;
-    --gl-accent: #a9c9a0; --gl-on-accent: #14200f; --gl-selected-row: #1b1b1b; --gl-switch-off: #3a3a3a;
+    --gl-primary: #f2f2f2; --gl-on-primary: #1f1f22;
+    --gl-bubble-out: #f7c600; --gl-bubble-out-fg: #1a1a1a; --gl-bubble-in: #2b2b2f; --gl-label-bg: #2c2c30; --gl-label-fg: #d6d6d6;
+    --gl-accent: #f7c600; --gl-on-accent: #1a1a1a; --gl-selected-row: #2c2c30; --gl-switch-off: #3a3a3e;
+    --gl-tint: #3b3519; --gl-typing: #f7c600; --gl-nav: #2c2c30;
   }
 }
 
@@ -123,9 +126,9 @@
   body { @apply bg-background text-foreground; }
 }
 
-/* typing dots */
-@keyframes typing-bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
-.typing-dot { animation: typing-bounce 1.2s infinite; }
+/* typing dots: the three dots of the logo light up one after the other */
+@keyframes typing-glow { 0%, 100% { opacity: 0.3; } 35% { opacity: 1; } }
+.typing-dot { animation: typing-glow 1.2s ease-in-out infinite; }
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
@@ -141,7 +144,7 @@
   background-image: linear-gradient(rgb(251 251 250 / 0.82), rgb(251 251 250 / 0.82)), url("./assets/brand/chat-pattern-light.svg");
   background-size: 240px 240px;
 }
-.dark .chat-wallpaper { background-image: linear-gradient(rgb(20 20 20 / 0.78), rgb(20 20 20 / 0.78)), url("./assets/brand/chat-pattern-dark.svg"); }
+.dark .chat-wallpaper { background-image: linear-gradient(rgb(25 25 28 / 0.8), rgb(25 25 28 / 0.8)), url("./assets/brand/chat-pattern-dark.svg"); }
 
 /* the dot of the translation mark pulses while a message is being translated */
 @keyframes gl-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
@@ -161,6 +164,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .gl-pulse, .gl-msg-in, .typing-dot, .animate-slide-in, .gl-tick-draw { animation: none; }
+  .typing-dot:nth-child(2) { opacity: 0.6; } .typing-dot:nth-child(3) { opacity: 0.3; }
 }
 
 
@@ -176,4 +180,4 @@
 
 /* avatars without a photo: plain light grey with dark initials, as in the design (the classes stay per person, src/lib/avatar.js) */
 .av-0, .av-1, .av-2, .av-3, .av-4, .av-5 { background: #f2f2f2; color: #4a4a4a; }
-:root.dark .av-0, :root.dark .av-1, :root.dark .av-2, :root.dark .av-3, :root.dark .av-4, :root.dark .av-5 { background: #262626; color: #d6d6d6; }
+:root.dark .av-0, :root.dark .av-1, :root.dark .av-2, :root.dark .av-3, :root.dark .av-4, :root.dark .av-5 { background: #38383c; color: #d6d6d6; }

@@ -184,7 +184,7 @@ export default function MessageBubble({ msg, read, delivered, quote, onJump, onV
 
           {translating ? (
             <div data-testid="translating-indicator" className="flex items-center gap-2 py-0.5 opacity-80">
-              <LogoArrows animate className="w-4 h-4 shrink-0" />
+              <LogoArrows animate onAccent={mine} className="w-4 h-4 shrink-0" />
               <span className="text-sm italic">{msg.original_text}</span>
             </div>
           ) : voice ? (

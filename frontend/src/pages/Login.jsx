@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { WelcomePreview, InvitePreview } from "@/components/WelcomeHero";
 import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import GoogleSignIn from "@/components/GoogleSignIn";
+import Logo from "@/components/Logo";
+import HowItWorksLink from "@/components/HowItWorks";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
 import { pendingInvite, clearInvite } from "@/lib/invite";
@@ -169,41 +171,44 @@ export default function Login() {
 
   if (view === "welcome" || view === "invite") {
     const person = invite?.kind === "person";
-    return page(
+    if (view === "invite" && invite) return page(
       <div className="flex-1 flex flex-col" data-testid="welcome-page">
-        {view === "invite" && invite ? <InvitePreview invite={invite} /> : <WelcomePreview />}
+        <InvitePreview invite={invite} />
         <div className="mt-6 text-center">
-          {view === "invite" && invite ? (
-            <>
-              <h1 className="text-[25px] leading-tight font-medium tracking-tight">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</h1>
-              <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">
-                {person
-                  ? <>{invite.language && <>{t("{name} writes in {language}, you read in yours.", { name: invite.name, language: langName(invite.language) })} </>}{t("Create your account and you will find {name} in your chats.", { name: invite.name })}</>
-                  : t("After you sign up, an admin of the group will let you in.")}
-              </p>
-            </>
-          ) : (
-            <>
-              <h1 className="text-[25px] leading-tight font-medium tracking-tight">{t("Welcome to Glotter")}</h1>
-              <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">{t("You write in your language, your friends read in theirs.")}<br />{t("Everyone in their own language, in 41 languages.")}</p>
-            </>
-          )}
+          <h1 className="text-[25px] leading-tight font-medium tracking-tight">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</h1>
+          <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">
+            {person
+              ? <>{invite.language && <>{t("{name} writes in {language}, you read in yours.", { name: invite.name, language: langName(invite.language) })} </>}{t("Create your account and you will find {name} in your chats.", { name: invite.name })}</>
+              : t("After you sign up, an admin of the group will let you in.")}
+          </p>
         </div>
         <div className="mt-auto pt-8 space-y-2.5">
-          {view === "invite" && invite ? (
-            <>
-              <Button data-testid="invite-accept" className={main} onClick={() => setView("register")}>{t("Accept the invite")}</Button>
-              <Button data-testid="welcome-login" variant="outline" className={ghost} onClick={() => setView("login")}>{t("I already have an account")}</Button>
-            </>
-          ) : (
-            <>
-              <Button data-testid="welcome-login" className={main} onClick={() => setView("login")}>{t("Sign in")}</Button>
-              <Button data-testid="welcome-register" variant="outline" className={ghost} onClick={() => setView("register")}>{t("Create your account")}</Button>
-            </>
-          )}
+          <Button data-testid="invite-accept" className={main} onClick={() => setView("register")}>{t("Accept the invite")}</Button>
+          <Button data-testid="welcome-login" variant="outline" className={ghost} onClick={() => setView("login")}>{t("I already have an account")}</Button>
         </div>
       </div>,
       <><span />{languageMenu}</>
+    );
+    // The presentation: the logo, one sentence, two ways in, "See how it works" and a phone with a chat.
+    return (
+      <div className="min-h-dvh bg-background flex justify-center overflow-hidden">
+        <div className="w-full max-w-md min-h-dvh flex flex-col px-5 pt-5" data-testid="welcome-page">
+          <div className="relative flex items-center justify-center min-h-10">
+            <Logo height={26} />
+            <span className="absolute end-0 top-0">{languageMenu}</span>
+          </div>
+          <div className="mt-6 text-center">
+            <h1 className="text-[36px] leading-[1.08] font-medium tracking-[-0.02em]">{t("Everyone in their own language")}.</h1>
+            <p className="mt-3.5 text-[17px] leading-relaxed text-muted-foreground">{t("You write in your language, your friends read in theirs.")}</p>
+          </div>
+          <div className="mt-6 flex flex-wrap justify-center gap-2.5">
+            <Button data-testid="welcome-register" className="h-12 px-6 rounded-full text-base font-medium bg-sand text-[var(--gl-on-accent)] hover:bg-sand/90" onClick={() => setView("register")}>{t("Create your account")}</Button>
+            <Button data-testid="welcome-login" variant="outline" className="h-12 px-6 rounded-full text-base font-medium" onClick={() => setView("login")}>{t("Sign in")}</Button>
+          </div>
+          <div className="mt-4 flex justify-center"><HowItWorksLink /></div>
+          <div className="mt-auto pt-6"><WelcomePreview /></div>
+        </div>
+      </div>
     );
   }
 
