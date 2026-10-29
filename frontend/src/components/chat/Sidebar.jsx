@@ -58,25 +58,25 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete, last }) {
     <button data-testid={`sidebar-chat-item-${chat.id}`} onClick={click}
       onTouchStart={start} onTouchEnd={cancel} onTouchMove={cancel} onTouchCancel={cancel}
       onContextMenu={(e) => { e.preventDefault(); onAskDelete(chat); }}
-      className={`w-full flex items-center gap-3.5 px-2.5 text-start select-none [-webkit-touch-callout:none] rounded-[20px] transition-colors ${active ? "bg-accent" : "hover:bg-muted/60 active:bg-muted"}`}>
+      className={`w-full flex items-center gap-3 px-2.5 text-start select-none [-webkit-touch-callout:none] rounded-[20px] transition-colors ${active ? "bg-accent" : "hover:bg-muted/60 active:bg-muted"}`}>
       {group && !chat.display_avatar && people.length > 0 ? <FaceStack people={people} /> : (
       <div className="relative shrink-0">
-        <Avatar style={{ width: "3.75rem", height: "3.75rem" }}>
+        <Avatar style={{ width: "3.25rem", height: "3.25rem" }}>
           <AvatarImage src={chat.display_avatar} />
           <AvatarFallback className={`text-base font-semibold ${avatarClass(chat.display_name)}`}>{(group && chat.emoji) || initials(chat.display_name)}</AvatarFallback>
         </Avatar>
         {chat.other_user?.online && <span className="absolute bottom-0.5 end-0.5 w-3.5 h-3.5 rounded-full bg-online border-2 border-card" />}
       </div>
       )}
-      <div className={`flex-1 min-w-0 py-3.5 ${last ? "" : "border-b border-[var(--gl-line)]"}`}>
+      <div className={`flex-1 min-w-0 py-2.5 ${last ? "" : "border-b border-[var(--gl-line)]"}`}>
         <div className="flex items-baseline justify-between gap-2">
-          <span className="text-[17px] font-medium truncate">{chat.display_name}</span>
+          <span className="text-base font-medium truncate">{chat.display_name}</span>
           {chat.last_message && (
             <span className={`text-[13px] shrink-0 ${chat.unread > 0 ? "text-foreground font-medium" : "text-subtle"}`}>{when(chat.last_message.created_at, t)}</span>
           )}
         </div>
-        <div className="flex items-center justify-between gap-2 mt-1">
-          <span dir="auto" className={`text-[15px] truncate ${chat.unread > 0 ? "text-foreground" : "text-muted-foreground"}`}>{preview(chat, myId, t)}</span>
+        <div className="flex items-center justify-between gap-2 mt-0.5">
+          <span dir="auto" className={`text-[14.5px] truncate ${chat.unread > 0 ? "text-foreground" : "text-muted-foreground"}`}>{preview(chat, myId, t)}</span>
           {chat.unread > 0 ? (
             <span className="shrink-0 min-w-[22px] h-[22px] px-1.5 rounded-full bg-sand text-[var(--gl-on-accent)] text-xs font-semibold flex items-center justify-center">{chat.unread}</span>
           ) : theirLang ? (
@@ -84,9 +84,9 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete, last }) {
           ) : null}
         </div>
         {group && langs.length > 0 && (
-          <div data-testid="group-languages" className="flex items-center gap-1.5 mt-2 text-[13px] text-subtle">
+          <div data-testid="group-languages" className="flex items-center gap-1 mt-1 text-xs text-subtle">
             <span className="me-0.5">{t("{count} people", { count: (chat.members_info || []).length })} ·</span>
-            {langs.slice(0, 4).map((l) => <span key={l} className="h-6 px-2.5 rounded-full bg-surface text-foreground text-[11.5px] font-medium flex items-center">{l.toUpperCase()}</span>)}
+            {langs.slice(0, 4).map((l) => <span key={l} className="h-5 px-2 rounded-full bg-surface text-foreground text-[10.5px] font-medium flex items-center">{l.toUpperCase()}</span>)}
             {langs.length > 4 && <span>+{langs.length - 4}</span>}
           </div>
         )}
@@ -99,11 +99,11 @@ function ChatRow({ chat, active, myId, onSelect, onAskDelete, last }) {
 function FaceStack({ people }) {
   const three = people.slice(0, 3);
   return (
-    <div className="relative shrink-0 w-[3.75rem] h-[3.75rem]" aria-hidden="true">
+    <div className="relative shrink-0 w-[3.25rem] h-[3.25rem]" aria-hidden="true">
       {three.map((p, i) => (
-        <Avatar key={p.id} className="absolute border-2 border-card" style={{ width: "2.25rem", height: "2.25rem", ...[{ top: 0, insetInlineStart: 0 }, { top: 0, insetInlineEnd: 0 }, { bottom: 0, insetInlineStart: "0.75rem" }][three.length === 1 ? 2 : i] }}>
+        <Avatar key={p.id} className="absolute border-2 border-card" style={{ width: "1.9rem", height: "1.9rem", ...[{ top: 0, insetInlineStart: 0 }, { top: 0, insetInlineEnd: 0 }, { bottom: 0, insetInlineStart: "0.675rem" }][three.length === 1 ? 2 : i] }}>
           <AvatarImage src={p.avatar} />
-          <AvatarFallback className={`text-[11px] font-semibold ${avatarClass(p.name)}`}>{initials(p.name || "?")}</AvatarFallback>
+          <AvatarFallback className={`text-[10px] font-semibold ${avatarClass(p.name)}`}>{initials(p.name || "?")}</AvatarFallback>
         </Avatar>
       ))}
     </div>
@@ -240,7 +240,7 @@ export default function Sidebar({ chats, loading, activeId, onSelect, onOpenCont
             <div className="relative">
               <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-subtle" />
               <input data-testid="sidebar-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={tab === "groups" ? t("Search groups") : tab === "contacts" ? t("Search contacts") : t("Search chats")}
-                className="w-full h-[50px] ps-11 pe-4 rounded-full bg-surface text-base placeholder:text-subtle outline-none focus:ring-2 focus:ring-primary/20" />
+                className="w-full h-11 ps-11 pe-4 rounded-full bg-surface text-base placeholder:text-subtle outline-none focus:ring-2 focus:ring-primary/20" />
             </div>
           </div>
 
