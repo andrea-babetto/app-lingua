@@ -287,3 +287,15 @@ Andrea ha rivisto ogni schermata nell'anteprima (artifact "Glotter – Benvenuto
 - **Banner della lingua in chat:** "IT · Tu scrivi in italiano · James legge in inglese" (nei gruppi "ognuno legge nella sua") appena sopra la barra di scrittura, sullo sfondo della chat. Compare in ogni chat nuova; con la **X** si chiude per sempre **solo in quella chat** (ricordato sul telefono, `localStorage`).
 - **Lingue:** bandierina rotonda accanto a ogni lingua e spunta gialla su quella scelta.
 - 14 frasi nuove tradotte in tutte le 41 lingue dell'interfaccia; tolte 8 frasi non più usate.
+
+## Concorrenti trovati da Andrea (30/10/2026)
+Analisi fatta da schede degli store e siti di dati sulle app (i siti originali non erano raggiungibili dalla sessione); quasi tutto è ciò che dichiarano gli sviluppatori, non verificato.
+- **Intent** ("The Chat translator", Intent Inc., `app.intent.android`; su iPhone "Intent: Closer Across Language"): chat con traduzione integrata, la stessa idea di Glotter. Testo, vocali (trascritti e letti tradotti, anche con **voce clonata** di chi parla), foto, gruppi tradotti per ciascuno, chiamate tradotte. Uscita a ottobre 2025, circa **1,3 milioni di installazioni** su Android, voto 4,2 (circa 1.300 recensioni); dichiara 73 lingue di testo e 31 di voce. Gratis con abbonamento (cifre riportate da terzi poco chiare, da verificare sullo store). Tono da vita privata e coppie. È il concorrente più forte.
+- **Rakkan** (Martin Janus, lanciata a luglio 2026): chat per coppie senza lingua in comune; traduce messaggi e sottotitoli delle videochiamate; fa rileggere come arriverà il messaggio prima di inviarlo. 7 lingue, gratis con messaggi illimitati, piano Plus per traduzioni istantanee, solo maggiorenni. Piccola.
+- **Heartline** ("Couples Translator", TaraAI, maggio 2026): chiamate vocali tradotte in tempo reale e chat per coppie, 11+ lingue, "consulente di coppia" AI e promemoria; abbonamento (annuale circa 209 $). Pochi dati.
+
+**Cosa ne ricaviamo:**
+1. L'idea è confermata: c'è domanda e c'è chi paga.
+2. Due su tre (e in parte Intent) puntano sulle coppie: Glotter si posiziona sul **lavoro** (agenzie, e-commerce, collaboratori all'estero), con glossario, gruppi di lavoro, niente numero di telefono e privacy. Messaggio da costruire, per esempio "la chat di lavoro per team internazionali".
+3. Cosa hanno loro e noi no: chiamate e videochiamate tradotte (già in lista, lavoro grande), voce clonata, anteprima prima dell'invio (lavoro medio, già tra le idee).
+4. Prezzo: i nostri 2-4 € al mese sono molto sotto i loro; per i team si può chiedere di più.

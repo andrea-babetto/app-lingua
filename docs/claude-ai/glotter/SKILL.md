@@ -83,6 +83,12 @@ Aggiornato al **30 ottobre 2026**. Chat in tempo reale in cui **ognuno scrive e 
 - Partenza: agenzie ed e-commerce con collaboratori all'estero. Crescita con i link d'invito. Non usare Fiverr o Upwork come canale (vietano i contatti fuori piattaforma).
 - Prezzi pensati: gratis con un tetto di messaggi tradotti, poi 2-4 € al mese; più avanti un piano team. Da vedere con commercialista e legale: IVA/GST, magari con un "merchant of record" come Paddle o Lemon Squeezy; in India carte ricorrenti e UPI.
 
+## Concorrenti (analisi del 30/10/2026, dati dichiarati dagli sviluppatori)
+- **Intent** ("The Chat translator"): chat con traduzione integrata, stessa idea di Glotter; testo, vocali con voce clonata, foto, gruppi, chiamate tradotte; uscita a ottobre 2025, circa 1,3 milioni di installazioni su Android, voto 4,2; 73 lingue di testo; tono da vita privata e coppie; abbonamento. Il più forte.
+- **Rakkan**: chat per coppie (luglio 2026), traduce messaggi e sottotitoli delle videochiamate, anteprima prima dell'invio, 7 lingue, gratis più un piano Plus. Piccola.
+- **Heartline** ("Couples Translator"): chiamate vocali e chat tradotte per coppie, consulente di coppia AI, abbonamento (annuale circa 209 $). Maggio 2026, pochi dati.
+- **Conclusione:** l'idea è confermata. Glotter si distingue puntando sul **lavoro** (team internazionali, agenzie, e-commerce: glossario, gruppi, privacy, niente numero di telefono). Ci mancano chiamate tradotte, voce clonata e anteprima prima dell'invio. I nostri prezzi ipotizzati sono molto più bassi dei loro; per i team si può chiedere di più.
+
 ## Da fare
 - **Prossimo:** il video "Guarda come funziona" **parlato**: la mini chat animata più una voce OpenAI nella lingua di chi guarda, creata dal server una volta per lingua. Testo e voce sono da approvare da Andrea.
 - **Prima di aprire al pubblico:**
