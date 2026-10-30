@@ -299,3 +299,13 @@ Analisi fatta da schede degli store e siti di dati sulle app (i siti originali n
 2. Due su tre (e in parte Intent) puntano sulle coppie: Glotter si posiziona sul **lavoro** (agenzie, e-commerce, collaboratori all'estero), con glossario, gruppi di lavoro, niente numero di telefono e privacy. Messaggio da costruire, per esempio "la chat di lavoro per team internazionali".
 3. Cosa hanno loro e noi no: chiamate e videochiamate tradotte (già in lista, lavoro grande), voce clonata, anteprima prima dell'invio (lavoro medio, già tra le idee).
 4. Prezzo: i nostri 2-4 € al mese sono molto sotto i loro; per i team si può chiedere di più.
+
+## Decisioni di Andrea sul piano di lavoro (30/10/2026)
+Dallo schema "Piano di lavoro Glotter" (artifact) e dal brief per Claude Code.
+- **Quota gratuita:** 150 traduzioni al mese (circa 0,08 $ a utente; il brief proponeva 100 o 300).
+- **Invitato:** registrazione corta, come proposto (ospite solo se i dati mostrano abbandoni).
+- **Link d'invito:** **non scadono** (resta il tasto "link nuovo" che invalida il vecchio); sostituisce la proposta del brief di scadenza e revoca.
+- **Uso equo del piano privato:** circa 3.000 messaggi al mese, come proposto.
+- **Tono per chat:** lo sceglie l'utente per chat (diretto, cordiale, formale), neutro di partenza, come proposto.
+- **Email di riserva "X ti ha scritto":** Andrea ha risposto "non serve". Da riconfermare: su iPhone la push funziona solo con l'app installata, quindi un invitato che usa il sito in Safari non riceverebbe nessun avviso.
+- **Ancora da discutere:** piani e prezzi, regola dei crediti. Il Passo 1 non è ancora partito.
