@@ -1,7 +1,7 @@
-# Glott (ex "Lingua") — memoria del progetto
+# Glotter (ex "Glott", ex "Lingua") — memoria del progetto
 
 Documento di passaggio: cosa c'è, dove sta, perché è fatto così, cosa manca. Niente segreti qui dentro (chiavi, password, codici): quelli stanno solo nelle impostazioni dei servizi.
-Ultimo aggiornamento: 8 ottobre 2026.
+Ultimo aggiornamento: 30 ottobre 2026 (le sezioni "Novità" in fondo sono le più recenti).
 
 ## 1. Cos'è
 
@@ -9,7 +9,7 @@ Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: un mo
 
 - **Proprietario:** Andrea Babetto (Shampissima, agenzia di Amazon PPC). Primo utente di prova: **Hamad** (agenzia, India). Parla italiano, preferisce istruzioni brevi, passo per passo, con screenshot.
 - **Stato:** in produzione, **beta chiusa su invito** (registrazione con codice `INVITE_CODE`). Usata da Andrea e Hamad.
-- **Nome:** **Glotter** (scelto da Andrea il 22/10/2026): "glot" dal greco *glotta* (lingua) + "-ter" (chi fa qualcosa). Interfaccia già aggiornata (logo, colori bianco, nero e verde salvia del logo, forme a pillola (nuovo design del 28/10/2026; il giallo dell'esempio è diventato azzurro, poi antracite verde e infine, il 29/10, di nuovo il verde salvia del logo; dopo antracite, avorio e verde salvia del 23/10), carattere Onest, 41 lingue) con il design in `docs/brand/design_handoff_glotter/`. Marchio NON ancora verificato: TMview trova "GLOTTER" registrato in Messico (classe 25) e "PolyGlotterz" in Francia (classe 38, telecomunicazioni); serve un parere di un consulente in marchi (EUIPO, WIPO, UIBM). Domini: glotter.com occupato; alla verifica del 22/10 risultavano liberi .it .net .biz .eu .me .tel .tv (da confermare dal registrar prima di comprarli). Repong è stato il nome precedente: resta solo nei documenti di storia (`docs/brand/design_handoff_repong/`).
+- **Nome:** **Glotter** (scelto da Andrea il 22/10/2026): "glot" dal greco *glotta* (lingua) + "-ter" (chi fa qualcosa). Interfaccia aggiornata al design definitivo del 29/10/2026 (bianco, nero e giallo `#f7c600`, logo con tre puntini gialli dentro il fumetto; vedi in fondo). Marchio NON ancora verificato: TMview trova "GLOTTER" registrato in Messico (classe 25) e "PolyGlotterz" in Francia (classe 38, telecomunicazioni); serve un parere di un consulente in marchi (EUIPO, WIPO, UIBM). Domini: glotter.com occupato; alla verifica del 22/10 risultavano liberi .it .net .biz .eu .me .tel .tv (da confermare dal registrar prima di comprarli). Repong è stato il nome precedente: resta solo nei documenti di storia (`docs/brand/design_handoff_repong/`).
 
 ## 2. Dove sta tutto
 
@@ -80,7 +80,7 @@ Limiti: limiti anti-abuso **in memoria** (un solo processo; con più istanze ser
 
 ## 8. Strategia (sintesi, ottobre 2026)
 
-- WhatsApp traduce già i messaggi (dal 2025, a richiesta per messaggio) e Telegram pure (a pagamento per la chat intera): "chat che traduce" da sola non basta. Vantaggio di Glott: traduzione **automatica per tutti**, **glossario** (ACOS, bid...), niente numero di telefono da dare, uso professionale.
+- WhatsApp traduce già i messaggi (dal 2025, a richiesta per messaggio) e Telegram pure (a pagamento per la chat intera): "chat che traduce" da sola non basta. Vantaggio di Glotter: traduzione **automatica per tutti**, **glossario** (ACOS, bid...), niente numero di telefono da dare, uso professionale.
 - Punto di partenza: **agenzie ed e-commerce con collaboratori all'estero** (assistenti virtuali, freelance). Crescita: il **link d'invito** (ogni conversazione porta un'altra persona) → da costruire: **ingresso da link senza account**; poi pagina pubblica per freelance ("scrivimi nella tua lingua").
 - Fiverr e Upwork limitano lo scambio di contatti fuori piattaforma: non usarli come canale.
 - Per ora: **uso interno tra Andrea e Hamad**; strategia e crescita in pausa fino a nuova decisione.

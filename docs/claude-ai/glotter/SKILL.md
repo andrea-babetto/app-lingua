@@ -1,5 +1,5 @@
 ---
-name: glott
+name: glotter
 description: Contesto completo del progetto Glotter (prima "Glott", all'inizio "Lingua"), la chat in cui ognuno scrive e legge nella propria lingua tradotta da Claude Haiku, costruita da Andrea Babetto (primo utente di prova Hamad). Usa questa skill ogni volta che si parla di Glotter, Glott, Lingua, della chat con traduzione automatica, del repository app-lingua, di Render/lingua-api/lingua-web, MongoDB Atlas o Cloudflare R2 per questa app, del nome/logo/colore/icona/design dell'app, dei vocali, delle notifiche push o dell'installazione sul telefono, dei link d'invito, del video "Guarda come funziona", o di strategia, prezzi e crescita di questa app — anche se non dice esplicitamente "Glotter".
 ---
 

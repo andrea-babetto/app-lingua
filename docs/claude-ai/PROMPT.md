@@ -1,6 +1,6 @@
 # Prompt per Claude normale (claude.ai)
 
-Incolla questo messaggio in una chat nuova, allegando il file `glott/SKILL.md` (oppure lo zip `glott.zip`):
+Incolla questo messaggio in una chat nuova, allegando il file `glotter/SKILL.md` (oppure lo zip `glotter.zip`):
 
 ---
 
