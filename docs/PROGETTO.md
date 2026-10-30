@@ -307,5 +307,6 @@ Dallo schema "Piano di lavoro Glotter" (artifact) e dal brief per Claude Code.
 - **Link d'invito:** **non scadono** (resta il tasto "link nuovo" che invalida il vecchio); sostituisce la proposta del brief di scadenza e revoca.
 - **Uso equo del piano privato:** circa 3.000 messaggi al mese, come proposto.
 - **Tono per chat:** lo sceglie l'utente per chat (diretto, cordiale, formale), neutro di partenza, come proposto.
-- **Email di riserva "X ti ha scritto":** Andrea ha risposto "non serve". Da riconfermare: su iPhone la push funziona solo con l'app installata, quindi un invitato che usa il sito in Safari non riceverebbe nessun avviso.
-- **Ancora da discutere:** piani e prezzi, regola dei crediti. Il Passo 1 non è ancora partito.
+- **Email di riserva "X ti ha scritto":** dopo la prima risposta ("non serve") Andrea ha confermato **sì, dopo un'ora**: parte solo se il messaggio resta non letto per un'ora e non c'è una notifica attiva (su iPhone la push funziona solo con l'app installata, quindi altrimenti un invitato che usa Safari non verrebbe avvisato).
+- **Regola dei crediti: C.** Il piano di chi paga copre tutte le chat in cui c'è lui; una chat tra due persone senza un piano usa il piano personale di chi riceve (le 150 traduzioni dell'invitato).
+- **Ancora da discutere:** piani e prezzi. Il Passo 1 non è ancora partito.
