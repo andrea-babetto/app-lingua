@@ -11,7 +11,6 @@
  "Back": "Retour",
  "Block user": "Bloquer l'utilisateur",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Bloquées pour ce site. Autorisez les notifications dans les réglages de votre navigateur ou de votre téléphone.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "En créant un compte, vous acceptez les [Conditions d'utilisation] et la [Politique de confidentialité].",
  "Cancel": "Annuler",
  "Change": "Modifier",
  "Change password": "Changer le mot de passe",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Impossible d'utiliser le lien d'invitation",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Crée un lien pour inviter des gens : ils demandent à rejoindre et un administrateur les fait entrer.",
  "Create invite link": "Créer un lien d'invitation",
- "Create your account and you will find {name} in your chats.": "Crée ton compte et tu trouveras {name} dans tes discussions.",
  "Decline": "Refuser",
  "Invite link": "Lien d'invitation",
  "Invite link turned off": "Lien d'invitation désactivé",
@@ -411,7 +409,6 @@
  "Your invite link": "Ton lien d'invitation",
  "Sure! What time?": "Bien sûr ! À quelle heure ?",
  "Hi! I'm waiting for you on Glotter": "Salut ! Je t'attends sur Glotter",
- "{name} writes in {language}, you read in yours.": "{name} écrit en {language}, tu lis dans ta langue.",
  "Accept the invite": "Accepter l'invitation",
  "Sign in with your email or with Google to find your chats.": "Connecte-toi avec ton e-mail ou avec Google pour retrouver tes discussions.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Ça prend 30 secondes. Ensuite tu choisis ta langue et tu commences à discuter.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Bienvenue ! On se voit ce soir ?",
  "You write in {language} · everyone reads in their own": "Tu écris en {language} · chacun lit dans la sienne",
  "You write in {mine} · {name} reads in {theirs}": "Tu écris en {mine} · {name} lit en {theirs}",
- "{count} people": "{count} personnes"
+ "{count} people": "{count} personnes",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "J'accepte les [Conditions d'utilisation] et la [Politique de confidentialité].",
+ "You'll forget you speak different languages.": "Tu oublieras que vous parlez des langues différentes."
 }

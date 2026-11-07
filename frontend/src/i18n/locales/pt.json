@@ -11,7 +11,6 @@
  "Back": "Voltar",
  "Block user": "Bloquear usuário",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Bloqueadas para este site. Permita as notificações nas configurações do navegador ou do celular.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Ao criar uma conta, você concorda com os [Termos de Serviço] e a [Política de Privacidade].",
  "Cancel": "Cancelar",
  "Change": "Alterar",
  "Change password": "Alterar senha",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Não foi possível usar o link de convite",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Cria um link para convidar pessoas: pedem para entrar e um administrador deixa-as entrar.",
  "Create invite link": "Criar link de convite",
- "Create your account and you will find {name} in your chats.": "Cria a tua conta e vais encontrar {name} nas tuas conversas.",
  "Decline": "Recusar",
  "Invite link": "Link de convite",
  "Invite link turned off": "Link de convite desativado",
@@ -411,7 +409,6 @@
  "Your invite link": "O teu link de convite",
  "Sure! What time?": "Claro! A que horas?",
  "Hi! I'm waiting for you on Glotter": "Olá! Espero-te no Glotter",
- "{name} writes in {language}, you read in yours.": "{name} escreve em {language}, tu lês no teu idioma.",
  "Accept the invite": "Aceitar o convite",
  "Sign in with your email or with Google to find your chats.": "Entra com o teu e-mail ou com o Google para encontrar as tuas conversas.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Leva 30 segundos. Depois escolhes o teu idioma e começas a conversar.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Bem-vindo! Nos vemos hoje à noite?",
  "You write in {language} · everyone reads in their own": "Você escreve em {language} · cada um lê no seu",
  "You write in {mine} · {name} reads in {theirs}": "Você escreve em {mine} · {name} lê em {theirs}",
- "{count} people": "{count} pessoas"
+ "{count} people": "{count} pessoas",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Aceito os [Termos de serviço] e a [Política de privacidade].",
+ "You'll forget you speak different languages.": "Você vai esquecer que falam idiomas diferentes."
 }

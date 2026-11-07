@@ -11,7 +11,6 @@
  "Back": "Vissza",
  "Block user": "Felhasználó letiltása",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Ennél az oldalnál letiltva. Engedélyezd az értesítéseket a böngésző vagy a telefon beállításaiban.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "A fiók létrehozásával elfogadod a [Felhasználási feltételeket] és az [Adatvédelmi szabályzatot].",
  "Cancel": "Mégse",
  "Change": "Módosítás",
  "Change password": "Jelszó módosítása",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "A meghívó linket nem sikerült használni",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Hozz létre egy linket, hogy embereket hívj meg: csatlakozást kérnek, és egy admin beengedi őket.",
  "Create invite link": "Meghívó link létrehozása",
- "Create your account and you will find {name} in your chats.": "Hozd létre a fiókodat, és megtalálod {name} a csevegéseid között.",
  "Decline": "Elutasítás",
  "Invite link": "Meghívó link",
  "Invite link turned off": "A meghívó link kikapcsolva",
@@ -411,7 +409,6 @@
  "Your invite link": "A meghívó linked",
  "Sure! What time?": "Persze! Hánykor?",
  "Hi! I'm waiting for you on Glotter": "Szia! Várlak a Glotteren",
- "{name} writes in {language}, you read in yours.": "{name} {language} nyelven ír, te a saját nyelveden olvasod.",
  "Accept the invite": "Meghívás elfogadása",
  "Sign in with your email or with Google to find your chats.": "Jelentkezz be e-mail-címeddel vagy Google-lel, hogy megtaláld a csevegéseidet.",
  "It takes 30 seconds. Then choose your language and start chatting.": "30 másodperc az egész. Utána kiválasztod a nyelved, és már cseveghetsz is.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Üdv! Találkozunk ma este?",
  "You write in {language} · everyone reads in their own": "Te {language} nyelven írsz · mindenki a saját nyelvén olvas",
  "You write in {mine} · {name} reads in {theirs}": "Te {mine} nyelven írsz · {name} {theirs} nyelven olvas",
- "{count} people": "{count} fő"
+ "{count} people": "{count} fő",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Elfogadom a [Felhasználási feltételeket] és az [Adatvédelmi szabályzatot].",
+ "You'll forget you speak different languages.": "El fogod felejteni, hogy különböző nyelveken beszéltek."
 }

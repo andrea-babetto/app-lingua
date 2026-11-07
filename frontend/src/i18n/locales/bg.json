@@ -11,7 +11,6 @@
  "Back": "Назад",
  "Block user": "Блокирай потребителя",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Блокирано за този сайт. Разрешете известията в настройките на браузъра или телефона.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "С създаването на акаунт приемате [Условията за ползване] и [Политиката за поверителност].",
  "Cancel": "Отказ",
  "Change": "Промени",
  "Change password": "Промяна на паролата",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Линкът за покана не можа да се използва",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Създай линк, за да каниш хора: те молят да влязат и администратор ги пуска.",
  "Create invite link": "Създай линк за покана",
- "Create your account and you will find {name} in your chats.": "Създай профил и ще намериш {name} в чатовете си.",
  "Decline": "Откажи",
  "Invite link": "Линк за покана",
  "Invite link turned off": "Линкът за покана е изключен",
@@ -411,7 +409,6 @@
  "Your invite link": "Твоят линк за покана",
  "Sure! What time?": "Разбира се! В колко часа?",
  "Hi! I'm waiting for you on Glotter": "Здравей! Чакам те в Glotter",
- "{name} writes in {language}, you read in yours.": "{name} пише на {language}, а ти четеш на своя език.",
  "Accept the invite": "Приеми поканата",
  "Sign in with your email or with Google to find your chats.": "Влез с имейла си или с Google, за да намериш чатовете си.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Отнема 30 секунди. После избираш езика си и започваш да пишеш.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Добре дошъл! Ще се видим ли довечера?",
  "You write in {language} · everyone reads in their own": "Пишеш на {language} · всеки чете на своя език",
  "You write in {mine} · {name} reads in {theirs}": "Пишеш на {mine} · {name} чете на {theirs}",
- "{count} people": "Хора: {count}"
+ "{count} people": "Хора: {count}",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Приемам [Условията за ползване] и [Политиката за поверителност].",
+ "You'll forget you speak different languages.": "Ще забравиш, че говорите различни езици."
 }

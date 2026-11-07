@@ -11,7 +11,6 @@
  "Back": "பின்செல்",
  "Block user": "பயனரைத் தடு",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "இந்தத் தளத்திற்குத் தடுக்கப்பட்டுள்ளது. உங்கள் உலாவி அல்லது போன் அமைப்புகளில் அறிவிப்புகளை அனுமதிக்கவும்.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "கணக்கை உருவாக்குவதன் மூலம் [சேவை விதிமுறைகள்] மற்றும் [தனியுரிமைக் கொள்கை] ஆகியவற்றை ஏற்கிறீர்கள்.",
  "Cancel": "ரத்து செய்",
  "Change": "மாற்று",
  "Change password": "கடவுச்சொல்லை மாற்று",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "அழைப்பு இணைப்பைப் பயன்படுத்த முடியவில்லை",
  "Create a link to invite people: they ask to join and an admin lets them in.": "மக்களை அழைக்க ஒரு இணைப்பை உருவாக்குங்கள்: அவர்கள் சேரக் கோருவார்கள், நிர்வாகி அவர்களைச் சேர்ப்பார்.",
  "Create invite link": "அழைப்பு இணைப்பை உருவாக்கு",
- "Create your account and you will find {name} in your chats.": "உங்கள் கணக்கை உருவாக்குங்கள், உங்கள் அரட்டைகளில் {name} இருப்பார்.",
  "Decline": "மறு",
  "Invite link": "அழைப்பு இணைப்பு",
  "Invite link turned off": "அழைப்பு இணைப்பு அணைக்கப்பட்டது",
@@ -411,7 +409,6 @@
  "Your invite link": "உங்கள் அழைப்பு இணைப்பு",
  "Sure! What time?": "நிச்சயமாக! எத்தனை மணிக்கு?",
  "Hi! I'm waiting for you on Glotter": "வணக்கம்! Glotter-இல் உனக்காகக் காத்திருக்கிறேன்",
- "{name} writes in {language}, you read in yours.": "{name} {language} மொழியில் எழுதுகிறார், நீங்கள் உங்கள் மொழியில் படிக்கிறீர்கள்.",
  "Accept the invite": "அழைப்பை ஏற்கவும்",
  "Sign in with your email or with Google to find your chats.": "உங்கள் அரட்டைகளைக் கண்டறிய மின்னஞ்சல் அல்லது Google மூலம் உள்நுழையவும்.",
  "It takes 30 seconds. Then choose your language and start chatting.": "30 வினாடிகள் போதும். பிறகு உங்கள் மொழியைத் தேர்ந்தெடுத்து அரட்டையைத் தொடங்குங்கள்.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "வருக! இன்று மாலை சந்திப்போமா?",
  "You write in {language} · everyone reads in their own": "நீங்கள் {language} மொழியில் எழுதுகிறீர்கள் · ஒவ்வொருவரும் தங்கள் மொழியில் படிக்கிறார்கள்",
  "You write in {mine} · {name} reads in {theirs}": "நீங்கள் {mine} மொழியில் எழுதுகிறீர்கள் · {name} {theirs} மொழியில் படிக்கிறார்",
- "{count} people": "{count} பேர்"
+ "{count} people": "{count} பேர்",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "நான் [சேவை விதிமுறைகள்] மற்றும் [தனியுரிமைக் கொள்கை]யை ஏற்கிறேன்.",
+ "You'll forget you speak different languages.": "நீங்கள் வெவ்வேறு மொழிகள் பேசுகிறீர்கள் என்பதையே மறந்துவிடுவீர்கள்."
 }

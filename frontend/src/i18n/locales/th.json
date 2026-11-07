@@ -11,7 +11,6 @@
  "Back": "กลับ",
  "Block user": "บล็อกผู้ใช้",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "เว็บไซต์นี้ถูกบล็อกอยู่ โปรดอนุญาตการแจ้งเตือนในการตั้งค่าเบราว์เซอร์หรือโทรศัพท์",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "การสร้างบัญชีถือว่าคุณยอมรับ [ข้อกำหนดในการให้บริการ] และ [นโยบายความเป็นส่วนตัว]",
  "Cancel": "ยกเลิก",
  "Change": "เปลี่ยน",
  "Change password": "เปลี่ยนรหัสผ่าน",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "ใช้ลิงก์เชิญไม่ได้",
  "Create a link to invite people: they ask to join and an admin lets them in.": "สร้างลิงก์เพื่อเชิญคน: เขาขอเข้าร่วม แล้วผู้ดูแลจะให้เข้า",
  "Create invite link": "สร้างลิงก์เชิญ",
- "Create your account and you will find {name} in your chats.": "สร้างบัญชีแล้วคุณจะพบ {name} ในแชทของคุณ",
  "Decline": "ปฏิเสธ",
  "Invite link": "ลิงก์เชิญ",
  "Invite link turned off": "ปิดลิงก์เชิญแล้ว",
@@ -411,7 +409,6 @@
  "Your invite link": "ลิงก์เชิญของคุณ",
  "Sure! What time?": "ได้เลย! กี่โมงดี?",
  "Hi! I'm waiting for you on Glotter": "สวัสดี! รอคุณอยู่ที่ Glotter นะ",
- "{name} writes in {language}, you read in yours.": "{name} เขียนเป็นภาษา{language} คุณอ่านเป็นภาษาของคุณ",
  "Accept the invite": "ตอบรับคำเชิญ",
  "Sign in with your email or with Google to find your chats.": "เข้าสู่ระบบด้วยอีเมลหรือ Google เพื่อดูแชทของคุณ",
  "It takes 30 seconds. Then choose your language and start chatting.": "ใช้เวลาแค่ 30 วินาที จากนั้นเลือกภาษาแล้วเริ่มแชทได้เลย",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "ยินดีต้อนรับ! เจอกันคืนนี้ไหม?",
  "You write in {language} · everyone reads in their own": "คุณเขียนเป็น{language} · ทุกคนอ่านในภาษาของตัวเอง",
  "You write in {mine} · {name} reads in {theirs}": "คุณเขียนเป็น{mine} · {name} อ่านเป็น{theirs}",
- "{count} people": "{count} คน"
+ "{count} people": "{count} คน",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "ฉันยอมรับ[ข้อกำหนดการให้บริการ]และ[นโยบายความเป็นส่วนตัว]",
+ "You'll forget you speak different languages.": "คุณจะลืมไปเลยว่าพูดกันคนละภาษา"
 }

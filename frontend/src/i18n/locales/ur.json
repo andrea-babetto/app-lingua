@@ -11,7 +11,6 @@
  "Back": "واپس",
  "Block user": "صارف کو بلاک کریں",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "اس سائٹ کے لیے بلاک ہے۔ اپنے براؤزر یا فون کی سیٹنگز میں اطلاعات کی اجازت دیں۔",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "اکاؤنٹ بنا کر آپ [سروس کی شرائط] اور [پرائیویسی پالیسی] سے اتفاق کرتے ہیں۔",
  "Cancel": "منسوخ کریں",
  "Change": "تبدیل کریں",
  "Change password": "پاس ورڈ تبدیل کریں",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "دعوتی لنک استعمال نہیں ہو سکا",
  "Create a link to invite people: they ask to join and an admin lets them in.": "لوگوں کو بلانے کے لیے لنک بنائیں: وہ شامل ہونے کی درخواست کرتے ہیں اور ایڈمن انہیں شامل کرتا ہے۔",
  "Create invite link": "دعوتی لنک بنائیں",
- "Create your account and you will find {name} in your chats.": "اپنا اکاؤنٹ بنائیں، آپ کی چیٹس میں {name} موجود ہوں گے۔",
  "Decline": "مسترد کریں",
  "Invite link": "دعوتی لنک",
  "Invite link turned off": "دعوتی لنک بند کر دیا گیا",
@@ -411,7 +409,6 @@
  "Your invite link": "آپ کا دعوتی لنک",
  "Sure! What time?": "ضرور! کتنے بجے؟",
  "Hi! I'm waiting for you on Glotter": "ہیلو! Glotter پر تمہارا انتظار ہے",
- "{name} writes in {language}, you read in yours.": "{name} {language} میں لکھتے ہیں، آپ اپنی زبان میں پڑھتے ہیں۔",
  "Accept the invite": "دعوت قبول کریں",
  "Sign in with your email or with Google to find your chats.": "اپنی چیٹس تلاش کرنے کے لیے ای میل یا Google سے سائن ان کریں۔",
  "It takes 30 seconds. Then choose your language and start chatting.": "صرف 30 سیکنڈ لگتے ہیں۔ پھر اپنی زبان چنیں اور چیٹ شروع کریں۔",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "خوش آمدید! آج شام ملیں؟",
  "You write in {language} · everyone reads in their own": "آپ {language} میں لکھتے ہیں · ہر کوئی اپنی زبان میں پڑھتا ہے",
  "You write in {mine} · {name} reads in {theirs}": "آپ {mine} میں لکھتے ہیں · {name} {theirs} میں پڑھتا ہے",
- "{count} people": "{count} لوگ"
+ "{count} people": "{count} لوگ",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "میں [سروس کی شرائط] اور [رازداری کی پالیسی] سے متفق ہوں۔",
+ "You'll forget you speak different languages.": "آپ بھول جائیں گے کہ آپ مختلف زبانیں بولتے ہیں۔"
 }

@@ -11,7 +11,6 @@
  "Back": "Kembali",
  "Block user": "Sekat pengguna",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Disekat untuk laman ini. Benarkan pemberitahuan dalam tetapan pelayar atau telefon anda.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Dengan membuat akaun, anda bersetuju dengan [Syarat Perkhidmatan] dan [Dasar Privasi].",
  "Cancel": "Batal",
  "Change": "Tukar",
  "Change password": "Tukar kata laluan",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Pautan jemputan tidak dapat digunakan",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Cipta pautan untuk menjemput orang: mereka minta menyertai dan pentadbir membenarkan mereka masuk.",
  "Create invite link": "Cipta pautan jemputan",
- "Create your account and you will find {name} in your chats.": "Cipta akaun anda dan anda akan menemui {name} dalam sembang anda.",
  "Decline": "Tolak",
  "Invite link": "Pautan jemputan",
  "Invite link turned off": "Pautan jemputan dimatikan",
@@ -411,7 +409,6 @@
  "Your invite link": "Pautan jemputan anda",
  "Sure! What time?": "Boleh! Pukul berapa?",
  "Hi! I'm waiting for you on Glotter": "Hai! Saya tunggu awak di Glotter",
- "{name} writes in {language}, you read in yours.": "{name} menulis dalam {language}, anda membaca dalam bahasa anda.",
  "Accept the invite": "Terima jemputan",
  "Sign in with your email or with Google to find your chats.": "Log masuk dengan e-mel atau Google untuk mencari sembang anda.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Hanya 30 saat. Kemudian pilih bahasa anda dan mula bersembang.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Selamat datang! Jumpa malam ini?",
  "You write in {language} · everyone reads in their own": "Anda menulis dalam {language} · semua membaca dalam bahasa sendiri",
  "You write in {mine} · {name} reads in {theirs}": "Anda menulis dalam {mine} · {name} membaca dalam {theirs}",
- "{count} people": "{count} orang"
+ "{count} people": "{count} orang",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Saya bersetuju dengan [Terma Perkhidmatan] dan [Dasar Privasi].",
+ "You'll forget you speak different languages.": "Anda akan lupa bahawa anda bercakap bahasa yang berbeza."
 }

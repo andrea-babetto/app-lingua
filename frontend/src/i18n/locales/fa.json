@@ -11,7 +11,6 @@
  "Back": "بازگشت",
  "Block user": "مسدود کردن کاربر",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "این سایت مسدود است. اعلان‌ها را در تنظیمات مرورگر یا گوشی مجاز کنید.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "با ایجاد حساب کاربری، [شرایط استفاده از خدمات] و [سیاست حفظ حریم خصوصی] را می‌پذیرید.",
  "Cancel": "لغو",
  "Change": "تغییر",
  "Change password": "تغییر گذرواژه",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "استفاده از پیوند دعوت ممکن نشد",
  "Create a link to invite people: they ask to join and an admin lets them in.": "برای دعوت افراد یک پیوند بسازید: آن‌ها درخواست عضویت می‌دهند و یک مدیر راهشان می‌دهد.",
  "Create invite link": "ساختن پیوند دعوت",
- "Create your account and you will find {name} in your chats.": "حساب خود را بسازید تا {name} را در گفتگوهایتان ببینید.",
  "Decline": "رد کردن",
  "Invite link": "پیوند دعوت",
  "Invite link turned off": "پیوند دعوت خاموش شد",
@@ -411,7 +409,6 @@
  "Your invite link": "پیوند دعوت شما",
  "Sure! What time?": "حتماً! چه ساعتی؟",
  "Hi! I'm waiting for you on Glotter": "سلام! در Glotter منتظرت هستم",
- "{name} writes in {language}, you read in yours.": "{name} به {language} می‌نویسد، تو به زبان خودت می‌خوانی.",
  "Accept the invite": "پذیرفتن دعوت",
  "Sign in with your email or with Google to find your chats.": "با ایمیل یا Google وارد شو تا گفتگوهایت را پیدا کنی.",
  "It takes 30 seconds. Then choose your language and start chatting.": "فقط ۳۰ ثانیه طول می‌کشد. بعد زبانت را انتخاب کن و گفتگو را شروع کن.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "خوش آمدی! امشب همدیگر را می‌بینیم؟",
  "You write in {language} · everyone reads in their own": "تو به {language} می‌نویسی · هر کس به زبان خودش می‌خواند",
  "You write in {mine} · {name} reads in {theirs}": "تو به {mine} می‌نویسی · {name} به {theirs} می‌خواند",
- "{count} people": "{count} نفر"
+ "{count} people": "{count} نفر",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "[شرایط خدمات] و [سیاست حریم خصوصی] را می‌پذیرم.",
+ "You'll forget you speak different languages.": "فراموش می‌کنی که به زبان‌های مختلف حرف می‌زنید."
 }

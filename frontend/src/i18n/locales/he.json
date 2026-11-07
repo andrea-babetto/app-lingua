@@ -11,7 +11,6 @@
  "Back": "חזרה",
  "Block user": "חסימת משתמש",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "האתר חסום. אפשרו התראות בהגדרות הדפדפן או הטלפון.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "בעת יצירת חשבון אתם מסכימים ל[תנאי השימוש] ול[מדיניות הפרטיות].",
  "Cancel": "ביטול",
  "Change": "שינוי",
  "Change password": "שינוי סיסמה",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "לא ניתן היה להשתמש בקישור ההזמנה",
  "Create a link to invite people: they ask to join and an admin lets them in.": "צרו קישור כדי להזמין אנשים: הם מבקשים להצטרף ומנהל מכניס אותם.",
  "Create invite link": "יצירת קישור הזמנה",
- "Create your account and you will find {name} in your chats.": "צרו חשבון ותמצאו את {name} בצ'אטים שלכם.",
  "Decline": "דחייה",
  "Invite link": "קישור הזמנה",
  "Invite link turned off": "קישור ההזמנה כובה",
@@ -411,7 +409,6 @@
  "Your invite link": "קישור ההזמנה שלכם",
  "Sure! What time?": "בטח! באיזו שעה?",
  "Hi! I'm waiting for you on Glotter": "היי! מחכה לך ב-Glotter",
- "{name} writes in {language}, you read in yours.": "{name} כותב/ת ב{language}, ואת/ה קורא/ת בשפה שלך.",
  "Accept the invite": "לקבל את ההזמנה",
  "Sign in with your email or with Google to find your chats.": "התחברו עם האימייל או עם Google כדי למצוא את הצ׳אטים שלכם.",
  "It takes 30 seconds. Then choose your language and start chatting.": "זה לוקח 30 שניות. אחר כך בוחרים שפה ומתחילים לכתוב.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "ברוך הבא! נתראה הערב?",
  "You write in {language} · everyone reads in their own": "אתם כותבים ב{language} · כל אחד קורא בשפה שלו",
  "You write in {mine} · {name} reads in {theirs}": "אתם כותבים ב{mine} · {name} קורא ב{theirs}",
- "{count} people": "{count} אנשים"
+ "{count} people": "{count} אנשים",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "אני מסכים/ה ל[תנאי השירות] ול[מדיניות הפרטיות].",
+ "You'll forget you speak different languages.": "תשכחו שאתם מדברים בשפות שונות."
 }

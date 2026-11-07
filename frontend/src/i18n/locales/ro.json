@@ -11,7 +11,6 @@
  "Back": "Înapoi",
  "Block user": "Blochează utilizatorul",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Blocat pentru acest site. Permite notificările din setările browserului sau ale telefonului.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Prin crearea unui cont accepți [Termenii și condițiile] și [Politica de confidențialitate].",
  "Cancel": "Anulează",
  "Change": "Schimbă",
  "Change password": "Schimbă parola",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Linkul de invitație nu a putut fi folosit",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Creează un link ca să inviți oameni: ei cer să intre și un administrator îi lasă.",
  "Create invite link": "Creează link de invitație",
- "Create your account and you will find {name} in your chats.": "Creează-ți contul și îl vei găsi pe {name} în conversațiile tale.",
  "Decline": "Refuză",
  "Invite link": "Link de invitație",
  "Invite link turned off": "Link de invitație dezactivat",
@@ -411,7 +409,6 @@
  "Your invite link": "Linkul tău de invitație",
  "Sure! What time?": "Sigur! La ce oră?",
  "Hi! I'm waiting for you on Glotter": "Salut! Te aștept pe Glotter",
- "{name} writes in {language}, you read in yours.": "{name} scrie în {language}, tu citești în limba ta.",
  "Accept the invite": "Acceptă invitația",
  "Sign in with your email or with Google to find your chats.": "Conectează-te cu e-mailul sau cu Google ca să-ți găsești conversațiile.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Durează 30 de secunde. Apoi îți alegi limba și începi să scrii.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Bine ai venit! Ne vedem diseară?",
  "You write in {language} · everyone reads in their own": "Tu scrii în {language} · fiecare citește în limba lui",
  "You write in {mine} · {name} reads in {theirs}": "Tu scrii în {mine} · {name} citește în {theirs}",
- "{count} people": "{count} persoane"
+ "{count} people": "{count} persoane",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Accept [Termenii serviciului] și [Politica de confidențialitate].",
+ "You'll forget you speak different languages.": "Vei uita că vorbiți limbi diferite."
 }

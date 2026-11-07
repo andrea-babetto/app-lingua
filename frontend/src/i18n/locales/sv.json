@@ -11,7 +11,6 @@
  "Back": "Tillbaka",
  "Block user": "Blockera användare",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Blockerad för den här webbplatsen. Tillåt aviseringar i webbläsarens eller telefonens inställningar.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "När du skapar ett konto godkänner du [användarvillkoren] och [integritetspolicyn].",
  "Cancel": "Avbryt",
  "Change": "Ändra",
  "Change password": "Ändra lösenord",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Inbjudningslänken kunde inte användas",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Skapa en länk för att bjuda in folk: de ber om att få gå med och en administratör släpper in dem.",
  "Create invite link": "Skapa inbjudningslänk",
- "Create your account and you will find {name} in your chats.": "Skapa ditt konto så hittar du {name} bland dina chattar.",
  "Decline": "Avböj",
  "Invite link": "Inbjudningslänk",
  "Invite link turned off": "Inbjudningslänken är avstängd",
@@ -411,7 +409,6 @@
  "Your invite link": "Din inbjudningslänk",
  "Sure! What time?": "Självklart! Vilken tid?",
  "Hi! I'm waiting for you on Glotter": "Hej! Jag väntar på dig på Glotter",
- "{name} writes in {language}, you read in yours.": "{name} skriver på {language}, du läser på ditt eget språk.",
  "Accept the invite": "Acceptera inbjudan",
  "Sign in with your email or with Google to find your chats.": "Logga in med din e-post eller med Google för att hitta dina chattar.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Det tar 30 sekunder. Sedan väljer du ditt språk och börjar chatta.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Välkommen! Ses vi i kväll?",
  "You write in {language} · everyone reads in their own": "Du skriver på {language} · alla läser på sitt eget språk",
  "You write in {mine} · {name} reads in {theirs}": "Du skriver på {mine} · {name} läser på {theirs}",
- "{count} people": "{count} personer"
+ "{count} people": "{count} personer",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Jag godkänner [Användarvillkoren] och [Integritetspolicyn].",
+ "You'll forget you speak different languages.": "Du kommer att glömma att ni talar olika språk."
 }

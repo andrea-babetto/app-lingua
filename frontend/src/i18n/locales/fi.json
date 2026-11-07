@@ -11,7 +11,6 @@
  "Back": "Takaisin",
  "Block user": "Estä käyttäjä",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Estetty tällä sivustolla. Salli ilmoitukset selaimen tai puhelimen asetuksissa.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Luomalla tilin hyväksyt [käyttöehdot] ja [tietosuojakäytännön].",
  "Cancel": "Peruuta",
  "Change": "Vaihda",
  "Change password": "Vaihda salasana",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Kutsulinkkiä ei voitu käyttää",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Luo linkki ihmisten kutsumiseen: he pyytävät päästä mukaan ja ylläpitäjä päästää heidät sisään.",
  "Create invite link": "Luo kutsulinkki",
- "Create your account and you will find {name} in your chats.": "Luo tili, niin löydät {name} keskusteluistasi.",
  "Decline": "Hylkää",
  "Invite link": "Kutsulinkki",
  "Invite link turned off": "Kutsulinkki on poistettu käytöstä",
@@ -411,7 +409,6 @@
  "Your invite link": "Kutsulinkkisi",
  "Sure! What time?": "Totta kai! Mihin aikaan?",
  "Hi! I'm waiting for you on Glotter": "Hei! Odotan sinua Glotterissa",
- "{name} writes in {language}, you read in yours.": "{name} kirjoittaa kielellä {language}, sinä luet omalla kielelläsi.",
  "Accept the invite": "Hyväksy kutsu",
  "Sign in with your email or with Google to find your chats.": "Kirjaudu sähköpostilla tai Googlella löytääksesi keskustelusi.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Se vie 30 sekuntia. Valitse sitten kielesi ja aloita.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Tervetuloa! Nähdäänkö tänä iltana?",
  "You write in {language} · everyone reads in their own": "Kirjoitat kielellä {language} · jokainen lukee omalla kielellään",
  "You write in {mine} · {name} reads in {theirs}": "Kirjoitat kielellä {mine} · {name} lukee kielellä {theirs}",
- "{count} people": "{count} henkilöä"
+ "{count} people": "{count} henkilöä",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Hyväksyn [Käyttöehdot] ja [Tietosuojakäytännön].",
+ "You'll forget you speak different languages.": "Unohdat, että puhutte eri kieliä."
 }

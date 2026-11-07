@@ -40,7 +40,7 @@ def test_health_and_config(client):
 
 
 def test_register_validation(client):
-    ok = {"email": "a@x.com", "password": "longenough1", "name": "A"}
+    ok = {"email": "a@x.com", "password": "longenough1", "name": "A", "accept_terms": True}
     assert client.post("/api/auth/register", json={**ok, "password": "short"}).status_code == 422
     assert client.post("/api/auth/register", json={**ok, "password": "x" * 73}).status_code == 422
     assert client.post("/api/auth/register", json={**ok, "name": "   "}).status_code == 422
@@ -65,7 +65,7 @@ def test_unknown_email_gets_same_error_as_wrong_password(client, make_person):
 
 
 def test_signup_is_rate_limited_per_address(client):
-    codes = [client.post("/api/auth/register", json={"email": f"u{i}@x.com", "password": "longenough1", "name": "U"}).status_code for i in range(12)]
+    codes = [client.post("/api/auth/register", json={"email": f"u{i}@x.com", "password": "longenough1", "name": "U", "accept_terms": True}).status_code for i in range(12)]
     assert codes[:10] == [200] * 10 and codes[10] == 429
 
 
@@ -80,7 +80,8 @@ def test_google_login(client, monkeypatch, make_person):
     monkeypatch.setattr(server, "GOOGLE_CLIENT_ID", "client-id")
     info = {"email": "G@Example.com", "email_verified": True, "name": "Gina", "picture": "https://lh3.googleusercontent.com/a"}
     monkeypatch.setattr(server, "_verify_google", lambda cred: info)
-    r = client.post("/api/auth/google", json={"credential": "x" * 20})
+    assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 400  # a new account must accept the Terms
+    r = client.post("/api/auth/google", json={"credential": "x" * 20, "accept_terms": True})
     assert r.status_code == 200 and r.json()["user"]["email"] == "g@example.com"
     again = client.post("/api/auth/google", json={"credential": "x" * 20}).json()
     assert again["user"]["id"] == r.json()["user"]["id"]  # same account, not a duplicate
@@ -694,7 +695,7 @@ def test_typing_only_reaches_chats_you_belong_to(client, make_person):
 
 
 def test_invite_code_gates_new_accounts(client, monkeypatch):
-    ok = {"email": "inv@x.com", "password": "correct-horse-1", "name": "Inv"}
+    ok = {"email": "inv@x.com", "password": "correct-horse-1", "name": "Inv", "accept_terms": True}
     assert client.get("/api/config").json()["invite_required"] is False
     assert client.post("/api/auth/register", json=ok).status_code == 200  # open when no code is configured
 
@@ -715,8 +716,8 @@ def test_invite_code_gates_google_signup(client, monkeypatch):
     info = {"email": "newg@example.com", "email_verified": True, "name": "New G"}
     monkeypatch.setattr(server, "_verify_google", lambda cred: info)
     monkeypatch.setenv("INVITE_CODE", "s3cret-code")
-    assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 403
-    assert client.post("/api/auth/google", json={"credential": "x" * 20, "invite_code": "s3cret-code"}).status_code == 200
+    assert client.post("/api/auth/google", json={"credential": "x" * 20, "accept_terms": True}).status_code == 403
+    assert client.post("/api/auth/google", json={"credential": "x" * 20, "invite_code": "s3cret-code", "accept_terms": True}).status_code == 200
     # once the account exists, Google sign-in needs no code
     assert client.post("/api/auth/google", json={"credential": "x" * 20}).status_code == 200
 
@@ -724,7 +725,7 @@ def test_invite_code_gates_google_signup(client, monkeypatch):
 
 # ---------------------------------------------------------------- invite links
 def _register(client, email, **extra):
-    return client.post("/api/auth/register", json={"email": email, "password": "correct-horse-1", "name": email.split("@")[0], **extra})
+    return client.post("/api/auth/register", json={"email": email, "password": "correct-horse-1", "name": email.split("@")[0], "accept_terms": True, **extra})
 
 
 def _admin(client, make_person):
@@ -1462,3 +1463,69 @@ def test_group_receipts_per_person(client, make_person):
     client.post(f"/api/messages/{g['id']}/read", headers=c.h)                              # Carl reads (so it reached him too)
     v = _mine(client, a, g["id"], m["id"])
     assert set(v["delivered_to"]) == {b.id, c.id} and list(v["read_at"]) == [c.id]
+
+
+# ---------------------------------------------------------------- consent, invite numbers, monthly budget
+def test_signup_needs_and_records_consent(client):
+    base = {"email": "c@x.com", "password": "correct-horse-1", "name": "C"}
+    assert client.post("/api/auth/register", json=base).status_code == 400  # the checkbox was not ticked
+    r = client.post("/api/auth/register", json={**base, "accept_terms": True})
+    assert r.status_code == 200
+    u = asyncio.run(server.db.users.find_one({"email": "c@x.com"}, {"_id": 0}))
+    c = u["consent"]
+    assert c["terms_version"] == c["privacy_version"] == server.LEGAL_VERSION == client.get("/api/config").json()["legal_version"]
+    assert c["method"] == "email" and c["accepted_at"]
+    # the person can see it in their data download
+    data = client.get("/api/auth/export", headers={"Authorization": f"Bearer {r.json()['token']}"}).json()
+    assert data["profile"]["consent"]["terms_version"] == server.LEGAL_VERSION
+
+
+def test_invite_funnel_counts_without_reading_messages(client, make_person):
+    admin = _admin(client, make_person)
+    giulia = make_person("g@x.com", "Giulia", "it")
+    code = client.get("/api/me/invite", headers=giulia.h).json()["code"]
+    for _ in range(3):
+        assert client.get(f"/api/invite/{code}").status_code == 200  # three people open the link
+    marco = _register(client, "marco@x.com", invite_link=code).json()
+    _register(client, "anna@x.com", invite_link=code)
+    mh = {"Authorization": f"Bearer {marco['token']}"}
+    chat = client.post(f"/api/invite/{code}/accept", headers=mh).json()["chat"]
+    assert client.post("/api/messages", json={"chat_id": chat["id"], "text": "Ciao!"}, headers=mh).status_code == 200
+    f = client.get("/api/admin/invites", headers=admin.h).json()["funnel"]
+    assert (f["opened"], f["signed_up"], f["wrote"]) == (3, 2, 1)
+    assert f["signup_rate"] == round(2 / 3, 3) and f["write_rate"] == 0.5 and f["week_old"] == 0
+    # coming back a week after signing up is noted once
+    week_ago = (server.datetime.now(server.timezone.utc) - server.timedelta(days=8)).isoformat()
+    asyncio.run(server.db.users.update_one({"id": marco["user"]["id"]}, {"$set": {"created_at": week_ago}}))
+    asyncio.run(server.note_return(marco["user"]["id"]))
+    f = client.get("/api/admin/invites", headers=admin.h).json()["funnel"]
+    assert (f["week_old"], f["returned_7d"], f["return_rate"]) == (1, 1, 1.0)
+    # deleting the account that invited removes the opened-link counts too
+    assert asyncio.run(server.db.invite_events.count_documents({"target": giulia.id})) == 3
+    assert client.post("/api/auth/delete-account", json={"password": "correct-horse-1"}, headers=giulia.h).status_code == 200
+    assert asyncio.run(server.db.invite_events.count_documents({"target": giulia.id})) == 0
+
+
+def test_monthly_budget_warns_once_per_level(client, make_person, monkeypatch):
+    admin = _admin(client, make_person)
+    monkeypatch.setattr(server, "MONTHLY_BUDGET_USD", 10.0)
+    sent = []
+    monkeypatch.setattr(server.mailer, "enabled", lambda: True)
+    async def fake_send(to, subject, text):
+        sent.append(subject)
+        return True
+    monkeypatch.setattr(server.mailer, "send", fake_send)
+    monkeypatch.setenv("ADMIN_EMAIL", "boss@x.com")
+    now = server.now_iso()
+    asyncio.run(server.db.translation_logs.insert_one({"est_cost": 7.0, "chars": 10, "created_at": now}))
+    assert asyncio.run(server.check_budget()) is None  # 70%: nothing yet
+    asyncio.run(server.db.voice_logs.insert_one({"kind": "tts", "seconds": 60, "est_cost": 1.5, "created_at": now}))
+    assert asyncio.run(server.check_budget()) == 80
+    assert asyncio.run(server.check_budget()) is None  # the 80% warning goes out once
+    asyncio.run(server.db.translation_logs.insert_one({"est_cost": 2.0, "chars": 10, "created_at": now}))
+    assert asyncio.run(server.check_budget()) == 100
+    assert len(sent) == 2 and "100%" in sent[1]
+    # last month's costs do not count
+    asyncio.run(server.db.translation_logs.insert_one({"est_cost": 99.0, "chars": 10, "created_at": "2000-01-15T10:00:00+00:00"}))
+    m = client.get("/api/admin/stats", headers=admin.h).json()["month"]
+    assert m["budget"] == 10.0 and m["spent"] == 10.5 and m["share"] == 1.05

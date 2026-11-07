@@ -11,7 +11,6 @@
  "Back": "Kembali",
  "Block user": "Blokir pengguna",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Diblokir untuk situs ini. Izinkan notifikasi di pengaturan browser atau ponsel Anda.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Dengan membuat akun, Anda menyetujui [Ketentuan Layanan] dan [Kebijakan Privasi].",
  "Cancel": "Batal",
  "Change": "Ubah",
  "Change password": "Ubah kata sandi",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Tautan undangan tidak dapat digunakan",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Buat tautan untuk mengundang orang: mereka meminta bergabung dan admin memasukkan mereka.",
  "Create invite link": "Buat tautan undangan",
- "Create your account and you will find {name} in your chats.": "Buat akunmu dan kamu akan menemukan {name} di chatmu.",
  "Decline": "Tolak",
  "Invite link": "Tautan undangan",
  "Invite link turned off": "Tautan undangan dimatikan",
@@ -411,7 +409,6 @@
  "Your invite link": "Tautan undanganmu",
  "Sure! What time?": "Tentu! Jam berapa?",
  "Hi! I'm waiting for you on Glotter": "Hai! Aku menunggumu di Glotter",
- "{name} writes in {language}, you read in yours.": "{name} menulis dalam {language}, kamu membaca dalam bahasamu.",
  "Accept the invite": "Terima undangan",
  "Sign in with your email or with Google to find your chats.": "Masuk dengan email atau Google untuk menemukan obrolanmu.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Hanya 30 detik. Lalu pilih bahasamu dan mulai mengobrol.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Selamat datang! Ketemu nanti malam?",
  "You write in {language} · everyone reads in their own": "Kamu menulis dalam {language} · semua membaca dalam bahasanya sendiri",
  "You write in {mine} · {name} reads in {theirs}": "Kamu menulis dalam {mine} · {name} membaca dalam {theirs}",
- "{count} people": "{count} orang"
+ "{count} people": "{count} orang",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Saya menyetujui [Ketentuan Layanan] dan [Kebijakan Privasi].",
+ "You'll forget you speak different languages.": "Kamu akan lupa bahwa kalian berbicara bahasa yang berbeda."
 }

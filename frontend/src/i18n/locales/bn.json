@@ -11,7 +11,6 @@
  "Back": "পেছনে",
  "Block user": "ব্যবহারকারীকে ব্লক করুন",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "এই সাইটের জন্য ব্লক করা আছে। ব্রাউজার বা ফোনের সেটিংসে নোটিফিকেশনের অনুমতি দিন।",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "অ্যাকাউন্ট তৈরি করে আপনি [পরিষেবার শর্তাবলি] ও [গোপনীয়তা নীতি] মেনে নিচ্ছেন।",
  "Cancel": "বাতিল",
  "Change": "পরিবর্তন",
  "Change password": "পাসওয়ার্ড পরিবর্তন করুন",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "আমন্ত্রণ লিংক ব্যবহার করা যায়নি",
  "Create a link to invite people: they ask to join and an admin lets them in.": "লোকদের আমন্ত্রণ জানাতে একটি লিংক তৈরি করুন: তারা যোগ দিতে অনুরোধ করবে, অ্যাডমিন যুক্ত করবেন।",
  "Create invite link": "আমন্ত্রণ লিংক তৈরি করুন",
- "Create your account and you will find {name} in your chats.": "অ্যাকাউন্ট খুলুন, আপনার চ্যাটে {name}-কে পাবেন।",
  "Decline": "প্রত্যাখ্যান",
  "Invite link": "আমন্ত্রণ লিংক",
  "Invite link turned off": "আমন্ত্রণ লিংক বন্ধ করা হয়েছে",
@@ -411,7 +409,6 @@
  "Your invite link": "আপনার আমন্ত্রণ লিংক",
  "Sure! What time?": "অবশ্যই! কটায়?",
  "Hi! I'm waiting for you on Glotter": "হাই! Glotter-এ তোমার অপেক্ষায় আছি",
- "{name} writes in {language}, you read in yours.": "{name} {language}-এ লেখেন, তুমি পড়ো নিজের ভাষায়।",
  "Accept the invite": "আমন্ত্রণ গ্রহণ করো",
  "Sign in with your email or with Google to find your chats.": "তোমার চ্যাটগুলো খুঁজে পেতে ইমেল বা Google দিয়ে সাইন ইন করো।",
  "It takes 30 seconds. Then choose your language and start chatting.": "মাত্র ৩০ সেকেন্ড লাগে। তারপর তোমার ভাষা বেছে নিয়ে চ্যাট শুরু করো।",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "স্বাগতম! আজ সন্ধ্যায় দেখা হবে?",
  "You write in {language} · everyone reads in their own": "আপনি {language} ভাষায় লেখেন · সবাই নিজের ভাষায় পড়ে",
  "You write in {mine} · {name} reads in {theirs}": "আপনি {mine} ভাষায় লেখেন · {name} {theirs} ভাষায় পড়েন",
- "{count} people": "{count} জন"
+ "{count} people": "{count} জন",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "আমি [পরিষেবার শর্তাবলী] এবং [গোপনীয়তা নীতি] মেনে নিচ্ছি।",
+ "You'll forget you speak different languages.": "আপনি ভুলে যাবেন যে আপনারা আলাদা ভাষায় কথা বলেন।"
 }

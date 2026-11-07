@@ -11,7 +11,6 @@
  "Back": "Zpět",
  "Block user": "Zablokovat uživatele",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Pro tento web zablokováno. Povolte oznámení v nastavení prohlížeče nebo telefonu.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Vytvořením účtu souhlasíte s [Podmínkami použití] a [Zásadami ochrany osobních údajů].",
  "Cancel": "Zrušit",
  "Change": "Změnit",
  "Change password": "Změnit heslo",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Odkaz s pozvánkou se nepodařilo použít",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Vytvoř odkaz pro pozvání lidí: požádají o vstup a správce je pustí.",
  "Create invite link": "Vytvořit odkaz s pozvánkou",
- "Create your account and you will find {name} in your chats.": "Vytvoř si účet a {name} najdeš ve svých chatech.",
  "Decline": "Odmítnout",
  "Invite link": "Odkaz s pozvánkou",
  "Invite link turned off": "Odkaz s pozvánkou je vypnutý",
@@ -411,7 +409,6 @@
  "Your invite link": "Tvůj odkaz s pozvánkou",
  "Sure! What time?": "Jasně! V kolik?",
  "Hi! I'm waiting for you on Glotter": "Ahoj! Čekám na tebe v Glotteru",
- "{name} writes in {language}, you read in yours.": "{name} píše jazykem {language}, ty čteš ve svém.",
  "Accept the invite": "Přijmout pozvánku",
  "Sign in with your email or with Google to find your chats.": "Přihlas se e-mailem nebo přes Google a najdi své chaty.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Trvá to 30 sekund. Pak si zvolíš jazyk a můžeš psát.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Vítej! Uvidíme se večer?",
  "You write in {language} · everyone reads in their own": "Píšeš: {language} · každý čte ve svém jazyce",
  "You write in {mine} · {name} reads in {theirs}": "Píšeš: {mine} · {name} čte: {theirs}",
- "{count} people": "Lidé: {count}"
+ "{count} people": "Lidé: {count}",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Souhlasím s [Podmínkami služby] a [Zásadami ochrany soukromí].",
+ "You'll forget you speak different languages.": "Zapomeneš, že mluvíte různými jazyky."
 }

@@ -11,7 +11,6 @@
  "Back": "Tilbage",
  "Block user": "Bloker bruger",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Blokeret for dette websted. Tillad notifikationer i browserens eller telefonens indstillinger.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Når du opretter en konto, accepterer du [Servicevilkårene] og [Privatlivspolitikken].",
  "Cancel": "Annuller",
  "Change": "Skift",
  "Change password": "Skift adgangskode",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Invitationslinket kunne ikke bruges",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Opret et link for at invitere folk: de beder om at komme med, og en administrator lukker dem ind.",
  "Create invite link": "Opret invitationslink",
- "Create your account and you will find {name} in your chats.": "Opret din konto, så finder du {name} i dine chats.",
  "Decline": "Afvis",
  "Invite link": "Invitationslink",
  "Invite link turned off": "Invitationslinket er slået fra",
@@ -411,7 +409,6 @@
  "Your invite link": "Dit invitationslink",
  "Sure! What time?": "Selvfølgelig! Hvornår?",
  "Hi! I'm waiting for you on Glotter": "Hej! Jeg venter på dig på Glotter",
- "{name} writes in {language}, you read in yours.": "{name} skriver på {language}, du læser på dit eget sprog.",
  "Accept the invite": "Accepter invitationen",
  "Sign in with your email or with Google to find your chats.": "Log ind med din e-mail eller med Google for at finde dine chats.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Det tager 30 sekunder. Vælg derefter dit sprog og begynd at chatte.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Velkommen! Ses vi i aften?",
  "You write in {language} · everyone reads in their own": "Du skriver på {language} · alle læser på deres eget sprog",
  "You write in {mine} · {name} reads in {theirs}": "Du skriver på {mine} · {name} læser på {theirs}",
- "{count} people": "{count} personer"
+ "{count} people": "{count} personer",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Jeg accepterer [Servicevilkårene] og [Privatlivspolitikken].",
+ "You'll forget you speak different languages.": "Du vil glemme, at I taler forskellige sprog."
 }

@@ -11,7 +11,6 @@
  "Back": "వెనుకకు",
  "Block user": "యూజర్‌ను బ్లాక్ చేయి",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "ఈ సైట్‌కు బ్లాక్ చేయబడింది. మీ బ్రౌజర్ లేదా ఫోన్ సెట్టింగ్‌లలో నోటిఫికేషన్లను అనుమతించండి.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "ఖాతాను సృష్టించడం ద్వారా మీరు [సేవా నిబంధనలు] మరియు [గోప్యతా విధానం]లకు అంగీకరిస్తున్నారు.",
  "Cancel": "రద్దు చేయి",
  "Change": "మార్చు",
  "Change password": "పాస్‌వర్డ్ మార్చు",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "ఆహ్వాన లింక్‌ను ఉపయోగించలేకపోయాం",
  "Create a link to invite people: they ask to join and an admin lets them in.": "వ్యక్తులను ఆహ్వానించడానికి లింక్ సృష్టించండి: వారు చేరమని అడుగుతారు, అడ్మిన్ చేర్చుకుంటారు.",
  "Create invite link": "ఆహ్వాన లింక్ సృష్టించు",
- "Create your account and you will find {name} in your chats.": "మీ ఖాతాను సృష్టించండి, మీ చాట్‌లలో {name} కనిపిస్తారు.",
  "Decline": "తిరస్కరించు",
  "Invite link": "ఆహ్వాన లింక్",
  "Invite link turned off": "ఆహ్వాన లింక్ ఆపివేయబడింది",
@@ -411,7 +409,6 @@
  "Your invite link": "మీ ఆహ్వాన లింక్",
  "Sure! What time?": "తప్పకుండా! ఎన్ని గంటలకు?",
  "Hi! I'm waiting for you on Glotter": "హాయ్! Glotterలో నీ కోసం ఎదురుచూస్తున్నాను",
- "{name} writes in {language}, you read in yours.": "{name} {language}లో రాస్తారు, మీరు మీ భాషలో చదువుతారు.",
  "Accept the invite": "ఆహ్వానాన్ని అంగీకరించండి",
  "Sign in with your email or with Google to find your chats.": "మీ చాట్‌లను కనుగొనడానికి మీ ఇమెయిల్ లేదా Googleతో సైన్ ఇన్ చేయండి.",
  "It takes 30 seconds. Then choose your language and start chatting.": "30 సెకన్లు చాలు. తర్వాత మీ భాషను ఎంచుకుని చాట్ ప్రారంభించండి.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "స్వాగతం! ఈ రాత్రి కలుద్దామా?",
  "You write in {language} · everyone reads in their own": "మీరు {language}లో రాస్తారు · ప్రతి ఒక్కరూ తమ భాషలో చదువుతారు",
  "You write in {mine} · {name} reads in {theirs}": "మీరు {mine}లో రాస్తారు · {name} {theirs}లో చదువుతారు",
- "{count} people": "{count} మంది"
+ "{count} people": "{count} మంది",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "నేను [సేవా నిబంధనలు] మరియు [గోప్యతా విధానం]ను అంగీకరిస్తున్నాను.",
+ "You'll forget you speak different languages.": "మీరు వేర్వేరు భాషలు మాట్లాడుతున్నారని మర్చిపోతారు."
 }

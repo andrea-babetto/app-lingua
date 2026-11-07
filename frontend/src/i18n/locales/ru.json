@@ -11,7 +11,6 @@
  "Back": "Назад",
  "Block user": "Заблокировать пользователя",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Заблокировано для этого сайта. Разрешите уведомления в настройках браузера или телефона.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Создавая аккаунт, вы соглашаетесь с [Условиями использования] и [Политикой конфиденциальности].",
  "Cancel": "Отмена",
  "Change": "Изменить",
  "Change password": "Сменить пароль",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Не удалось использовать ссылку-приглашение",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Создайте ссылку, чтобы приглашать людей: они просят вступить, а администратор их впускает.",
  "Create invite link": "Создать ссылку-приглашение",
- "Create your account and you will find {name} in your chats.": "Создайте аккаунт, и {name} появится в ваших чатах.",
  "Decline": "Отклонить",
  "Invite link": "Ссылка-приглашение",
  "Invite link turned off": "Ссылка-приглашение выключена",
@@ -411,7 +409,6 @@
  "Your invite link": "Ваша ссылка-приглашение",
  "Sure! What time?": "Конечно! Во сколько?",
  "Hi! I'm waiting for you on Glotter": "Привет! Жду тебя в Glotter",
- "{name} writes in {language}, you read in yours.": "{name} пишет на языке «{language}», а ты читаешь на своём.",
  "Accept the invite": "Принять приглашение",
  "Sign in with your email or with Google to find your chats.": "Войди по электронной почте или через Google, чтобы найти свои чаты.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Это займёт 30 секунд. Потом выберешь язык и начнёшь общаться.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Добро пожаловать! Увидимся вечером?",
  "You write in {language} · everyone reads in their own": "Ты пишешь: {language} · каждый читает на своём",
  "You write in {mine} · {name} reads in {theirs}": "Ты пишешь: {mine} · {name} читает: {theirs}",
- "{count} people": "Людей: {count}"
+ "{count} people": "Людей: {count}",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Я принимаю [Условия использования] и [Политику конфиденциальности].",
+ "You'll forget you speak different languages.": "Ты забудешь, что вы говорите на разных языках."
 }

@@ -92,6 +92,24 @@ export default function Admin() {
           </div>
         </div>
 
+        {stats?.month && (
+          <div data-testid="budget-card" className={`rounded-xl p-5 border ${stats.month.share >= 1 ? "border-destructive bg-[var(--gl-danger-bg)]" : stats.month.share >= 0.8 ? "border-sand bg-[var(--gl-tint)]" : "border-border bg-card"}`}>
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-lg font-semibold">AI spending this month ({stats.month.month})</h2>
+              <span className="text-2xl font-bold tabular-nums">${stats.month.spent.toFixed(2)}{stats.month.budget ? <span className="text-base font-medium text-muted-foreground"> of ${stats.month.budget.toFixed(2)}</span> : null}</span>
+            </div>
+            {stats.month.budget ? (
+              <>
+                <div className="mt-3 h-2.5 rounded-full bg-surface overflow-hidden"><div className={`h-full ${stats.month.share >= 1 ? "bg-destructive" : "bg-sand"}`} style={{ width: `${Math.min(100, stats.month.share * 100)}%` }} /></div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {stats.month.share >= 1 ? "Over the monthly limit. " : stats.month.share >= 0.8 ? "Over 80% of the monthly limit. " : ""}
+                  Translation and voice, estimated. You get an email at 80% and 100% (if email is set up). The chat never stops: for a hard stop, set limits in the Anthropic and OpenAI consoles. Change the limit with MONTHLY_BUDGET_USD on lingua-api.
+                </p>
+              </>
+            ) : <p className="mt-2 text-sm text-muted-foreground">No monthly limit set (MONTHLY_BUDGET_USD = 0).</p>}
+          </div>
+        )}
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {cards.map((c) => (
             <div key={c.label} className="bg-card border border-border rounded-xl p-5">
@@ -170,6 +188,26 @@ export default function Admin() {
           <div className="bg-card border border-border rounded-xl p-5" data-testid="invites-card">
             <h2 className="text-lg font-semibold mb-1">Invites</h2>
             <p className="text-sm text-muted-foreground mb-3">{invites.invited} of {invites.total_users} people joined with someone's link (only you see this).</p>
+            {invites.funnel && (() => {
+              const f = invites.funnel, pct = (v) => (v == null ? "—" : `${Math.round(v * 100)}%`);
+              const rows = [
+                ["People brought in per user", f.per_user == null ? "—" : f.per_user.toFixed(2), "at least 1", f.per_user != null && f.per_user >= f.targets.per_user],
+                ["Link opened → signed up", `${f.signed_up} of ${f.opened} · ${pct(f.signup_rate)}`, "at least half", f.signup_rate != null && f.signup_rate >= f.targets.signup_rate],
+                ["Signed up → wrote a message", `${f.wrote} of ${f.signed_up} · ${pct(f.write_rate)}`, "at least 7 in 10", f.write_rate != null && f.write_rate >= f.targets.write_rate],
+                ["Came back after a week", `${f.returned_7d} of ${f.week_old} · ${pct(f.return_rate)}`, "", null],
+              ];
+              return (
+                <table className="w-full text-sm mb-4" data-testid="invite-funnel">
+                  <thead><tr className="text-left text-muted-foreground"><th className="py-1 font-medium">Invite numbers</th><th className="py-1 font-medium text-right">Now</th><th className="py-1 font-medium text-right">Goal</th></tr></thead>
+                  <tbody>
+                    {rows.map(([name, now, goal, ok]) => (
+                      <tr key={name} className="border-t border-border"><td className="py-1.5">{name}</td><td className="py-1.5 text-right tabular-nums font-semibold">{now}</td>
+                        <td className={`py-1.5 text-right ${ok === true ? "text-online" : ok === false ? "text-destructive" : "text-muted-foreground"}`}>{goal}</td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              );
+            })()}
             {invites.people.length === 0 && invites.groups.length === 0 ? <p className="text-sm text-muted-foreground">Nobody has joined with a link yet.</p> : (
               <table className="w-full text-sm">
                 <thead><tr className="text-left text-muted-foreground"><th className="py-1 font-medium">Brought in by</th><th className="py-1 font-medium text-right">People</th><th className="py-1 font-medium text-right">Last</th></tr></thead>

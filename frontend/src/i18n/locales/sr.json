@@ -11,7 +11,6 @@
  "Back": "Назад",
  "Block user": "Блокирај корисника",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Блокирано за овај сајт. Дозволите обавештења у подешавањима прегледача или телефона.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Креирањем налога прихватате [Услове коришћења] и [Политику приватности].",
  "Cancel": "Откажи",
  "Change": "Промени",
  "Change password": "Промени лозинку",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Позивни линк није могао да се употреби",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Направи линк за позивање људи: траже улазак, а администратор их пушта.",
  "Create invite link": "Направи позивни линк",
- "Create your account and you will find {name} in your chats.": "Направи налог и наћи ћеш {name} у својим ћаскањима.",
  "Decline": "Одбиј",
  "Invite link": "Позивни линк",
  "Invite link turned off": "Позивни линк је искључен",
@@ -411,7 +409,6 @@
  "Your invite link": "Твој позивни линк",
  "Sure! What time?": "Наравно! У колико сати?",
  "Hi! I'm waiting for you on Glotter": "Здраво! Чекам те на Glotter-у",
- "{name} writes in {language}, you read in yours.": "{name} пише на језику {language}, а ти читаш на свом.",
  "Accept the invite": "Прихвати позивницу",
  "Sign in with your email or with Google to find your chats.": "Пријави се имејлом или преко Google-а да пронађеш своје разговоре.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Траје 30 секунди. Затим изабереш језик и почињеш да ћаскаш.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Добродошао! Видимо се вечерас?",
  "You write in {language} · everyone reads in their own": "Пишеш на језику: {language} · свако чита на свом",
  "You write in {mine} · {name} reads in {theirs}": "Пишеш на језику: {mine} · {name} чита на језику: {theirs}",
- "{count} people": "Особе: {count}"
+ "{count} people": "Особе: {count}",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Прихватам [Услове коришћења] и [Политику приватности].",
+ "You'll forget you speak different languages.": "Заборавићеш да говорите различите језике."
 }

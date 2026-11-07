@@ -63,7 +63,7 @@ def client(tmp_path, monkeypatch):
 
 class Person:
     def __init__(self, client, email, name, lang):
-        r = client.post("/api/auth/register", json={"email": email, "password": "correct-horse-1", "name": name})
+        r = client.post("/api/auth/register", json={"email": email, "password": "correct-horse-1", "name": name, "accept_terms": True})
         assert r.status_code == 200, r.text
         data = r.json()
         self.token, self.id, self.email = data["token"], data["user"]["id"], email

@@ -71,7 +71,7 @@ async def main():
         await api.put(f"{API}/auth/profile", data={"language": "it"}, headers={"Authorization": f"Bearer {gt}"})
 
         # 4. delete the account from Profile
-        res = await api.post(f"{API}/auth/register", data={"email": "temp-del@x.com", "password": PW, "name": "Temp Person"})
+        res = await api.post(f"{API}/auth/register", data={"email": "temp-del@x.com", "password": PW, "name": "Temp Person", "accept_terms": True})
         d = await res.json()
         await api.put(f"{API}/auth/profile", data={"language": "en"}, headers={"Authorization": f"Bearer {d['token']}"})
         pg = await page_for(d["token"])

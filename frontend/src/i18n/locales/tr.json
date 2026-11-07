@@ -11,7 +11,6 @@
  "Back": "Geri",
  "Block user": "Kullanıcıyı engelle",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Bu site için engellendi. Tarayıcı veya telefon ayarlarından bildirimlere izin verin.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Hesap oluşturarak [Hizmet Şartları] ve [Gizlilik Politikası] belgelerini kabul etmiş olursunuz.",
  "Cancel": "İptal",
  "Change": "Değiştir",
  "Change password": "Şifreyi değiştir",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Davet bağlantısı kullanılamadı",
  "Create a link to invite people: they ask to join and an admin lets them in.": "İnsanları davet etmek için bir bağlantı oluştur: katılmak isterler, bir yönetici onları içeri alır.",
  "Create invite link": "Davet bağlantısı oluştur",
- "Create your account and you will find {name} in your chats.": "Hesabını oluştur, sohbetlerinde {name} seni bekliyor olacak.",
  "Decline": "Reddet",
  "Invite link": "Davet bağlantısı",
  "Invite link turned off": "Davet bağlantısı kapatıldı",
@@ -411,7 +409,6 @@
  "Your invite link": "Davet bağlantın",
  "Sure! What time?": "Tabii! Saat kaçta?",
  "Hi! I'm waiting for you on Glotter": "Merhaba! Seni Glotter'da bekliyorum",
- "{name} writes in {language}, you read in yours.": "{name} {language} yazıyor, sen kendi dilinde okuyorsun.",
  "Accept the invite": "Daveti kabul et",
  "Sign in with your email or with Google to find your chats.": "Sohbetlerini bulmak için e-postanla veya Google ile giriş yap.",
  "It takes 30 seconds. Then choose your language and start chatting.": "30 saniye sürer. Sonra dilini seçip sohbete başlarsın.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Hoş geldin! Bu akşam görüşür müyüz?",
  "You write in {language} · everyone reads in their own": "Sen {language} yazıyorsun · herkes kendi dilinde okur",
  "You write in {mine} · {name} reads in {theirs}": "Sen {mine} yazıyorsun · {name} {theirs} okuyor",
- "{count} people": "{count} kişi"
+ "{count} people": "{count} kişi",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "[Hizmet Şartları]nı ve [Gizlilik Politikası]nı kabul ediyorum.",
+ "You'll forget you speak different languages.": "Farklı diller konuştuğunuzu unutacaksın."
 }

@@ -11,7 +11,6 @@
  "Back": "Terug",
  "Block user": "Gebruiker blokkeren",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Geblokkeerd voor deze site. Sta meldingen toe in je browser- of telefooninstellingen.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Door een account aan te maken ga je akkoord met de [Servicevoorwaarden] en het [Privacybeleid].",
  "Cancel": "Annuleren",
  "Change": "Wijzigen",
  "Change password": "Wachtwoord wijzigen",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "De uitnodigingslink kon niet worden gebruikt",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Maak een link om mensen uit te nodigen: ze vragen om mee te doen en een beheerder laat ze binnen.",
  "Create invite link": "Uitnodigingslink maken",
- "Create your account and you will find {name} in your chats.": "Maak je account aan en je vindt {name} in je chats.",
  "Decline": "Weigeren",
  "Invite link": "Uitnodigingslink",
  "Invite link turned off": "Uitnodigingslink uitgezet",
@@ -411,7 +409,6 @@
  "Your invite link": "Jouw uitnodigingslink",
  "Sure! What time?": "Natuurlijk! Hoe laat?",
  "Hi! I'm waiting for you on Glotter": "Hoi! Ik wacht op je op Glotter",
- "{name} writes in {language}, you read in yours.": "{name} schrijft in het {language}, jij leest in je eigen taal.",
  "Accept the invite": "Uitnodiging accepteren",
  "Sign in with your email or with Google to find your chats.": "Log in met je e-mail of met Google om je chats terug te vinden.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Het duurt 30 seconden. Daarna kies je je taal en kun je beginnen.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Welkom! Zien we elkaar vanavond?",
  "You write in {language} · everyone reads in their own": "Jij schrijft in het {language} · iedereen leest in de eigen taal",
  "You write in {mine} · {name} reads in {theirs}": "Jij schrijft in het {mine} · {name} leest in het {theirs}",
- "{count} people": "{count} personen"
+ "{count} people": "{count} personen",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Ik ga akkoord met de [Servicevoorwaarden] en het [Privacybeleid].",
+ "You'll forget you speak different languages.": "Je vergeet dat jullie verschillende talen spreken."
 }

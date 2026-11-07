@@ -11,7 +11,6 @@
  "Back": "رجوع",
  "Block user": "حظر المستخدم",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "محظورة لهذا الموقع. اسمح بالإشعارات من إعدادات المتصفح أو الهاتف.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "بإنشاء حساب، فإنك توافق على [شروط الخدمة] و[سياسة الخصوصية].",
  "Cancel": "إلغاء",
  "Change": "تغيير",
  "Change password": "تغيير كلمة المرور",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "تعذّر استخدام رابط الدعوة",
  "Create a link to invite people: they ask to join and an admin lets them in.": "أنشئ رابطًا لدعوة الأشخاص: يطلبون الانضمام ويسمح لهم أحد المشرفين بالدخول.",
  "Create invite link": "إنشاء رابط دعوة",
- "Create your account and you will find {name} in your chats.": "أنشئ حسابك وستجد {name} في محادثاتك.",
  "Decline": "رفض",
  "Invite link": "رابط الدعوة",
  "Invite link turned off": "تم إيقاف رابط الدعوة",
@@ -411,7 +409,6 @@
  "Your invite link": "رابط دعوتك",
  "Sure! What time?": "طبعًا! في أي ساعة؟",
  "Hi! I'm waiting for you on Glotter": "مرحبًا! أنتظرك على Glotter",
- "{name} writes in {language}, you read in yours.": "{name} يكتب بـ{language}، وأنت تقرأ بلغتك.",
  "Accept the invite": "اقبل الدعوة",
  "Sign in with your email or with Google to find your chats.": "سجّل الدخول ببريدك الإلكتروني أو بحساب Google لتجد محادثاتك.",
  "It takes 30 seconds. Then choose your language and start chatting.": "يستغرق الأمر 30 ثانية. ثم اختر لغتك وابدأ الدردشة.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "أهلًا بك! هل نلتقي الليلة؟",
  "You write in {language} · everyone reads in their own": "أنت تكتب بـ{language} · كلٌّ يقرأ بلغته",
  "You write in {mine} · {name} reads in {theirs}": "أنت تكتب بـ{mine} · {name} يقرأ بـ{theirs}",
- "{count} people": "{count} أشخاص"
+ "{count} people": "{count} أشخاص",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "أوافق على [شروط الخدمة] و[سياسة الخصوصية].",
+ "You'll forget you speak different languages.": "ستنسى أنكما تتحدثان لغتين مختلفتين."
 }

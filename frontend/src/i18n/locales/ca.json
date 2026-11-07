@@ -11,7 +11,6 @@
  "Back": "Enrere",
  "Block user": "Bloqueja l'usuari",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Bloquejat per a aquest lloc. Permet les notificacions a la configuració del navegador o del telèfon.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "En crear un compte acceptes les [Condicions del servei] i la [Política de privadesa].",
  "Cancel": "Cancel·la",
  "Change": "Canvia",
  "Change password": "Canvia la contrasenya",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "No s'ha pogut fer servir l'enllaç d'invitació",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Crea un enllaç per convidar gent: demanen entrar i un administrador els deixa passar.",
  "Create invite link": "Crea un enllaç d'invitació",
- "Create your account and you will find {name} in your chats.": "Crea el teu compte i trobaràs {name} als teus xats.",
  "Decline": "Rebutja",
  "Invite link": "Enllaç d'invitació",
  "Invite link turned off": "Enllaç d'invitació desactivat",
@@ -411,7 +409,6 @@
  "Your invite link": "El teu enllaç d'invitació",
  "Sure! What time?": "És clar! A quina hora?",
  "Hi! I'm waiting for you on Glotter": "Hola! T'espero a Glotter",
- "{name} writes in {language}, you read in yours.": "{name} escriu en {language}, tu llegeixes en la teva llengua.",
  "Accept the invite": "Accepta la invitació",
  "Sign in with your email or with Google to find your chats.": "Inicia la sessió amb el teu correu o amb Google per trobar els teus xats.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Només calen 30 segons. Després tries la teva llengua i comences a xatejar.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Benvingut! Ens veiem aquest vespre?",
  "You write in {language} · everyone reads in their own": "Tu escrius en {language} · cadascú llegeix en la seva",
  "You write in {mine} · {name} reads in {theirs}": "Tu escrius en {mine} · {name} llegeix en {theirs}",
- "{count} people": "{count} persones"
+ "{count} people": "{count} persones",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Accepto les [Condicions del servei] i la [Política de privadesa].",
+ "You'll forget you speak different languages.": "Oblidaràs que parleu llengües diferents."
 }

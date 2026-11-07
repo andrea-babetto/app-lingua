@@ -56,6 +56,15 @@ GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "").strip()
 MAX_UPLOAD_BYTES = int(float(os.environ.get("MAX_UPLOAD_MB", "15")) * 1024 * 1024)
 MAX_VOICE_BYTES = 8 * 1024 * 1024  # 2 minutes take well under 3MB, even on iPhone
 MAX_VOICE_SECONDS = 120
+# The version of the Terms of Service and Privacy Policy people accept when they sign up (the date of the last change
+# to frontend/src/pages/Legal.jsx): change it together with the texts, so each account records what it agreed to.
+LEGAL_VERSION = "2026-10-27"
+# Monthly spending limit for the AI services (translation and voice), in dollars: the admin gets a warning at 80% and 100%.
+# It only warns, it never stops the chat; 0 turns the warning off. Hard limits are set in the Anthropic and OpenAI consoles.
+try:
+    MONTHLY_BUDGET_USD = max(0.0, float(os.environ.get("MONTHLY_BUDGET_USD", "20") or 0))
+except ValueError:
+    MONTHLY_BUDGET_USD = 20.0
 VOICE_KEEP_DAYS = 30  # then the audio (and its spoken translations) is deleted; the text stays
 STT_COST_PER_MIN, TTS_COST_PER_MIN = 0.003, 0.015  # OpenAI list prices (estimates) for the cost dashboard
 ALLOWED_ORIGINS = [o.strip().rstrip("/") for o in os.environ.get("CORS_ORIGINS", "http://localhost:3000").split(",") if o.strip()]
@@ -186,6 +195,7 @@ class RegisterIn(BaseModel):
     name: str = Field(min_length=1, max_length=60)
     invite_code: str = Field(default="", max_length=100)
     invite_link: str = Field(default="", max_length=64)  # the code of the friend's or group's link the person came from
+    accept_terms: bool = False  # the one checkbox for the Terms of Service and the Privacy Policy
 
     @field_validator("password")
     @classmethod
@@ -212,6 +222,7 @@ class GoogleIn(BaseModel):
     credential: str = Field(min_length=10, max_length=4096)
     invite_code: str = Field(default="", max_length=100)
     invite_link: str = Field(default="", max_length=64)
+    accept_terms: bool = False  # needed only when the Google account is new here
 
 
 class ProfileIn(BaseModel):
@@ -324,7 +335,7 @@ async def public_config():
     return {"google_client_id": GOOGLE_CLIENT_ID, "voice_messages": voice_messages_on(), "voice_transcription": stt.enabled(),
             "voice_speech": tts.enabled(), "voice_max_seconds": MAX_VOICE_SECONDS, "dictation": stt.enabled(),
             "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required(),
-            "password_reset": mailer.enabled() or APP_ENV == "test"}
+            "password_reset": mailer.enabled() or APP_ENV == "test", "legal_version": LEGAL_VERSION}
 
 
 @api.get("/languages")
@@ -350,15 +361,24 @@ def new_user_doc(email, name, password_hash="", avatar="", provider=None):
     return doc
 
 
+def consent_record(accepted: bool, method: str) -> dict:
+    """What the person agreed to when the account was made: which version of the Terms and Privacy, when, and how."""
+    if not accepted:
+        raise HTTPException(status_code=400, detail="Accept the Terms of Service and the Privacy Policy to create an account")
+    return {"terms_version": LEGAL_VERSION, "privacy_version": LEGAL_VERSION, "accepted_at": now_iso(), "method": method}
+
+
 @api.post("/auth/register")
 async def register(body: RegisterIn, request: Request):
     limiter.check(f"register-ip:{client_ip(request)}", 10, 3600, "Too many sign-ups from this address. Try again later.")
+    consent = consent_record(body.accept_terms, "email")
     entry = await check_entry(body.invite_code, body.invite_link)
     email = body.email.lower()
     if await db.users.find_one({"email": email}):
         raise HTTPException(status_code=400, detail="Email already registered")
     doc = new_user_doc(email, body.name, await hash_password_async(body.password))
     doc.update(entry)
+    doc["consent"] = consent
     await db.users.insert_one(dict(doc))
     return {"token": create_token(doc["id"]), "user": public_user(doc)}
 
@@ -402,9 +422,11 @@ async def google_login(body: GoogleIn, request: Request):
     if existing:
         u = existing
     else:
+        consent = consent_record(body.accept_terms, "google")
         entry = await check_entry(body.invite_code, body.invite_link)
         u = new_user_doc(email, (info.get("name") or email.split("@")[0])[:60], "", info.get("picture", ""), provider="google")
         u.update(entry)
+        u["consent"] = consent
         await db.users.insert_one(dict(u))
     return {"token": create_token(u["id"]), "user": public_user(u)}
 
@@ -478,7 +500,7 @@ async def export_my_data(user=Depends(get_current_user)):
              for u in await db.usage.find({"user_id": uid}, {"_id": 0}).sort("month", 1).to_list(500)]
     scheduled = [{"chat_id": x["chat_id"], "text": x["text"], "send_at": x["send_at"]}
                  for x in await db.scheduled.find({"sender_id": uid}, {"_id": 0}).to_list(100)]
-    profile = {k: me.get(k) for k in ("id", "name", "username", "email", "phone", "language", "bio", "timezone", "avatar", "created_at", "last_seen", "settings")}
+    profile = {k: me.get(k) for k in ("id", "name", "username", "email", "phone", "language", "bio", "timezone", "avatar", "created_at", "last_seen", "settings", "consent")}
     data = {"service": "Glotter", "exported_at": now_iso(), "note": EXPORT_NOTE, "profile": profile,
             "glossary": me.get("glossary", []), "blocked": await who(me.get("blocked", [])), "contacts": contacts,
             "chats": chats, "messages_i_wrote": messages, "scheduled_messages": scheduled, "files_i_sent": files,
@@ -590,6 +612,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
     await db.files.delete_many({"owner_id": uid})
     await db.push_subs.delete_many({"user_id": uid})
     await db.usage.delete_many({"user_id": uid})
+    await db.invite_events.delete_many({"target": uid})
     await db.scheduled.delete_many({"sender_id": uid})
     await db.password_resets.delete_many({"user_id": uid})
     await db.chats.update_many({"join_requests.user_id": uid}, {"$pull": {"join_requests": {"user_id": uid}}})
@@ -922,6 +945,8 @@ async def invite_info(code: str, request: Request):
     kind, target, old = await resolve_invite(code)
     if not kind:
         raise HTTPException(status_code=404, detail="This invite link is not valid any more")
+    # counted for the admin's invite numbers: whose link, when; nothing about who opened it
+    await db.invite_events.insert_one({"kind": "opened", "target_kind": kind, "target": target["id"], "at": now_iso()})
     if kind == "person":
         return {"kind": "person", "name": target.get("name", ""), "avatar": target.get("avatar", ""),
                 "language": target.get("language", ""), "needs_code": old and invite_code_required()}
@@ -1905,6 +1930,84 @@ async def backup_loop():
         await asyncio.sleep(1800)
 
 
+# ---------------- Invite numbers and spending ----------------
+INVITED = {"$or": [{"invited_by": {"$exists": True}}, {"joined_via_group": {"$exists": True}}]}
+
+
+async def note_return(uid):
+    """An invited person who opens the app again a week or more after signing up: they came back (counted once)."""
+    try:
+        week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+        await db.users.update_one({"$and": [{"id": uid, "returned_7d_at": {"$exists": False}, "created_at": {"$lte": week_ago}}, INVITED]},
+                                  {"$set": {"returned_7d_at": now_iso()}})
+    except Exception:
+        logger.exception("could not note a return")
+
+
+async def invite_funnel(total_users):
+    """The invite numbers, from link opened to coming back after a week. No message content is read: only who wrote at least once."""
+    opened = await db.invite_events.count_documents({"kind": "opened"})
+    invited = [u async for u in db.users.find(INVITED, {"_id": 0, "id": 1, "created_at": 1, "returned_7d_at": 1})]
+    ids = [u["id"] for u in invited]
+    wrote = len(await db.messages.distinct("sender_id", {"sender_id": {"$in": ids}})) if ids else 0
+    week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+    old_enough = [u for u in invited if (u.get("created_at") or "") <= week_ago]
+    returned = sum(1 for u in old_enough if u.get("returned_7d_at"))
+    share = lambda a, b: round(a / b, 3) if b else None
+    return {"opened": opened, "signed_up": len(ids), "wrote": wrote, "returned_7d": returned, "week_old": len(old_enough),
+            "per_user": share(len(ids), max(total_users - len(ids), 0)),  # people brought in, for each person already there
+            "signup_rate": share(len(ids), opened), "write_rate": share(wrote, len(ids)), "return_rate": share(returned, len(old_enough)),
+            "targets": {"per_user": 1, "signup_rate": 0.5, "write_rate": 0.7}}
+
+
+def _month_range(month):
+    y, m = int(month[:4]), int(month[5:7])
+    nxt = f"{y + 1}-01" if m == 12 else f"{y}-{m + 1:02d}"
+    return {"$gte": f"{month}-01", "$lt": f"{nxt}-01"}
+
+
+async def month_spend(month):
+    """What translation and voice cost in a month, in dollars (the same estimates as the cost dashboard)."""
+    total = 0.0
+    for coll in (db.translation_logs, db.voice_logs):
+        rows = await coll.aggregate([{"$match": {"created_at": _month_range(month)}},
+                                     {"$group": {"_id": None, "cost": {"$sum": "$est_cost"}}}]).to_list(1)
+        total += float(rows[0]["cost"]) if rows else 0.0
+    return total
+
+
+async def check_budget():
+    """Warn the admin by email when this month's AI spending passes 80% and 100% of MONTHLY_BUDGET_USD (once each)."""
+    if not MONTHLY_BUDGET_USD:
+        return None
+    month = usage_month()
+    spent = await month_spend(month)
+    level = 100 if spent >= MONTHLY_BUDGET_USD else 80 if spent >= 0.8 * MONTHLY_BUDGET_USD else 0
+    if not level:
+        return None
+    key = f"budget_alert|{month}|{level}"
+    if await db.settings.find_one({"key": key}):
+        return None
+    await db.settings.insert_one({"key": key, "at": now_iso(), "spent": round(spent, 2)})
+    admin = os.environ.get("ADMIN_EMAIL", "").strip()
+    if admin and mailer.enabled():
+        await mailer.send(admin, f"Glotter: {level}% of the monthly AI budget used",
+                          f"This month ({month}) translation and voice have cost about ${spent:.2f}, "
+                          f"{level}% of the limit of ${MONTHLY_BUDGET_USD:.2f} (MONTHLY_BUDGET_USD).\n\n"
+                          "The chat keeps working. To stop spending, lower the limits in the Anthropic and OpenAI consoles; "
+                          "details are on the /admin page.")
+    return level
+
+
+async def budget_loop():
+    while True:
+        try:
+            await check_budget()
+        except Exception:
+            logger.exception("budget check failed")
+        await asyncio.sleep(3600)
+
+
 async def voice_cleanup_loop():
     while True:
         try:
@@ -2194,7 +2297,11 @@ async def admin_stats(user=Depends(get_current_user)):
     total = await db.translation_logs.count_documents({})
     cost_agg = await db.translation_logs.aggregate([{"$group": {"_id": None, "cost": {"$sum": "$est_cost"}, "chars": {"$sum": "$chars"}}}]).to_list(1)
     voice = await db.voice_logs.aggregate([{"$group": {"_id": "$kind", "cost": {"$sum": "$est_cost"}, "seconds": {"$sum": "$seconds"}}}]).to_list(10)
-    return {"total_translations": total,
+    month = usage_month()
+    spent = await month_spend(month)
+    return {"month": {"month": month, "spent": round(spent, 4), "budget": MONTHLY_BUDGET_USD,
+                      "share": round(spent / MONTHLY_BUDGET_USD, 3) if MONTHLY_BUDGET_USD else 0},
+            "total_translations": total,
             "voice": {v["_id"]: {"minutes": round(v["seconds"] / 60, 1), "cost": round(v["cost"], 4)} for v in voice},
             "total_cost": round(cost_agg[0]["cost"], 4) if cost_agg else 0,
             "total_chars": cost_agg[0]["chars"] if cost_agg else 0,
@@ -2283,7 +2390,8 @@ async def admin_invites(user=Depends(get_current_user)):
                                        {"$group": {"_id": "$joined_via_group", "count": {"$sum": 1}}}]).to_list(10000)
     names = {c["id"]: c.get("name", "") async for c in db.chats.find({"id": {"$in": [g["_id"] for g in groups]}}, {"_id": 0, "id": 1, "name": 1})}
     total_users = await db.users.count_documents({"role": {"$ne": "admin"}})
-    return {"people": out, "groups": sorted([{"name": names.get(g["_id"], "(deleted)"), "count": g["count"]} for g in groups], key=lambda g: -g["count"]),
+    funnel = await invite_funnel(total_users)
+    return {"funnel": funnel, "people": out, "groups": sorted([{"name": names.get(g["_id"], "(deleted)"), "count": g["count"]} for g in groups], key=lambda g: -g["count"]),
             "invited": sum(r["count"] for r in out) + sum(g["count"] for g in groups), "total_users": total_users}
 
 
@@ -2339,6 +2447,7 @@ async def websocket_endpoint(ws: WebSocket, token: str):
     uid = user["id"]
     await ws_manager.connect(uid, ws)
     await _broadcast_presence(uid, True)
+    spawn(note_return(uid))
     try:
         while True:
             raw = await ws.receive_text()
@@ -2467,6 +2576,7 @@ async def startup():
         spawn(scheduled_loop())
         spawn(voice_cleanup_loop())
         spawn(backup_loop())
+        spawn(budget_loop())
     # Cached translations expire after 30 days so the database does not grow forever.
     await db.translation_cache.create_index("created_at_dt", expireAfterSeconds=30 * 24 * 3600)
     storage.get_storage()  # fail early (and log) if storage is misconfigured

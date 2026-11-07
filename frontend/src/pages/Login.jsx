@@ -24,10 +24,11 @@ const comingBack = () => { const [page, view] = returnTarget().split(":"); retur
 const savedForm = () => { try { return comingBack() ? JSON.parse(sessionStorage.getItem(FORM) || "{}") : {}; } catch { return {}; } };
 
 export default function Login() {
-  const { t, lang, setUiLang, langName } = useI18n();
+  const { t, lang, setUiLang } = useI18n();
   const [view, setView] = useState(() => comingBack() || (pendingInvite() ? "invite" : seenBefore() ? "login" : "welcome")); // welcome | invite | login | register | forgot
   const mode = view === "register" ? "register" : "login";
   const [form, setForm] = useState(() => ({ name: "", email: "", password: "", invite_code: "", ...savedForm() }));
+  const [agreed, setAgreed] = useState(() => !!savedForm().agreed);  // the one checkbox for the Terms and the Privacy Policy
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [method, setMethod] = useState("email");  // email | google (the two tabs on the sign-in and sign-up pages)
@@ -47,14 +48,14 @@ export default function Login() {
   const { auth } = useAuth();
   const nav = useNavigate();
   useEffect(() => { clearReturn(); try { sessionStorage.removeItem(FORM); } catch { /* storage blocked */ } }, []);
-  const toLegal = () => { rememberReturn(`login:${view}`); try { sessionStorage.setItem(FORM, JSON.stringify({ name: form.name, email: form.email })); } catch { /* storage blocked */ } };
+  const toLegal = () => { rememberReturn(`login:${view}`); try { sessionStorage.setItem(FORM, JSON.stringify({ name: form.name, email: form.email, agreed })); } catch { /* storage blocked */ } };
 
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const url = mode === "login" ? "/auth/login" : "/auth/register";
-      const payload = mode === "login" ? { email: form.email, password: form.password } : { ...form, invite_link: inviteCode };
+      const payload = mode === "login" ? { email: form.email, password: form.password } : { ...form, invite_link: inviteCode, accept_terms: agreed };
       const { data } = await api.post(url, payload);
       auth(data);
       markSeen();
@@ -77,7 +78,7 @@ export default function Login() {
   const googleCredential = async (credential) => {
     setLoading(true);
     try {
-      const { data } = await api.post("/auth/google", { credential, invite_code: form.invite_code, invite_link: inviteCode });
+      const { data } = await api.post("/auth/google", { credential, invite_code: form.invite_code, invite_link: inviteCode, accept_terms: agreed });
       auth(data);
       markSeen();
       nav(data.user.language ? "/" : "/onboarding");
@@ -97,13 +98,17 @@ export default function Login() {
   const bare = "flex-1 min-w-0 bg-transparent outline-none text-[15px] placeholder:text-subtle";
   const round = "w-10 h-10 shrink-0 rounded-full border border-border bg-background inline-flex items-center justify-center";
   const main = "w-full h-[50px] rounded-full text-[15px] font-medium bg-sand text-[var(--gl-on-accent)] hover:bg-sand/90 disabled:opacity-100 disabled:bg-surface disabled:text-subtle";
-  const ghost = "w-full h-[50px] rounded-full text-[15px] font-medium border border-border bg-background text-foreground hover:bg-surface";
 
+  // One checkbox for the Terms and the Privacy Policy: the server records which version was accepted, and when.
   const consent = (testId) => (
-    <p className="text-xs text-center text-subtle leading-relaxed" data-testid={testId}>
-      {t("By creating an account you agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
-        i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="underline text-muted-foreground">{part}</Link> : part)}
-    </p>
+    <label className="flex items-start gap-2.5 text-[13px] leading-relaxed text-muted-foreground cursor-pointer">
+      <input type="checkbox" data-testid="consent-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
+        className="mt-0.5 w-[18px] h-[18px] shrink-0 accent-[var(--gl-accent)] cursor-pointer" />
+      <span data-testid={testId}>
+        {t("I agree to the [Terms of Service] and the [Privacy Policy].").split(/\[(.*?)\]/).map((part, i) =>
+          i % 2 ? <Link key={i} to={i === 1 ? "/terms" : "/privacy"} onClick={toLegal} className="underline text-foreground">{part}</Link> : part)}
+      </span>
+    </label>
   );
   // ••• in a circle: the interface language (the real menu lies on top of the circle, invisible, so it opens the phone's own list)
   const languageMenu = (
@@ -175,16 +180,13 @@ export default function Login() {
       <div className="flex-1 flex flex-col" data-testid="welcome-page">
         <InvitePreview invite={invite} />
         <div className="mt-6 text-center">
-          <h1 className="text-[25px] leading-tight font-medium tracking-tight">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</h1>
-          <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">
-            {person
-              ? <>{invite.language && <>{t("{name} writes in {language}, you read in yours.", { name: invite.name, language: langName(invite.language) })} </>}{t("Create your account and you will find {name} in your chats.", { name: invite.name })}</>
-              : t("After you sign up, an admin of the group will let you in.")}
-          </p>
+          <h1 data-testid="invite-title" className="text-[25px] leading-tight font-medium tracking-tight">{person ? t("{name} invited you to Glotter", { name: invite.name }) : t("You are invited to the group {name}", { name: invite.name })}</h1>
+          <p className="mt-2.5 text-[17px] leading-relaxed text-muted-foreground">{t("You'll forget you speak different languages.")}</p>
+          {!person && <p className="mt-2 text-[14px] leading-relaxed text-subtle">{t("After you sign up, an admin of the group will let you in.")}</p>}
         </div>
-        <div className="mt-auto pt-8 space-y-2.5">
+        <div className="mt-auto pt-8 flex flex-col items-center gap-4">
           <Button data-testid="invite-accept" className={main} onClick={() => setView("register")}>{t("Accept the invite")}</Button>
-          <Button data-testid="welcome-login" variant="outline" className={ghost} onClick={() => setView("login")}>{t("I already have an account")}</Button>
+          <button type="button" data-testid="welcome-login" className="text-sm font-medium text-muted-foreground hover:text-foreground" onClick={() => setView("login")}>{t("I already have an account")}</button>
         </div>
       </div>,
       <><span />{languageMenu}</>
@@ -212,7 +214,7 @@ export default function Login() {
     );
   }
 
-  const ready = form.email && form.password.length >= 8 && (mode === "login" || form.name.trim());
+  const ready = form.email && form.password.length >= 8 && (mode === "login" || (form.name.trim() && agreed));
   return page(
     <div className="flex-1 flex flex-col">
       {heading(mode === "login" ? t("Welcome back.") : t("Create your account"),
@@ -229,8 +231,11 @@ export default function Login() {
 
       {method === "google" && googleClientId && !codeNeeded ? (
         <div className="mt-7 flex-1 flex flex-col">
-          <div className="flex justify-center"><GoogleSignIn clientId={googleClientId} onCredential={googleCredential} /></div>
-          {mode === "register" && <div className="mt-6">{consent("consent-line")}</div>}
+          {mode === "register" && <div className="mb-6">{consent("consent-line")}</div>}
+          {/* a new account with Google also needs the box ticked first */}
+          <div className={`flex justify-center ${mode === "register" && !agreed ? "opacity-40 pointer-events-none" : ""}`} aria-disabled={mode === "register" && !agreed}>
+            <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />
+          </div>
         </div>
       ) : (
         <form onSubmit={submit} className="mt-7 flex-1 flex flex-col">

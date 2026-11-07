@@ -11,7 +11,6 @@
  "Back": "Bumalik",
  "Block user": "I-block ang user",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Naka-block para sa site na ito. Payagan ang mga notification sa settings ng browser o telepono mo.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Sa paggawa ng account, sumasang-ayon ka sa [Mga Tuntunin ng Serbisyo] at sa [Patakaran sa Privacy].",
  "Cancel": "Kanselahin",
  "Change": "Baguhin",
  "Change password": "Palitan ang password",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Hindi magamit ang invite link",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Gumawa ng link para mag-imbita ng tao: hihiling silang sumali at papapasukin sila ng admin.",
  "Create invite link": "Gumawa ng invite link",
- "Create your account and you will find {name} in your chats.": "Gumawa ng account at makikita mo si {name} sa mga chat mo.",
  "Decline": "Tanggihan",
  "Invite link": "Invite link",
  "Invite link turned off": "Pinatay ang invite link",
@@ -411,7 +409,6 @@
  "Your invite link": "Ang iyong invite link",
  "Sure! What time?": "Sige! Anong oras?",
  "Hi! I'm waiting for you on Glotter": "Hi! Hinihintay kita sa Glotter",
- "{name} writes in {language}, you read in yours.": "Sumusulat si {name} sa {language}, binabasa mo sa sarili mong wika.",
  "Accept the invite": "Tanggapin ang imbitasyon",
  "Sign in with your email or with Google to find your chats.": "Mag-sign in gamit ang email o Google para makita ang mga chat mo.",
  "It takes 30 seconds. Then choose your language and start chatting.": "30 segundo lang. Pagkatapos, piliin ang wika mo at magsimulang mag-chat.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Maligayang pagdating! Kita tayo mamaya?",
  "You write in {language} · everyone reads in their own": "Sumusulat ka sa {language} · bawat isa ay nagbabasa sa sarili niyang wika",
  "You write in {mine} · {name} reads in {theirs}": "Sumusulat ka sa {mine} · nagbabasa si {name} sa {theirs}",
- "{count} people": "{count} tao"
+ "{count} people": "{count} tao",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Sumasang-ayon ako sa [Mga Tuntunin ng Serbisyo] at sa [Patakaran sa Privacy].",
+ "You'll forget you speak different languages.": "Makakalimutan mong magkaiba kayo ng wika."
 }

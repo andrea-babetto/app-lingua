@@ -11,7 +11,6 @@
  "Back": "Πίσω",
  "Block user": "Αποκλεισμός χρήστη",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Αποκλείστηκε για αυτόν τον ιστότοπο. Επιτρέψτε τις ειδοποιήσεις στις ρυθμίσεις του προγράμματος περιήγησης ή του τηλεφώνου.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Δημιουργώντας λογαριασμό αποδέχεστε τους [Όρους Παροχής Υπηρεσιών] και την [Πολιτική Απορρήτου].",
  "Cancel": "Ακύρωση",
  "Change": "Αλλαγή",
  "Change password": "Αλλαγή κωδικού",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Δεν ήταν δυνατή η χρήση του συνδέσμου πρόσκλησης",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Δημιούργησε έναν σύνδεσμο για να προσκαλείς άτομα: ζητούν να μπουν και ένας διαχειριστής τους αφήνει.",
  "Create invite link": "Δημιουργία συνδέσμου πρόσκλησης",
- "Create your account and you will find {name} in your chats.": "Δημιούργησε λογαριασμό και θα βρεις τον/την {name} στις συνομιλίες σου.",
  "Decline": "Απόρριψη",
  "Invite link": "Σύνδεσμος πρόσκλησης",
  "Invite link turned off": "Ο σύνδεσμος πρόσκλησης απενεργοποιήθηκε",
@@ -411,7 +409,6 @@
  "Your invite link": "Ο σύνδεσμος πρόσκλησής σου",
  "Sure! What time?": "Φυσικά! Τι ώρα;",
  "Hi! I'm waiting for you on Glotter": "Γεια! Σε περιμένω στο Glotter",
- "{name} writes in {language}, you read in yours.": "{name} γράφει στα {language}, εσύ διαβάζεις στη γλώσσα σου.",
  "Accept the invite": "Αποδοχή πρόσκλησης",
  "Sign in with your email or with Google to find your chats.": "Συνδέσου με το email σου ή με το Google για να βρεις τις συνομιλίες σου.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Χρειάζονται 30 δευτερόλεπτα. Μετά διαλέγεις τη γλώσσα σου και ξεκινάς.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Καλώς ήρθες! Θα τα πούμε απόψε;",
  "You write in {language} · everyone reads in their own": "Γράφεις στα {language} · ο καθένας διαβάζει στη δική του",
  "You write in {mine} · {name} reads in {theirs}": "Γράφεις στα {mine} · ο/η {name} διαβάζει στα {theirs}",
- "{count} people": "{count} άτομα"
+ "{count} people": "{count} άτομα",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Αποδέχομαι τους [Όρους χρήσης] και την [Πολιτική απορρήτου].",
+ "You'll forget you speak different languages.": "Θα ξεχάσεις ότι μιλάτε διαφορετικές γλώσσες."
 }

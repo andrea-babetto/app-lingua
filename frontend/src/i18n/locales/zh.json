@@ -11,7 +11,6 @@
  "Back": "返回",
  "Block user": "屏蔽用户",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "此网站已被屏蔽。请在浏览器或手机设置中允许通知。",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "创建账号即表示您同意[服务条款]和[隐私政策]。",
  "Cancel": "取消",
  "Change": "更改",
  "Change password": "修改密码",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "无法使用邀请链接",
  "Create a link to invite people: they ask to join and an admin lets them in.": "创建链接来邀请别人：他们申请加入，管理员同意后即可进入。",
  "Create invite link": "创建邀请链接",
- "Create your account and you will find {name} in your chats.": "创建账号后，你会在聊天中看到 {name}。",
  "Decline": "拒绝",
  "Invite link": "邀请链接",
  "Invite link turned off": "邀请链接已关闭",
@@ -411,7 +409,6 @@
  "Your invite link": "你的邀请链接",
  "Sure! What time?": "当然！几点？",
  "Hi! I'm waiting for you on Glotter": "嗨！我在 Glotter 等你",
- "{name} writes in {language}, you read in yours.": "{name} 用{language}写，你用自己的语言读。",
  "Accept the invite": "接受邀请",
  "Sign in with your email or with Google to find your chats.": "用邮箱或 Google 登录，找到你的聊天。",
  "It takes 30 seconds. Then choose your language and start chatting.": "只需 30 秒。然后选择你的语言，开始聊天。",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "欢迎！今晚见？",
  "You write in {language} · everyone reads in their own": "你用{language}写 · 每个人用自己的语言读",
  "You write in {mine} · {name} reads in {theirs}": "你用{mine}写 · {name}用{theirs}读",
- "{count} people": "{count} 人"
+ "{count} people": "{count} 人",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "我同意[服务条款]和[隐私政策]。",
+ "You'll forget you speak different languages.": "你会忘记你们说的是不同的语言。"
 }

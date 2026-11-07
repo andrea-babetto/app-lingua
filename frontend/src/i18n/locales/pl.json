@@ -11,7 +11,6 @@
  "Back": "Wstecz",
  "Block user": "Zablokuj użytkownika",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Zablokowano dla tej strony. Zezwól na powiadomienia w ustawieniach przeglądarki lub telefonu.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Zakładając konto, akceptujesz [Regulamin] oraz [Politykę prywatności].",
  "Cancel": "Anuluj",
  "Change": "Zmień",
  "Change password": "Zmień hasło",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Nie udało się użyć linku z zaproszeniem",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Utwórz link, aby zapraszać ludzi: proszą o dołączenie, a administrator ich wpuszcza.",
  "Create invite link": "Utwórz link z zaproszeniem",
- "Create your account and you will find {name} in your chats.": "Załóż konto, a znajdziesz {name} w swoich czatach.",
  "Decline": "Odrzuć",
  "Invite link": "Link z zaproszeniem",
  "Invite link turned off": "Link z zaproszeniem wyłączony",
@@ -411,7 +409,6 @@
  "Your invite link": "Twój link z zaproszeniem",
  "Sure! What time?": "Jasne! O której?",
  "Hi! I'm waiting for you on Glotter": "Cześć! Czekam na ciebie w Glotterze",
- "{name} writes in {language}, you read in yours.": "{name} pisze po {language}, ty czytasz w swoim języku.",
  "Accept the invite": "Przyjmij zaproszenie",
  "Sign in with your email or with Google to find your chats.": "Zaloguj się e-mailem lub przez Google, aby znaleźć swoje czaty.",
  "It takes 30 seconds. Then choose your language and start chatting.": "To zajmuje 30 sekund. Potem wybierasz swój język i zaczynasz pisać.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Witaj! Widzimy się wieczorem?",
  "You write in {language} · everyone reads in their own": "Piszesz po {language} · każdy czyta w swoim języku",
  "You write in {mine} · {name} reads in {theirs}": "Piszesz: {mine} · {name} czyta: {theirs}",
- "{count} people": "Osoby: {count}"
+ "{count} people": "Osoby: {count}",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Akceptuję [Warunki korzystania] i [Politykę prywatności].",
+ "You'll forget you speak different languages.": "Zapomnisz, że mówicie różnymi językami."
 }

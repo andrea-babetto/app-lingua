@@ -11,7 +11,6 @@
  "Back": "Rudi",
  "Block user": "Zuia mtumiaji",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Imezuiwa kwa tovuti hii. Ruhusu arifa kwenye mipangilio ya kivinjari au simu yako.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Kwa kufungua akaunti, unakubali [Masharti ya Huduma] na [Sera ya Faragha].",
  "Cancel": "Ghairi",
  "Change": "Badilisha",
  "Change password": "Badilisha nenosiri",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Imeshindwa kutumia kiungo cha mwaliko",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Unda kiungo cha kualika watu: wanaomba kujiunga na msimamizi anawaruhusu kuingia.",
  "Create invite link": "Unda kiungo cha mwaliko",
- "Create your account and you will find {name} in your chats.": "Fungua akaunti yako na utampata {name} kwenye gumzo zako.",
  "Decline": "Kataa",
  "Invite link": "Kiungo cha mwaliko",
  "Invite link turned off": "Kiungo cha mwaliko kimezimwa",
@@ -411,7 +409,6 @@
  "Your invite link": "Kiungo chako cha mwaliko",
  "Sure! What time?": "Bila shaka! Saa ngapi?",
  "Hi! I'm waiting for you on Glotter": "Habari! Nakusubiri kwenye Glotter",
- "{name} writes in {language}, you read in yours.": "{name} anaandika kwa {language}, wewe unasoma kwa lugha yako.",
  "Accept the invite": "Kubali mwaliko",
  "Sign in with your email or with Google to find your chats.": "Ingia kwa barua pepe yako au kwa Google ili kupata mazungumzo yako.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Inachukua sekunde 30. Kisha chagua lugha yako na uanze kuzungumza.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Karibu! Tuonane jioni hii?",
  "You write in {language} · everyone reads in their own": "Unaandika kwa {language} · kila mtu anasoma kwa lugha yake",
  "You write in {mine} · {name} reads in {theirs}": "Unaandika kwa {mine} · {name} anasoma kwa {theirs}",
- "{count} people": "Watu {count}"
+ "{count} people": "Watu {count}",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Ninakubali [Masharti ya Huduma] na [Sera ya Faragha].",
+ "You'll forget you speak different languages.": "Utasahau kwamba mnazungumza lugha tofauti."
 }

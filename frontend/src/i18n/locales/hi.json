@@ -11,7 +11,6 @@
  "Back": "वापस",
  "Block user": "यूज़र को ब्लॉक करें",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "इस साइट के लिए ब्लॉक है। अपने ब्राउज़र या फ़ोन की सेटिंग में नोटिफ़िकेशन की अनुमति दें।",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "खाता बनाकर आप [सेवा की शर्तों] और [गोपनीयता नीति] से सहमत होते हैं।",
  "Cancel": "रद्द करें",
  "Change": "बदलें",
  "Change password": "पासवर्ड बदलें",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "आमंत्रण लिंक इस्तेमाल नहीं हो सका",
  "Create a link to invite people: they ask to join and an admin lets them in.": "लोगों को बुलाने के लिए लिंक बनाएँ: वे जुड़ने का अनुरोध करते हैं और एडमिन उन्हें जोड़ता है।",
  "Create invite link": "आमंत्रण लिंक बनाएँ",
- "Create your account and you will find {name} in your chats.": "अपना अकाउंट बनाएँ, आपको अपनी चैट में {name} मिलेंगे।",
  "Decline": "अस्वीकार करें",
  "Invite link": "आमंत्रण लिंक",
  "Invite link turned off": "आमंत्रण लिंक बंद किया गया",
@@ -411,7 +409,6 @@
  "Your invite link": "आपका आमंत्रण लिंक",
  "Sure! What time?": "बिल्कुल! कितने बजे?",
  "Hi! I'm waiting for you on Glotter": "नमस्ते! Glotter पर आपका इंतज़ार है",
- "{name} writes in {language}, you read in yours.": "{name} {language} में लिखते हैं, आप अपनी भाषा में पढ़ते हैं।",
  "Accept the invite": "निमंत्रण स्वीकार करें",
  "Sign in with your email or with Google to find your chats.": "अपनी चैट पाने के लिए अपने ईमेल या Google से साइन इन करें।",
  "It takes 30 seconds. Then choose your language and start chatting.": "बस 30 सेकंड लगते हैं। फिर अपनी भाषा चुनें और चैट शुरू करें।",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "स्वागत है! आज शाम मिलें?",
  "You write in {language} · everyone reads in their own": "आप {language} में लिखते हैं · हर कोई अपनी भाषा में पढ़ता है",
  "You write in {mine} · {name} reads in {theirs}": "आप {mine} में लिखते हैं · {name} {theirs} में पढ़ते हैं",
- "{count} people": "{count} लोग"
+ "{count} people": "{count} लोग",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "मैं [सेवा की शर्तें] और [गोपनीयता नीति] स्वीकार करता/करती हूँ।",
+ "You'll forget you speak different languages.": "आप भूल जाएँगे कि आप अलग-अलग भाषाएँ बोलते हैं।"
 }

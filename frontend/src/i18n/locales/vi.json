@@ -11,7 +11,6 @@
  "Back": "Quay lại",
  "Block user": "Chặn người dùng",
  "Blocked for this site. Allow notifications in your browser or phone settings.": "Trang này đang bị chặn. Hãy cho phép thông báo trong cài đặt trình duyệt hoặc điện thoại.",
- "By creating an account you agree to the [Terms of Service] and the [Privacy Policy].": "Khi tạo tài khoản, bạn đồng ý với [Điều khoản dịch vụ] và [Chính sách quyền riêng tư].",
  "Cancel": "Hủy",
  "Change": "Thay đổi",
  "Change password": "Đổi mật khẩu",
@@ -302,7 +301,6 @@
  "Could not use the invite link": "Không thể dùng liên kết mời",
  "Create a link to invite people: they ask to join and an admin lets them in.": "Tạo liên kết để mời mọi người: họ xin tham gia và quản trị viên cho họ vào.",
  "Create invite link": "Tạo liên kết mời",
- "Create your account and you will find {name} in your chats.": "Tạo tài khoản và bạn sẽ thấy {name} trong các cuộc trò chuyện.",
  "Decline": "Từ chối",
  "Invite link": "Liên kết mời",
  "Invite link turned off": "Đã tắt liên kết mời",
@@ -411,7 +409,6 @@
  "Your invite link": "Liên kết mời của bạn",
  "Sure! What time?": "Được chứ! Mấy giờ?",
  "Hi! I'm waiting for you on Glotter": "Chào! Mình đợi bạn trên Glotter",
- "{name} writes in {language}, you read in yours.": "{name} viết bằng {language}, bạn đọc bằng ngôn ngữ của mình.",
  "Accept the invite": "Chấp nhận lời mời",
  "Sign in with your email or with Google to find your chats.": "Đăng nhập bằng email hoặc Google để tìm lại các cuộc trò chuyện.",
  "It takes 30 seconds. Then choose your language and start chatting.": "Chỉ mất 30 giây. Sau đó chọn ngôn ngữ và bắt đầu trò chuyện.",
@@ -431,5 +428,7 @@
  "Welcome! See you tonight?": "Chào mừng! Tối nay gặp nhé?",
  "You write in {language} · everyone reads in their own": "Bạn viết bằng {language} · mỗi người đọc bằng ngôn ngữ của mình",
  "You write in {mine} · {name} reads in {theirs}": "Bạn viết bằng {mine} · {name} đọc bằng {theirs}",
- "{count} people": "{count} người"
+ "{count} people": "{count} người",
+ "I agree to the [Terms of Service] and the [Privacy Policy].": "Tôi đồng ý với [Điều khoản dịch vụ] và [Chính sách quyền riêng tư].",
+ "You'll forget you speak different languages.": "Bạn sẽ quên rằng hai người nói hai ngôn ngữ khác nhau."
 }
