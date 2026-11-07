@@ -1529,3 +1529,64 @@ def test_monthly_budget_warns_once_per_level(client, make_person, monkeypatch):
     asyncio.run(server.db.translation_logs.insert_one({"est_cost": 99.0, "chars": 10, "created_at": "2000-01-15T10:00:00+00:00"}))
     m = client.get("/api/admin/stats", headers=admin.h).json()["month"]
     assert m["budget"] == 10.0 and m["spent"] == 10.5 and m["share"] == 1.05
+
+
+# ---------------------------------------------------------------- sign in or sign up with an email code
+def _code_for(email):
+    import mailer
+    mail = [m for m in mailer.sent if m["to"] == email][-1]
+    return mail["subject"].split()[0]
+
+
+def test_email_code_signup_and_sign_in(client, make_person):
+    import mailer
+    mailer.sent.clear()
+    email = "new.person@example.com"
+    assert client.post("/api/auth/email/start", json={"email": email, "lang": "it"}).status_code == 200
+    assert "codice" in [m for m in mailer.sent if m["to"] == email][-1]["subject"]  # in the page's language
+    code = _code_for(email)
+    assert client.post("/api/auth/email/verify", json={"email": email, "code": "000000" if code != "000000" else "111111"}).status_code == 400
+    r = client.post("/api/auth/email/verify", json={"email": email, "code": code}).json()
+    assert r["needs_signup"] is True and "token" not in r
+    # the sign-up token is not a session
+    assert client.get("/api/chats", headers={"Authorization": f"Bearer {r['signup_token']}"}).status_code == 401
+    assert client.post("/api/auth/email/verify", json={"email": email, "code": code}).status_code == 400  # a code works once
+    done = client.post("/api/auth/email/complete", json={"signup_token": r["signup_token"], "name": "New Person"})
+    assert done.status_code == 400  # the Terms box
+    done = client.post("/api/auth/email/complete", json={"signup_token": r["signup_token"], "name": "New Person", "accept_terms": True})
+    assert done.status_code == 200
+    u = asyncio.run(server.db.users.find_one({"email": email}, {"_id": 0}))
+    assert u["email_verified_at"] and u["consent"]["method"] == "email_code" and not u["password_hash"]
+    # next time: the code signs in to the same account
+    client.post("/api/auth/email/start", json={"email": email})
+    again = client.post("/api/auth/email/verify", json={"email": email, "code": _code_for(email)}).json()
+    assert again["user"]["id"] == done.json()["user"]["id"]
+
+
+def test_email_code_wrong_too_many_times(client):
+    import mailer
+    email = "tries@example.com"
+    client.post("/api/auth/email/start", json={"email": email})
+    code = _code_for(email)
+    wrong = "123456" if code != "123456" else "654321"
+    for _ in range(5):
+        assert client.post("/api/auth/email/verify", json={"email": email, "code": wrong}).status_code == 400
+    assert client.post("/api/auth/email/verify", json={"email": email, "code": code}).status_code == 400  # locked: ask a new code
+
+
+def test_throwaway_emails_and_device_limit(client):
+    assert client.post("/api/auth/email/start", json={"email": "x@yopmail.com"}).status_code == 400
+    assert client.post("/api/auth/register", json={"email": "x@mailinator.com", "password": "correct-horse-1", "name": "X", "accept_terms": True}).status_code == 400
+    h = {"X-Device": "device-abc"}
+    for i in range(3):
+        assert client.post("/api/auth/register", headers=h, json={"email": f"d{i}@x.com", "password": "correct-horse-1", "name": "D", "accept_terms": True}).status_code == 200
+    r = client.post("/api/auth/register", headers=h, json={"email": "d9@x.com", "password": "correct-horse-1", "name": "D", "accept_terms": True})
+    assert r.status_code == 429
+    # another device is fine
+    assert client.post("/api/auth/register", headers={"X-Device": "other"}, json={"email": "d10@x.com", "password": "correct-horse-1", "name": "D", "accept_terms": True}).status_code == 200
+
+
+def test_password_signup_closes_when_email_codes_work(client, monkeypatch):
+    monkeypatch.setattr(server.mailer, "enabled", lambda: True)
+    r = client.post("/api/auth/register", json={"email": "p@x.com", "password": "correct-horse-1", "name": "P", "accept_terms": True})
+    assert r.status_code == 400 and client.get("/api/config").json()["email_code"] is True

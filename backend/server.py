@@ -29,6 +29,7 @@ import stt
 import tts
 import backup
 import mailer
+import disposable
 import push
 import storage
 from translation import TranslationEngine
@@ -168,6 +169,8 @@ def stranger_profile(u: dict) -> dict:
 async def user_from_token(token: str) -> Optional[dict]:
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+        if payload.get("type") != "access":  # e.g. the short-lived token that finishes an email sign-up
+            return None
         u = await db.users.find_one({"id": payload["sub"]}, {"_id": 0})
         changed = (u or {}).get("password_changed_at")
         if u and changed and int(payload.get("iat", 0)) < int(datetime.fromisoformat(changed).timestamp()):
@@ -319,6 +322,11 @@ def voice_messages_on() -> bool:
     return os.environ.get("VOICE_MESSAGES", "").strip().lower() == "true"
 
 
+def email_codes_on() -> bool:
+    """Sign-in with a code by email: needs a way to send emails (EMAIL_CODE_DEMO=1 turns it on in the demo server, which only logs them)."""
+    return mailer.enabled() or os.environ.get("EMAIL_CODE_DEMO") == "1"
+
+
 def invite_code_required() -> bool:
     return bool(os.environ.get("INVITE_CODE", "").strip())
 
@@ -335,7 +343,8 @@ async def public_config():
     return {"google_client_id": GOOGLE_CLIENT_ID, "voice_messages": voice_messages_on(), "voice_transcription": stt.enabled(),
             "voice_speech": tts.enabled(), "voice_max_seconds": MAX_VOICE_SECONDS, "dictation": stt.enabled(),
             "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024), "invite_required": invite_code_required(),
-            "password_reset": mailer.enabled() or APP_ENV == "test", "legal_version": LEGAL_VERSION}
+            "password_reset": mailer.enabled() or APP_ENV == "test", "legal_version": LEGAL_VERSION,
+            "email_code": email_codes_on()}
 
 
 @api.get("/languages")
@@ -372,8 +381,12 @@ def consent_record(accepted: bool, method: str) -> dict:
 async def register(body: RegisterIn, request: Request):
     limiter.check(f"register-ip:{client_ip(request)}", 10, 3600, "Too many sign-ups from this address. Try again later.")
     consent = consent_record(body.accept_terms, "email")
+    if mailer.enabled():
+        raise HTTPException(status_code=400, detail="Sign up with the code we send to your email")
     entry = await check_entry(body.invite_code, body.invite_link)
     email = body.email.lower()
+    refuse_throwaway(email)
+    await count_device_signup(request)
     if await db.users.find_one({"email": email}):
         raise HTTPException(status_code=400, detail="Email already registered")
     doc = new_user_doc(email, body.name, await hash_password_async(body.password))
@@ -424,9 +437,11 @@ async def google_login(body: GoogleIn, request: Request):
     else:
         consent = consent_record(body.accept_terms, "google")
         entry = await check_entry(body.invite_code, body.invite_link)
+        await count_device_signup(request)
         u = new_user_doc(email, (info.get("name") or email.split("@")[0])[:60], "", info.get("picture", ""), provider="google")
         u.update(entry)
         u["consent"] = consent
+        u["email_verified_at"] = now_iso()  # Google has checked it
         await db.users.insert_one(dict(u))
     return {"token": create_token(u["id"]), "user": public_user(u)}
 
@@ -512,6 +527,133 @@ async def export_my_data(user=Depends(get_current_user)):
 
 # ---------------- Forgot password: a one-time link by email ----------------
 RESET_VALID = timedelta(hours=1)
+# ---------------- Sign in or sign up with a code sent by email ----------------
+# The address is proven by the code, so accounts made this way have a confirmed email and need no password.
+CODE_VALID = timedelta(minutes=10)
+CODE_TRIES = 5
+DEVICE_SIGNUPS = 3  # new accounts from the same phone or computer in 30 days (anti-abuse for the free plan)
+CODE_MAIL = {
+    "it": ("{code} è il tuo codice Glotter", "Ciao,\n\nil tuo codice per entrare in Glotter è:\n\n{code}\n\nVale 10 minuti. "
+           "Se non l'hai chiesto tu, ignora questa email.\n\nGlotter"),
+    "en": ("{code} is your Glotter code", "Hi,\n\nyour code to get into Glotter is:\n\n{code}\n\nIt works for 10 minutes. "
+           "If you didn't ask for it, ignore this email.\n\nGlotter"),
+}
+
+
+def refuse_throwaway(email):
+    if disposable.is_disposable(email):
+        raise HTTPException(status_code=400, detail="Use your real email: temporary email addresses are not accepted")
+
+
+async def count_device_signup(request: Request):
+    """At most DEVICE_SIGNUPS new accounts in 30 days from one device (a random id the app keeps on the device; only its hash is stored)."""
+    device = (request.headers.get("x-device") or "").strip()[:100]
+    if not device:
+        return
+    key = hashlib.sha256(device.encode()).hexdigest()
+    since = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+    if await db.signup_devices.count_documents({"device": key, "at": {"$gte": since}}) >= DEVICE_SIGNUPS:
+        raise HTTPException(status_code=429, detail="Too many new accounts from this device. Sign in to the one you have.")
+    await db.signup_devices.insert_one({"device": key, "at": now_iso()})
+
+
+def code_hash(email: str, code: str) -> str:
+    return hashlib.sha256(f"{email}|{code}|{JWT_SECRET}".encode()).hexdigest()
+
+
+class EmailStartIn(BaseModel):
+    email: EmailStr
+    lang: str = Field(default="en", max_length=8)  # the language of the page, for the email
+
+
+class EmailVerifyIn(BaseModel):
+    email: EmailStr
+    code: str = Field(min_length=6, max_length=6)
+
+
+class EmailCompleteIn(BaseModel):
+    signup_token: str = Field(min_length=20, max_length=2000)
+    name: str = Field(min_length=1, max_length=60)
+    accept_terms: bool = False
+    invite_code: str = Field(default="", max_length=100)
+    invite_link: str = Field(default="", max_length=64)
+
+    @field_validator("name")
+    @classmethod
+    def _name(cls, v):
+        v = v.strip()
+        if not v:
+            raise ValueError("Name required")
+        return v
+
+
+@api.post("/auth/email/start")
+async def email_code_start(body: EmailStartIn, request: Request):
+    """Send a 6-digit code to the email. Same answer whether or not it has an account (nobody can test which emails are registered)."""
+    if not (email_codes_on() or APP_ENV == "test"):
+        raise HTTPException(status_code=503, detail="Email codes are not available yet")
+    limiter.check(f"code-ip:{client_ip(request)}", 20, 3600, "Too many attempts. Try again later.")
+    email = body.email.lower().strip()
+    refuse_throwaway(email)
+    limiter.check(f"code-mail:{email}", 5, 3600, "Too many codes for this email. Try again later.")
+    code = f"{secrets.randbelow(1_000_000):06d}"
+    await db.email_codes.delete_many({"email": email})
+    await db.email_codes.insert_one({"email": email, "hash": code_hash(email, code), "tries": 0,
+                                     "expires_at": (datetime.now(timezone.utc) + CODE_VALID).isoformat()})
+    u = await db.users.find_one({"email": email}, {"_id": 0, "language": 1})
+    subject, text = CODE_MAIL.get((u or {}).get("language") or body.lang, CODE_MAIL["en"])
+    await mailer.send(email, subject.format(code=code), text.format(code=code))
+    return {"ok": True}
+
+
+@api.post("/auth/email/verify")
+async def email_code_verify(body: EmailVerifyIn, request: Request):
+    """The right code: an existing account signs in (its email is now confirmed); a new email gets a short-lived token to finish signing up."""
+    limiter.check(f"verify-ip:{client_ip(request)}", 30, 3600, "Too many attempts. Try again later.")
+    email = body.email.lower().strip()
+    row = await db.email_codes.find_one({"email": email}, {"_id": 0})
+    if not row or datetime.fromisoformat(row["expires_at"]) < datetime.now(timezone.utc) or row.get("tries", 0) >= CODE_TRIES:
+        raise HTTPException(status_code=400, detail="This code has expired. Ask for a new one.")
+    if not hmac.compare_digest(row["hash"], code_hash(email, body.code.strip())):
+        await db.email_codes.update_one({"email": email}, {"$inc": {"tries": 1}})
+        raise HTTPException(status_code=400, detail="Wrong code")
+    await db.email_codes.delete_many({"email": email})  # a code works once
+    u = await db.users.find_one({"email": email}, {"_id": 0})
+    if u:
+        if not u.get("email_verified_at"):
+            await db.users.update_one({"id": u["id"]}, {"$set": {"email_verified_at": now_iso()}})
+        return {"token": create_token(u["id"]), "user": public_user(u)}
+    now = datetime.now(timezone.utc)
+    signup = jwt.encode({"sub": email, "iat": now, "exp": now + timedelta(minutes=30), "type": "email_signup"}, JWT_SECRET, algorithm=JWT_ALG)
+    return {"needs_signup": True, "signup_token": signup}
+
+
+@api.post("/auth/email/complete")
+async def email_code_complete(body: EmailCompleteIn, request: Request):
+    """Finish signing up after the code: name and the Terms checkbox (the email is already confirmed)."""
+    limiter.check(f"register-ip:{client_ip(request)}", 10, 3600, "Too many sign-ups from this address. Try again later.")
+    try:
+        payload = jwt.decode(body.signup_token, JWT_SECRET, algorithms=[JWT_ALG])
+        if payload.get("type") != "email_signup":
+            raise ValueError
+    except Exception:
+        raise HTTPException(status_code=400, detail="This sign-up has expired. Start again.")
+    consent = consent_record(body.accept_terms, "email_code")
+    email = payload["sub"]
+    existing = await db.users.find_one({"email": email}, {"_id": 0})
+    if existing:  # made in the meantime (e.g. twice in two tabs): just sign in
+        return {"token": create_token(existing["id"]), "user": public_user(existing)}
+    entry = await check_entry(body.invite_code, body.invite_link)
+    await count_device_signup(request)
+    doc = new_user_doc(email, body.name, "")
+    doc.update(entry)
+    doc["consent"] = consent
+    doc["email_verified_at"] = now_iso()
+    doc["auth_provider"] = "email_code"
+    await db.users.insert_one(dict(doc))
+    return {"token": create_token(doc["id"]), "user": public_user(doc)}
+
+
 RESET_MAIL = {
     "it": ("Reimposta la password di Glotter",
            "Ciao {name},\n\nhai chiesto di reimpostare la password di Glotter. Apri questo link (vale 1 ora e si usa una volta sola):\n\n{link}\n\n"
@@ -615,6 +757,7 @@ async def delete_account(body: DeleteAccountIn, user=Depends(get_current_user)):
     await db.invite_events.delete_many({"target": uid})
     await db.scheduled.delete_many({"sender_id": uid})
     await db.password_resets.delete_many({"user_id": uid})
+    await db.email_codes.delete_many({"email": (user.get("email") or "").lower()})
     await db.chats.update_many({"join_requests.user_id": uid}, {"$pull": {"join_requests": {"user_id": uid}}})
     await db.contacts.delete_many({"$or": [{"user_id": uid}, {"contact_id": uid}]})
     await db.users.update_many({"blocked": uid}, {"$pull": {"blocked": uid}})
@@ -2508,7 +2651,7 @@ async def guard_requests(request: Request, call_next):
 app.add_middleware(CORSMiddleware, allow_credentials=False,
                    allow_origins=ALLOWED_ORIGINS,
                    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                   allow_headers=["Authorization", "Content-Type"],
+                   allow_headers=["Authorization", "Content-Type", "X-Device"],
                    expose_headers=["Content-Disposition"])  # so the site can read the name of a downloaded file
 
 

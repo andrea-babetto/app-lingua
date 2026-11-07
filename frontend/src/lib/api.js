@@ -7,9 +7,19 @@ export const WS_URL = BACKEND_URL.replace(/^http/, "ws") + "/api/ws";
 
 export const api = axios.create({ baseURL: API });
 
+// A random id kept on this device, sent only when an account is created (the server limits new accounts per device).
+function deviceId() {
+  try {
+    let id = localStorage.getItem("glott_device");
+    if (!id) { id = crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`; localStorage.setItem("glott_device", id); }
+    return id;
+  } catch { return ""; }
+}
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("lingua_token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  if ((config.url || "").startsWith("/auth/")) { const d = deviceId(); if (d) config.headers["X-Device"] = d; }
   return config;
 });
 

@@ -10,6 +10,7 @@ import { returnTarget, rememberReturn, clearReturn } from "@/lib/returnTarget";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import Logo from "@/components/Logo";
 import HowItWorksLink from "@/components/HowItWorks";
+import EmailCodeFlow from "@/components/EmailCodeFlow";
 import { useI18n } from "@/i18n";
 import { LANGUAGES } from "@/data/languages";
 import { pendingInvite, clearInvite } from "@/lib/invite";
@@ -31,7 +32,9 @@ export default function Login() {
   const [agreed, setAgreed] = useState(() => !!savedForm().agreed);  // the one checkbox for the Terms and the Privacy Policy
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
-  const [method, setMethod] = useState("email");  // email | google (the two tabs on the sign-in and sign-up pages)
+  const [emailCode, setEmailCode] = useState(false);  // the server can send codes by email: new accounts use them, no password
+  const [useCode, setUseCode] = useState(false);  // on the sign-in page: a code by email instead of the password
+  const [codeStep, setCodeStep] = useState("email");  // where the email-code flow is: past the first step, Google steps aside
   const [googleClientId, setGoogleClientId] = useState("");
   const [inviteRequired, setInviteRequired] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);  // "Forgot password?" only when the server can send emails
@@ -72,6 +75,7 @@ export default function Login() {
       setGoogleClientId(data.google_client_id || "");
       setInviteRequired(!!data.invite_required);
       setPasswordReset(!!data.password_reset);
+      setEmailCode(!!data.email_code);
     }).catch(() => {});
   }, []);
 
@@ -220,23 +224,27 @@ export default function Login() {
       {heading(mode === "login" ? t("Welcome back.") : t("Create your account"),
         mode === "login" ? t("Sign in with your email or with Google to find your chats.") : t("It takes 30 seconds. Then choose your language and start chatting."))}
 
-      {googleClientId && !codeNeeded && (
-        <div className="mt-7 grid grid-cols-2 gap-2" role="tablist">
-          {[["email", t("Email")], ["google", "Google"]].map(([id, name]) => (
-            <button key={id} type="button" role="tab" aria-selected={method === id} data-testid={`method-${id}`} onClick={() => setMethod(id)}
-              className={`h-11 rounded-full text-[15px] font-medium ${method === id ? "bg-primary text-primary-foreground" : "border border-border"}`}>{name}</button>
-          ))}
-        </div>
-      )}
-
-      {method === "google" && googleClientId && !codeNeeded ? (
-        <div className="mt-7 flex-1 flex flex-col">
-          {mode === "register" && <div className="mb-6">{consent("consent-line")}</div>}
+      {/* Google first (one tap, the email is already confirmed by Google), then the email */}
+      {googleClientId && !codeNeeded && codeStep === "email" && (
+        <div className="mt-7">
+          {mode === "register" && <div className="mb-5">{consent("consent-line")}</div>}
           {/* a new account with Google also needs the box ticked first */}
           <div className={`flex justify-center ${mode === "register" && !agreed ? "opacity-40 pointer-events-none" : ""}`} aria-disabled={mode === "register" && !agreed}>
             <GoogleSignIn clientId={googleClientId} onCredential={googleCredential} />
           </div>
+          <div className="mt-6 flex items-center gap-3 text-[13px] text-subtle" aria-hidden="true"><span className="flex-1 h-px bg-border" />{t("or")}<span className="flex-1 h-px bg-border" /></div>
         </div>
+      )}
+
+      {mode === "register" && (codeNeeded || (showInvite && !invite)) && emailCode && (
+        <label className="block mt-6"><span className={label}>{t("Invite code")}</span>
+          <span className={pill}><input data-testid="invite-input" className={bare} value={form.invite_code} required autoComplete="off" onChange={set("invite_code")} /></span></label>
+      )}
+
+      {emailCode && (mode === "register" || useCode) ? (
+        <EmailCodeFlow key={mode} initialEmail={form.email} inviteCode={form.invite_code} inviteLink={inviteCode} agreed={agreed}
+          consent={(id) => (googleClientId && !codeNeeded && codeStep === "email" ? null : consent(id))} onStep={setCodeStep} styles={{ label, pill, bare, main }}
+          onDone={(data) => { auth(data); markSeen(); nav(data.user.language ? "/" : "/onboarding"); }} />
       ) : (
         <form onSubmit={submit} className="mt-7 flex-1 flex flex-col">
           <div className="space-y-[18px]">
@@ -255,9 +263,10 @@ export default function Login() {
                 <button type="button" onClick={() => setShowPw((v) => !v)} aria-label={showPw ? t("Hide password") : t("Show password")} className="text-subtle hover:text-foreground">
                   {showPw ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
                 </button></span></label>
-            {mode === "login" && passwordReset && (
-              <p className="text-center text-sm text-muted-foreground">
-                <button type="button" data-testid="forgot-link" onClick={() => setView("forgot")} className="font-medium text-foreground">{t("Forgot password?")}</button>
+            {mode === "login" && (passwordReset || emailCode) && (
+              <p className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
+                {emailCode && <button type="button" data-testid="use-code-link" onClick={() => setUseCode(true)} className="font-medium text-foreground">{t("Sign in with a code by email")}</button>}
+                {passwordReset && <button type="button" data-testid="forgot-link" onClick={() => setView("forgot")} className="font-medium text-muted-foreground">{t("Forgot password?")}</button>}
               </p>
             )}
             {mode === "register" && !codeNeeded && !invite && !showInvite && (
@@ -270,7 +279,7 @@ export default function Login() {
           </div>
 
           <div className="mt-auto pt-10 space-y-3.5">
-            {mode === "register" && consent("consent-line")}
+            {mode === "register" && !(googleClientId && !codeNeeded) && consent("consent-line")}
             <Button data-testid="submit-auth-button" type="submit" className={main} disabled={loading || !ready}>
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === "login" ? t("Sign in") : t("Create account")}
             </Button>
@@ -278,6 +287,9 @@ export default function Login() {
         </form>
       )}
 
+      {mode === "login" && useCode && (
+        <p className="mt-4 text-sm text-center"><button type="button" data-testid="use-password-link" onClick={() => setUseCode(false)} className="font-medium">{t("Use my password")}</button></p>
+      )}
       <p className="mt-4 text-sm text-center text-muted-foreground">
         {mode === "login" ? t("No account?") : t("Have an account?")}{" "}
         <button type="button" data-testid="toggle-auth-mode" className="font-medium text-foreground" onClick={() => setView(mode === "login" ? "register" : "login")}>

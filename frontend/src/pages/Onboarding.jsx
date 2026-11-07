@@ -8,17 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { avatarClass, initials } from "@/lib/avatar";
 import LanguagePicker from "@/components/LanguagePicker";
+import { langByCode } from "@/data/languages";
 import Logo from "@/components/Logo";
 import { useI18n } from "@/i18n";
 
 export default function Onboarding() {
-  const { t, langName } = useI18n();
+  const { t, lang, langName } = useI18n();
   const { user, updateUser } = useAuth();
   const [name, setName] = useState(user?.name || "");
   const [avatar, setAvatar] = useState(user?.avatar || "");
-  const [language, setLanguage] = useState(user?.language || "");
+  // the phone's language is already chosen: most people only confirm it with one tap
+  const [language, setLanguage] = useState(user?.language || lang || "");
+  const [picking, setPicking] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(user?.name ? 2 : 1);  // the name was given at sign-up: straight to the language
   const nav = useNavigate();
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef();
@@ -69,8 +72,17 @@ export default function Onboarding() {
           </div>
           <h1 className="mt-7 text-[26px] font-bold tracking-tight leading-tight">{t("What's your language?")}</h1>
           <p className="text-[15px] text-muted-foreground mt-2 mb-5 leading-snug">{t("You write and read in this language. Others read you in theirs.")}</p>
-          <LanguagePicker value={language} onChange={setLanguage} fill />
-          <Button data-testid="confirm-language-button" className="w-full h-[52px] rounded-2xl text-base font-semibold mt-4 shrink-0" onClick={save} disabled={loading || !language}>
+          {language && !picking ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center" data-testid="language-suggested">
+              <span aria-hidden="true" className="w-24 h-24 rounded-full overflow-hidden bg-surface shadow-[0_0_0_1px_var(--gl-border)] flex items-center justify-center text-[120px] leading-none">{langByCode(language).flag}</span>
+              <div className="mt-5 text-[28px] font-medium">{langByCode(language).native}</div>
+              <div className="mt-1 text-[15px] text-subtle">{langName(language)}</div>
+              <button type="button" data-testid="language-change" onClick={() => setPicking(true)} className="mt-6 text-sm font-medium underline underline-offset-4">{t("Choose another language")}</button>
+            </div>
+          ) : (
+            <LanguagePicker value={language} onChange={setLanguage} fill />
+          )}
+          <Button data-testid="confirm-language-button" className="w-full h-[52px] rounded-full text-base font-medium mt-4 shrink-0 bg-sand text-[var(--gl-on-accent)] hover:bg-sand/90" onClick={save} disabled={loading || !language}>
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : language ? t("Continue in {language}", { language: langName(language) }) : t("Start chatting")}
           </Button>
         </div>
