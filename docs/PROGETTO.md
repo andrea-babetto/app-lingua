@@ -309,4 +309,10 @@ Dallo schema "Piano di lavoro Glotter" (artifact) e dal brief per Claude Code.
 - **Tono per chat:** lo sceglie l'utente per chat (diretto, cordiale, formale), neutro di partenza, come proposto.
 - **Email di riserva "X ti ha scritto":** dopo la prima risposta ("non serve") Andrea ha confermato **sì, dopo un'ora**: parte solo se il messaggio resta non letto per un'ora e non c'è una notifica attiva (su iPhone la push funziona solo con l'app installata, quindi altrimenti un invitato che usa Safari non verrebbe avvisato).
 - **Regola dei crediti: C.** Il piano di chi paga copre tutte le chat in cui c'è lui; una chat tra due persone senza un piano usa il piano personale di chi riceve (le 150 traduzioni dell'invitato).
-- **Ancora da discutere:** piani e prezzi. Il Passo 1 non è ancora partito.
+- **Piano Team = organizzazione** (deciso il 7/11/2026, dopo un confronto con Slack, Notion, Google Workspace e WhatsApp Business):
+  - il titolare (es. Bruno di un'agenzia) paga e crea l'organizzazione; aggiunge i membri (Gabriele, Michele...), che non pagano;
+  - **l'account resta personale** di ogni membro, che "entra" nell'organizzazione come su Slack o Notion (può stare in più organizzazioni; se esce, tiene il suo account e le chat personali);
+  - **paga l'organizzazione** le traduzioni di tutte le chat in cui c'è un suo membro, anche con persone esterne (sostituisce le regole precedenti chat per chat);
+  - **il titolare non legge mai le chat**: vede solo i numeri d'uso della squadra;
+  - restano da decidere: prezzo (proposta: una base per la squadra più una piccola quota per ogni persona attiva nel mese, come Slack) e limite di messaggi.
+- **Ancora da discutere:** prezzi. Il Passo 1 non è ancora partito.
