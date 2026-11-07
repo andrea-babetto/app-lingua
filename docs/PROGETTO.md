@@ -314,5 +314,9 @@ Dallo schema "Piano di lavoro Glotter" (artifact) e dal brief per Claude Code.
   - **l'account resta personale** di ogni membro, che "entra" nell'organizzazione come su Slack o Notion (può stare in più organizzazioni; se esce, tiene il suo account e le chat personali);
   - **paga l'organizzazione** le traduzioni di tutte le chat in cui c'è un suo membro, anche con persone esterne (sostituisce le regole precedenti chat per chat);
   - **il titolare non legge mai le chat**: vede solo i numeri d'uso della squadra;
-  - restano da decidere: prezzo (proposta: una base per la squadra più una piccola quota per ogni persona attiva nel mese, come Slack) e limite di messaggi.
-- **Ancora da discutere:** prezzi. Il Passo 1 non è ancora partito.
+- **Prezzi** (deciso il 7/11/2026, da verificare con il commercialista prima di incassare: commissioni, IVA, eventuale merchant of record):
+  - **Gratuito:** 150 traduzioni al mese.
+  - **Privato:** 2,99 € al mese, uso equo circa 3.000 messaggi.
+  - **Team:** 9,99 € al mese fino a 5 persone, poi 1,99 € per ogni persona in più (esempio: 6 persone = circa 12 €). Uso equo circa 3.000 messaggi a persona, messi in comune; oltre si passa al traduttore più semplice, mai blocco.
+  - Pagamento dal sito, non dentro le app degli store (prima versione).
+- Il Passo 1 non è ancora partito.

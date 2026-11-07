@@ -5,7 +5,7 @@ description: Contesto completo del progetto Glotter (prima "Glott", all'inizio "
 
 # Glotter (ex Glott, ex Lingua)
 
-Aggiornato al **30 ottobre 2026**. Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: Claude Haiku traduce ogni messaggio per ogni destinatario. Sito responsive installabile come app (PWA), per telefono e computer.
+Aggiornato al **7 novembre 2026**. Chat in tempo reale in cui **ognuno scrive e legge nella propria lingua**: Claude Haiku traduce ogni messaggio per ogni destinatario. Sito responsive installabile come app (PWA), per telefono e computer.
 
 **Fonte della verità:** il progetto si costruisce in **Claude Code** sul repository GitHub `andrea-babetto/app-lingua` (ramo `main`). Lì ci sono `docs/PROGETTO.md` (quadro completo, sempre aggiornato) e `CLAUDE.md` (regole di lavoro). Questa nota è un riassunto per parlarne in Claude normale: se qualcosa qui contrasta con quei file, vincono loro. In Claude normale si ragiona, si scrivono testi e si decide; **il codice si cambia solo in Claude Code**.
 
@@ -78,10 +78,12 @@ Aggiornato al **30 ottobre 2026**. Chat in tempo reale in cui **ognuno scrive e 
 - Voce: circa 1,5 centesimi al minuto per lingua; i primi 19 usi sono costati 0,02 $.
 - Server Render Starter: sempre acceso. Atlas M0 e R2: gratis o quasi a questi volumi.
 
-## Strategia e soldi (ipotesi, nulla di deciso)
-- WhatsApp e Telegram traducono già, ma a richiesta. I vantaggi di Glotter: traduzione **automatica per tutti**, glossario, voce tradotta, niente numero di telefono, uso professionale.
-- Partenza: agenzie ed e-commerce con collaboratori all'estero. Crescita con i link d'invito. Non usare Fiverr o Upwork come canale (vietano i contatti fuori piattaforma).
-- Prezzi pensati: gratis con un tetto di messaggi tradotti, poi 2-4 € al mese; più avanti un piano team. Da vedere con commercialista e legale: IVA/GST, magari con un "merchant of record" come Paddle o Lemon Squeezy; in India carte ricorrenti e UPI.
+## Strategia e soldi (decisioni del 30/10 e del 7/11/2026)
+- **Target:** piccole squadre di lavoro internazionali (seller, agenzie, freelance, e-commerce con collaboratori all'estero). Il link d'invito è il canale di crescita. Non usare Fiverr o Upwork come canale.
+- **Piani:** Gratuito 150 traduzioni al mese; Privato 2,99 € al mese (uso equo circa 3.000 messaggi); **Team 9,99 € fino a 5 persone, poi 1,99 € a persona**. Oltre l'uso equo si passa a un traduttore più semplice, mai blocco. Pagamento dal sito. Da verificare col commercialista (IVA, commissioni, eventuale Paddle o Lemon Squeezy).
+- **Team = organizzazione:** il titolare paga e aggiunge i membri; l'account di ogni membro resta personale ed "entra" nell'organizzazione (come Slack); l'organizzazione paga le traduzioni di tutte le chat dei suoi membri, anche con esterni; **il titolare non legge mai le chat**, vede solo i numeri d'uso.
+- **Regola dei crediti:** una chat tra persone senza piano usa le 150 gratuite di chi riceve.
+- **Altre decisioni:** invitato con registrazione corta; link d'invito che non scadono (tasto "link nuovo"); tono scelto per chat (neutro di partenza); email di riserva "X ti ha scritto" dopo un'ora senza lettura se non c'è notifica.
 
 ## Concorrenti (analisi del 30/10/2026, dati dichiarati dagli sviluppatori)
 - **Intent** ("The Chat translator"): chat con traduzione integrata, stessa idea di Glotter; testo, vocali con voce clonata, foto, gruppi, chiamate tradotte; uscita a ottobre 2025, circa 1,3 milioni di installazioni su Android, voto 4,2; 73 lingue di testo; tono da vita privata e coppie; abbonamento. Il più forte.
@@ -90,6 +92,7 @@ Aggiornato al **30 ottobre 2026**. Chat in tempo reale in cui **ognuno scrive e 
 - **Conclusione:** l'idea è confermata. Glotter si distingue puntando sul **lavoro** (team internazionali, agenzie, e-commerce: glossario, gruppi, privacy, niente numero di telefono). Ci mancano chiamate tradotte, voce clonata e anteprima prima dell'invio. I nostri prezzi ipotizzati sono molto più bassi dei loro; per i team si può chiedere di più.
 
 ## Da fare
+- **Piano di lavoro in 6 passi** (schema "Piano di lavoro Glotter"): 1) misurare gli inviti, consenso registrato, tetto di spesa API, nuova schermata d'invito; 2) accesso facile (Google, codice o link via email, email confermata); 3) email di riserva, avviso nuovo dispositivo, sessioni attive; 4) quote e piani; 5) fiducia nella traduzione (anteprima "come lo vede l'altro", segnala traduzione, tono, glossario condiviso); 6) app negli store con Capacitor. Al 7/11 nessun passo è partito.
 - **Prossimo:** il video "Guarda come funziona" **parlato**: la mini chat animata più una voce OpenAI nella lingua di chi guarda, creata dal server una volta per lingua. Testo e voce sono da approvare da Andrea.
 - **Prima di aprire al pubblico:**
   - revisione legale di Termini e Privacy;
